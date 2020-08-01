@@ -258,13 +258,13 @@ class PostController extends Controller
             // trigger event to update news feed in the background
             event(new NewsFeedRequested());
 
-            $posts = NewsFeed::whereRaw('1=1')
+            $posts = NewsFeed::orderBy('id', 'asc')
                             ->offset($offset)
                             ->limit($limit)
                             ->get();
 
             if (count($posts) == 0) {
-                $posts = Post::orderByDesc('created_at')
+                $posts = Post::orderByDesc('post_id')
                             ->offset($offset)
                             ->limit($limit)
                             ->get();
@@ -345,7 +345,19 @@ class PostController extends Controller
             $p->username = User::firstWhere('id', $p->user_id)->username;      // username of post author (posts table only stores user id)
             $p->auth_user_likes = $this->userLikesPost($user_id, $p->post_id); // boolean (does logged-in user like this post)
             $p->auth_user_saved = $this->userSavedPost($user_id, $p->post_id); // boolean (has logged-in user saved this post)
+            $p->auth_user_comment = $this->userComment($user_id, $p->post_id); // last comment of user on this post
         }
+    }
+
+    /**
+     * get last authenticated user comment on a post
+     */
+    private function userComment($user_id, $post_id) {
+        $comment = Comment::where('user_id', $user_id)
+                        ->where('post_id', $post_id)
+                        ->orderByDesc('comment_id')
+                        ->first();
+        return $comment ? $comment->message : "";
     }
 
     /**
