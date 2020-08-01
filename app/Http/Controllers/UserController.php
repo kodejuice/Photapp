@@ -218,7 +218,7 @@ class UserController extends Controller
     public function getUsers(Request $request) {
         $query = $request->input('q');
 
-        if (isset($query) && $query!='*') {
+        if (isset($query) && strlen($query) > 2) {
             $query = addslashes($query);
             $matches = User::whereRaw("MATCH (username, full_name) AGAINST ('$query')")
                         ->get();
@@ -339,6 +339,7 @@ class UserController extends Controller
             return response(['errors' => ['User not found']], 404);
         }
 
+        $username = addslashes($username);
         $matches = Post::whereRaw("MATCH(mentions) AGAINST('$username')")->get();
 
         return response($matches);
