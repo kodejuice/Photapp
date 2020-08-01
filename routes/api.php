@@ -63,13 +63,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         /////////////////
         // user routes //
         /////////////////
-        // READ :auth_user:
-        Route::get('/user/profile', 'UserController@getAuthUserProfile')->name('auth_user.profile');
-        Route::get('/user/posts', 'UserController@getAuthUserPosts')->name('auth_user.posts');
-        Route::get('/user/settings', 'UserController@getAuthUserSettings')->name('auth_user.settings');
-        Route::get('/user/notifications', 'UserController@getAuthUserNotifications')->name('auth_user.notifications');
-        Route::get('/user/bookmarks', 'UserController@getAuthUserBookmarks')->name('auth_user.bookmarks');
-        Route::get('/user/mentions', 'UserController@getAuthUserMentions')->name('auth_user.mentions');
         //
         //UPDATE, DELETE
         Route::post('/user/dp', 'UserController@updateDP')->name('user.dp_update');
@@ -86,6 +79,14 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('/user/{username}/followers', 'UserController@getUserFollowers')->name('user.followers');
         Route::get('/user/{username}/following', 'UserController@getUserFollowing')->name('user.following');
         Route::get('/user/getprofile', 'UserController@getUser')->name('user.profile');
+        // :auth_user:
+        Route::get('/user/profile', 'UserController@getAuthUserProfile')->name('auth_user.profile');
+        Route::get('/user/posts', 'UserController@getAuthUserPosts')->name('auth_user.posts');
+        Route::get('/user/settings', 'UserController@getAuthUserSettings')->name('auth_user.settings');
+        Route::get('/user/notifications', 'UserController@getAuthUserNotifications')->name('auth_user.notifications');
+        Route::get('/user/bookmarks', 'UserController@getAuthUserBookmarks')->name('auth_user.bookmarks');
+        Route::get('/user/mentions', 'UserController@getAuthUserMentions')->name('auth_user.mentions');
+        //
 
 
         //////////
