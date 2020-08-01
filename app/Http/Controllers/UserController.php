@@ -231,6 +231,11 @@ class UserController extends Controller
 
         $users = User::offset($offset)->limit($limit)->get();
 
+        $auth_user = $request->user();
+        foreach ($users as $u) {
+            $u->auth_user_follows = $this->userFollows($auth_user->id, $u->id);
+        }
+
         return response($users);
     }
 
@@ -269,8 +274,13 @@ class UserController extends Controller
                             $join->on('users.id', '=', 'user_follows.user1_id')
                                 ->where('user_follows.user2_id', $usr->id);
                         })
-                        ->select('users.full_name', 'users.username', 'users.profile_pic')
+                        ->select('users.id', 'users.full_name', 'users.username', 'users.profile_pic')
                         ->get();
+
+        $auth_user = $request->user();
+        foreach ($followers as $u) {
+            $u->auth_user_follows = $this->userFollows($auth_user->id, $u->id);
+        }
 
         return response($followers);
     }
@@ -289,8 +299,13 @@ class UserController extends Controller
                             $join->on('users.id', '=', 'user_follows.user2_id')
                                 ->where('user_follows.user1_id', $usr->id);
                         })
-                        ->select('users.full_name', 'users.username', 'users.profile_pic')
+                        ->select('users.id', 'users.full_name', 'users.username', 'users.profile_pic')
                         ->get();
+
+        $auth_user = $request->user();
+        foreach ($following as $u) {
+            $u->auth_user_follows = $this->userFollows($auth_user->id, $u->id);
+        }
 
         return response($following);
     }
@@ -391,8 +406,8 @@ class UserController extends Controller
      * check if user1 follows user2
      */
     private function userFollows(int $user1_id, int $user2_id) {
-        $user1 = User::where('id', $user1)->first();
-        $user2 = User::where('id', $user2)->first();
+        $user1 = User::where('id', $user1_id)->first();
+        $user2 = User::where('id', $user2_id)->first();
 
         if (!$user2) {
             return response(['errors' => ['User not found']], 404);
