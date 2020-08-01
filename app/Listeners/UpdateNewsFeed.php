@@ -28,7 +28,7 @@ class UpdateNewsFeed implements ShouldQueue
         $top = NewsFeed::first();
         if (!$top) return true;
 
-        $latest = $posts = Post::orderByDesc('created_at')->first();
+        $latest = Post::orderByDesc('post_id')->first();
 
         return $latest->post_url != $top->post_url;
     }
@@ -44,7 +44,8 @@ class UpdateNewsFeed implements ShouldQueue
     {
         DB::statement('TRUNCATE TABLE news_feed');
 
-        $posts = Post::orderByDesc('created_at')
+        // sort posts by likeness + recency
+        $posts = Post::whereRaw('1=1 ORDER BY like_count + post_id DESC')
                     ->get();
 
         foreach ($posts as $p) {
