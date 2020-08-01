@@ -329,7 +329,7 @@ class PostController extends Controller
                         ->select('posts.*')
                         ->get();
 
-            Cache::put($key, $posts, now()->addMinutes(10));
+            Cache::put($key, $posts, now()->addMinutes(60));
         }
 
         $posts = array_slice($posts->toArray(), $offset, $limit);
