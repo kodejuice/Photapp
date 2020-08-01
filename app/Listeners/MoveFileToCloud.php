@@ -10,13 +10,12 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+use App\User;
+use App\Post;
 use App\Helper;
 
 use App\Events\UserMentioned;
-
-use App\User;
-use App\Post;
-
+use App\Events\NewsFeedRequested;
 
 
 class MoveFileToCloud implements ShouldQueue
@@ -65,6 +64,10 @@ class MoveFileToCloud implements ShouldQueue
         $post = new Post();
         Helper::dbSave($user, $post, $caption, $paths);
 
+        //////////////////////
+        // update news feed //
+        //////////////////////
+        event(new NewsFeedRequested());
 
         ////////////////////////////
         // notify mentioned users //
@@ -77,6 +80,7 @@ class MoveFileToCloud implements ShouldQueue
                 event(new UserMentioned($mentioned, $user, $post->post_id));
             }
         }
+
 
         // Log::info("{$user->username} uploaded -> ".json_encode($paths));
 
