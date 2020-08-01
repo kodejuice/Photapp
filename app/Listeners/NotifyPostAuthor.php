@@ -31,11 +31,13 @@ class NotifyPostAuthor implements ShouldQueue
      * @param  \App\Events\PostLiked  $event
      * @return bool
      */
-    public function shouldQueue(PostAction $event) {
+    public function shouldQueue(PostAction $event)
+    {
         $not_same = $event->user->id != $event->post->user_id;
 
-        if (!$not_same)
+        if (!$not_same) {
             return false;
+        }
 
         // chech (if the user wants such notification)
         $action = $event->action;
@@ -43,7 +45,7 @@ class NotifyPostAuthor implements ShouldQueue
 
         if ($action == 'like') {
             return $user_setting->notify_post_likes==1 && $not_same;
-        } else if ($action == 'comment') {
+        } elseif ($action == 'comment') {
             return $user_setting->notify_comments==1 && $not_same;
         }
 

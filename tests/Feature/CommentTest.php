@@ -12,14 +12,13 @@ use App\User;
 use App\Comment;
 use App\Notification;
 
-
 /*
  this tests makes sure that the user can
  * -comment
  * -like comment
  * -dislike comment
  * -delete comment
- * 
+ *
 */
 
 
@@ -73,7 +72,8 @@ class CommentTest extends TestCase
     /**
      * @test
      */
-    public function user_can_comment() {
+    public function user_can_comment()
+    {
         $response = $this->post(route('post.post_comment', ['id'=>1]), [
             'message' => "@doejohn come see this stuff",
         ]);
@@ -95,7 +95,8 @@ class CommentTest extends TestCase
     }
 
 
-    private function users_mentioned_are_notified() {
+    private function users_mentioned_are_notified()
+    {
         //~ Log::info(Notification::all());
         $this->assertCount(1, Notification::all());
 
@@ -111,7 +112,8 @@ class CommentTest extends TestCase
     }
 
 
-    private function user_can_like_comment() {
+    private function user_can_like_comment()
+    {
         $response = $this->post(route('post.like_comment', ['id'=>1]));
         $response->assertStatus(200);
 
@@ -126,7 +128,8 @@ class CommentTest extends TestCase
     }
 
 
-    private function user_can_dislike_comment() {
+    private function user_can_dislike_comment()
+    {
         $response = $this->post(route('post.dislike_comment', ['id'=>1]));
         $response->assertStatus(200);
 
@@ -141,11 +144,11 @@ class CommentTest extends TestCase
     }
 
 
-    private function user_can_delete_comment() {
+    private function user_can_delete_comment()
+    {
         $response = $this->delete(route('post.delete_comment', ['id'=>1]));
         $response->assertStatus(200);
 
         $this->assertCount(0, Comment::all());
     }
 }
-

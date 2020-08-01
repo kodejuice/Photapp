@@ -17,14 +17,13 @@ use App\Like;
 use App\Comment;
 use App\Notification;
 
-
-
 class CommentController extends Controller
 {
     /**
      * comment on post
      */
-    public function comment($id, Request $request) {
+    public function comment($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ["Post doesn't exist"]], 404);
@@ -73,7 +72,8 @@ class CommentController extends Controller
     /**
      * delete comment
      */
-    public function deleteComment($id, Request $request) {
+    public function deleteComment($id, Request $request)
+    {
         $comment = Comment::firstWhere('comment_id', $id);
         if (!$comment) {
             return response(['errors' => ["Comment doesn't exist"]], 404);
@@ -111,7 +111,8 @@ class CommentController extends Controller
     /**
      * like comment
      */
-    public function likeComment($id, Request $request) {
+    public function likeComment($id, Request $request)
+    {
         $comment = Comment::firstWhere('comment_id', $id);
         if (!$comment) {
             return response(['errors' => ["Comment doesn't exist"]], 404);
@@ -148,7 +149,8 @@ class CommentController extends Controller
     /**
      * dislike comment
      */
-    public function dislikeComment($id, Request $request) {
+    public function dislikeComment($id, Request $request)
+    {
         $comment = Comment::firstWhere('comment_id', $id);
         if (!$comment) {
             return response(['errors' => ["Comment doesn't exist"]], 404);
@@ -177,8 +179,5 @@ class CommentController extends Controller
         Helper::updateFollowScore($user, $comment->user_id, 'comment_dislike');
 
         return response(['message' => "Disliked"], 200);
-
     }
 }
-
-

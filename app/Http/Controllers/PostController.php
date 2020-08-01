@@ -22,13 +22,13 @@ use App\Notification;
 
 use App\Helper;
 
-
 class PostController extends Controller
 {
     /**
      * update caption of a post
      */
-    public function updatePost($id, Request $request) {
+    public function updatePost($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ["Post doesn't exist"]], 404);
@@ -56,7 +56,8 @@ class PostController extends Controller
     /**
      * save post
      */
-    public function savePost($id, Request $request) {
+    public function savePost($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ["Post doesn't exist"]], 404);
@@ -82,7 +83,8 @@ class PostController extends Controller
     /**
      * remove saved post
      */
-    public function unsavePost($id, Request $request) {
+    public function unsavePost($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ["Post doesn't exist"]], 404);
@@ -108,7 +110,8 @@ class PostController extends Controller
     /**
      * like post
      */
-    public function likePost($id, Request $request) {
+    public function likePost($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ["Post doesn't exist"]], 404);
@@ -142,7 +145,8 @@ class PostController extends Controller
     /**
      * unlike post
      */
-    public function dislikePost($id, Request $request) {
+    public function dislikePost($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ["Post doesn't exist"]], 404);
@@ -177,7 +181,8 @@ class PostController extends Controller
     /**
      * delete post
      */
-    public function deletePost($id, Request $request) {
+    public function deletePost($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ["Post doesn't exist"]], 404);
@@ -217,7 +222,8 @@ class PostController extends Controller
     /**
      * get post
      */
-    public function getPost($id, Request $request) {
+    public function getPost($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ['Post not found']], 404);
@@ -232,7 +238,8 @@ class PostController extends Controller
     /**
      * get posts
      */
-    public function getPosts(Request $request) {
+    public function getPosts(Request $request)
+    {
         $auth_user = $request->user();
 
         $query = $request->input('q');
@@ -249,12 +256,10 @@ class PostController extends Controller
                         ->limit($limit)
                         ->offset($offset)
                         ->get();
-        }
-        else if (isset($auth_feed)) {
+        } elseif (isset($auth_feed)) {
             // posts tailored just for the authenticated user
             $posts = $this->getUserFeed($auth_user, $offset, $limit);
-        }
-        else {
+        } else {
             // trigger event to update news feed in the background
             event(new NewsFeedRequested());
 
@@ -280,7 +285,8 @@ class PostController extends Controller
     /**
      * get post comments
      */
-    public function getPostComments($id, Request $request) {
+    public function getPostComments($id, Request $request)
+    {
         $post = Post::firstWhere('post_id', $id);
         if (!$post) {
             return response(['errors' => ['Post not found']], 404);
@@ -290,7 +296,7 @@ class PostController extends Controller
         $offset = $request->input('offset', 0);
 
         $comments = DB::table('users')
-                        ->join('comments', function ($join) use($post) {
+                        ->join('comments', function ($join) use ($post) {
                             $join->on('users.id', '=', 'comments.user_id')
                                 ->where('comments.post_id', '=', $post->post_id);
                         })
@@ -315,13 +321,14 @@ class PostController extends Controller
     /**
      * get user feed
      */
-    private function getUserFeed($user, $offset=0, $limit=50) {
+    private function getUserFeed($user, $offset=0, $limit=50)
+    {
         $key = $user->username . "-feed";
 
         $posts = Cache::get($key, []);
         if (count($posts) == 0) {
             $posts = DB::table('posts')
-                        ->join('user_follows', function ($join) use($user) {
+                        ->join('user_follows', function ($join) use ($user) {
                             $join->on('posts.user_id', '=', 'user_follows.user2_id')
                                 ->where('user_follows.user1_id', $user->id);
                         })
@@ -340,7 +347,8 @@ class PostController extends Controller
     /**
      * get user infos
      */
-    private function getPostInfos($user_id, $posts) {
+    private function getPostInfos($user_id, $posts)
+    {
         foreach ($posts as $p) {
             $p->username = User::firstWhere('id', $p->user_id)->username;      // username of post author (posts table only stores user id)
             $p->auth_user_likes = $this->userLikesPost($user_id, $p->post_id); // boolean (does logged-in user like this post)
@@ -352,7 +360,8 @@ class PostController extends Controller
     /**
      * get last authenticated user comment on a post
      */
-    private function userComment($user_id, $post_id) {
+    private function userComment($user_id, $post_id)
+    {
         $comment = Comment::where('user_id', $user_id)
                         ->where('post_id', $post_id)
                         ->orderByDesc('comment_id')
@@ -363,7 +372,8 @@ class PostController extends Controller
     /**
      * does user like a post?
      */
-    private function userLikesPost($user_id, $post_id) {
+    private function userLikesPost($user_id, $post_id)
+    {
         $L = Like::where('user_id', $user_id)
                 ->where('post_id', $post_id)
                 ->first();
@@ -373,7 +383,8 @@ class PostController extends Controller
     /**
      * does user like a comment?
      */
-    private function userLikesComment($user_id, $comment_id) {
+    private function userLikesComment($user_id, $comment_id)
+    {
         $L = Like::where('user_id', $user_id)
                 ->where('comment_id', $comment_id)
                 ->first();
@@ -383,11 +394,11 @@ class PostController extends Controller
     /**
      * has user saved a post?
      */
-    private function userSavedPost($user_id, $post_id) {
+    private function userSavedPost($user_id, $post_id)
+    {
         $L = Bookmark::where('user_id', $user_id)
                 ->where('post_id', $post_id)
                 ->first();
         return $L ? 1 : 0;
     }
-
 }

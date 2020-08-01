@@ -26,7 +26,9 @@ class UpdateNewsFeed implements ShouldQueue
     public function shouldQueue(NewsFeedRequested $event)
     {
         $top = NewsFeed::first();
-        if (!$top) return true;
+        if (!$top) {
+            return true;
+        }
 
         $latest = Post::orderByDesc('post_id')->first();
 

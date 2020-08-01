@@ -22,10 +22,10 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('likes')->default(0);
 
-			// index
-			//
-			$table->foreign('user_id')->references('id')->on('users');
-			$table->foreign('post_id')->references('post_id')->on('posts');
+            // index
+            //
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('post_id')->references('post_id')->on('posts');
         });
     }
 

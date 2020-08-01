@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-
 class ApiAuthController extends Controller
 {
     private $token_client = 'authToken';
@@ -20,7 +19,8 @@ class ApiAuthController extends Controller
     /**
      * User signup
      */
-    public function register (Request $request) {
+    public function register(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'full_name' => 'required|string|max:50',
             'username' => 'required|string|max:20|min:4|unique:users',
@@ -48,7 +48,8 @@ class ApiAuthController extends Controller
     /**
      * User signin
      */
-    public function login (Request $request) {
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:20',
             'password' => 'required|string|min:6',
@@ -64,8 +65,7 @@ class ApiAuthController extends Controller
                 $token = $user->createToken($this->token_client)->accessToken;
                 $response = ['token' => $token];
                 return response($response, 200);
-            }
-            else {
+            } else {
                 $response = ["message" => "Password mismatch"];
                 return response($response, 422);
             }
@@ -79,12 +79,11 @@ class ApiAuthController extends Controller
     /**
      * User logout
      */
-     public function logout (Request $request) {
+    public function logout(Request $request)
+    {
         $token = $request->user()->token();
         $token->revoke();
         $response = ['message' => 'You have been successfully logged out!'];
         return response($response, 200);
     }
-
 }
-

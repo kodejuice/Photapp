@@ -14,7 +14,6 @@ use App\UserSetting;
 use App\UserFollow;
 use App\Notification;
 
-
 /*
  this tests makes sure that the user can
  * -view profile(s)
@@ -23,7 +22,7 @@ use App\Notification;
  * -view user bookmarks
  * -view user mentions
  * -view user settings
- * 
+ *
 */
 
 
@@ -77,7 +76,8 @@ class UserViewTest extends TestCase
         $this->artisan('migrate:reset');
     }
 
-    private function _get($route, $body) {
+    private function _get($route, $body)
+    {
         return $this->get($route . "?$body");
     }
 
@@ -85,7 +85,8 @@ class UserViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_profile() {
+    public function user_can_view_profile()
+    {
         $response = $this->_get(route('user.profile'), 'username=johndoe');
         $response->assertStatus(200);
 
@@ -100,7 +101,8 @@ class UserViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_profiles() {
+    public function user_can_view_profiles()
+    {
         $response = $this->get(route('user.all_users'));
 
         $user1 = $response[0];
@@ -133,7 +135,8 @@ class UserViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_post() {
+    public function user_can_view_post()
+    {
         $response = $this->get(route('user.posts', ['username' => 'johndoe']));
         $response->assertStatus(200);
 
@@ -146,7 +149,8 @@ class UserViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_followers_and_following() {
+    public function user_can_view_followers_and_following()
+    {
         // follow donjoe first
         $this->post(route('user.follow', ['id'=>2]))
             ->assertStatus(200);
@@ -170,7 +174,8 @@ class UserViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_saved_bookmarks() {
+    public function user_can_view_saved_bookmarks()
+    {
         $response = $this->get(route('auth_user.bookmarks'));
         $response->assertStatus(200);
 
@@ -182,7 +187,8 @@ class UserViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_mentions() {
+    public function user_can_view_mentions()
+    {
         $response = $this->get(route('user.mentions', ['username' => 'donjoe']));
         $response->assertStatus(200);
 
@@ -194,7 +200,8 @@ class UserViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_settings() {
+    public function user_can_view_settings()
+    {
         $response = $this->get(route('auth_user.settings'));
         $response->assertStatus(200);
 
@@ -206,5 +213,4 @@ class UserViewTest extends TestCase
             $this->assertEquals(1, $res['notify_follows']);
         });
     }
-
 }

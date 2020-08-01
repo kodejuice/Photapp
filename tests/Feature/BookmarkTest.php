@@ -12,7 +12,7 @@ use App\Bookmark;
  this tests makes sure that the user can
  * -save posts
  * -unsave posts
- * 
+ *
 */
 
 
@@ -56,7 +56,8 @@ class BookmarkTest extends TestCase
     /**
      * @test
      */
-    public function user_can_save_post() {
+    public function user_can_save_post()
+    {
         $response = $this->post(route('post.post_save', ['id'=>1]));
         $response->assertStatus(200);
 
@@ -69,10 +70,11 @@ class BookmarkTest extends TestCase
         $this->user_can_unsave_post();
     }
 
-    private function user_can_unsave_post() {
+    private function user_can_unsave_post()
+    {
         $response = $this->post(route('post.post_unsave', ['id'=>1]));
         $response->assertStatus(200);
 
         $this->assertCount(0, Bookmark::all());
-    }    
+    }
 }

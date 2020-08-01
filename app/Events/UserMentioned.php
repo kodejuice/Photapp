@@ -43,4 +43,3 @@ class UserMentioned
         return new PrivateChannel('channel-name');
     }
 }
-

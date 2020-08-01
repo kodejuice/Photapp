@@ -14,14 +14,13 @@ use App\UserSetting;
 use App\UserFollow;
 use App\Notification;
 
-
 /*
  this tests makes sure that the user can
  * -follow another
  * -unfollow another
  * -update their info
  * -update settings
- * 
+ *
 */
 
 define('DATE', date("Y-m-d"));
@@ -75,7 +74,8 @@ class UserUpdateTest extends TestCase
     /**
      * @test
      */
-    public function user_can_update_info() {
+    public function user_can_update_info()
+    {
         $response = $this->json("POST", route('user.update'), [
             'full_name' => "Real John Doe"
         ]);
@@ -89,7 +89,8 @@ class UserUpdateTest extends TestCase
     /**
      * @test
      */
-    public function user_can_update_bio() {
+    public function user_can_update_bio()
+    {
         $response = $this->post(route('user.update'), [
             'full_name' => "Real John Doe",
             'bio' => "mehn i'm tired",
@@ -105,7 +106,8 @@ class UserUpdateTest extends TestCase
     /**
      * @test
      */
-    public function user_can_update_dob() {
+    public function user_can_update_dob()
+    {
         $response = $this->post(route('user.update'), [
             'full_name' => "Real John Doe",
             'bio' => "mehn i'm tired",
@@ -123,7 +125,8 @@ class UserUpdateTest extends TestCase
     /**
      * @test
      */
-    public function user_can_update_settings() {
+    public function user_can_update_settings()
+    {
         $response = $this->post(route('user.update'), [
             'notify_post_likes' => 1,
             'notify_comments_likes' => 0,
@@ -146,7 +149,8 @@ class UserUpdateTest extends TestCase
     /**
      * @test
      */
-    public function user_can_follow_and_unfollow_user() {
+    public function user_can_follow_and_unfollow_user()
+    {
         $response = $this
             ->json("POST", route('user.follow', ['id'=>2]));
         $response->assertStatus(200);
@@ -154,7 +158,7 @@ class UserUpdateTest extends TestCase
         tap(User::first(), function ($user) {
             $this->assertEquals(1, $user->follows);
         });
-        tap(User::where('id',2)->first(), function ($user) {
+        tap(User::where('id', 2)->first(), function ($user) {
             $this->assertEquals(1, $user->followers);
         });
 
@@ -166,7 +170,8 @@ class UserUpdateTest extends TestCase
         $this->user_can_receive_fllw_alerts();
     }
 
-    private function user_can_receive_fllw_alerts() {
+    private function user_can_receive_fllw_alerts()
+    {
         tap(Notification::first(), function ($notif) {
             $this->assertEquals(1, $notif->new);
             $this->assertEquals('follow', $notif->type);
@@ -177,7 +182,8 @@ class UserUpdateTest extends TestCase
         $this->user_can_mark_notification();
     }
 
-    private function user_can_mark_notification() {
+    private function user_can_mark_notification()
+    {
         $response = $this->post(route('user.notification.mark', ['id' => 1]));
         $response->assertStatus(200);
 
@@ -185,10 +191,11 @@ class UserUpdateTest extends TestCase
             $this->assertEquals(0, $notif->new);
         });
 
-        $this->user_can_unfollow_user();        
+        $this->user_can_unfollow_user();
     }
 
-    private function user_can_delete_notification() {
+    private function user_can_delete_notification()
+    {
         $response = $this->post(route('user.notification.delete', ['id' => 1]));
         $response->assertStatus(200);
 
@@ -197,14 +204,15 @@ class UserUpdateTest extends TestCase
         $this->user_can_unfollow_user();
     }
 
-    private function user_can_unfollow_user() {
+    private function user_can_unfollow_user()
+    {
         $response = $this->post(route('user.unfollow', ['id'=>2]));
         $response->assertStatus(200);
 
         tap(User::first(), function ($user) {
             $this->assertEquals(0, $user->follows);
         });
-        tap(User::where('id',2)->first(), function ($user) {
+        tap(User::where('id', 2)->first(), function ($user) {
             $this->assertEquals(0, $user->followers);
         });
 

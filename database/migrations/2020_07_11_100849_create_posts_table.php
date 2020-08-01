@@ -24,12 +24,12 @@ class CreatePostsTable extends Migration
             $table->text("tags") -> nullable();     // json string -> "['tag1', 'tag2', ...]"
             $table->text("mentions") -> nullable(); // json string -> "['user1', 'user2', ...]"
 
-			$table->bigInteger("like_count")->default(0);
+            $table->bigInteger("like_count")->default(0);
             $table->bigInteger("comment_count")->default(0);
 
-			// index
-			//
-			$table->foreign('user_id')->references('id')->on('users');
+            // index
+            //
+            $table->foreign('user_id')->references('id')->on('users');
         });
 
         // add fulltext index

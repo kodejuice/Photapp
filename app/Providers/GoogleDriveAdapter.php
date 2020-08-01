@@ -5,6 +5,6 @@ class GoogleDriveAdapter extends \Hypweb\Flysystem\GoogleDrive\GoogleDriveAdapte
 {
     public function getService()
     {
-            return $this->service;
+        return $this->service;
     }
 }

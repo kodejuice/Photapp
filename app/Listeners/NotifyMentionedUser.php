@@ -34,7 +34,9 @@ class NotifyMentionedUser implements ShouldQueue
         $valid = boolval(User::firstWhere('username', $event->mentioned_user))
             && $event->mentioned_user != $event->who_mentioned->username;
 
-        if (!$valid) return false;
+        if (!$valid) {
+            return false;
+        }
 
         // chech (if the user wants such notification)
         $mentioned_user = User::firstWhere('username', $event->mentioned_user);

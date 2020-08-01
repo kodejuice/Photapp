@@ -22,4 +22,3 @@ Route::get('/', function () {
 Route::middleware('auth:api')->group(function () {
     Route::post('/post/upload', 'PostUploadController@fileUpload')->name('post.file_upload');
 });
-

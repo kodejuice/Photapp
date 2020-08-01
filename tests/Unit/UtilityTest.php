@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use App\Helper;
 
-
 class UtilityTest extends TestCase
 {
     /**
@@ -58,30 +57,28 @@ class UtilityTest extends TestCase
      */
     public function it_gets_tags_from_strings()
     {
-      $str1 = "hello# #world";
-      $str2 = "this is just shit #youdigg#";
-      $str3 = "stfu bitch #shutup #bitch";
-      $str4 = "no hashtag";
-      $str5 = "#hash1#hash2";
-      $str6 = "#";
+        $str1 = "hello# #world";
+        $str2 = "this is just shit #youdigg#";
+        $str3 = "stfu bitch #shutup #bitch";
+        $str4 = "no hashtag";
+        $str5 = "#hash1#hash2";
+        $str6 = "#";
 
-      $str7 = "hello@ @west";
-      $str8 = "this is just shit @john#";
-      $str9 = "stfu bitch @douglas #sh";
-      $str10 = "no hashtag but @kodejuice@chima is mentioned";
+        $str7 = "hello@ @west";
+        $str8 = "this is just shit @john#";
+        $str9 = "stfu bitch @douglas #sh";
+        $str10 = "no hashtag but @kodejuice@chima is mentioned";
 
-      $this->assertEquals(Helper::getHashTags($str1), ['world']);
-      $this->assertEquals(Helper::getHashTags($str2), ['youdigg']);
-      $this->assertEquals(Helper::getHashTags($str3), ['shutup', 'bitch']);
-      $this->assertEquals(Helper::getHashTags($str4), []);
-      $this->assertEquals(Helper::getHashTags($str5), ['hash1', 'hash2']);
-      $this->assertEquals(Helper::getHashTags($str6), []);
+        $this->assertEquals(Helper::getHashTags($str1), ['world']);
+        $this->assertEquals(Helper::getHashTags($str2), ['youdigg']);
+        $this->assertEquals(Helper::getHashTags($str3), ['shutup', 'bitch']);
+        $this->assertEquals(Helper::getHashTags($str4), []);
+        $this->assertEquals(Helper::getHashTags($str5), ['hash1', 'hash2']);
+        $this->assertEquals(Helper::getHashTags($str6), []);
 
-      $this->assertEquals(Helper::getMentions($str7), ['west']);
-      $this->assertEquals(Helper::getMentions($str8), ['john']);
-      $this->assertEquals(Helper::getMentions($str9), ['douglas']);
-      $this->assertEquals(Helper::getMentions($str10), ['kodejuice', 'chima']);
-
+        $this->assertEquals(Helper::getMentions($str7), ['west']);
+        $this->assertEquals(Helper::getMentions($str8), ['john']);
+        $this->assertEquals(Helper::getMentions($str9), ['douglas']);
+        $this->assertEquals(Helper::getMentions($str10), ['kodejuice', 'chima']);
     }
 }
-

@@ -13,7 +13,6 @@ use App\Post;
 
 use App\Helper;
 
-
 /**
  * Post upload controller
  */
@@ -22,7 +21,8 @@ class PostUploadController extends Controller
     /**
      * Form upload controller
      */
-    public function fileUpload(Request $request) {
+    public function fileUpload(Request $request)
+    {
         $this->validate($request, [
           'files' => 'required|max:5120',
           'files.*' => 'mimes:png,jpeg,jpg,bmp,svg,jfif,pjp,mp4,webm,3gp',
@@ -65,7 +65,8 @@ class PostUploadController extends Controller
      * API upload controller
      *  (via url)
      */
-    public function UrlUpload(Request $request) {
+    public function UrlUpload(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'url' => 'url',
             'urls' => 'array',
@@ -122,8 +123,9 @@ class PostUploadController extends Controller
         }
 
         if (empty($data)) {
-            if (count($URLS) > 1)
+            if (count($URLS) > 1) {
                 return response(['errors' => ['Invalid Files']], 422);
+            }
             return response(['errors' => ['Invalid File']], 422);
         }
 
@@ -140,4 +142,3 @@ class PostUploadController extends Controller
         return response(['message' => 'Uploading'], 200);
     }
 }
-

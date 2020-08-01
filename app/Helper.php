@@ -8,12 +8,13 @@ use App\User;
 use App\Post;
 use App\UserFollow;
 
-
 /**
  * Utility functions
  */
-class Helper {
-    static function tags(string $string, string $delimeter): array {
+class Helper
+{
+    public static function tags(string $string, string $delimeter): array
+    {
         // assert(strlen($delimeter) == 1);
         preg_match_all("/".$delimeter."(\w+)/", $string, $matches);
         return $matches[1];
@@ -24,16 +25,18 @@ class Helper {
      * @param  string $caption  [description]
      * @return [type]           [description]
      */
-    static function getHashTags(string $caption): array {
+    public static function getHashTags(string $caption): array
+    {
         return self::tags($caption, '#');
     }
 
     /**
      * get mentions (@...) from string
-     * @param  string $caption  caption to get mentions from 
+     * @param  string $caption  caption to get mentions from
      * @return array            array of all mentioned users
      */
-    static function getMentions(string $string): array {
+    public static function getMentions(string $string): array
+    {
         return self::tags($string, '@');
     }
 
@@ -42,12 +45,13 @@ class Helper {
      * @param  array $headers  headers of a certain url
      * @return int             size of content
      */
-    static function getUrlContentLength($headers): int {
+    public static function getUrlContentLength($headers): int
+    {
         $size = -1;
 
         if (!array_key_exists('Content-Length', $headers)) {
             return -1;
-        } else if (is_array($headers['Content-Length'])) {
+        } elseif (is_array($headers['Content-Length'])) {
             $len = count($headers['Content-Length']);
             $size = $headers['Content-Length'][$len-1];
         } else {
@@ -62,9 +66,11 @@ class Helper {
      * @param  string $t       needle to look for
      * @return bool
      */
-    static private function isType($header, $t): bool {
-        if (!array_key_exists("Content-Type", $header))
+    private static function isType($header, $t): bool
+    {
+        if (!array_key_exists("Content-Type", $header)) {
             return false;
+        }
 
         $type = '';
         if (is_array($header['Content-Type'])) {
@@ -81,10 +87,13 @@ class Helper {
      * @param  string  $url
      * @return bool
      */
-    static public function validImage($url): bool {
+    public static function validImage($url): bool
+    {
         $data = @getimagesize($url);
-        if (empty($data)) return false;
-        return (strtolower(substr($data['mime'], 0, 5)) == 'image' ? true : false);  
+        if (empty($data)) {
+            return false;
+        }
+        return (strtolower(substr($data['mime'], 0, 5)) == 'image' ? true : false);
     }
 
     /**
@@ -92,7 +101,8 @@ class Helper {
      * @param  array $headers
      * @return bool
      */
-    static public function validVideo($headers): bool {
+    public static function validVideo($headers): bool
+    {
         return self::isType($headers, 'video');
     }
 
@@ -102,10 +112,15 @@ class Helper {
      * @param  string $url
      * @return string          'video' | 'image'
      */
-    static public function getUrlMediaType($headers,$url='') {
-        if (self::validImage($url)) return 'image';
-        elseif (self::validVideo($headers)) return 'video';
-        else return null;
+    public static function getUrlMediaType($headers, $url='')
+    {
+        if (self::validImage($url)) {
+            return 'image';
+        } elseif (self::validVideo($headers)) {
+            return 'video';
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -113,7 +128,8 @@ class Helper {
      * @param  media-type $type  'video' | 'image'
      * @return [type]            [description]
      */
-    static public function getFileExtension($type): string {
+    public static function getFileExtension($type): string
+    {
         // TODO: make this better ?
         //  maybe get the files original extension :/
         return $type == 'image' ? 'png' : 'mp4';
@@ -126,7 +142,8 @@ class Helper {
      * @param  Post   $post
      * @param  string $caption  caption of the uploaded photo|video
      */
-    static public function dbSave(User $user, Post $post, string $caption, array $paths): void {
+    public static function dbSave(User $user, Post $post, string $caption, array $paths): void
+    {
         $post->user_id = $user->id;
 
         $post->caption = $caption;
@@ -145,13 +162,14 @@ class Helper {
      * store file to disk/cloud
      * @param  string $file_name  name of file to save as
      * @param  string $file       content of file
-     * 
+     *
      * @param  string $drive      storage drive to save to
      * @see                       config/filesystems.php
-     * 
+     *
      * @return string             absolute path to file on disk/cloud
      */
-    static public function storeFile(string $file_name, string $file, string $drive='google'): array {
+    public static function storeFile(string $file_name, string $file, string $drive='google'): array
+    {
         return [$file_name, $file_name];
         //~ Storage::disk($drive)->put($file_name, $file);
         //~ return [$file_name, Storage::disk($drive)->url($file_name)];
@@ -164,7 +182,8 @@ class Helper {
      * @param      \App\User  $user1  The user following
      * @param      int        $user2  The id of user beign followed
      */
-    static public function updateFollowScore(User $user1, int $user2_id, string $action): void {
+    public static function updateFollowScore(User $user1, int $user2_id, string $action): void
+    {
         $follow = UserFollow::where('user1_id', $user1->id)
                             ->where('user2_id', $user2_id)
                             ->first();

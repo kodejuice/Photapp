@@ -16,13 +16,13 @@ use App\Notification;
 
 use App\Events\UserFollowed;
 
-
 class UserController extends Controller
 {
     /**
      * update user
      */
-    public function updateInfo(Request $request) {
+    public function updateInfo(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'full_name' => 'string|max:50',
             'bio' => 'string|max:150',
@@ -71,7 +71,8 @@ class UserController extends Controller
     /**
      * update profile pic
      */
-    public function updateDP(Request $request) {
+    public function updateDP(Request $request)
+    {
         $this->validate($request, [
           'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ]);
@@ -99,7 +100,8 @@ class UserController extends Controller
     /**
      * follow user
      */
-    public function followUser(int $id, Request $request) {
+    public function followUser(int $id, Request $request)
+    {
         $user = User::firstWhere('id', $id);
         if (!$user) {
             return response(['errors' => ['User not found']]);
@@ -135,7 +137,8 @@ class UserController extends Controller
     /**
      * unfollow user
      */
-    public function unfollowUser(int $id, Request $request) {
+    public function unfollowUser(int $id, Request $request)
+    {
         $user = User::firstWhere('id', $id);
         if (!$user) {
             return response(['errors' => ['User not found']]);
@@ -157,7 +160,7 @@ class UserController extends Controller
         $follows->delete();
         
         // delete notification
-        Notification::where('type','follow')
+        Notification::where('type', 'follow')
         ->where('user_id', $user->id)
         ->where('associated_user', $self->username)
         ->delete();
@@ -168,7 +171,8 @@ class UserController extends Controller
     /**
      * mark authenticated user notifications (as read)
      */
-    public function markNotification($id, Request $request) {
+    public function markNotification($id, Request $request)
+    {
         $notif = Notification::where('notification_id', $id)->first();
         if (!$notif) {
             return response(['errors' => ['Notification not found']], 404);
@@ -181,9 +185,10 @@ class UserController extends Controller
     }
 
     /**
-     * delete authenticated user notification 
+     * delete authenticated user notification
      */
-    public function deleteNotification($id, Request $request) {
+    public function deleteNotification($id, Request $request)
+    {
         $notif = Notification::where('notification_id', $id);
         if (!$notif->first()) {
             return response(['errors' => ['Notification not found']], 404);
@@ -202,7 +207,8 @@ class UserController extends Controller
     /**
      * get user
      */
-    public function getUser(Request $request) {
+    public function getUser(Request $request)
+    {
         $usr = User::where('username', $request->input('username'))->first();
         if (!$usr) {
             return response(['errors' => ['Not found']], 404);
@@ -215,7 +221,8 @@ class UserController extends Controller
     /**
      * get users
      */
-    public function getUsers(Request $request) {
+    public function getUsers(Request $request)
+    {
         $query = $request->input('q');
 
         if (isset($query) && strlen($query) > 2) {
@@ -243,7 +250,8 @@ class UserController extends Controller
     /**
      * get user posts
      */
-    public function getUserPosts($username, Request $request) {
+    public function getUserPosts($username, Request $request)
+    {
         $usr = User::where('username', $username)->first();
         if (!$usr) {
             return response(['errors' => ['User not found']], 404);
@@ -263,14 +271,15 @@ class UserController extends Controller
     /**
      * get user followers
      */
-    public function getUserFollowers($username, Request $request) {
+    public function getUserFollowers($username, Request $request)
+    {
         $usr = User::where('username', $username)->first();
         if (!$usr) {
             return response(['errors' => ['User not found']], 404);
         }
 
         $followers = DB::table('users')
-                        ->join('user_follows', function ($join) use($usr) {
+                        ->join('user_follows', function ($join) use ($usr) {
                             $join->on('users.id', '=', 'user_follows.user1_id')
                                 ->where('user_follows.user2_id', $usr->id);
                         })
@@ -288,14 +297,15 @@ class UserController extends Controller
     /**
      * get user following
      */
-    public function getUserFollowing($username, Request $request) {
+    public function getUserFollowing($username, Request $request)
+    {
         $usr = User::where('username', $username)->first();
         if (!$usr) {
             return response(['errors' => ['User not found']], 404);
         }
 
         $following = DB::table('users')
-                        ->join('user_follows', function ($join) use($usr) {
+                        ->join('user_follows', function ($join) use ($usr) {
                             $join->on('users.id', '=', 'user_follows.user2_id')
                                 ->where('user_follows.user1_id', $usr->id);
                         })
@@ -313,14 +323,15 @@ class UserController extends Controller
     /**
      * get user bookmarks
      */
-    public function getUserBookmarks($username, Request $request) {
+    public function getUserBookmarks($username, Request $request)
+    {
         $usr = User::where('username', $username)->first();
         if (!$usr) {
             return response(['errors' => ['User not found']], 404);
         }
 
         $saved = DB::table('posts')
-                    ->join('bookmarks', function ($join) use($usr) {
+                    ->join('bookmarks', function ($join) use ($usr) {
                         $join->on('posts.post_id', '=', 'bookmarks.post_id')
                             ->where('bookmarks.user_id', $usr->id);
                     })
@@ -333,7 +344,8 @@ class UserController extends Controller
     /**
      * get user mentions
      */
-    public function getUserMentions($username, Request $request) {
+    public function getUserMentions($username, Request $request)
+    {
         $usr = User::where('username', $username)->first();
         if (!$usr) {
             return response(['errors' => ['User not found']], 404);
@@ -353,7 +365,8 @@ class UserController extends Controller
     /**
      * get authenticated user profile
      */
-    public function getAuthUserProfile(Request $request) {
+    public function getAuthUserProfile(Request $request)
+    {
         $user = $request->user();
         return response($user);
     }
@@ -361,7 +374,8 @@ class UserController extends Controller
     /**
      * get authenticated user posts
      */
-    public function getAuthUserPosts(Request $request) {
+    public function getAuthUserPosts(Request $request)
+    {
         $user = $request->user();
         $posts = Post::where('user_id', $user->id)->get();
         return response($posts);
@@ -370,7 +384,8 @@ class UserController extends Controller
     /**
      * get authenticated user settings
      */
-    public function getAuthUserSettings(Request $request) {
+    public function getAuthUserSettings(Request $request)
+    {
         $user = $request->user();
         $settings = UserSetting::where('user_id', $user->id);
         return response($settings->first());
@@ -379,7 +394,8 @@ class UserController extends Controller
     /**
      * get authenticated user notifications
      */
-    public function getAuthUserNotifications(Request $request) {
+    public function getAuthUserNotifications(Request $request)
+    {
         $user = $request->user();
         $notifs = Notification::where('user_id', $user->id)
             ->where('new', 1);
@@ -390,7 +406,8 @@ class UserController extends Controller
     /**
      * get authenticated user bookmarks
      */
-    public function getAuthUserBookmarks(Request $request) {
+    public function getAuthUserBookmarks(Request $request)
+    {
         $user = $request->user();
         return $this->getUserBookmarks($user->username, $request);
     }
@@ -398,7 +415,8 @@ class UserController extends Controller
     /**
      * get authenticated user mentions
      */
-    public function getAuthUserMentions(Request $request) {
+    public function getAuthUserMentions(Request $request)
+    {
         $user = $request->user();
         return $this->getUserMentions($user->username, $request);
     }
@@ -406,7 +424,8 @@ class UserController extends Controller
     /**
      * check if user1 follows user2
      */
-    private function userFollows(int $user1_id, int $user2_id) {
+    private function userFollows(int $user1_id, int $user2_id)
+    {
         $user1 = User::where('id', $user1_id)->first();
         $user2 = User::where('id', $user2_id)->first();
 

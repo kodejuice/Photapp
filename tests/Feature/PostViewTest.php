@@ -13,7 +13,7 @@ use App\Post;
  * -view post(s)
  * -view news feed
  * -view post comments
- * 
+ *
 */
 
 
@@ -64,7 +64,8 @@ class PostViewTest extends TestCase
         $this->artisan('migrate:reset');
     }
 
-    private function _get($route, $body) {
+    private function _get($route, $body)
+    {
         return $this->get($route . "?$body");
     }
 
@@ -72,7 +73,8 @@ class PostViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_post() {
+    public function user_can_view_post()
+    {
         $response = $this->get(route('post.get', ['id'=>1]));
         $response->assertStatus(200);
 
@@ -89,7 +91,8 @@ class PostViewTest extends TestCase
     /**
      * @test
      */
-    public function post_upload_updates_news_feed() {
+    public function post_upload_updates_news_feed()
+    {
         // upload image
         $this->json("PUT", route('post.url_upload'), [
             'url' => env("TEST_IMAGE"),
@@ -124,7 +127,8 @@ class PostViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_search_post() {
+    public function user_can_search_post()
+    {
         $response = $this->_get(route('post.all_posts'), "q=donjoe");
         $response->assertStatus(200);
 
@@ -142,13 +146,14 @@ class PostViewTest extends TestCase
     /**
      * @test
      */
-    public function user_can_view_comments() {
+    public function user_can_view_comments()
+    {
         $this->post(route('post.post_comment', ['id'=>1]), [
             'message' => "i am first to comment"
-        ]); 
+        ]);
         $this->post(route('post.post_comment', ['id'=>1]), [
             'message' => "i am second to comment"
-        ]); 
+        ]);
         $this->post(route('post.post_comment', ['id'=>1]), [
             'message' => "i am last to comment"
         ]);
@@ -182,4 +187,3 @@ class PostViewTest extends TestCase
         });
     }
 }
-

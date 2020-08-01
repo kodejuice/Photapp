@@ -20,10 +20,10 @@ class CreateUserFollowsTable extends Migration
             $table->unsignedBigInteger('user2_id');
             $table->decimal('follow_score') -> default(0);
 
-			// index
-			//
-			$table->foreign('user1_id')->references('id')->on('users');
-			$table->foreign('user2_id')->references('id')->on('users');
+            // index
+            //
+            $table->foreign('user1_id')->references('id')->on('users');
+            $table->foreign('user2_id')->references('id')->on('users');
         });
     }
 

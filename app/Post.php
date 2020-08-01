@@ -8,4 +8,3 @@ class Post extends Model
 {
     public $primaryKey = 'post_id';
 }
-

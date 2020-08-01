@@ -17,7 +17,6 @@ use App\Helper;
 use App\Events\UserMentioned;
 use App\Events\NewsFeedRequested;
 
-
 class MoveFileToCloud implements ShouldQueue
 {
     /**
@@ -47,7 +46,8 @@ class MoveFileToCloud implements ShouldQueue
         ///////////////////////////
         $paths = [];
         foreach ($data as $F) {
-            $file = $F->data; $extension = $F->ext;
+            $file = $F->data;
+            $extension = $F->ext;
             $file_name = time() . Str::random(20) . "." . $extension;
             $R[] = $file_name;
 

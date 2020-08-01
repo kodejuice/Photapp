@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Storage;
  * -like posts
  * -dislike posts
  * -delete post
- * 
+ *
 */
 
 
@@ -95,8 +95,9 @@ class FileUploadTest extends TestCase
     }
 
 
-    private function user_can_receive_mention_notification() {
-        tap(Notification::first(), function($notif) {
+    private function user_can_receive_mention_notification()
+    {
+        tap(Notification::first(), function ($notif) {
             $this->assertEquals(1, $notif->post_id);
             $this->assertEquals('mention', $notif->type);
             $this->assertEquals('doejohn mentioned you in a post', $notif->message);
@@ -110,7 +111,8 @@ class FileUploadTest extends TestCase
     }
 
 
-    private function user_can_update_caption() {
+    private function user_can_update_caption()
+    {
         $response = $this->post(route('post.post_update', ['id'=>1]), [
             'caption' => "maybe i'm not",
         ]);
@@ -123,10 +125,11 @@ class FileUploadTest extends TestCase
         /**
          * make sure user can like post
          */
-         $this->user_can_like_post();
+        $this->user_can_like_post();
     }
 
-    private function user_can_like_post() {
+    private function user_can_like_post()
+    {
         $response = $this->post(route('post.post_like', ['id'=>1]));
         $response->assertStatus(200);
 
@@ -141,7 +144,8 @@ class FileUploadTest extends TestCase
     }
 
 
-    private function user_can_dislike_post() {
+    private function user_can_dislike_post()
+    {
         $response = $this->post(route('post.post_dislike', ['id'=>1]));
         $response->assertStatus(200);
 
@@ -152,11 +156,12 @@ class FileUploadTest extends TestCase
         /**
          * make sure user can delete post
          */
-        $this->user_can_delete_post();        
+        $this->user_can_delete_post();
     }
 
 
-    private function user_can_delete_post() {
+    private function user_can_delete_post()
+    {
         $response = $this->delete(route('post.post_delete', ['id'=>1]));
         $response->assertStatus(200);
 

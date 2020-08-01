@@ -10,7 +10,6 @@ use App\User;
 use App\UserSetting;
 use App\Notification;
 
-
 class NotifyCommentAuthor
 {
     /**
@@ -33,7 +32,9 @@ class NotifyCommentAuthor
     {
         $valid = $event->user->id != $event->comment->user_id;
 
-        if (!$valid) return false;
+        if (!$valid) {
+            return false;
+        }
 
         // chech (if the user wants such notification)
         $user_setting = UserSetting::firstWhere('user_id', $event->comment->user_id);

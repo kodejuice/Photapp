@@ -24,13 +24,13 @@ class CreateNotificationsTable extends Migration
 
             $table->unsignedBigInteger('post_id')->nullable();    // associated post
             $table->unsignedBigInteger('comment_id')->nullable(); // associated comment
-			$table->string('associated_user')->nullable();        // associated user
+            $table->string('associated_user')->nullable();        // associated user
 
-			// index
-			//
-			$table->foreign('user_id')->references('id')->on('users');
-			$table->foreign('post_id')->references('post_id')->on('posts');
-			$table->foreign('comment_id')->references('comment_id')->on('comments');
+            // index
+            //
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('post_id')->references('post_id')->on('posts');
+            $table->foreign('comment_id')->references('comment_id')->on('comments');
         });
     }
 

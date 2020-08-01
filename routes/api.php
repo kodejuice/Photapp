@@ -31,7 +31,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     // public routes
     Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
-    Route::post('/register','Auth\ApiAuthController@register')->name('register.api');
+    Route::post('/register', 'Auth\ApiAuthController@register')->name('register.api');
 
     // protected routes
     Route::middleware('auth:api')->group(function () {
@@ -106,12 +106,18 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         //     return $u;
         // });
 
-         // XXXX::all
+        // XXXX::all
         // Route::get('/users', function (Request $req) {return User::all();});
         // Route::get('/posts', function (Request $req) {return Post::all();});
-        Route::get('/saved', function (Request $req) {return Bookmark::all();});
-        Route::get('/notifs', function (Request $req) {return Notification::all();});
-        Route::get('/comments', function (Request $req) {return Comment::all();});
+        Route::get('/saved', function (Request $req) {
+            return Bookmark::all();
+        });
+        Route::get('/notifs', function (Request $req) {
+            return Notification::all();
+        });
+        Route::get('/comments', function (Request $req) {
+            return Comment::all();
+        });
         Route::get('/clr', function (Request $req) {
             // delete posts & notifs
             Like::where('user_id', '>', -1)->delete();
@@ -120,8 +126,5 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             // Post::where('post_id', '>', -1)->delete();
             return 'yapp';
         });
-
     });
-
 });
-
