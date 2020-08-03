@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 use Illuminate\Support\Facades\DB;
 
+use App\User;
 use App\Post;
 use App\NewsFeed;
 
@@ -44,11 +45,31 @@ class UpdateNewsFeed implements ShouldQueue
      */
     public function handle(NewsFeedRequested $event)
     {
-        DB::statement('TRUNCATE TABLE news_feed');
+        // sort posts by popularity and recency
 
-        // sort posts by likeness + recency
-        $posts = Post::whereRaw('1=1 ORDER BY like_count + post_id DESC')
-                    ->get();
+        $N = count(User::all()) >> 1;
+        $last_pid = Post::orderByDesc('post_id')->first()->post_id; // last post id
+
+        /**
+         * this orders the result as such that for the latest N posts are
+         * sorted based on `post_id + (like_count + comment_count)`, then the N posts before that
+         * are sorted based on `post_id + (like_count + comment_count)/2`, the N before that are divided 4,
+         *  then 8, 16, 32, ... and so on
+         */
+        $query = <<<sql
+1=1
+ORDER BY
+  post_id
+  +
+  (like_count + comment_count) / POWER(2, (($last_pid - post_id) / $N) - 1)
+DESC
+sql;
+
+        $posts = Post::whereRaw($query);
+
+        // $posts = Post::whereRaw('1=1 ORDER BY like_count + post_id DESC')->get();
+
+        DB::statement('TRUNCATE TABLE news_feed');
 
         foreach ($posts as $p) {
             NewsFeed::create([
