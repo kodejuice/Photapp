@@ -18,6 +18,7 @@ use App\Like;
 use App\Comment;
 use App\Bookmark;
 use App\NewsFeed;
+use App\UserFollow;
 use App\Notification;
 
 use App\Helper;
@@ -354,7 +355,27 @@ class PostController extends Controller
             $p->auth_user_likes = $this->userLikesPost($user_id, $p->post_id); // boolean (does logged-in user like this post)
             $p->auth_user_saved = $this->userSavedPost($user_id, $p->post_id); // boolean (has logged-in user saved this post)
             $p->auth_user_comment = $this->userComment($user_id, $p->post_id); // last comment of user on this post
+            $p->auth_user_follows = $this->userFollows($user_id, $p->user_id); // boolean (does logged-in user follow post author)
         }
+    }
+
+    /**
+     * check if user1 follows user2
+     */
+    private function userFollows(int $user1_id, int $user2_id)
+    {
+        $user1 = User::where('id', $user1_id)->first();
+        $user2 = User::where('id', $user2_id)->first();
+
+        if (!$user2) {
+            return response(['errors' => ['User not found']], 404);
+        }
+
+        $follows = UserFollow::where('user1_id', $user1_id)
+                            ->where('user2_id', $user2_id)
+                            ->first();
+
+        return $follows ? 1 : 0;
     }
 
     /**

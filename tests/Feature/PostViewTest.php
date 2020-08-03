@@ -111,6 +111,7 @@ class PostViewTest extends TestCase
             $this->assertEquals(1, $res['like_count']);
             $this->assertEquals(1, $res['auth_user_likes']);
             $this->assertEquals(0, $res['auth_user_saved']);
+            $this->assertEquals(0, $res['auth_user_follows']);
         });
 
         $r1 = $response[1];
@@ -121,6 +122,7 @@ class PostViewTest extends TestCase
             $this->assertEquals(0, $res['like_count']);
             $this->assertEquals(0, $res['auth_user_likes']);
             $this->assertEquals(1, $res['auth_user_saved']);
+            $this->assertEquals(0, $res['auth_user_follows']);
         });
     }
 
@@ -140,6 +142,7 @@ class PostViewTest extends TestCase
             $this->assertEquals("johndoe", $res['username']);
             $this->assertEquals(0, $res['auth_user_likes']);
             $this->assertEquals(0, $res['auth_user_saved']);
+            $this->assertEquals(0, $res['auth_user_follows']);
         });
     }
 
