@@ -67,7 +67,9 @@ class MoveFileToCloud implements ShouldQueue
         //////////////////////
         // update news feed //
         //////////////////////
-        event(new NewsFeedRequested());
+        if (rand()%5 == 0) { // 1/5th of the time
+            event(new NewsFeedRequested());
+        }
 
         ////////////////////////////
         // notify mentioned users //
@@ -80,7 +82,6 @@ class MoveFileToCloud implements ShouldQueue
                 event(new UserMentioned($mentioned, $user, $post->post_id));
             }
         }
-
 
         // Log::info("{$user->username} uploaded -> ".json_encode($paths));
 
