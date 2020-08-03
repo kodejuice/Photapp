@@ -223,7 +223,10 @@ class UserController extends Controller
      */
     public function getUsers(Request $request)
     {
+        $auth_user = $request->user();
+
         $query = $request->input('q');
+        $suggest = $request->input('suggest');
 
         if (isset($query) && strlen($query) > 2) {
             $query = addslashes($query);
@@ -233,12 +236,17 @@ class UserController extends Controller
             return response($matches);
         }
 
+        if (isset($suggest)) {
+            $users = $this->getFriendsOfFriends($auth_user->id);
+
+            return response($users);
+        }
+
         $offset = $request->input('offset', 0);
         $limit = $request->input('limit', 50);
 
         $users = User::offset($offset)->limit($limit)->get();
 
-        $auth_user = $request->user();
         foreach ($users as $u) {
             $u->auth_user_follows = $this->userFollows($auth_user->id, $u->id);
         }
@@ -438,5 +446,32 @@ class UserController extends Controller
                             ->first();
 
         return $follows ? 1 : 0;
+    }
+
+    /**
+     * get friends of friends (the users my following follows)
+     */
+    private function getFriendsOfFriends($user_id) {
+        $following = array_map(
+            function ($v) { return $v['user2_id']; },
+            UserFollow::where('user1_id', $user_id)->get()->toArray()
+        ); // user_id of users $user follows
+
+        $ff = DB::table('users')
+                        ->join('user_follows', function ($join) use($following, $user_id) {
+                            $join->on('users.id', '=', 'user_follows.user2_id')
+                                ->whereIn("user_follows.user1_id", $following)
+                                ->whereNotIn("user_follows.user2_id", $following) // make sure $user dont follow any of them yet
+                                ->where("user_follows.user2_id", '!=', $user_id);
+                        })
+                        ->orderByDesc(rand()%2 ? 'users.posts_count' : 'users.followers')
+                        ->select('users.id', 'users.full_name', 'users.username', 'users.profile_pic')
+                        ->get();
+
+        foreach ($ff as $u) {
+            $u->auth_user_follows = 0 /*false*/;
+        }
+
+        return $ff;
     }
 }
