@@ -108,7 +108,7 @@ class PostViewTest extends TestCase
         tap($r0, function ($res) {
             $this->assertEquals('a picture of i and @donjoe', $res["caption"]);
             $this->assertEquals("[\"donjoe\"]", $res['mentions']);
-            $this->assertEquals(0, $res['like_count']);
+            $this->assertEquals(1, $res['like_count']);
             $this->assertEquals(1, $res['auth_user_likes']);
             $this->assertEquals(0, $res['auth_user_saved']);
         });
