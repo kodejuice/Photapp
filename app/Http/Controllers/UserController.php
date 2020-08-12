@@ -245,7 +245,11 @@ class UserController extends Controller
         $offset = $request->input('offset', 0);
         $limit = $request->input('limit', 50);
 
-        $users = User::offset($offset)->limit($limit)->get();
+        // randomly select between most active/most followed users
+        $users = User::orderByDesc(rand()%2 ? 'posts_count' : 'followers')
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
 
         foreach ($users as $u) {
             $u->auth_user_follows = $this->userFollows($auth_user->id, $u->id);
