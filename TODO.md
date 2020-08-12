@@ -8,6 +8,7 @@
 
 
 # Build steps (on server)
++ create db (photapp, photoapp-testing)
 
 [$ ./setup]
     + php artisan migrate
