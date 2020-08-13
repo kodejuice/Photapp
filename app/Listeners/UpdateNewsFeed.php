@@ -47,7 +47,7 @@ class UpdateNewsFeed implements ShouldQueue
     {
         // sort posts by popularity and recency
 
-        $N = count(User::all()) >> 1;
+        $N = count(User::all()) / 4.3;                              // estimate of posts per day
         $last_pid = Post::orderByDesc('post_id')->first()->post_id; // last post id
 
         /**
