@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import App from './components/App.tsx';
 import * as serviceWorker from './serviceWorker';
 // import {createStore, combineReducers} from 'redux';
 // import allReducers from './reducers';
