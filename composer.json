@@ -17,6 +17,7 @@
         "laravel/helpers": "^1.2",
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.1",
         "nao-pon/flysystem-google-drive": "^1.1"
     },
     "require-dev": {

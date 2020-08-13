@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
 // proctected routes
 Route::middleware('auth:api')->group(function () {
     Route::post('/post/upload', 'PostUploadController@fileUpload')->name('post.file_upload');
+});
+
+
+// web routes
+Route::get('/{path?}', function () {
+    return view('app');
 });
