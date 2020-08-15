@@ -22,8 +22,6 @@ const bgSplash: (t: 'bw'|'grey'|'clr') => React.CSSProperties = (t) => ({
 
 
 const Splash: React.FC<{color: 'bw'|'grey'|'clr'}> = ({color})=>{
-    const name: string = "homw";
-
     return (
         <main>
             <div className="splash">
