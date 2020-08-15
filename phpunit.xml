@@ -21,7 +21,7 @@
         <server name="TEST_IMAGE" value="http://localhost/localgoogoo/assets/images/favicon.ico"/>
 
         <!--TODO: uncomment this-->
-        <!--<server name="TEST_IMAGE" value="https://laravel.com/img/logotype.min.svg"/>-->
+        <!--<server name="TEST_IMAGE" value="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"/>-->
 
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
