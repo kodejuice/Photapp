@@ -1,0 +1,126 @@
+
+/**
+ * if small screen devices (<= 450px)
+ */
+@media screen and (max-width: 450px) {
+    div.card.auth-pg {
+        width: 100% !important;
+        border: none !important;
+        background: inherit !important;
+
+        h1.card-title {
+            background-size: 100% !important;
+            margin: 22px auto 12px !important;
+        }
+    }
+
+    .login-box {
+        input {
+            width: 61% !important;
+            margin: 0 auto 6px !important;
+        }
+        button {
+            width: 61% !important;
+        }
+        .separate-or {
+            width: 61% !important;
+        }
+    }
+
+    div.card.login-card {
+        margin-top: 0 !important;
+    }
+}
+
+
+/**
+ * else
+ */
+div.card.auth-pg {
+    width: 350px;
+    margin: 0 auto;
+    background: #FFF;
+    box-shadow: none;
+    border: 1px solid rgba(var(--b6a,219,219,219),1);
+
+    h1.card-title {
+        background: url("/test/photapp-1.png");
+        background-size: 175px;
+        background-repeat: no-repeat;
+        font-size: 14px !important;
+        width: 175px;
+        height: 51px;
+        margin: 22px 86.5px 12px;
+    }
+}
+
+
+div.card.signup-request-card {
+    height: 63px;
+    margin-top: 25px;
+
+    p {
+        font-size: 19px;
+        text-align: center;
+
+        a {
+            color: #0000EE;
+            cursor: pointer;
+        }
+    }
+}
+
+
+div.card.login-card, div.card.register-card {
+    margin-top: 40px;
+    height: 370px;
+
+    &, .card-body {
+        padding: 0;
+    }
+
+    .login-box {
+        margin-top: 24px;
+
+        input {
+            width: 268px;
+            height: 38px;
+            margin: 0 40px 6px;
+        }
+
+        button {
+            width: 268px;
+            margin: 12px auto;
+        }
+
+        .separate-or {
+            width: 268px;
+            text-align: center;
+            margin: 15px 40px 20px;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .alt-btns {
+            text-align: center;
+
+            div:nth-child(2) {
+                margin-top: 20px;
+            }
+
+            a {
+                &.guest {
+                    color: #41403E;
+                }
+
+                &.forgot-pass {
+                    font-size: 15px;
+                }
+            }
+
+        }
+    }
+
+}
+
