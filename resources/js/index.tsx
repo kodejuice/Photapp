@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App.tsx';
-import * as serviceWorker from './serviceWorker';
-// import {createStore, combineReducers} from 'redux';
-// import allReducers from './reducers';
-// import {Provider} from 'react-redux'
+import { BrowserRouter} from 'react-router-dom';
 
-// const store = createStore(
-//     allReducers,
-//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-// );
+import App from './components/App';
+import * as serviceWorker from './serviceWorker';
+
+import {createStore, combineReducers} from 'redux';
+import allReducers from './state/reducers';
+import {Provider} from 'react-redux'
+
+// redux store
+const _window = window as any;
+const store = createStore(
+    allReducers,
+    _window.__REDUX_DEVTOOLS_EXTENSION__ && _window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
 
 ReactDOM.render(
-    // <Provider store={store}>
-        <App />,
-    // </Provider>,
+    <BrowserRouter>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </BrowserRouter>
+    ,
     document.getElementById('root')
 );
 
@@ -22,3 +30,6 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+
+// 1534 3134 8350 7343
