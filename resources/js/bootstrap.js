@@ -23,6 +23,13 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+
+// our API returns response of status >=400 for invalid inputs
+// but we dont want to reject those response, instead we should resolve them
+// and show the user the generated error message
+window.axios.defaults.validateStatus = (status) => status >= 200;
+
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
