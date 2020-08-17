@@ -1,12 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import NotFound from './NotFound';
 
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Splash from './Splash';
 
 const App: React.FC<{}> = ()=>{
     const [mounted, setMounted] = useState(false);
@@ -24,11 +19,9 @@ const App: React.FC<{}> = ()=>{
         (
             <main>
                 <Switch>
-                    <Route path="/" component={Home} exact />
-                    <Route path="/login" component={Login} />
-                    <Route path="/register" component={Register} />
-                    {/*<Route path="/:username" component={UserProfile} />*/}
-                    <Route component={NotFound} />
+                    {routes.map((prop, i)=>
+                        <ProgressRoute key={i} {...prop} />
+                    )}
                 </Switch>
             </main>
         )
