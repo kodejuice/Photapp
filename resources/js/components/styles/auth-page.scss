@@ -110,6 +110,8 @@ div.card.login-card, div.card.register-card {
             }
 
             a {
+                display: block;
+
                 &.guest {
                     color: #41403E;
                 }
