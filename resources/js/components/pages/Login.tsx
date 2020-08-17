@@ -35,8 +35,8 @@ const Login: React.FC<{}> = () => {
 
     // user already logged in?, redirect to home page
     if (Cookie.get("AUTH_TOKEN")) {
-        // (window as any).location = "/";
-        // return <Splash color='grey' />;
+        (window as any).location = "/";
+        return <Splash color='grey' />;
     }
 
 
