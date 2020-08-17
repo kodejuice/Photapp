@@ -110,22 +110,18 @@ div.card.login-card, div.card.register-card {
         .alt-btns {
             text-align: center;
 
-            div:nth-child(2) {
-                margin-top: 20px;
-            }
-
             a {
                 display: block;
-
-                &.guest {
-                    color: #41403E;
-                }
-
-                &.forgot-pass {
-                    font-size: 15px;
-                }
             }
 
+            div#guest a {
+                color: #41403E;
+            }
+
+            div#pass-reset {
+                font-size: 15px;
+                margin-top: 20px;
+            }
         }
     }
 
