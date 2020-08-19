@@ -5,6 +5,8 @@
     "noImplicitAny": false,
     "sourceMap": false,
     "jsx": "react",
+    "lib": ["dom"],
+    "strict": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
