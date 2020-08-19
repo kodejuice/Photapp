@@ -1,8 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import nprogress from 'nprogress'
-import 'nprogress/nprogress.css'
-import './ProgressRoute.scss'
+
+import nprogress from './nprogress';
 
 
 interface RouteProps {
