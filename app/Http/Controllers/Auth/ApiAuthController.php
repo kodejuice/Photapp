@@ -22,7 +22,7 @@ class ApiAuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'full_name' => 'required|string|max:50',
+            'full_name' => 'max:50',
             'username' => 'required|string|max:40|min:4|unique:users',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => 'required|string|min:6|confirmed',
