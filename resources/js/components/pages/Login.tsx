@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { useHistory, Link } from "react-router-dom";
-import axios from 'axios';
 import Cookie from 'js-cookie';
 import { useForm } from "react-hook-form";
-import nprogress from '../../routes/nprogress';
+import {auth_fetch} from '../../helpers/fetcher';
 
 import Splash from '../Splash';
 import '../styles/auth-page.scss';
 
-
-// TODO: setup react-hook-form
 
 type Inputs = {
     username: string,
@@ -26,7 +23,7 @@ const errorProps: (err) => object|undefined = (err) => {
 
 const Login: React.FC<{}> = () => {
     const history = useHistory();
-    const [errs, setErrs] = useState([]);
+    const [errs, setErrs] = useState<Array<string>>([]);
     const { register, handleSubmit, watch, errors } = useForm<Inputs>();
 
     const onComplete: (d:Inputs)=>void = d => {
@@ -78,7 +75,7 @@ const Login: React.FC<{}> = () => {
             {errs.length ?
                 (
                     <div className="auth-pg-error-alert">
-                        {errs.map((el) => <div key={el}> {el} </div>)}
+                        {errs.slice(0,3).map((el) => <div key={el}> {el} </div>)}
                     </div>
                 ) : ""
             }
@@ -97,44 +94,18 @@ const Login: React.FC<{}> = () => {
  * handle login submission
  */
 async function UserSignin({username, password}: Inputs, setErrs, history) {
-    nprogress.start();
     setErrs([]);
 
-    let req;
-    try {
-        req = await axios.post('/api/login', {
-            username,
-            password
-        });
+    let token = await auth_fetch('/api/login', {
+        username, password
+    }, setErrs );
 
-        // not valid response? throw error
-        // this is better than axios rejecting the Promise, this way we can show
-        // a meaningful error
-        // @see `../../bootstrap.js`
-        //
-        if (req.status != 200 || !req.data?.token) {
-            throw req;
-        }
-
+    if (token) {
         // store auth token cookie and redirect to home
-        storeCookie(req.data.token, ()=>{
-            history.push("/");
+        storeCookie(token, ()=>{
+            history.push('/');
         });
-    } catch (err) {
-        if (err?.data?.errors instanceof Array) {
-            // our error
-            setErrs(err.data.errors);
-        } else {
-            // other errors
-            if (typeof err?.data?.message == 'string') {
-                setErrs([err.data.message || "An unknown error occured"])
-            } else {
-                setErrs([err.toString()]);
-            }
-        }
     }
-
-    nprogress.done();
 }
 
 
