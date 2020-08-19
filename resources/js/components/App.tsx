@@ -3,6 +3,13 @@ import { Route, Switch } from 'react-router-dom';
 
 import ProgressRoute from '../routes/ProgressRoute';
 
+import routes from '../routes';
+import Splash from '../components/Splash';
+
+
+
+
+
 
 const App: React.FC<{}> = ()=>{
     const [mounted, setMounted] = useState(false);
