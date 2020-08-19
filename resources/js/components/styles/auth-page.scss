@@ -65,13 +65,18 @@ div.card.auth-pg {
 
 .auth-pg-error-alert {
     width: 350px;
+    color: #ED4956;
     margin: 0 auto;
     text-align: center;
-    color: #ED4956;
+    font-size: 16px;
 
     &:not(#reg) {
         position: relative;
         top: 7px;
+    }
+
+    &#reg {
+        font-size: 14px;
     }
 }
 
@@ -80,7 +85,7 @@ div.card.signup-request-card {
     margin-top: 25px;
 
     p {
-        font-size: 19px;
+        font-size: 16px;
         text-align: center;
     }
 }
@@ -101,6 +106,7 @@ div.card.login-card, div.card.register-card {
             width: 268px;
             height: 38px;
             margin: 0 40px 6px;
+            font-size: 12px;
         }
 
         button {
