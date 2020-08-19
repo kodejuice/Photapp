@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useHistory, Link } from "react-router-dom";
 import Cookie from 'js-cookie';
 import { useForm } from "react-hook-form";
@@ -7,6 +7,7 @@ import {auth_fetch} from '../../helpers/fetcher';
 
 import '../styles/auth-page.scss';
 
+let PASSWORD_INPUT: HTMLElement|null = null;
 
 type Inputs = {
     username: string,
@@ -44,6 +45,10 @@ const Register: React.FC<{}> = () => {
         UserSignup(d, setErrs, history);
     }
 
+    useEffect(() => {
+        PASSWORD_INPUT = document.getElementById('pass');
+    });
+
     return (
         <div>
             <div className='card register-card auth-pg'>
@@ -70,10 +75,13 @@ const Register: React.FC<{}> = () => {
                                 {...errorProps(errors.full_name)}
                             />
 
-                            <input type="password" placeholder="Password" id="pass" name='password'
-                                ref={register({required:true, minLength: 6})}
-                                {...(errorProps(errors.password))}
-                            />
+                            <div id='password-container'>
+                                <input type="password" placeholder="Password" id="pass" name='password'
+                                    ref={register({required:true, minLength: 6})}
+                                    {...(errorProps(errors.password))}
+                                />
+                                <button className='btn btn-small' id='show-pass' onClick={showPassword}> Show </button>
+                            </div>
 
                             <button type='submit' className='btn btn-block btn-small btn-secondary'> Sign up </button>
                         </form>
@@ -137,6 +145,30 @@ function storeCookie(token: string, callback: ()=>void) {
     Cookie.set('AUTH_TOKEN', token);
 
     callback();
+}
+
+
+/**
+ * `show password` toggle button
+ */
+function showPassword(ev) {
+    ev.preventDefault();
+
+    const switchText = {
+        'Show': 'Hide',
+        'Hide': 'Show',
+    };
+
+    const switchType = {
+        'text': 'password',
+        'password': 'text',
+    };
+
+    const btn: HTMLButtonElement = ev.target;
+    const node = (PASSWORD_INPUT as HTMLInputElement);
+
+    node.type = switchType[node.type];
+    btn.innerText = switchText[btn.innerText];
 }
 
 export default Register;

@@ -7,6 +7,7 @@ import {auth_fetch} from '../../helpers/fetcher';
 import Splash from '../Splash';
 import '../styles/auth-page.scss';
 
+let PASSWORD_INPUT: HTMLElement|null = null;
 
 type Inputs = {
     username: string,
@@ -32,9 +33,13 @@ const Login: React.FC<{}> = () => {
 
     // user already logged in?, redirect to home page
     if (Cookie.get("AUTH_TOKEN")) {
-        (window as any).location = "/";
-        return <Splash color='grey' />;
+        // (window as any).location = "/";
+        // return <Splash color='grey' />;
     }
+
+    useEffect(() => {
+        PASSWORD_INPUT = document.getElementById('pass');
+    });
 
 
     return (
@@ -53,10 +58,13 @@ const Login: React.FC<{}> = () => {
                                 {...errorProps(errors.username)}
                             />
 
-                            <input type="password" placeholder="Password" id="pass" name='password'
-                                ref={register({required:true})}
-                                {...(errorProps(errors.password))}
-                            />
+                            <div id='password-container'>
+                                <input type="password" placeholder="Password" id="pass" name='password'
+                                    ref={register({required:true})}
+                                    {...(errorProps(errors.password))}
+                                />
+                                <button className='btn btn-small' onClick={showPassword} id='show-pass'> Show </button>
+                            </div>
 
                             <button type="submit" className='btn btn-block btn-small btn-secondary'> Log in </button>
                         </form>
@@ -120,5 +128,30 @@ function storeCookie(token: string, callback: ()=>void) {
 
     callback();
 }
+
+
+/**
+ * `show password` toggle button
+ */
+function showPassword(ev) {
+    ev.preventDefault();
+
+    const switchText = {
+        'Show': 'Hide',
+        'Hide': 'Show',
+    };
+
+    const switchType = {
+        'text': 'password',
+        'password': 'text',
+    };
+
+    const btn: HTMLButtonElement = ev.target;
+    const node = (PASSWORD_INPUT as HTMLInputElement);
+
+    node.type = switchType[node.type];
+    btn.innerText = switchText[btn.innerText];
+}
+
 
 export default Login;
