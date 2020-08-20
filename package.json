@@ -7,15 +7,44 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "test": "jest"
+    },
+    "jest": {
+        "verbose": true,
+        "clearMocks": true,
+        "collectCoverage": true,
+        "testRegex": "resources/js/.+/__test__/.*.test.js$",
+        "roots": [
+            "<rootDir>/resources/js/"
+        ],
+        "moduleDirectories": [
+            "resources/js/components/pages",
+            "resources/js/components/modals",
+            "node_modules"
+        ],
+        "transform": {
+            "^.+\\.js$": "babel-jest",
+            "^.+\\.(ts|tsx)$": "ts-jest"
+        },
+        "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/resources/js/__mocks__/fileMock.js",
+            "\\.(css|scss)$": "<rootDir>/resources/js/__mocks__/styleMock.js"
+        }
     },
     "devDependencies": {
         "@babel/preset-react": "^7.0.0",
         "@testing-library/react": "^10.4.8",
+        "@types/jest": "^26.0.10",
         "@types/react": "^16.9.46",
+        "@types/react-dom": "^16.9.8",
+        "@types/react-redux": "^7.1.9",
+        "@types/react-router-dom": "^5.1.5",
         "axios": "^0.19",
+        "babel-preset-env": "^1.7.0",
         "bootstrap": "^4.0.0",
         "cross-env": "^7.0",
+        "jest": "^26.4.1",
         "jest-dom": "^4.0.0",
         "jquery": "^3.2",
         "laravel-mix": "^5.0.1",
@@ -27,12 +56,10 @@
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0",
+        "ts-jest": "^26.2.0",
         "typescript": "^3.9.7"
     },
     "dependencies": {
-        "@types/react-dom": "^16.9.8",
-        "@types/react-redux": "^7.1.9",
-        "@types/react-router-dom": "^5.1.5",
         "js-cookie": "^2.2.1",
         "nprogress": "^0.2.0",
         "papercss": "^1.7.0",
