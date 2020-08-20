@@ -56,17 +56,19 @@ const Login: React.FC<{}> = () => {
                             <input type="text" placeholder="Username" id="user" name='username'
                                 ref={register({required:true})}
                                 {...errorProps(errors.username)}
+                                data-testid="user-input"
                             />
 
                             <div id='password-container'>
                                 <input type="password" placeholder="Password" id="pass" name='password'
                                     ref={register({required:true})}
                                     {...(errorProps(errors.password))}
+                                    data-testid="pass-input"
                                 />
                                 <button className='btn btn-small' onClick={showPassword} id='show-pass'> Show </button>
                             </div>
 
-                            <button type="submit" className='btn btn-block btn-small btn-secondary'> Log in </button>
+                            <button data-testid='submit' type="submit" className='btn btn-block btn-small btn-secondary'> Log in </button>
                         </form>
 
                         <div className="separate-or"> or </div>
@@ -83,7 +85,7 @@ const Login: React.FC<{}> = () => {
             {errs.length ?
                 (
                     <div className="auth-pg-error-alert">
-                        {errs.slice(0,3).map((el) => <div key={el}> {el} </div>)}
+                        {errs.slice(0,3).map((el) => <div role='alert' key={el}> {el} </div>)}
                     </div>
                 ) : ""
             }
@@ -104,13 +106,17 @@ const Login: React.FC<{}> = () => {
 async function UserSignin({username, password}: Inputs, setErrs, history) {
     setErrs([]);
 
-    let token = await auth_fetch('/api/login', {
+    let res = await auth_fetch('/api/login', {
         username, password
     }, setErrs );
 
-    if (token) {
+    if (res?.token) {
+        // out jest test waits on the div[role=alert] that this state
+        // controlls after the mock authentication 
+        setErrs(['redirecting...']);
+
         // store auth token cookie and redirect to home
-        storeCookie(token, ()=>{
+        storeCookie(res.token, ()=>{
             history.push('/');
         });
     }
@@ -127,30 +133,6 @@ function storeCookie(token: string, callback: ()=>void) {
     Cookie.set('AUTH_TOKEN', token);
 
     callback();
-}
-
-
-/**
- * `show password` toggle button
- */
-function showPassword(ev) {
-    ev.preventDefault();
-
-    const switchText = {
-        'Show': 'Hide',
-        'Hide': 'Show',
-    };
-
-    const switchType = {
-        'text': 'password',
-        'password': 'text',
-    };
-
-    const btn: HTMLButtonElement = ev.target;
-    const node = (PASSWORD_INPUT as HTMLInputElement);
-
-    node.type = switchType[node.type];
-    btn.innerText = switchText[btn.innerText];
 }
 
 

@@ -15,7 +15,7 @@ type auth_body = {
     password_confirmation?: string,
 };
 
-export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<string>) => void): Promise<string|null> {
+export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<string>) => void): Promise<{token:string}|null> {
     nprogress.start();
 
     let req;
@@ -31,7 +31,7 @@ export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<
             throw req;
         }
 
-        return req.data.token;
+        return {token: req.data.token};
 
     } catch (err) {
         if (err?.data?.errors instanceof Array) {
