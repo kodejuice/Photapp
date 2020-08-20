@@ -39,11 +39,17 @@ const errorProps: (err) => object|undefined = (err) => {
 const Register: React.FC<{}> = () => {
     const history = useHistory();
     const [errs, setErrs] = useState([]);
+    const [passwordShown, showPass] = useState<boolean>(false);
     const { register, handleSubmit, watch, errors } = useForm<Inputs>();
 
     const onComplete: (d:Inputs)=>void = d => {
         UserSignup(d, setErrs, history);
     }
+
+    const showPassClick: React.ReactEventHandler<HTMLButtonElement> = ev => {
+        ev.preventDefault();
+        showPass(!passwordShown);
+    };
 
     useEffect(() => {
         PASSWORD_INPUT = document.getElementById('pass');
@@ -63,27 +69,33 @@ const Register: React.FC<{}> = () => {
                             <input type="email" placeholder="Email" id="email" name='email'
                                 ref={register({required:true, maxLength: 50})}
                                 {...errorProps(errors.email)}
+                                data-testid="email-input"
                             />
 
                             <input type="username" placeholder="Username" id="username" name='username'
                                 ref={register({required:true, minLength: 4, maxLength: 40})}
                                 {...errorProps(errors.username)}
+                                data-testid="user-input"
                             />
 
                             <input type="full_name" placeholder="Full name" id="full_name" name='full_name'
                                 ref={register({maxLength: 50})}
                                 {...errorProps(errors.full_name)}
+                                data-testid="fullname-input"
                             />
 
                             <div id='password-container'>
-                                <input type="password" placeholder="Password" id="pass" name='password'
+                                <input type={passwordShown?"text":"password"} placeholder="Password" id="pass" name='password'
                                     ref={register({required:true, minLength: 6})}
                                     {...(errorProps(errors.password))}
+                                    data-testid="pass-input"
                                 />
-                                <button className='btn btn-small' id='show-pass' onClick={showPassword}> Show </button>
+                                <button data-testid="show-pass" className='btn btn-small' onClick={showPassClick} id='show-pass'>
+                                    {passwordShown?"Hide":"Show"}
+                                </button>
                             </div>
 
-                            <button type='submit' className='btn btn-block btn-small btn-secondary'> Sign up </button>
+                            <button data-testid='submit' type='submit' className='btn btn-block btn-small btn-secondary'> Sign up </button>
                         </form>
 
                         <div className="alt-btns">
@@ -91,7 +103,7 @@ const Register: React.FC<{}> = () => {
                             {errs.length ?
                                 (
                                     <div className="auth-pg-error-alert" id='reg'>
-                                        {errs.slice(0,2).map((el) => <div key={el}> {el} </div>)}
+                                        {errs.slice(0,2).map((el) => <div role='alert' key={el}> {el} </div>)}
                                     </div>
                                 ) : ""
                             }
@@ -119,7 +131,7 @@ async function UserSignup(data: Inputs, setErrs, history) {
     setErrs([]);
 
     const {username, password, email, full_name} = data;
-    let token = await auth_fetch('/api/register', {
+    let res = await auth_fetch('/api/register', {
         username,
         password,
         email,
@@ -127,9 +139,13 @@ async function UserSignup(data: Inputs, setErrs, history) {
         password_confirmation: password
     }, setErrs );
 
-    if (token) {
+    if (res?.token) {
+        // out jest test waits on the div[role=alert] that this state
+        // controlls after the mock authentication 
+        setErrs(['redirecting...']);
+
         // store auth token cookie and redirect to home
-        storeCookie(token, ()=>{
+        storeCookie(res.token, ()=>{
             history.push('/');
         });
     }
@@ -145,30 +161,6 @@ function storeCookie(token: string, callback: ()=>void) {
     Cookie.set('AUTH_TOKEN', token);
 
     callback();
-}
-
-
-/**
- * `show password` toggle button
- */
-function showPassword(ev) {
-    ev.preventDefault();
-
-    const switchText = {
-        'Show': 'Hide',
-        'Hide': 'Show',
-    };
-
-    const switchType = {
-        'text': 'password',
-        'password': 'text',
-    };
-
-    const btn: HTMLButtonElement = ev.target;
-    const node = (PASSWORD_INPUT as HTMLInputElement);
-
-    node.type = switchType[node.type];
-    btn.innerText = switchText[btn.innerText];
 }
 
 export default Register;

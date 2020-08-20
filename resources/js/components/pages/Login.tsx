@@ -25,17 +25,25 @@ const errorProps: (err) => object|undefined = (err) => {
 const Login: React.FC<{}> = () => {
     const history = useHistory();
     const [errs, setErrs] = useState<Array<string>>([]);
+    const [passwordShown, showPass] = useState<boolean>(false);
     const { register, handleSubmit, watch, errors } = useForm<Inputs>();
 
     const onComplete: (d:Inputs)=>void = d => {
         UserSignin(d, setErrs, history);
     }
 
+    const showPassClick: React.ReactEventHandler<HTMLButtonElement> = ev => {
+        ev.preventDefault();
+        showPass(!passwordShown);
+    };
+
+
     // user already logged in?, redirect to home page
     if (Cookie.get("AUTH_TOKEN")) {
         (window as any).location = "/";
         return <Splash color='grey' />;
     }
+
 
     useEffect(() => {
         PASSWORD_INPUT = document.getElementById('pass');
@@ -60,12 +68,17 @@ const Login: React.FC<{}> = () => {
                             />
 
                             <div id='password-container'>
-                                <input type="password" placeholder="Password" id="pass" name='password'
+                                <input type={passwordShown?"text":"password"} placeholder="Password" id="pass" name='password'
                                     ref={register({required:true})}
                                     {...(errorProps(errors.password))}
                                     data-testid="pass-input"
                                 />
-                                <button className='btn btn-small' onClick={showPassword} id='show-pass'> Show </button>
+                                <button data-testid="show-pass" className='btn btn-small'
+                                    onClick={showPassClick}
+                                    id='show-pass'
+                                >
+                                    {passwordShown?"Hide":"Show"}
+                                </button>
                             </div>
 
                             <button data-testid='submit' type="submit" className='btn btn-block btn-small btn-secondary'> Log in </button>
