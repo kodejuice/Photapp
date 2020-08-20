@@ -29,10 +29,11 @@ const server = setupServer(
     }),
 );
 beforeAll(() => server.listen())
-afterEach(() => {
-  server.resetHandlers()
+afterEach(() => server.resetHandlers())
+afterAll(() => {
+    server.close()
+    Cookie.remove("AUTH_TOKEN")
 })
-afterAll(() => server.close())
 /////////////////////
 /////////////////////
 
@@ -59,8 +60,8 @@ afterAll(() => {
 
 
 test('renders without crashing', ()=>{
-  const div = document.createElement('div');
-  ReactDOM.render(component, div);
+    const div = document.createElement('div');
+    ReactDOM.render(component, div);
 });
 
 
@@ -92,4 +93,3 @@ test("signs user in", async ()=>{
 
     expect(Cookie.get("AUTH_TOKEN")).toEqual('fake_user_token');
 });
-
