@@ -85,6 +85,7 @@ test("signs user in", async ()=>{
         target: {value: 'doe'},
     })
 
+    // submit
     fireEvent.click(getByTestId('submit'));
 
     await screen.findByRole('alert');
