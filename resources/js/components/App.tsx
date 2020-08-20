@@ -7,10 +7,6 @@ import routes from '../routes';
 import Splash from '../components/Splash';
 
 
-
-
-
-
 const App: React.FC<{}> = ()=>{
     const [mounted, setMounted] = useState(false);
 
