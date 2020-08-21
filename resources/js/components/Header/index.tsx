@@ -29,13 +29,13 @@ export default function Header() {
                 </div>
                 <div className="nav-links col-fill col">
                     <ul className="inline">
-                        <li><Link to="/"><img src="/test/home.png"/></Link></li>
-                        <li><Link to="?feed=following"><img src="/test/feed.png"/></Link></li>
-                        <li><Link to="/activity"><img src="/test/heart.png"/></Link></li>
+                        <li><Link to="/"><img src="/icon/home.png"/></Link></li>
+                        <li><Link to="?feed=following"><img src="/icon/feed.png"/></Link></li>
+                        <li><Link to="/activity"><img src="/icon/heart.png"/></Link></li>
                         {
                             !user?.id ?
                                 <li>
-                                    <Link to="/login"><img src="/test/login.png"/></Link>
+                                    <Link to="/login"><img src="/icon/login.png"/></Link>
                                 </li>
                                 : <li>
                                     <Link to={`/user/${user.username}`}><img className='avatar' src={`/avatar/${user.profile_pic}`} /></Link>
