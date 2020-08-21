@@ -2,10 +2,24 @@ import axios from 'axios';
 import nprogress from '../routes/nprogress';
 
 
+const handleServerError = (err, onError: (d: Array<string>) => void)=>{
+    if (err?.data?.errors instanceof Array) {
+        // errors
+        onError(err.data.errors);
+    } else {
+        // other error
+        if (typeof err?.data?.message == 'string') {
+            onError([err.data.message || "An unknown error occured"])
+        } else {
+            onError([err.toString()]);
+        }
+    }
+};
+
+
 ///////////////////
 // AUTH REQUESTS //
 ///////////////////
-
 
 type auth_body = {
     username: string,
@@ -15,6 +29,13 @@ type auth_body = {
     password_confirmation?: string,
 };
 
+/**
+ * Used by the Login & Register page
+ * @param  {string}                  url      request url
+ * @param  {auth_body}               body     request body
+ * @param  {Array<string>) => void}  onErr    callback invoked onError
+ * @return {Promise<token|null>}                
+ */
 export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<string>) => void): Promise<{token:string}|null> {
     nprogress.start();
 
@@ -31,20 +52,11 @@ export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<
             throw req;
         }
 
+        // user token
         return {token: req.data.token};
 
     } catch (err) {
-        if (err?.data?.errors instanceof Array) {
-            // errors
-            onErr(err.data.errors);
-        } else {
-            // other error
-            if (typeof err?.data?.message == 'string') {
-                onErr([err.data.message || "An unknown error occured"])
-            } else {
-                onErr([err.toString()]);
-            }
-        }
+        handleServerError(err, onErr);
 
         return null;
     } finally {
