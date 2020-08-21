@@ -63,3 +63,32 @@ export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<
         nprogress.done();
     }
 }
+
+
+
+/**
+ * checks user Login Status from server
+ * @param  {Array<string>) => void}  onErr    callback invoked onError
+ * @return {Promise<boolean>}                 logged in or not
+ */
+export async function checkLoginStatus(onErr): Promise<boolean> {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.get('/api/auth_check');
+
+        if (typeof req?.data?.message != 'string') {
+            throw req;
+        }
+
+        return req.data.message == 'true';
+
+    } catch (err) {
+        handleServerError(err, onErr);
+
+        return false;
+    } finally {
+        nprogress.done();
+    }
+}
