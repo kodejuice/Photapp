@@ -23,7 +23,7 @@ export default function Header() {
                 <div className="search-bar col-3 col hide-width-814">
                     <div className='search-input-wrap'>
                         <form onSubmit={_=>onSearch(_, ref.current, history)}>
-                            <input ref={ref} type='search' placeholder='Search' />
+                            <input ref={ref} type='search' placeholder='Search' name='search' />
                         </form>
                     </div>
                 </div>
