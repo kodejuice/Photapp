@@ -6,8 +6,8 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
 import {createStore, combineReducers} from 'redux';
-import allReducers from './state/reducers';
 import {Provider} from 'react-redux'
+import allReducers from './state/reducers';
 
 // redux store
 const _window = window as any;
