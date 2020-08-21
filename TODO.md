@@ -13,4 +13,5 @@
 [$ ./setup]
     + php artisan migrate
     + php artisan passport:install
+    + npm run prod
 
