@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import {sign_in, set_user} from '../state/actions';
+import {RootState} from '../state/store';
+import {checkLoginStatus} from '../helpers/fetcher';
 
 import ProgressRoute from '../routes/ProgressRoute';
 
@@ -9,9 +13,24 @@ import Splash from '../components/Splash';
 
 const App: React.FC<{}> = ()=>{
     const [mounted, setMounted] = useState(false);
+    const dispatch = useDispatch();
+    const logged_in = useSelector<RootState>(({isLogged}) => isLogged);
 
-    useEffect(()=>{
-        setMounted(true);
+    // check if the user is logged in
+    useEffect(() => {
+        if (logged_in) {
+            setMounted(true);
+        } else {
+            const onErr = (errs: Array<string>) => {alert(errs.join("\n")), setMounted(true)};
+            checkLoginStatus(onErr).then((logged) => {
+                if (logged) {
+                    const {id, username, email, full_name, profile_pic, followers, follows, posts_count} = logged as any;
+                    dispatch(sign_in());
+                    dispatch(set_user({id, username, email, full_name, profile_pic, followers, follows, posts_count}));
+                }
+                setMounted(true);
+            });
+        }
     });
 
     // display a splash screen if not mounted yet

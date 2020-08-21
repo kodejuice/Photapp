@@ -66,23 +66,40 @@ export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<
 
 
 
+type userProfile = {
+    id: number,
+    email: string,
+    username: string,
+
+    full_name: string,
+    profile_pic: string,
+
+    follows: number,
+    followers: number,
+    posts_count: number,
+};
+
 /**
  * checks user Login Status from server
  * @param  {Array<string>) => void}  onErr    callback invoked onError
- * @return {Promise<boolean>}                 logged in or not
+ * @return {Promise<{}|boolean>}              logged in or not
  */
-export async function checkLoginStatus(onErr): Promise<boolean> {
+export async function checkLoginStatus(onErr): Promise<userProfile|boolean> {
     nprogress.start();
 
     let req;
     try {
-        req = await axios.get('/api/auth_check');
+        req = await axios.get('/api/user/profile');
 
-        if (typeof req?.data?.message != 'string') {
-            throw req;
+        if (req?.data?.message?.includes("Unauthenticated")) {
+            return false;
         }
 
-        return req.data.message == 'true';
+        if (typeof req?.data?.username == 'string') {
+            return req.data;
+        }
+
+        throw req;
 
     } catch (err) {
         handleServerError(err, onErr);

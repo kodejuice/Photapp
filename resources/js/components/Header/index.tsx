@@ -1,29 +1,66 @@
-import React from 'react';
+import React, {useRef} from 'react';
+import { useHistory, Link } from "react-router-dom";
+import {useSelector} from 'react-redux';
+import {RootState} from '../../state/store';
+import {userProfile as profile} from '../../state/userProfile.d';
+
+import './style.scss';
+
 
 export default function Header() {
-  return (
-    <nav className="border fixed split-nav">
-      <div className="nav-brand">
-        <h3><a href="#">PhotApp</a></h3>
-      </div>
+    const ref = useRef(null);
+    const history = useHistory();
+ 
+    const logged_in = useSelector<RootState, boolean>(({isLogged}) => isLogged);
+    const user = useSelector<RootState, profile>(({userProfile}) => userProfile);
 
-      <div className="collapsible">
-        <input id="collapsible1" type="checkbox" name="collapsible1"/>
-        <label htmlFor="collapsible1">
-          <div className="bar1"></div>
-          <div className="bar2"></div>
-          <div className="bar3"></div>
-        </label>
-        <div className="collapsible-body">
-          <ul className="inline">
-            <li><a href="#">1</a></li>
-            <li><a href="j">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    return (
+        <nav className="header border fixed">
+            <div className="header-wrapper row">
+                <div className="header-brand col-3 col">
+                    <Link to="/"><h1 className="bg-logo"> </h1></Link>
+                </div>
+                <div className="search-bar col-3 col hide-width-814">
+                    <div className='search-input-wrap'>
+                        <form onSubmit={_=>onSearch(_, ref.current, history)}>
+                            <input ref={ref} type='search' placeholder='Search' />
+                        </form>
+                    </div>
+                </div>
+                <div className="nav-links col-fill col">
+                    <ul className="inline">
+                        <li><Link to="/"><img src="/test/home.png"/></Link></li>
+                        <li><Link to="?feed=following"><img src="/test/feed.png"/></Link></li>
+                        <li><Link to="/activity"><img src="/test/heart.png"/></Link></li>
+                        {
+                            !user?.id ?
+                                <li>
+                                    <Link to="/login"><img src="/test/login.png"/></Link>
+                                </li>
+                                : <li>
+                                    <Link to={`/user/${user.username}`}><img className='avatar' src={`/avatar/${user.profile_pic}`} /></Link>
+                                  </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
   );
 
 }
+
+
+/**
+ * Searches for the input.
+ *
+ */
+function onSearch(ev: React.SyntheticEvent<HTMLFormElement>, input: HTMLInputElement|null, history) {
+    ev.preventDefault();
+    const query = input?.value;
+
+    if (query) {
+        history.push(`/search?q=${query}`);
+    }
+}
+
+
