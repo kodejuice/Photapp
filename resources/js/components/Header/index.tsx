@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import { useHistory, Link } from "react-router-dom";
 import {useSelector} from 'react-redux';
 import {RootState} from '../../state/store';
-import {userProfile as profile} from '../../state/userProfile.d';
+import {userProfile as profileObject} from '../../state/userProfile.d';
 
 import './style.scss';
 
@@ -12,7 +12,7 @@ export default function Header() {
     const history = useHistory();
  
     const logged_in = useSelector<RootState, boolean>(({isLogged}) => isLogged);
-    const user = useSelector<RootState, profile>(({userProfile}) => userProfile);
+    const user = useSelector<RootState, profileObject>(({userProfile}) => userProfile);
 
     return (
         <nav className="header border fixed">
