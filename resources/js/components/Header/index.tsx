@@ -51,7 +51,7 @@ export default function Header() {
 
 
 /**
- * Searches for the input.
+ * Redirects user to search page with query.
  *
  */
 function onSearch(ev: React.SyntheticEvent<HTMLFormElement>, input: HTMLInputElement|null, history) {
