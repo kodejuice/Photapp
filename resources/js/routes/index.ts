@@ -1,9 +1,7 @@
-import Home from '../components/pages/Home';
-import Login from '../components/pages/Login';
-import Register from '../components/pages/Register';
-import NotFound from '../components/NotFound';
-
-// import {Route} from 'react-router';
+import Home from '../pages/Home';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import NotFound from '../pages/PageNotFound';
 
 
 const routes = [

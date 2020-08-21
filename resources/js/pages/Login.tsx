@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import { useHistory, Link } from "react-router-dom";
 import Cookie from 'js-cookie';
 import { useForm } from "react-hook-form";
-import {auth_fetch} from '../../helpers/fetcher';
+import {auth_fetch} from '../helpers/fetcher';
 
-import Splash from '../Splash';
-import '../styles/auth-page.scss';
+import Splash from '../components/Splash';
+import './styles/auth-page.scss';
 
 let PASSWORD_INPUT: HTMLElement|null = null;
 
