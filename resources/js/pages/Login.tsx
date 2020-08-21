@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Cookie from 'js-cookie';
 import { useForm } from "react-hook-form";
 import {auth_fetch} from '../helpers/fetcher';
@@ -20,16 +20,16 @@ const errorProps: (err) => object|undefined = (err) => {
     };
 };
 
+const Window = window as any;
 
 
 const Login: React.FC<{}> = () => {
-    const history = useHistory();
     const [errs, setErrs] = useState<Array<string>>([]);
     const [passwordShown, showPass] = useState<boolean>(false);
     const { register, handleSubmit, watch, errors } = useForm<Inputs>();
 
     const onComplete: (d:Inputs)=>void = d => {
-        UserSignin(d, setErrs, history);
+        UserSignin(d, setErrs);
     }
 
     const showPassClick: React.ReactEventHandler<HTMLButtonElement> = ev => {
@@ -40,7 +40,7 @@ const Login: React.FC<{}> = () => {
 
     // user already logged in?, redirect to home page
     if (Cookie.get("AUTH_TOKEN")) {
-        (window as any).location = "/";
+        Window.location = "/";
         return <Splash color='grey' />;
     }
 
@@ -116,7 +116,7 @@ const Login: React.FC<{}> = () => {
 /**
  * handle login submission
  */
-async function UserSignin({username, password}: Inputs, setErrs, history) {
+async function UserSignin({username, password}: Inputs, setErrs) {
     setErrs([]);
 
     let res = await auth_fetch('/api/login', {
@@ -130,7 +130,7 @@ async function UserSignin({username, password}: Inputs, setErrs, history) {
 
         // store auth token cookie and redirect to home
         storeCookie(res.token, ()=>{
-            history.push('/');
+            Window.location = '/';
         });
     }
 }
