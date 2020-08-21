@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 import Cookie from 'js-cookie';
 import {render, fireEvent, screen} from '@testing-library/react';
 import "babel-polyfill";
@@ -8,12 +7,14 @@ import '@testing-library/jest-dom';
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
+import Wrapper from './wrap-component';
+
 import Login from '../Login';
 
 const component = (
-    <Router>
+    <Wrapper>
         <Login />
-    </Router>
+    </Wrapper>
 );
 
 

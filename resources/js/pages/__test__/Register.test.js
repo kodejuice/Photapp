@@ -8,12 +8,14 @@ import '@testing-library/jest-dom';
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
+import Wrapper from './wrap-component';
+
 import Register from '../Register';
 
 const component = (
-    <Router>
+    <Wrapper>
         <Register />
-    </Router>
+    </Wrapper>
 );
 
 
