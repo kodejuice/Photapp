@@ -109,3 +109,34 @@ export async function checkLoginStatus(onErr): Promise<userProfile|boolean> {
         nprogress.done();
     }
 }
+
+
+ /**
+  * logs user out
+  * @param  (void)=>void           onLogOut  callback fn called on-logout
+  * @param  (void)=>void           onError   callback fn called on-error
+  * @return {Promise<boolean>}               logged out or not
+  */
+export async function logUserOut(onLogOut, onErr): Promise<boolean> {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post('/api/logout');
+
+        if (req?.data?.message?.includes("successfully")) {
+            onLogOut();
+            return true;
+        }
+
+        throw req;
+
+    } catch (err) {
+        handleServerError(err, onErr);
+
+        return false;
+    } finally {
+        nprogress.done();
+    }
+
+}

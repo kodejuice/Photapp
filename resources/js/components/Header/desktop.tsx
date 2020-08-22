@@ -4,6 +4,8 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../state/store';
 import {userProfile as profileObject} from '../../state/userProfile.d';
 
+import {logUserOut} from '../../helpers/fetcher';
+
 
 const Header: React.FC<{}> = ()=>{
     const ref = useRef(null);
@@ -47,7 +49,7 @@ const Header: React.FC<{}> = ()=>{
                                                 <Link to={`/user/${user.username}`}> Profile</Link>
                                                 <Link to={`/user/${user.username}?tab=saved`}> Saved</Link>
                                                 <Link to={`/user/${user.username}/settings`}> Settings</Link>
-                                                <Link to={`/user/${user.username}?tab=saved`}>Logout</Link>
+                                                <a onClick={logOut} href="/">Logout</a>
                                             </div>
                                         </div>
                                     </li>
@@ -58,6 +60,25 @@ const Header: React.FC<{}> = ()=>{
             </nav>
         </header>
     );
+}
+
+
+/**
+ * Log user out?
+ */
+async function logOut(ev: React.SyntheticEvent<HTMLAnchorElement>) {
+    ev.preventDefault();
+
+    if (confirm("Log out?")) {
+        const logged_out = await logUserOut(
+            () => {
+                location.reload();
+            },
+            (errs: Array<string>) => {
+                alert(errs.join('\n'));
+            }
+        );
+    }
 }
 
 
