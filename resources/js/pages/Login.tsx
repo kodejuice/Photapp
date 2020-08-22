@@ -55,7 +55,7 @@ const Login: React.FC<{}> = () => {
 
 
     return (
-        <div>
+        <React.Fragment>
             <div className='card login-card auth-pg'>
                 <div className="card-body">
                     <div className="brand-title">
@@ -112,7 +112,7 @@ const Login: React.FC<{}> = () => {
                     <p> Don't have an account? <Link to="/register">Sign Up</Link> </p>
                 </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 }
 

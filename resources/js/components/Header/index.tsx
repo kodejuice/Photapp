@@ -25,6 +25,7 @@ export default function Header() {
                         <form onSubmit={_=>onSearch(_, ref.current, history)}>
                             <input ref={ref} type='search' placeholder='Search' name='search' />
                         </form>
+        <React.Fragment>
                     </div>
                 </div>
                 <div className="nav-links col-fill col">
@@ -45,6 +46,7 @@ export default function Header() {
                 </div>
             </div>
         </nav>
+        </React.Fragment>
   );
 
 }

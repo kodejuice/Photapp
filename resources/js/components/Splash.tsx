@@ -23,13 +23,13 @@ const bgSplash: (t: 'bw'|'grey'|'clr') => React.CSSProperties = (t) => ({
 
 const Splash: React.FC<{color: 'bw'|'grey'|'clr'}> = ({color})=>{
     return (
-        <main>
+        <React.Fragment>
             <div className="splash">
                 <div style={centerVertically}>
                     <div style={bgSplash(color)}></div>
                 </div>
             </div>
-        </main>
+        </React.Fragment>
     );
 }
 

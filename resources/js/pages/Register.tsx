@@ -56,7 +56,7 @@ const Register: React.FC<{}> = () => {
     });
 
     return (
-        <div>
+        <React.Fragment>
             <div className='card register-card auth-pg'>
                 <div className="card-body">
                     <div className="brand-title">
@@ -118,7 +118,7 @@ const Register: React.FC<{}> = () => {
                     <p> Have an account? <Link to="/login">Log in</Link> </p>
                 </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 
 }
