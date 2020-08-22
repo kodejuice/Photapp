@@ -30,7 +30,7 @@ const Header: React.FC<{}> = ()=>{
                     <div className="nav-links col-fill col">
                         <ul className="inline">
                             <li><Link to="/"><img src="/icon/home.png"/></Link></li>
-                            <li><Link to="?feed=following"><img src="/icon/feed.png"/></Link></li>
+                            <li><Link to="?feed=following"><img src="/icon/explore.png"/></Link></li>
                             <li><Link to="/activity"><img src="/icon/heart.png"/></Link></li>
                             {
                                 !user?.id ?
