@@ -10,7 +10,6 @@ const Header: React.FC<{}> = ()=>{
     const history = useHistory();
 
     const [dropdown_shown, showDropdown] = useState(false) ;
-    const logged_in = useSelector<RootState, boolean>(({isLogged}) => isLogged);
     const user = useSelector<RootState, profileObject>(({userProfile}) => userProfile);
 
     return (
