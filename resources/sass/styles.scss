@@ -15,3 +15,22 @@ a {
 
     background-image: none;
 }
+
+
+/**
+ * devices (width <=768)
+ */
+@media screen and (max-width: 768px) {
+    .hide-mobile {
+        display: none;
+    }
+}
+
+/**
+ * devices (width >=769) 
+ */
+@media screen and (min-width: 769px) {
+    .hide-desktop {
+        display: none;
+    }
+}
