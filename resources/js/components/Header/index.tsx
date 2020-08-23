@@ -6,7 +6,7 @@ import HeaderMobile from './mobile';
 import './style.scss';
 
 
-const Header: React.FC<{}> = () => {
+const Header: React.FC<{page: string}> = ({page}) => {
 
 
     return (
@@ -14,7 +14,7 @@ const Header: React.FC<{}> = () => {
 
             <HeaderDesktop />
 
-            <HeaderMobile />
+            <HeaderMobile current_page={page} />
 
         </React.Fragment>
 

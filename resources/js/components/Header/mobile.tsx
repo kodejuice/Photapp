@@ -5,7 +5,15 @@ import {RootState} from '../../state/store';
 import {userProfile as profileObject} from '../../state/userProfile.d';
 
 
-const Header: React.FC<{}> = ()=>{
+type HeaderProps = {
+    header_title?: string,
+    hide_icon?: boolean,
+    current_page: string
+};
+
+// floating `add photo` btn
+
+const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=>{
 
     const user = useSelector<RootState, profileObject>(({userProfile}) => userProfile);
 
@@ -13,28 +21,33 @@ const Header: React.FC<{}> = ()=>{
         <header className='hide-desktop'>
             <div className='header-wrapper'>
                 <nav className="header border">
+                    {!hide_icon?
                     <div className="photo-btn">
                         <img src="/favicon/favicon.ico"/>
                     </div>
-                    <Link to="/"><h1 className='bg-logo'> </h1></Link>
+                    :""}
+
+                    {!header_title?
+                    <Link to="/"><h1 className='header-title bg-logo'> </h1></Link>
+                    : <div className='header-title'> {header_title} </div> }
                 </nav>
             </div>
 
             <footer className='border footer'>
                 <div className="row btns">
-                    <div className="col col-fill btn">
+                    <div className="col col-fill btn" id={`curr-${current_page=='/'}`}>
                         <Link to="/"> <img src="/icon/home.png"/> </Link>
                     </div>
-                    <div className="col col-fill btn">
+                    <div className="col col-fill btn" id={`curr-${current_page=='explore'}`}>
                         <Link to="/explore"> <img src="/icon/search.png"/> </Link>
                     </div>
-                    <div className="col col-fill btn">
+                    <div className="col col-fill btn" id={`curr-${current_page=='add'}`}>
                         <img src="/icon/add.png"/>
                     </div>
-                    <div className="col col-fill btn">
+                    <div className="col col-fill btn" id={`curr-${current_page=='activity'}`}>
                         <Link to="/activity"> <img src="/icon/heart.png"/> </Link>
                     </div>
-                    <div className="col col-fill btn">
+                    <div className="col col-fill btn" id={`curr-${current_page=='profile'}`}>
                         {
                             user?.id ?
                                 <Link to={`/user/${user.username}`}>

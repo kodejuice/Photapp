@@ -25,11 +25,19 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
 
         position: fixed;
 
-        h1.bg-logo {
+        .header-title {
             width: 145px;
             height: $header_height;
-            margin: 0 auto;
             padding: 0;
+            margin: 7px auto;
+            text-align: center;
+            font-size: 19.3px;
+            font-weight: bold;
+            justify-content: center;
+        }
+
+        h1.bg-logo {
+            margin-top: 0 !important;
             background: $photapp_logo;
             background-size: 110px;
             background-repeat: no-repeat;
@@ -69,6 +77,10 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
             position: relative;
             height: $footer_height;
 
+            & #curr-true {
+                border-top: 3px solid;
+            }
+
             .col {
                 padding: 0;
             }
@@ -94,6 +106,7 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
 @media screen and (min-width: 769px) {
     nav.header.border {
         height: 54px;
+        position: relative;
 
         .header-wrapper {
             width: 100%;

@@ -18,7 +18,7 @@ const Home: React.FC<{}> = ()=>{
         :
         (
             <div>
-                <Header />
+                <Header page='/' />
             </div>
         )
 }
