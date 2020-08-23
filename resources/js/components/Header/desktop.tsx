@@ -1,10 +1,8 @@
 import React, {useRef, useState} from 'react';
 import { useHistory, Link } from "react-router-dom";
-import {useSelector} from 'react-redux';
-import {RootState} from '../../state/store';
-import {userProfile as profileObject} from '../../state/userProfile.d';
 
 import {logUserOut} from '../../helpers/fetcher';
+import authUser from '../../helpers/auth_user';
 
 
 const Header: React.FC<{}> = ()=>{
@@ -12,7 +10,7 @@ const Header: React.FC<{}> = ()=>{
     const history = useHistory();
 
     const [dropdown_shown, showDropdown] = useState(false) ;
-    const user = useSelector<RootState, profileObject>(({userProfile}) => userProfile);
+    const {user} = authUser();
 
     return (
         <header className='hide-mobile'>

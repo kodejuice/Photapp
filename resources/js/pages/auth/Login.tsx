@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
-import {useSelector} from 'react-redux';
 import Cookie from 'js-cookie';
 import { useForm } from "react-hook-form";
 import {auth_fetch} from '../../helpers/fetcher';
-import {RootState} from '../../state/store';
+import authUser from '../../helpers/auth_user';
 
 import Splash from '../../components/Splash';
 import './styles/auth-page.scss';
@@ -30,7 +29,7 @@ const Login: React.FC<{}> = () => {
     const [passwordShown, showPass] = useState<boolean>(false);
     const { register, handleSubmit, watch, errors } = useForm<Inputs>();
 
-    const logged_in = useSelector<RootState, boolean>(({isLogged}) => isLogged);
+    const logged_in = authUser().logged;
 
     const onComplete: (d:Inputs)=>void = d => {
         UserSignin(d, setErrs);

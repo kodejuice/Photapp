@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {sign_in, set_user} from '../state/actions';
-import {RootState} from '../state/store';
 import {checkLoginStatus} from '../helpers/fetcher';
+import authUser from '../helpers/auth_user';
 
 import ProgressRoute from '../routes/ProgressRoute';
 
@@ -14,7 +14,7 @@ import Splash from '../components/Splash';
 const App: React.FC<{}> = ()=>{
     const [mounted, setMounted] = useState(false);
     const dispatch = useDispatch();
-    const logged_in = useSelector<RootState>(({isLogged}) => isLogged);
+    const logged_in = authUser().logged;
 
     // check if the user is logged in
     useEffect(() => {

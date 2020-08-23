@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import {useSelector} from 'react-redux';
-import {RootState} from '../../state/store';
-import {userProfile as profileObject} from '../../state/userProfile.d';
-
+import authUser from '../../helpers/auth_user';
 
 type HeaderProps = {
     header_title?: string,
@@ -14,8 +12,7 @@ type HeaderProps = {
 // floating `add photo` btn
 
 const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=>{
-
-    const user = useSelector<RootState, profileObject>(({userProfile}) => userProfile);
+    const {user} = authUser();
 
     return (
         <header className='hide-desktop'>
