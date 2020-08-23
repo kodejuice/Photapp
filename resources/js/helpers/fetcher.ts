@@ -3,17 +3,22 @@ import nprogress from '../routes/nprogress';
 
 
 const handleServerError = (err, onError: (d: Array<string>) => void)=>{
+    let ret: Array<string>;
     if (err?.data?.errors instanceof Array) {
         // errors
-        onError(err.data.errors);
+        ret = err.data.errors;
     } else {
         // other error
         if (typeof err?.data?.message == 'string') {
-            onError([err.data.message || "An unknown error occured"])
+            ret = [err.data.message || "An unknown error occured"];
         } else {
-            onError([err.toString()]);
+            ret = [err.toString()];
         }
     }
+
+    onError(ret);
+
+    return ret;
 };
 
 
@@ -147,20 +152,22 @@ export async function logUserOut(onLogOut, onErr): Promise<boolean> {
 //////////////////////////
 
 
-export async function fetchAlerts(success: (d: Array<Object>)=>void, onErr: (d: Array<string>)=>void) {
-    nprogress.start();
-
+/**
+ * used as useSWR's fetcher function
+ * @param {string} url     [description]
+ */
+export async function fetcher(url, ...args) {
     let req;
     try {
-        req = await axios.get('/api/user/notifications');
+        req = await axios.get(url, ...args);
 
-        success(req);
+        if (req?.data instanceof Array) {
+            return req.data;
+        }
+
+        throw req;
 
     } catch (err) {
-        handleServerError(err, onErr);
-
-    } finally {
-        nprogress.done();
+        return {errors: handleServerError(err, ()=>void 0)};
     }
-
 }
