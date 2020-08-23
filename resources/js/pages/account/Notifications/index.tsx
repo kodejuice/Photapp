@@ -9,6 +9,11 @@ import Splash from '../../../components/Splash';
 import authUser from '../../../helpers/auth_user';
 import {fetcher} from '../../../helpers/fetcher';
 
+import FollowAlert from './FollowAlert';
+import MentionAlert from './MentionAlert';
+import LikeAlert from './LikeAlert';
+import CommentAlert from './CommentAlert';
+
 import './style.scss';
 
 
@@ -52,7 +57,22 @@ const Notifications: React.FC<{}> = ()=>{
  * Single Notification component
  */
 function Notif({data}) {
-    return <div> {data.new.toString()} </div>;
+    const {type} = data;
+
+    if (type == 'like') {
+        return <LikeAlert data={data} />
+    }
+    else if (type == 'comment') {
+        return <CommentAlert data={data} />;
+    }
+    else if (type == 'follow') {
+        return <FollowAlert data={data} />
+    }
+    else if (type == 'mention') {
+        return <MentionAlert data={data} />
+    }
+
+    return <React.Fragment> </React.Fragment>;
 }
 
 
