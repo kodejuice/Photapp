@@ -31,7 +31,7 @@ const Header: React.FC<{}> = ()=>{
                         <Link to="/explore"> <img src="/icon/search.png"/> </Link>
                     </div>
                     <div className="col col-fill btn">
-                        <img src="/icon/photapp-bw.png"/>
+                        <img src="/icon/add.png"/>
                     </div>
                     <div className="col col-fill btn">
                         <Link to="/activity"> <img src="/icon/heart.png"/> </Link>
