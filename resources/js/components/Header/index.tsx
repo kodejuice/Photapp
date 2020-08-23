@@ -6,18 +6,22 @@ import HeaderMobile from './mobile';
 import './style.scss';
 
 
-const Header: React.FC<{page: string}> = ({page}) => {
+type HeaderProps = {
+    header_title?: string,
+    hide_icon?: boolean,
+    page: string
+};
 
 
+const Header: React.FC<HeaderProps> = ({page, hide_icon, header_title}) => {
     return (
         <React.Fragment>
 
             <HeaderDesktop />
 
-            <HeaderMobile current_page={page} />
+            <HeaderMobile current_page={page} header_title={header_title} hide_icon={hide_icon} />
 
         </React.Fragment>
-
   );
 
 }

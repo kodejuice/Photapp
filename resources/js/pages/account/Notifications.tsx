@@ -8,7 +8,7 @@ const Notifications: React.FC<{}> = ()=>{
 
     return (
         <React.Fragment>
-            <Header page='activity' />
+            <Header page='activity' hide_icon={true} header_title='Activity' />
         </React.Fragment>
     );
 }
