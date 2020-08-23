@@ -5,9 +5,6 @@ import {AlertProp} from './alert-prop.d';
 import LazyDP from '../../../components/LazyDP';
 
 
-// TODO: convert date to moment (weeks ago)
-
-
 /**
  * limit string
  * @param  {string} str        string
