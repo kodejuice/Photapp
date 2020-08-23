@@ -20,7 +20,9 @@ const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
     return (
         <div className="row comment-alert">
             <div className="col col-2 dp-col">
-                <span id='dp'> <LazyDP user={d.associated_user} /> </span>
+                <Link to={`/user/${d.associated_user}`}>
+                    <span id='dp'> <LazyDP user={d.associated_user} /> </span>
+                </Link>
             </div>
 
             <div className="col col-fill notif-content">
