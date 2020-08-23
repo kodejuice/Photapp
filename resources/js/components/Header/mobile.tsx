@@ -4,10 +4,6 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../state/store';
 import {userProfile as profileObject} from '../../state/userProfile.d';
 
-/**
- * icons
- * posts
- */
 
 const Header: React.FC<{}> = ()=>{
 
