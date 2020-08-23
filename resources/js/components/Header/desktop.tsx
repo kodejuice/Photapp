@@ -48,7 +48,7 @@ const Header: React.FC<{}> = ()=>{
                                             <div className={`dropdown-content ${dropdown_shown?'show':''}`}>
                                                 <Link to={`/user/${user.username}`}> Profile</Link>
                                                 <Link to={`/user/${user.username}?tab=saved`}> Saved</Link>
-                                                <Link to={`/user/${user.username}/settings`}> Settings</Link>
+                                                <Link to={`/account/settings`}> Settings</Link>
                                                 <a onClick={logOut} href="/">Logout</a>
                                             </div>
                                         </div>
