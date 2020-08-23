@@ -1,10 +1,10 @@
 
 div.notifications-body {
 
-    width: 90%;
+    width: 96%;
     margin: 0 auto;
     max-width: 600px;
-    margin-top: 14px;
+    margin-top: 34px;
 
     em#err {
         color: #ED4956;
@@ -12,6 +12,48 @@ div.notifications-body {
     }
 
     .alerts {
+        font-size: 15px;
+
+        .dp-col {
+            max-width: 50px;
+            span#dp {
+                width: 40px;
+                display: block;
+                margin: 0 auto;
+
+                img {
+                    border-radius: 100%;
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+        }
+
+        div.notif-content {
+            padding-top: 6px;
+            padding-bottom: 22px;
+            padding-left: 4px;
+            border-bottom: 1px solid rgba(var(--b38,219,219,219),1);
+
+            span#user a {
+                color: #41403E;
+                font-weight: bold;
+            }
+
+            span#msg a {
+                color: #00376B;
+            }
+
+            span#time {
+                color: #8E8E8E;
+            }
+        }
+
+
+        .col {
+            padding: 0;
+        }
+
 
     }
 }
