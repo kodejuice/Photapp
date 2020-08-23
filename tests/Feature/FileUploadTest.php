@@ -100,7 +100,8 @@ class FileUploadTest extends TestCase
         tap(Notification::first(), function ($notif) {
             $this->assertEquals(1, $notif->post_id);
             $this->assertEquals('mention', $notif->type);
-            $this->assertEquals('doejohn mentioned you in a post', $notif->message);
+            $this->assertEquals('doejohn', $notif->associated_user);
+            $this->assertEquals('mentioned you in a post: i am not @johndoe', $notif->message);
             $this->assertEquals('johndoe', User::firstWhere('id', $notif->user_id)->username);
         });
 

@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
 use App\User;
+use App\Post;
 use App\UserSetting;
 use App\Notification;
 
@@ -66,7 +67,7 @@ class NotifyMentionedUser implements ShouldQueue
         $notif->post_id = $event->post_id;
         $notif->user_id = $mentioned_user->id;
         $notif->associated_user = $event->who_mentioned->username;
-        $notif->message = "mentioned you in a post";
+        $notif->message = "mentioned you in a post: " . Post::firstWhere('post_id', $event->post_id)->caption;
 
         $notif->save();
 
