@@ -29,6 +29,21 @@ type auth_body = {
     password_confirmation?: string,
 };
 
+type userProfile = {
+    id: number,
+    email: string,
+    username: string,
+
+    full_name: string,
+    profile_pic: string,
+
+    follows: number,
+    followers: number,
+    posts_count: number,
+};
+
+
+
 /**
  * Used by the Login & Register page
  * @param  {string}                  url      request url
@@ -64,20 +79,6 @@ export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<
     }
 }
 
-
-
-type userProfile = {
-    id: number,
-    email: string,
-    username: string,
-
-    full_name: string,
-    profile_pic: string,
-
-    follows: number,
-    followers: number,
-    posts_count: number,
-};
 
 /**
  * checks user Login Status from server
@@ -135,6 +136,29 @@ export async function logUserOut(onLogOut, onErr): Promise<boolean> {
         handleServerError(err, onErr);
 
         return false;
+    } finally {
+        nprogress.done();
+    }
+}
+
+
+//////////////////////////
+// User Accout Requests //
+//////////////////////////
+
+
+export async function fetchAlerts(success: (d: Array<Object>)=>void, onErr: (d: Array<string>)=>void) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.get('/api/user/notifications');
+
+        success(req);
+
+    } catch (err) {
+        handleServerError(err, onErr);
+
     } finally {
         nprogress.done();
     }

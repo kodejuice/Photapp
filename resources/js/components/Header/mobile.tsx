@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
                         <img src="/icon/add.png"/>
                     </div>
                     <div className="col col-fill btn" id={`curr-${current_page=='activity'}`}>
-                        <Link to="/activity"> <img src="/icon/heart.png"/> </Link>
+                        <Link to={user?.id ? "/activity": "/login"}> <img src="/icon/heart.png"/> </Link>
                     </div>
                     <div className="col col-fill btn" id={`curr-${current_page=='profile'}`}>
                         {
