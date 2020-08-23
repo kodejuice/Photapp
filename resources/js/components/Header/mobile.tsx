@@ -5,8 +5,8 @@ import {RootState} from '../../state/store';
 import {userProfile as profileObject} from '../../state/userProfile.d';
 
 /**
- * logout
  * icons
+ * posts
  */
 
 const Header: React.FC<{}> = ()=>{
@@ -15,12 +15,14 @@ const Header: React.FC<{}> = ()=>{
 
     return (
         <header className='hide-desktop'>
-            <nav className="header border">
-                <div className="photo-btn">
-                    <img src="/favicon/favicon.ico"/>
-                </div>
-                <Link to="/"><h1 className='bg-logo'> </h1></Link>
-            </nav>
+            <div className='header-wrapper'>
+                <nav className="header border">
+                    <div className="photo-btn">
+                        <img src="/favicon/favicon.ico"/>
+                    </div>
+                    <Link to="/"><h1 className='bg-logo'> </h1></Link>
+                </nav>
+            </div>
 
             <footer className='border footer'>
                 <div className="row btns">

@@ -14,9 +14,16 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
 @media screen and (max-width: 768px) {
     $header_height: 44px;
 
+    div.header-wrapper {
+        position: relative;
+        height: $header_height;
+    }
+
     // header
     nav.header.border {
         height: $header_height;
+
+        position: fixed;
 
         h1.bg-logo {
             width: 145px;
@@ -59,6 +66,9 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
         }
 
         .row.btns {
+            position: relative;
+            height: $footer_height;
+
             .col {
                 padding: 0;
             }
