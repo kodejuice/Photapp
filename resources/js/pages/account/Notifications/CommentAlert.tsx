@@ -1,17 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {AlertProp} from './alert-prop.d';
+import {limit} from '../../../helpers/util';
 
 import LazyDP from '../../../components/LazyDP';
-
-
-/**
- * limit string
- * @param  {string} str        string
- * @param  {string} lim        limit
- * @return {string}
- */
-const limit = (str: string, lim: number): string => str.length > lim ? `${str.substr(0, lim)}...` : str;
 
 
 const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
