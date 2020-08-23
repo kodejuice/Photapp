@@ -31,7 +31,7 @@ const Header: React.FC<{}> = ()=>{
                     <div className="nav-links col-fill col">
                         <ul className="inline">
                             <li><Link to="/"><img src="/icon/home.png"/></Link></li>
-                            <li><Link to="?feed=following"><img src="/icon/explore.png"/></Link></li>
+                            <li><Link to="/explore"><img src="/icon/explore.png"/></Link></li>
                             <li><Link to="/activity"><img src="/icon/heart.png"/></Link></li>
                             {
                                 !user?.id ?
@@ -91,7 +91,7 @@ function onSearch(ev: React.SyntheticEvent<HTMLFormElement>, input: HTMLInputEle
     const query = input?.value;
 
     if (query) {
-        history.push(`/search?q=${query}`);
+        history.push(`/explore?q=${query}`);
     }
 }
 
