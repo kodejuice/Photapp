@@ -77,8 +77,6 @@ function Notif({data}) {
 
 
 
-
-
 /**
  * useNotification hook
  * @param fetcher    useSWR fetcher
