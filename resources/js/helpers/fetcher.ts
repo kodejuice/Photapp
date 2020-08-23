@@ -153,6 +153,27 @@ export async function logUserOut(onLogOut, onErr): Promise<boolean> {
 
 
 /**
+ * fetch user profile from DB
+ * @param {string} user username
+ */
+export async function fetchUser(url: string) {
+    let req;
+    try {
+        req = await axios.get(url);
+
+        if (req?.data?.username) {
+            return req.data;
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {};
+    }
+}
+
+
+/**
  * used as useSWR's fetcher function
  * @param {string} url     [description]
  */
