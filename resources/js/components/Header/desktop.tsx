@@ -63,8 +63,6 @@ const Header: React.FC<{}> = ()=>{
                     <img src="/icon/add.png"/>
                 </div>
             </nav>
-
-
         </header>
     );
 }

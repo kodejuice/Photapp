@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { useHistory, Link } from "react-router-dom";
 import Cookie from 'js-cookie';
 import { useForm } from "react-hook-form";
-import nprogress from '../routes/nprogress';
-import {auth_fetch} from '../helpers/fetcher';
+import nprogress from '../../routes/nprogress';
+import {auth_fetch} from '../../helpers/fetcher';
 
 import './styles/auth-page.scss';
 

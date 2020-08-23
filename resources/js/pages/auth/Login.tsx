@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import {useSelector} from 'react-redux';
 import Cookie from 'js-cookie';
 import { useForm } from "react-hook-form";
-import {auth_fetch} from '../helpers/fetcher';
-import {RootState} from '../state/store';
+import {auth_fetch} from '../../helpers/fetcher';
+import {RootState} from '../../state/store';
 
-import Splash from '../components/Splash';
+import Splash from '../../components/Splash';
 import './styles/auth-page.scss';
 
 let PASSWORD_INPUT: HTMLElement|null = null;
