@@ -174,13 +174,13 @@ export async function fetchUser(url: string) {
 
 
 /**
- * used as useSWR's fetcher function
- * @param {string} url     [description]
+ * fetch list of {X} from DB, e.g notifications, followers, e.t.c...
+ * @param {string} url     API url
  */
-export async function fetcher(url, ...args) {
+export async function fetchListing(url) {
     let req;
     try {
-        req = await axios.get(url, ...args);
+        req = await axios.get(url);
 
         if (req?.data instanceof Array) {
             return req.data;

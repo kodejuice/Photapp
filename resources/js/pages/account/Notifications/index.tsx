@@ -7,7 +7,7 @@ import Spinner from '../../../components/Spinner';
 import Splash from '../../../components/Splash';
 
 import authUser from '../../../helpers/auth_user';
-import {fetcher} from '../../../helpers/fetcher';
+import {fetchListing} from '../../../helpers/fetcher';
 
 import FollowAlert from './FollowAlert';
 import MentionAlert from './MentionAlert';
@@ -28,7 +28,7 @@ const Notifications: React.FC<{}> = ()=>{
         return <Splash color='bw' />;
     }
 
-    const res = useNotification(fetcher);
+    const res = useNotification(fetchListing);
 
     if (res.data?.errors) {
         res.isError = res.data.errors[0];
