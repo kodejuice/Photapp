@@ -4,6 +4,19 @@ import {AlertProp} from './alert-prop.d';
 
 import LazyDP from '../../../components/LazyDP';
 
+
+// TODO: convert date to moment (weeks ago)
+
+
+/**
+ * limit string
+ * @param  {string} str        string
+ * @param  {string} lim        limit
+ * @return {string}
+ */
+const limit = (str: string, lim: number): string => str.length > lim ? `${str.substr(0, lim)}...` : str;
+
+
 const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
     const d = data;
 
@@ -13,12 +26,11 @@ const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
                 <span id='dp'> <LazyDP user={d.associated_user} /> </span>
             </div>
 
-            <div className="col col-fill">
+            <div className="col col-fill notif-content">
                 <span id='user'><Link to={`/user/${d.associated_user}`}> {d.associated_user} </Link></span>
-                <span id='msg'><Link to={`/post/${d.post_id}`}>commented on your post: {d.message}</Link></span>
+                <span id='msg'><Link to={`/post/${d.post_id}`}>commented on your post: {limit(d.message, 127)} </Link></span>
                 <span id='time'> 6w </span>
             </div>
-
         </div>
     );
 }
