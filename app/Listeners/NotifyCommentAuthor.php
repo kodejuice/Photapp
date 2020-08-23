@@ -36,7 +36,7 @@ class NotifyCommentAuthor
             return false;
         }
 
-        // chech (if the user wants such notification)
+        // check (if the user wants such notification)
         $user_setting = UserSetting::firstWhere('user_id', $event->comment->user_id);
 
         return $user_setting->notify_comments_likes==1 && $valid;
@@ -63,7 +63,7 @@ class NotifyCommentAuthor
         $notif->associated_user = $user->username;
 
         if ($action == 'like') {
-            $notif->message = "{$user->username} liked your comment: {$comment->message}";
+            $notif->message = "liked your comment: {$comment->message}";
         }
 
         $notif->save();

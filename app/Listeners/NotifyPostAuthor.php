@@ -75,7 +75,7 @@ class NotifyPostAuthor implements ShouldQueue
         $notif->associated_user = $user->username;
 
         if ($action == 'like') {
-            $notif->message = "{$user->username} liked your post";
+            $notif->message = "liked your post";
         } else {
             $notif->message = $comment_message;
         }

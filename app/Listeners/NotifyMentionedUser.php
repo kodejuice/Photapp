@@ -66,7 +66,7 @@ class NotifyMentionedUser implements ShouldQueue
         $notif->post_id = $event->post_id;
         $notif->user_id = $mentioned_user->id;
         $notif->associated_user = $event->who_mentioned->username;
-        $notif->message = "{$event->who_mentioned->username} mentioned you in a post";
+        $notif->message = "mentioned you in a post";
 
         $notif->save();
 
