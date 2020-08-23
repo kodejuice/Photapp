@@ -57,7 +57,14 @@ const Header: React.FC<{}> = ()=>{
                         </ul>
                     </div>
                 </div>
+
+                {/*floating button*/}
+                <div className="floating-btn add">
+                    <img src="/icon/add.png"/>
+                </div>
             </nav>
+
+
         </header>
     );
 }

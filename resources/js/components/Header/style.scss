@@ -209,6 +209,18 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
 
             }
         }
+
+
+        div.floating-btn.add {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+
+            img {
+                cursor: pointer;
+                border: none;
+            }
+        }
     }
 }
 
