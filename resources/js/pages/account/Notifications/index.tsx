@@ -16,7 +16,15 @@ import CommentAlert from './CommentAlert';
 import './style.scss';
 
 
-// TODO: <MentionAlert
+// TODO: <LazyPost for
+//    comment, like
+// TODO: return stale data if no current data
+// TODO: floating error tooltip component
+
+// TODO: TESTS!!!!
+//    (Home, Notifications<all sub components>)
+//    LazyDP
+//    FollowButton
 
 
 const Notifications: React.FC<{}> = ()=>{
