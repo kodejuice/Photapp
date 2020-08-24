@@ -1,8 +1,40 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {AlertProp} from './alert-prop.d';
+import {limit} from '../../../helpers/util';
+import {howLong} from '../../../helpers/date-time';
 
-const FollowAlert: React.FC<{data: AlertProp}> = ({data})=>{
-    return <div> {JSON.stringify(data)} </div>;  
+import LazyDP from '../../../components/LazyDP';
+import FollowButton from '../../../components/FollowButton';
+
+
+const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
+    const d = data;
+
+    return (
+        <div className="row comment-alert">
+            <div className="col col-2 dp-col">
+                <Link to={`/user/${d.associated_user}`}>
+                    <span id='dp'> <LazyDP user={d.associated_user} /> </span>
+                </Link>
+            </div>
+
+            <div className="col col-fill notif-content row">
+                <div className="col col-fill">
+                    <span id='user'><Link to={`/user/${d.associated_user}`}> {d.associated_user} </Link></span>
+                    <div>
+                        <span id='msg'>{d.message}</span>
+                        <span id='time'> {howLong(d.created_at)} </span>
+                    </div>
+                </div>
+
+                <div className="col col-3 follow_btn-col">
+                    <FollowButton user={d.associated_user} notification_id={d.notification_id} />
+                </div>
+            </div>
+
+        </div>
+    );
 }
 
-export default FollowAlert;
+export default CommentAlert;

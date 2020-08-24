@@ -17,8 +17,6 @@ import CommentAlert from './CommentAlert';
 import './style.scss';
 
 
-// TODO: convert date to moment (weeks ago)
-// TODO: <FollowAlert
 // TODO: <MentionAlert
 
 
