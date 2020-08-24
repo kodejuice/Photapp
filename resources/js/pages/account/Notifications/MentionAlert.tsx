@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {AlertProp} from './alert-prop.d';
 import {limit} from '../../../helpers/util';
 import {highlightMentions} from '../../../helpers/mini-components';
@@ -13,6 +13,7 @@ import FollowButton from '../../../components/FollowButton';
 
 const MentionAlert: React.FC<{data: AlertProp}> = ({data})=>{
     const d = data;
+    const history = useHistory();
 
     return (
         <div className="row comment-alert">
@@ -22,18 +23,20 @@ const MentionAlert: React.FC<{data: AlertProp}> = ({data})=>{
                 </Link>
             </div>
 
-            <div className="col col-fill notif-content row">
+            <div className="col col-fill notif-content row to-post" onClick={_=>history.push(`/post/${d.post_id}`)}>
                 <div className="col col-fill">
-                    <span id='user'><Link to={`/user/${d.associated_user}`}> {d.associated_user} </Link></span>
+                    <span id='user'>
+                        <a onClick={ev=>{ev.stopPropagation(); history.push(`/user/${d.associated_user}`)}}>
+                            {d.associated_user+" "}
+                        </a>
+                    </span>
                     <span id='msg'>{highlightMentions(limit(d.message, 100))}</span>
                     <span id='time'> {howLong(d.created_at)} </span>
                 </div>
 
                 <div className="col col-3 follow_btn-col third-col">
                     <div className="post-img">
-                        <Link to={`/post/${d.post_id}`}>
-                            <LazyPost post_id={d.post_id} />
-                        </Link>
+                        <LazyPost post_id={d.post_id} />
                     </div>
                 </div>
             </div>

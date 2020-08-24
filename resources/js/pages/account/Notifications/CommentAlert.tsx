@@ -7,11 +7,12 @@ import {highlightMentions} from '../../../helpers/mini-components';
 import {howLong} from '../../../helpers/date-time';
 
 import LazyDP from '../../../components/LazyDP';
+import LazyPost from '../../../components/LazyPost';
 
 
 const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
-    const history = useHistory();
     const d = data;
+    const history = useHistory();
 
     return (
         <div className="row comment-alert">
@@ -21,10 +22,23 @@ const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
                 </Link>
             </div>
 
-            <div className="col col-fill notif-content to-post" onClick={_=>history.push(`/post/${d.post_id}`)}>
-                <span id='user'><Link to={`/user/${d.associated_user}`}> {d.associated_user} </Link></span>
-                <span id='msg'>commented on your post: {highlightMentions(limit(d.message, 127))} </span>
-                <span id='time'> {howLong(d.created_at)} </span>
+            <div className="col col-fill notif-content row to-post" onClick={_=>history.push(`/post/${d.post_id}`)}>
+                <div className="col col-fill">
+                    <span id='user'>
+                        <a onClick={ev=>{ev.stopPropagation(); history.push(`/user/${d.associated_user}`)}}>
+                            {d.associated_user+" "}
+                        </a>
+                    </span>
+                    <span id='msg'>commented on your post: {highlightMentions(limit(d.message, 117))} </span>
+                    <span id='time'> {howLong(d.created_at)} </span>
+                </div>
+
+                <div className="col col-3 follow_btn-col third-col">
+                    <div className="post-img">
+                        <LazyPost post_id={d.post_id} />
+                    </div>
+                </div>
+
             </div>
         </div>
     );
