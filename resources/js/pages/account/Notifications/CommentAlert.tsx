@@ -33,7 +33,7 @@ const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
                     <span id='time'> {howLong(d.created_at)} </span>
                 </div>
 
-                <div className="col col-3 follow_btn-col third-col">
+                <div className="col col-3 third-col">
                     <div className="post-img">
                         <LazyPost post_id={d.post_id} />
                     </div>
