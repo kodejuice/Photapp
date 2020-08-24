@@ -21,10 +21,10 @@ export default function LazyDP({user}) {
 
 /**
  * useUser hook
- * @param fetcher    useSWR fetcher
+ * @param  string   username
  */
 function useUser(user) {
-    const { data, error } = useSWR(`/api/user/getprofile?username=${user}`, fetchUser);
+    const { data, error } = useSWR(user, fetchUser);
     return {
         data: data,
         isLoading: !error && !data,

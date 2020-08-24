@@ -156,10 +156,10 @@ export async function logUserOut(onLogOut, onErr): Promise<boolean> {
  * fetch user profile from DB
  * @param {string} user username
  */
-export async function fetchUser(url: string) {
+export async function fetchUser(user: string) {
     let req;
     try {
-        req = await axios.get(url);
+        req = await axios.get(`/api/user/getprofile?username=${user}`);
 
         if (req?.data?.username) {
             return req.data;
