@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {AlertProp} from './alert-prop.d';
 import {limit} from '../../../helpers/util';
-import {dateSince} from '../../../helpers/date-time';
+import {howLong} from '../../../helpers/date-time';
 
 import LazyDP from '../../../components/LazyDP';
 
@@ -21,7 +21,7 @@ const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
             <div className="col col-fill notif-content">
                 <span id='user'><Link to={`/user/${d.associated_user}`}> {d.associated_user} </Link></span>
                 <span id='msg'><Link to={`/post/${d.post_id}`}>commented on your post: {limit(d.message, 127)} </Link></span>
-                <span id='time'> {dateSince(d.created_at)} </span>
+                <span id='time'> {howLong(d.created_at)} </span>
             </div>
         </div>
     );
