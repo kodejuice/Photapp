@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {AlertProp} from './alert-prop.d';
 import {limit} from '../../../helpers/util';
 import {howLong} from '../../../helpers/date-time';
@@ -9,6 +9,7 @@ import LazyDP from '../../../components/LazyDP';
 
 const LikeAlert: React.FC<{data: AlertProp}> = ({data})=>{
     const d = data;
+    const history = useHistory();
 
     return (
         <div className="row comment-alert">
@@ -18,11 +19,11 @@ const LikeAlert: React.FC<{data: AlertProp}> = ({data})=>{
                 </span>
             </div>
 
-            <div className="col col-fill notif-content">
+            <div className="col col-fill notif-content" onClick={_=>history.push(`/post/${d.post_id}`)}>
                 <span id='user'><Link to={`/user/${d.associated_user}`}> {d.associated_user} </Link></span>
                 <span id='msg'>
                     {d.post_id!=null ?
-                        <Link to={`/post/${d.post_id}`}> {d.message} </Link>
+                        d.message
                         : limit(d.message, 127)
                     }
                 </span>
