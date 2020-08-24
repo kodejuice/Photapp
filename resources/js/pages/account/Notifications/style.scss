@@ -1,3 +1,9 @@
+@mixin border-radius($property) {
+    -webkit-border-radius: $property;
+    -o-border-radius: $property;
+    -moz-border-radius: $property;
+    border-radius: $property;
+}
 
 div.notifications-body {
 
@@ -24,14 +30,23 @@ div.notifications-body {
                 margin: 0 auto;
 
                 img {
-                    border-radius: 100%;
+                    @include border-radius(100%);
                     width: 40px;
                     height: 40px;
                 }
             }
         }
 
-        div.follow_btn-col {
+        div.follow_btn-col, div.third-col {
+            div.post-img {
+                width: 40px;
+
+                img {
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+
             button {
                 color: #FFF;
                 font-size: 17px;

@@ -174,6 +174,27 @@ export async function fetchUser(user: string) {
 
 
 /**
+ * fetch post from DB
+ * @param {number} post_id post id
+ */
+export async function fetchPost(post_id: number) {
+    let req;
+    try {
+        req = await axios.get(`/api/post/${post_id}`);
+
+        if (req?.data?.post_url) {
+            return req.data;
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {};
+    }
+}
+
+
+/**
  * fetch list of {X} from DB, e.g notifications, followers, e.t.c...
  * @param {string} url     API url
  */
