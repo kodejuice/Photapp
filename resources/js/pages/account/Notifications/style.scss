@@ -16,6 +16,7 @@ div.notifications-body {
 
         .dp-col {
             max-width: 50px;
+            max-height: 50px;
 
             span#dp {
                 width: 40px;
@@ -34,16 +35,25 @@ div.notifications-body {
             button {
                 color: #FFF;
                 font-size: 17px;
-                padding: 7px 4px 7px;
+                padding: 5px 4px 5px;
                 background: #0095F6;
             }
         }
 
         div.notif-content {
             padding-top: 6px;
-            padding-bottom: 22px;
             padding-left: 4px;
+            cursor: pointer;
             border-bottom: 1px solid rgba(var(--b38,219,219,219),1);
+
+            &:not(.row) {
+                padding-bottom: 22px;
+            }
+
+            &.row {
+                padding-bottom: 12px;
+                margin-bottom: 0;
+            }
 
             span#user a {
                 color: #41403E;
