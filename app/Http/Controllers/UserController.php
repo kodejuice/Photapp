@@ -178,6 +178,9 @@ class UserController extends Controller
             return response(['errors' => ['Notification not found']], 404);
         }
 
+        // delete all read notifications
+        Notification::where('new', 0)->delete();
+
         $notif->new = 0;
         $notif->save();
 
