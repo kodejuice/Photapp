@@ -17,6 +17,11 @@ import CommentAlert from './CommentAlert';
 import './style.scss';
 
 
+// TODO: convert date to moment (weeks ago)
+// TODO: <FollowAlert
+// TODO: <MentionAlert
+
+
 const Notifications: React.FC<{}> = ()=>{
     const {logged} = authUser();
     const [mounted, setMounted] = useState(false);
