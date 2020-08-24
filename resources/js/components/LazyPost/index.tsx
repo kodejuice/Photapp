@@ -11,7 +11,7 @@ const default_image = '/icon/camera.png';
 export default function LazyPost({post_id}) {
     const {post, isLoading, isError} = usePost(post_id);
 
-    const url = (isError || isLoading)
+    const url = (isError || isLoading || (!post?.post_url))
         ? default_image
         : JSON.parse(post.post_url)[0][1];
     /* post_url  json string -> "[[file_name, full_file_path], ...]"  */
