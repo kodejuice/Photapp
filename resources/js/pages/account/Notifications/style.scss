@@ -43,8 +43,11 @@ div.notifications-body {
         div.notif-content {
             padding-top: 6px;
             padding-left: 4px;
-            cursor: pointer;
             border-bottom: 1px solid rgba(var(--b38,219,219,219),1);
+
+            &.to-post {
+                cursor: pointer;
+            }
 
             &:not(.row) {
                 padding-bottom: 22px;

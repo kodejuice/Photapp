@@ -19,7 +19,7 @@ const LikeAlert: React.FC<{data: AlertProp}> = ({data})=>{
                 </span>
             </div>
 
-            <div className="col col-fill notif-content" onClick={_=>history.push(`/post/${d.post_id}`)}>
+            <div className="col col-fill notif-content to-post" onClick={_=>history.push(`/post/${d.post_id}`)}>
                 <span id='user'><Link to={`/user/${d.associated_user}`}> {d.associated_user} </Link></span>
                 <span id='msg'>
                     {d.post_id!=null ?
