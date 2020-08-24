@@ -8,7 +8,7 @@ import LazyDP from '../../../components/LazyDP';
 import FollowButton from '../../../components/FollowButton';
 
 
-const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
+const FollowAlert: React.FC<{data: AlertProp}> = ({data})=>{
     const d = data;
 
     return (
@@ -37,4 +37,4 @@ const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
     );
 }
 
-export default CommentAlert;
+export default FollowAlert;
