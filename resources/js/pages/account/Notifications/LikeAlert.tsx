@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {AlertProp} from './alert-prop.d';
 import {limit} from '../../../helpers/util';
+import {dateSince} from '../../../helpers/date-time';
 
 import LazyDP from '../../../components/LazyDP';
 
@@ -25,7 +26,7 @@ const LikeAlert: React.FC<{data: AlertProp}> = ({data})=>{
                         : limit(d.message, 127)
                     }
                 </span>
-                <span id='time'> 6w </span>
+                <span id='time'> {dateSince(d.created_at)} </span>
             </div>
         </div>
     );
