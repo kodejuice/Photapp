@@ -5,7 +5,7 @@ import {fetchUser} from '../../helpers/fetcher';
 const default_avatar = '/icon/avatar.png';
 
 /**
- * dynamically load user profile picture
+ * lazily/dynamically load user profile picture
  * @param {string} props.user     username
  */
 export default function LazyDP({user}) {
