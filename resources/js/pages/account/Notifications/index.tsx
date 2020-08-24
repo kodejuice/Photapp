@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
 import useSWR from 'swr';
 
 import Header from '../../../components/Header';
@@ -23,7 +22,6 @@ import './style.scss';
 const Notifications: React.FC<{}> = ()=>{
     const {logged} = authUser();
     const [mounted, setMounted] = useState(false);
-    const history = useHistory();
 
     // redirect to login page if not logged in
     if (!logged) {
@@ -31,7 +29,7 @@ const Notifications: React.FC<{}> = ()=>{
         return <Splash color='bw' />;
     }
 
-    const res = useNotification(fetchListing);
+    const res = useNotification();
 
     if (res.data?.errors) {
         res.isError = res.data.errors[0];
@@ -82,10 +80,9 @@ function Notif({data}) {
 
 /**
  * useNotification hook
- * @param fetcher    useSWR fetcher
  */
-function useNotification(fetcher) {
-    const { data, error } = useSWR(`/api/user/notifications`, fetcher);
+function useNotification() {
+    const { data, error } = useSWR(`/api/user/notifications`, fetchListing);
     return {
         data: data,
         isLoading: !error && !data,
