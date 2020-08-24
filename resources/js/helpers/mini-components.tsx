@@ -2,6 +2,11 @@ import React from 'react';
 
 // TODO: implement this
 
+
+// make the links like this!
+// <a onClick={ev=>{ev.stopPropagation(); history.push(`/user/${d.associated_user}`)}}>
+
+
 /**
  * return a link to mentioned users in a message (@user -> <Link to='/user/...)
  * @param {string} str string

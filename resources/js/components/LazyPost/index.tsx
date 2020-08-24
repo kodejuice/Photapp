@@ -4,6 +4,9 @@ import {fetchPost} from '../../helpers/fetcher';
 
 const default_image = '/icon/camera.png';
 
+// TODO: alternate <img> src
+
+
 /**
  * lazily/dynamically load first image of a users post
  * @param {number} props.post_id     post id
