@@ -44,7 +44,7 @@ class NotifyFollowedUser implements ShouldQueue
         $notif->type = 'follow';
         $notif->user_id = $user2->id;
         $notif->associated_user = $user1->username;
-        $notif->message = "started following you";
+        $notif->message = "started following you.";
 
         $notif->save();
 
