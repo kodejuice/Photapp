@@ -11,8 +11,8 @@ export type AlertProp = {
       user_id: number,
       created_at: Date,
       updated_at: Date,
+      associated_user: string,
 
       post_id: number|null,
       comment_id: number|null,
-      associated_user: number|null,
 };
