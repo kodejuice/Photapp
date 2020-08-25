@@ -5,7 +5,7 @@ import Header from '../../../components/Header';
 import Spinner from '../../../components/Spinner';
 import Splash from '../../../components/Splash';
 
-import authUser from '../../../helpers/auth_user';
+import authUser from '../../../state/auth_user';
 import {fetchListing} from '../../../helpers/fetcher';
 
 import FollowAlert from './FollowAlert';

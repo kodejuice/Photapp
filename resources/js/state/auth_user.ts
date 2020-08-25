@@ -1,6 +1,10 @@
 import {useSelector} from 'react-redux';
-import {RootState} from '../state/store';
-import {userProfile as profileObject} from '../state/userProfile.d';
+import {RootState} from './store';
+import {userProfile as profileObject} from './userProfile.d';
+
+/**
+ * Return user information stored in redux
+ */
 
 export default function authUser() {
     const logged = useSelector<RootState, boolean>(({isLogged}) => isLogged);

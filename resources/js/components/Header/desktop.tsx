@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import { useHistory, Link } from "react-router-dom";
 
 import {logUserOut} from '../../helpers/fetcher';
-import authUser from '../../helpers/auth_user';
+import authUser from '../../state/auth_user';
 
 
 const Header: React.FC<{}> = ()=>{

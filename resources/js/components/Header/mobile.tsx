@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import {useSelector} from 'react-redux';
-import authUser from '../../helpers/auth_user';
+import authUser from '../../state/auth_user';
 
 type HeaderProps = {
     header_title?: string,

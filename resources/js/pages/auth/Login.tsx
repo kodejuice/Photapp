@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Cookie from 'js-cookie';
 import { useForm } from "react-hook-form";
 import {auth_fetch} from '../../helpers/fetcher';
-import authUser from '../../helpers/auth_user';
+import authUser from '../../state/auth_user';
 
 import Splash from '../../components/Splash';
 import './styles/auth-page.scss';

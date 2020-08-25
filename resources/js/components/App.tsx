@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {sign_in, set_user} from '../state/actions';
 import {checkLoginStatus} from '../helpers/fetcher';
-import authUser from '../helpers/auth_user';
+import authUser from '../state/auth_user';
 
 import ProgressRoute from '../routes/ProgressRoute';
 
