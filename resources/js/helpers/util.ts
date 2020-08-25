@@ -1,4 +1,3 @@
-
 /**
  * limit string
  * @param  {string} str        string
