@@ -34,3 +34,25 @@ a {
         display: none;
     }
 }
+
+
+.alert-popup {
+    width: 20%;
+    font-size: 14px;
+    min-width: 240px;
+    position: absolute;
+
+    left: 50%;
+    // bottom: 50px;
+    transform: translate(-50%, -50%);
+
+    .row {
+        margin: 0;
+
+        .alert {
+            margin: 0;
+            padding: 3px;
+        }
+    }
+}
+

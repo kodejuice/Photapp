@@ -15,5 +15,10 @@ export type RootState = {
         follows: number,
         followers: number,
         posts_count: number
-    }
+    },
+
+    readonly alert: {
+        message: string[],
+        type: 'error' | 'success'
+    },
 }

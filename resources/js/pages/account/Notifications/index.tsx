@@ -19,7 +19,6 @@ import CommentAlert from './CommentAlert';
 import './style.scss';
 
 
-// TODO: floating error tooltip component
 
 // TODO: TESTS!!!!
 //    (Home, Notifications<all sub components>)
