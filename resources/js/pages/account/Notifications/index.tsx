@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 import useSWR from '../../../helpers/swr';
 
 import Header from '../../../components/Header';
 import Spinner from '../../../components/Spinner';
 import Splash from '../../../components/Splash';
+import showAlert from '../../../components/Alert/showAlert';
 
 import authUser from '../../../state/auth_user';
 import {fetchListing, markNotification} from '../../../helpers/fetcher';
@@ -28,6 +30,7 @@ import './style.scss';
 
 const Notifications: React.FC<{}> = ()=>{
     const {logged} = authUser();
+    const dispatch = useDispatch();
     const [mounted, setMounted] = useState(false);
 
     // redirect to login page if not logged in
@@ -39,7 +42,7 @@ const Notifications: React.FC<{}> = ()=>{
     const res = useNotification();
 
     if (res.data?.errors) {
-        res.isError = res.data.errors[0];
+        showAlert(dispatch, res.data.errors);
         res.data = null;
     }
 
@@ -49,7 +52,6 @@ const Notifications: React.FC<{}> = ()=>{
 
             <div className='notifications-body'>
                 { res.isLoading ? <Spinner /> : ""}
-                { res.isError ? <em id='err'> {res.isError} </em> : "" }
 
                 <div className='alerts'>
                     { res.data ? res.data.map((notif)=> <Notif key={notif.notification_id} data={notif} />) : "" }
