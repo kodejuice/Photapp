@@ -178,9 +178,6 @@ class UserController extends Controller
             return response(['errors' => ['Notification not found']], 404);
         }
 
-        // delete all read notifications
-        Notification::where('new', 0)->delete();
-
         $notif->new = 0;
         $notif->save();
 
@@ -412,8 +409,7 @@ class UserController extends Controller
     public function getAuthUserNotifications(Request $request)
     {
         $user = $request->user();
-        $notifs = Notification::where('user_id', $user->id)
-            ->where('new', 1);
+        $notifs = Notification::where('user_id', $user->id);
 
         return response($notifs->get());
     }

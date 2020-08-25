@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {AlertProp} from './types.d';
+import {NotificationProp} from './types.d';
 import {limit} from '../../../helpers/util';
 import {howLong} from '../../../helpers/date-time';
 
@@ -8,7 +8,7 @@ import LazyDP from '../../../components/LazyDP';
 import FollowButton from '../../../components/FollowButton';
 
 
-const FollowAlert: React.FC<{data: AlertProp}> = ({data})=>{
+const FollowAlert: React.FC<{data: NotificationProp}> = ({data})=>{
     const d = data;
 
     return (

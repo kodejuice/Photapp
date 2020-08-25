@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {AlertProp} from './types.d';
+import {NotificationProp} from './types.d';
 import {limit} from '../../../helpers/util';
 import {highlightMentions} from '../../../helpers/mini-components';
 
@@ -10,7 +10,7 @@ import LazyDP from '../../../components/LazyDP';
 import LazyPost from '../../../components/LazyPost';
 
 
-const CommentAlert: React.FC<{data: AlertProp}> = ({data})=>{
+const CommentAlert: React.FC<{data: NotificationProp}> = ({data})=>{
     const d = data;
     const history = useHistory();
 

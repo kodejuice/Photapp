@@ -3,7 +3,7 @@
  * Notification properties
  * @type {Object}
  */
-export type AlertProp = {
+export type NotificationProp = {
       new: boolean,
       notification_id: number,
       type: 'mention' | 'comment' | 'like' | 'follow',

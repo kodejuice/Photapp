@@ -215,3 +215,27 @@ export async function fetchListing(url) {
         return {errors: handleServerError(err, ()=>void 0)};
     }
 }
+
+
+//////////////////
+// Notifications /
+//////////////////
+
+/**
+ * mark a notification as read (set .new prop to 0)
+ * 
+ * @param {number} id notification id
+ */
+export async function markNotification(id: number) {
+    axios.post(`/api/user/notification/${id}`);
+}
+
+/**
+ * deletes a notification from database
+ * 
+ * @param {number} id notification id
+ */
+export async function deleteNotification(id: number) {
+    axios.delete(`/api/user/notification/${id}`);
+}
+

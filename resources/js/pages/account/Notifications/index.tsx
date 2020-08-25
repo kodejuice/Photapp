@@ -6,7 +6,10 @@ import Spinner from '../../../components/Spinner';
 import Splash from '../../../components/Splash';
 
 import authUser from '../../../state/auth_user';
-import {fetchListing} from '../../../helpers/fetcher';
+import {fetchListing, markNotification} from '../../../helpers/fetcher';
+
+import {checkForDeletion} from './helper';
+
 
 import FollowAlert from './FollowAlert';
 import MentionAlert from './MentionAlert';
@@ -61,9 +64,22 @@ const Notifications: React.FC<{}> = ()=>{
 
 /**
  * Single Notification component
+ *
+ * Renders a single notification.
  */
 function Notif({data}) {
     const {type} = data;
+
+    // Notification already read before,
+    // check if its due for deletion
+    if (data.new == false) {
+        checkForDeletion(data);
+    }
+
+    // mark this notification as read
+    if (type != 'follow' && data.new == true) {
+        markNotification(data.notification_id);
+    }
 
     if (type == 'like') {
         return <LikeAlert data={data} />

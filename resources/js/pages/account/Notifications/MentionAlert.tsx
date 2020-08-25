@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {AlertProp} from './types.d';
+import {NotificationProp} from './types.d';
 import {limit} from '../../../helpers/util';
 import {highlightMentions} from '../../../helpers/mini-components';
 
@@ -11,7 +11,7 @@ import LazyPost from '../../../components/LazyPost';
 import FollowButton from '../../../components/FollowButton';
 
 
-const MentionAlert: React.FC<{data: AlertProp}> = ({data})=>{
+const MentionAlert: React.FC<{data: NotificationProp}> = ({data})=>{
     const d = data;
     const history = useHistory();
 

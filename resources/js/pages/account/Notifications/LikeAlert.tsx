@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {AlertProp} from './types.d';
+import {NotificationProp} from './types.d';
 import {limit} from '../../../helpers/util';
 import {howLong} from '../../../helpers/date-time';
 
@@ -8,7 +8,7 @@ import LazyDP from '../../../components/LazyDP';
 import LazyPost from '../../../components/LazyPost';
 
 
-const LikeAlert: React.FC<{data: AlertProp}> = ({data})=>{
+const LikeAlert: React.FC<{data: NotificationProp}> = ({data})=>{
     const d = data;
     const history = useHistory();
 
