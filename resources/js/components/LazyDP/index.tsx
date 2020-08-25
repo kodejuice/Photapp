@@ -4,6 +4,7 @@ import {fetchUser} from '../../helpers/fetcher';
 
 const default_avatar = '/icon/avatar.png';
 
+
 /**
  * lazily/dynamically load user profile picture
  * @param {string} props.user     username
@@ -11,11 +12,16 @@ const default_avatar = '/icon/avatar.png';
 export default function LazyDP({user}) {
     const {data, isLoading, isError} = useUser(user);
 
+    // load default_image if post image url is invalid
+    const onError = (ev: React.SyntheticEvent<HTMLImageElement>)=>{
+        (ev.target as HTMLImageElement).src = default_avatar;
+    };
+
     const url = (isError || isLoading || (data && !data.profile_pic))
         ? default_avatar
         :`/avatar/${data.profile_pic}`;
 
-    return <img src={url} />;
+    return <img src={url} onError={onError} />;
 }
 
 
