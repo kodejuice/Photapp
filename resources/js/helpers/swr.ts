@@ -32,7 +32,9 @@ export default function useSWR(arg: string, fetcher) {
         // @see `helpers/fetcher.ts` -> section /_User Accout Requests_/
         // 
         if (data.errors instanceof Array) {
-            data = CACHE[key];
+            if (CACHE[key]) {
+                data = CACHE[key];
+            }
         } else {
             // else store response in CACHE
             CACHE[key] = data;
