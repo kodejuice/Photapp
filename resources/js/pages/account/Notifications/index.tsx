@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import useSWR from 'swr';
+import useSWR from '../../../helpers/swr';
 
 import Header from '../../../components/Header';
 import Spinner from '../../../components/Spinner';

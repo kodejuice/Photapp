@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import useSWR from 'swr';
+import useSWR from '../../helpers/swr';
 import {fetchPost} from '../../helpers/fetcher';
 
 const default_image = '/icon/camera.png';

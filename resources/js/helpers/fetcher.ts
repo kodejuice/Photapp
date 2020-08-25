@@ -1,8 +1,10 @@
 import axios from 'axios';
 import nprogress from '../routes/nprogress';
 
-
-const handleServerError = (err, onError: (d: Array<string>) => void)=>{
+/**
+ * Returns meaningful errors? from server error response
+ */
+const handleServerError = (err, onError: (d: Array<string>) => void): Array<string> =>{
     let ret: Array<string>;
     if (err?.data?.errors instanceof Array) {
         // errors
@@ -168,7 +170,7 @@ export async function fetchUser(user: string) {
         throw req;
 
     } catch (err) {
-        return {};
+        return {errors: handleServerError(err, ()=>void 0)};
     }
 }
 
@@ -189,13 +191,13 @@ export async function fetchPost(post_id: number) {
         throw req;
 
     } catch (err) {
-        return {};
+        return {errors: handleServerError(err, ()=>void 0)};
     }
 }
 
 
 /**
- * fetch list of {X} from DB, e.g notifications, followers, e.t.c...
+ * fetch list of {X} from DB, e.g posts, notifications, followers, e.t.c...
  * @param {string} url     API url
  */
 export async function fetchListing(url) {
