@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {AlertProp} from './alert-prop.d';
+import {AlertProp} from './types.d';
 import {limit} from '../../../helpers/util';
 import {highlightMentions} from '../../../helpers/mini-components';
 
