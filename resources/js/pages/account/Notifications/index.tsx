@@ -16,9 +16,6 @@ import CommentAlert from './CommentAlert';
 import './style.scss';
 
 
-// TODO: <LazyPost for
-//    comment, like
-// TODO: return stale data if no current data
 // TODO: floating error tooltip component
 
 // TODO: TESTS!!!!
