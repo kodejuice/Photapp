@@ -146,7 +146,7 @@ async function UserSignup(data: Inputs, setErrs, history) {
 
         // store auth token cookie and redirect to home
         storeCookie(res.token, ()=>{
-            history.push('/');
+            (window as any).location = '/';
         });
     }
 }
