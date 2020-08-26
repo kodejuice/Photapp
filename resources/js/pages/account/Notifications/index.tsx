@@ -21,13 +21,6 @@ import CommentAlert from './CommentAlert';
 import './style.scss';
 
 
-
-// TODO: TESTS!!!!
-//    (Home, Notifications<all sub components>)
-//    LazyDP
-//    FollowButton
-
-
 const Notifications: React.FC<{}> = ()=>{
     const {logged} = authUser();
     const dispatch = useDispatch();
