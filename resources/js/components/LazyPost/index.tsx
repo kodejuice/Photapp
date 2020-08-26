@@ -4,7 +4,6 @@ import {fetchPost} from '../../helpers/fetcher';
 
 const default_image = '/icon/camera.png';
 
-
 /**
  * lazily/dynamically load first image of a users post
  * @param {number} props.post_id     post id
@@ -14,7 +13,10 @@ export default function LazyPost({post_id}) {
 
     // load default_image if post image url is invalid
     const onError = (ev: React.SyntheticEvent<HTMLImageElement>)=>{
-        (ev.target as HTMLImageElement).src = default_image;
+        const img = (ev.target as HTMLImageElement);
+        if (img.src != default_image) {
+            img.src = default_image;
+        }
     };
 
     const url = (isError || isLoading || (!post?.post_url))
