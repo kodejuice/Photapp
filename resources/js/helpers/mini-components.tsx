@@ -8,12 +8,12 @@ import {useHistory} from 'react-router-dom';
  * 
  * e.g, "hi @mike" -> hi <a href='/user/mike'>mike</a>
  *
- * converts the string to JSXElements, so they actually appear as links
+ * converts them string to JSXElements, so they actually appear as links
  * when rendered
  *
  * @param {string} str string
  */
-export function highlightMentions(str: string): React.ReactNode {
+export const HighlightMentions: React.FC<{str: string}> = ({str}) => {
     const history = useHistory();
     let strs = str.split('@');
     let res: {type:string,str:string}[] = [];
@@ -51,15 +51,21 @@ export function highlightMentions(str: string): React.ReactNode {
         }
     }
 
-    return res.map((o,i)=>{
-        if (o.type == 'text') {
-            return <span key={o.str}> {o.str} </span>;
-        } else {
-            return (
-                <a key={o.str} onClick={ev=>{ev.stopPropagation(); history.push(`/user/${o.str}`)}}>
-                    @{o.str}
-                </a>
-            );
+    return (
+        <React.Fragment>
+        {
+            res.map((o,i)=>{
+                if (o.type == 'text') {
+                    return <span key={i}> {o.str} </span>;
+                } else {
+                    return (
+                        <a key={i} onClick={ev=>{ev.stopPropagation(); history.push(`/user/${o.str}`)}}>
+                            @{o.str}
+                        </a>
+                    );
+                }
+            })
         }
-    });
+        </React.Fragment>
+    );
 }
