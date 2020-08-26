@@ -8,7 +8,7 @@ import '@testing-library/jest-dom';
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
-import Wrapper from './wrap-component';
+import Wrapper from '../../../__test__/wrap-component';
 
 import Register from '../Register';
 

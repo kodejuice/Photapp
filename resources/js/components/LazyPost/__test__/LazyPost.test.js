@@ -1,19 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Cookie from 'js-cookie';
 import {render, fireEvent, screen} from '@testing-library/react';
 import "babel-polyfill";
 import '@testing-library/jest-dom';
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
-import Wrapper from '../../../__test__/wrap-component';
+import Wrapper from '.../../../__test__/wrap-component';
 
-import Login from '../Login';
+import LazyPost from '../index';
 
 const component = (
     <Wrapper>
-        <Login />
+        <LazyPost post_id={1} />
     </Wrapper>
 );
 
@@ -22,10 +21,11 @@ const component = (
 /////////////////////
 // Server mockup
 const server = setupServer(
-    rest.post('/api/login', (req, res, ctx) => {
+    rest.get('/api/post/1', (req, res, ctx) => {
+        // console.log(req)
         return res(
             ctx.status(200),
-            ctx.json({token: 'fake_user_token'})
+            ctx.json({post_url: '[["img", "http://example.com/post-image.png"]]'})
         )
     }),
 );
@@ -33,7 +33,6 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => {
     server.close()
-    Cookie.remove("AUTH_TOKEN")
 })
 /////////////////////
 /////////////////////
@@ -66,31 +65,12 @@ test('renders without crashing', ()=>{
 });
 
 
-test("toggling password visibility works correctly", ()=>{
+test("component works correctly", async ()=>{
     const {getByTestId} = render(component);
-    const button = getByTestId('show-pass');
+    const img = getByTestId('post-img');
 
-    expect(button).toHaveTextContent("Show");
-    fireEvent.click(button);
-    expect(button).toHaveTextContent("Hide");
-});
+    await screen.findByRole('post-img');
 
-
-test("signs user in", async ()=>{
-    const {getByTestId} = render(component);
-
-    // fill out the form
-    fireEvent.change(getByTestId('user-input'), {
-        target: {value: 'john'},
-    })
-    fireEvent.change(getByTestId('pass-input'), {
-        target: {value: 'doe'},
-    })
-
-    // submit
-    fireEvent.click(getByTestId('submit'));
-
-    await screen.findByRole('alert');
-
-    expect(Cookie.get("AUTH_TOKEN")).toEqual('fake_user_token');
+    // post image loaded
+    expect(img.src).toEqual('http://example.com/post-image.png');
 });

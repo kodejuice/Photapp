@@ -24,7 +24,7 @@ export default function LazyPost({post_id}) {
         : JSON.parse(post.post_url)[0][1];
     /* post_url is a json string -> "[[file_name, full_file_path], ...]"  */
 
-    return <img src={url} onError={onError} />;
+    return <img role={post?'post-img':''} data-testid='post-img' src={url} onError={onError} />;
 }
 
 

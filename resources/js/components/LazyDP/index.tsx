@@ -23,7 +23,7 @@ export default function LazyDP({user}) {
         ? default_avatar
         :`/avatar/${data.profile_pic}`;
 
-    return <img src={url} onError={onError} />;
+    return <img role={data?'dp':''} data-testid="dp" src={url} onError={onError} />;
 }
 
 
