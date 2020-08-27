@@ -30,27 +30,30 @@ const Header: React.FC<{}> = ()=>{
                         <ul className="inline">
                             <li><Link to="/"><img src="/icon/home.png"/></Link></li>
                             <li><Link to="/explore"><img src="/icon/explore.png"/></Link></li>
-                            <li><Link to="/activity"><img src="/icon/heart.png"/></Link></li>
                             {
                                 !user?.id ?
-                                    <li>
-                                        <Link to="/login"><img src="/icon/login.png"/></Link>
-                                    </li>
+                                    <React.Fragment>
+                                        <li> <Link to="/login"><img src="/icon/heart.png"/></Link> </li>
+                                        <li> <Link to="/login"><img src="/icon/login.png"/></Link> </li>
+                                    </React.Fragment>
                                     :
-                                    <li>
-                                        <div className="dropdown">
-                                            <img onClick={_=>showDropdown(!dropdown_shown)}
-                                                 className='dropbtn avatar'
-                                                 src={user.profile_pic ? `/avatar/${user.profile_pic}` : '/icon/avatar.png'}
-                                            />
-                                            <div className={`dropdown-content ${dropdown_shown?'show':''}`}>
-                                                <Link to={`/user/${user.username}`}> Profile</Link>
-                                                <Link to={`/user/${user.username}?tab=saved`}> Saved</Link>
-                                                <Link to={`/account/settings`}> Settings</Link>
-                                                <a onClick={logOut} href="/">Logout</a>
+                                    <React.Fragment>
+                                        <li><Link to="/activity"><img src="/icon/heart.png"/></Link></li>
+                                        <li>
+                                            <div className="dropdown">
+                                                <img onClick={_=>showDropdown(!dropdown_shown)}
+                                                     className='dropbtn avatar'
+                                                     src={user.profile_pic ? `/avatar/${user.profile_pic}` : '/icon/avatar.png'}
+                                                />
+                                                <div className={`dropdown-content ${dropdown_shown?'show':''}`}>
+                                                    <Link to={`/user/${user.username}`}> Profile</Link>
+                                                    <Link to={`/user/${user.username}?tab=saved`}> Saved</Link>
+                                                    <Link to={`/account/settings`}> Settings</Link>
+                                                    <a onClick={logOut} href="/">Logout</a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    </React.Fragment>
                             }
                         </ul>
                     </div>
