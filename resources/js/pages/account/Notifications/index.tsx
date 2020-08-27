@@ -24,13 +24,6 @@ import './style.scss';
 const Notifications: React.FC<{}> = ()=>{
     const {logged} = authUser();
     const dispatch = useDispatch();
-    const [mounted, setMounted] = useState(false);
-
-    // redirect to login page if not logged in
-    if (!logged) {
-        (window as any).location = "/login";
-        return <Splash color='bw' />;
-    }
 
     const res = useNotification();
 
