@@ -69,16 +69,16 @@ function Notif({data}) {
     }
 
     if (type == 'like') {
-        return <LikeAlert data={data} />
+        return <LikeAlert data={data} />;
     }
     else if (type == 'comment') {
         return <CommentAlert data={data} />;
     }
     else if (type == 'follow') {
-        return <FollowAlert data={data} />
+        return <FollowAlert data={data} />;
     }
     else if (type == 'mention') {
-        return <MentionAlert data={data} />
+        return <MentionAlert data={data} />;
     }
 
     return <React.Fragment> </React.Fragment>;
