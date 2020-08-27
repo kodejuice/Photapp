@@ -12,7 +12,7 @@ const FollowAlert: React.FC<{data: NotificationProp}> = ({data})=>{
     const d = data;
 
     return (
-        <div className="row comment-alert">
+        <div className="row comment-alert" role="follow-alert">
             <div className="col col-2 dp-col">
                 <Link to={`/user/${d.associated_user}`}>
                     <span id='dp'> <LazyDP user={d.associated_user} /> </span>

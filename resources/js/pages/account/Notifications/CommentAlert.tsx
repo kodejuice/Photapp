@@ -15,7 +15,7 @@ const CommentAlert: React.FC<{data: NotificationProp}> = ({data})=>{
     const history = useHistory();
 
     return (
-        <div className="row comment-alert">
+        <div className="row comment-alert" role="comment-alert">
             <div className="col col-2 dp-col">
                 <Link to={`/user/${d.associated_user}`}>
                     <span id='dp'> <LazyDP user={d.associated_user} /> </span>
@@ -29,7 +29,7 @@ const CommentAlert: React.FC<{data: NotificationProp}> = ({data})=>{
                             {d.associated_user+" "}
                         </a>
                     </span>
-                    <span id='msg'>commented on your post: {HighlightMentions(limit(d.message, 117))} </span>
+                    <span id='msg'>commented on your post: <HighlightMentions str={limit(d.message, 117)} /> </span>
                     <span id='time'> {howLong(d.created_at)} </span>
                 </div>
 

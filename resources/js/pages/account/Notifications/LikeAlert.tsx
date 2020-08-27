@@ -13,7 +13,7 @@ const LikeAlert: React.FC<{data: NotificationProp}> = ({data})=>{
     const history = useHistory();
 
     return (
-        <div className="row comment-alert">
+        <div className="row comment-alert" role="like-alert">
             <div className="col col-2 dp-col">
                 <span id='dp'>
                     <Link to={`/user/${d.associated_user}`}> <LazyDP user={d.associated_user} /> </Link>
