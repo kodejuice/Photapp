@@ -213,7 +213,10 @@ class UserController extends Controller
         if (!$usr) {
             return response(['errors' => ['Not found']], 404);
         }
-        $usr->auth_user_follows = $this->userFollows($request->user()->id, $usr->id);
+        $auth_user = $request->user();
+        if ($auth_user) {
+            $usr->auth_user_follows = $this->userFollows($auth_user->id, $usr->id);
+        }
         return response($usr);
     }
 

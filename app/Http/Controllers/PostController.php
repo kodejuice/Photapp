@@ -231,7 +231,7 @@ class PostController extends Controller
         }
 
         $auth_user = $request->user();
-        $this->getPostInfos($auth_user->id, [$post]);
+        $this->getPostInfos(@$auth_user->id ?: null, [$post]);
 
         return response($post);
     }
@@ -277,7 +277,7 @@ class PostController extends Controller
             }
         }
 
-        $this->getPostInfos($auth_user->id, $posts);
+        $this->getPostInfos(@$auth_user->id ?: null, $posts);
 
         return response($posts);
     }
@@ -307,8 +307,11 @@ class PostController extends Controller
                         ->offset($offset)
                         ->get();
 
-        foreach ($comments as $c) {
-            $c->auth_user_likes = $this->userLikesComment($request->user()->id, $c->comment_id);
+        $auth_user = $request->user();
+        if ($auth_user) {
+            foreach ($comments as $c) {
+                $c->auth_user_likes = $this->userLikesComment($auth_user->id, $c->comment_id);
+            }
         }
 
         return response($comments);
@@ -352,10 +355,12 @@ class PostController extends Controller
     {
         foreach ($posts as $p) {
             $p->username = User::firstWhere('id', $p->user_id)->username;      // username of post author (posts table only stores user id)
-            $p->auth_user_likes = $this->userLikesPost($user_id, $p->post_id); // boolean (does logged-in user like this post)
-            $p->auth_user_saved = $this->userSavedPost($user_id, $p->post_id); // boolean (has logged-in user saved this post)
-            $p->auth_user_comment = $this->userComment($user_id, $p->post_id); // last comment of user on this post
-            $p->auth_user_follows = $this->userFollows($user_id, $p->user_id); // boolean (does logged-in user follow post author)
+            if ($user_id) {
+                $p->auth_user_likes = $this->userLikesPost($user_id, $p->post_id); // boolean (does logged-in user like this post)
+                $p->auth_user_saved = $this->userSavedPost($user_id, $p->post_id); // boolean (has logged-in user saved this post)
+                $p->auth_user_comment = $this->userComment($user_id, $p->post_id); // last comment of user on this post
+                $p->auth_user_follows = $this->userFollows($user_id, $p->user_id); // boolean (does logged-in user follow post author)
+            }
         }
     }
 
