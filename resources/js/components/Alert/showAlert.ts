@@ -2,7 +2,7 @@ import {useDispatch} from 'react-redux';
 import {set_alert_messages} from '../../state/actions';
 
 
-export default function showAlertMessages(dispatch, msgs: string[], type: string='error', N=5) {
+export default function showAlertMessages(dispatch, msgs: string[], type: 'error'|'success' = 'error', N=5) {
     dispatch(set_alert_messages(msgs, type));
 
     // progressively remove the messages after every 2 seconds
