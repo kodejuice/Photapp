@@ -379,7 +379,7 @@ class PostController extends Controller
     }
 
     /**
-     * get last authenticated user comment on a post
+     * get last user comment on a post
      */
     private function userComment($user_id, $post_id)
     {
