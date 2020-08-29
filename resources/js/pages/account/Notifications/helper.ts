@@ -4,7 +4,7 @@ import differenceInDays from 'date-fns/differenceInDays';
 
 
 /**
- * checks if the notification is over 3days old
+ * checks if the notification is over 7days old
  *
  * request for its deletion is true
  */
@@ -16,9 +16,10 @@ export function checkForDeletion(data: NotificationProp) {
         new Date(data.updated_at)
     );
 
-    if (daysSinceRead >= 3) {
-        deleteNotification(data.notification_id);
-    }
+    // TODO: uncomment this!
+    // if (daysSinceRead >= 7) {
+    //     deleteNotification(data.notification_id);
+    // }
 
 }
 
