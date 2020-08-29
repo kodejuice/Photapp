@@ -36,6 +36,63 @@ a {
 }
 
 
+////////////////
+// Home Posts //
+////////////////
+
+/* smaller screens */
+@media screen and (max-width: 600px) {
+    @media (max-width: 500px) {
+        .home-posts div.user-name {
+            margin-left: 13px;
+        }
+    }
+    .sm-hide {
+        display: none;
+    }
+    .home-posts {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        .card {
+            border: none !important;
+            .card-header, .card-body {
+                background: inherit !important;
+            }
+        }
+    }
+}
+
+/* medium sized screens */
+@media screen and (min-width: 601px) and (max-width: 999px) {
+    .sm-hide {
+        display: none;
+    }
+    .home-posts {
+        margin: 0 auto !important;
+        flex: 0 0 600px !important;
+        width: 600px !important;
+        max-width: 600px !important;
+    }
+}
+
+/* big screens */
+@media screen and (min-width: 1000px) {
+    .posts-wrapper {
+        width: 935px !important;
+        margin: 0 auto !important;
+        .home-posts {
+            flex: 0 0 614px !important;
+            width: 614px !important;
+            max-width: 614px !important;
+        }
+    }    
+}
+
+
+
+/////////////////
+// Alert popup //
+/////////////////
 .alert-popup {
     width: 20%;
     font-size: 14px;
