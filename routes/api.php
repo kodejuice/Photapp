@@ -33,6 +33,14 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
     Route::post('/register', 'Auth\ApiAuthController@register')->name('register.api');
 
+    // Post [READ]
+    Route::get('/posts', 'PostController@getPosts')->name('post.all_posts');
+    Route::get('/post/{id}/comments', 'PostController@getPostComments')->name('post.get_comments');
+    Route::get('/post/{id}', 'PostController@getPost')->name('post.get');
+
+    // User [READ]
+    Route::get('/user/getprofile', 'UserController@getUser')->name('user.profile');
+
     // protected routes
     Route::middleware('auth:api')->group(function () {
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
@@ -54,10 +62,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('/comment/{id}/like', 'CommentController@likeComment')->name('post.like_comment');
         Route::post('/comment/{id}/dislike', 'CommentController@dislikeComment')->name('post.dislike_comment');
         Route::delete('/comment/{id}', 'CommentController@deleteComment')->name('post.delete_comment');
-        // READ
-        Route::get('/posts', 'PostController@getPosts')->name('post.all_posts');
-        Route::get('/post/{id}/comments', 'PostController@getPostComments')->name('post.get_comments');
-        Route::get('/post/{id}', 'PostController@getPost')->name('post.get');
 
 
         /////////////////
@@ -78,7 +82,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('/user/{username}/bookmarks', 'UserController@getUserBookmarks')->name('user.bookmarks');
         Route::get('/user/{username}/followers', 'UserController@getUserFollowers')->name('user.followers');
         Route::get('/user/{username}/following', 'UserController@getUserFollowing')->name('user.following');
-        Route::get('/user/getprofile', 'UserController@getUser')->name('user.profile');
         // :auth_user:
         Route::get('/user/profile', 'UserController@getAuthUserProfile')->name('auth_user.profile');
         Route::get('/user/posts', 'UserController@getAuthUserPosts')->name('auth_user.posts');
