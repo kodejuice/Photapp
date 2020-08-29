@@ -85,7 +85,7 @@ class UserController extends Controller
 
         // resize image & store
         $img = ImageResize::make($uploaded_image->path());
-        $img->resize(100, 100, function ($constraint) {
+        $img->resize(60, 60, function ($constraint) {
             $constraint->aspectRatio();
         })->save($destinationPath.'/'.$imagename);
 
