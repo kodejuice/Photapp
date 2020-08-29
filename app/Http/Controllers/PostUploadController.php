@@ -26,7 +26,7 @@ class PostUploadController extends Controller
         $this->validate($request, [
           'files' => 'required|max:5120',
           'files.*' => 'mimes:png,jpeg,jpg,bmp,svg,jfif,pjp,mp4,webm,3gp',
-          'caption' => 'string',
+          'caption' => 'string|max:290',
         ]);
 
         $uploaded_files = $request->file('files');
@@ -70,7 +70,7 @@ class PostUploadController extends Controller
         $validator = Validator::make($request->all(), [
             'url' => 'url',
             'urls' => 'array',
-            'caption' => 'string',
+            'caption' => 'string|max:290',
         ]);
 
         if ($validator->fails()) {

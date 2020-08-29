@@ -30,7 +30,7 @@ class CommentController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'message' => 'string|required',
+            'message' => 'string|required|max:290',
         ]);
 
         if ($validator->fails()) {
