@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
 
     return (
         <header className='hide-desktop'>
-            <div className='header-wrapper'>
+            <div className='fixed-wrapper'>
                 <nav className="header border">
                     {!hide_icon?
                     <div className="photo-btn">
