@@ -1,71 +1,60 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 
-// TODO: implement highlightTagsAndMentions
+import * as linkify from 'linkifyjs';
+import Linkify from 'linkifyjs/react';
+import hashtag from 'linkifyjs/plugins/hashtag';
+import mention from 'linkifyjs/plugins/mention';
+
+// init Linkify plugins
+hashtag(linkify);
+mention(linkify);
+
 
 /**
- * return links to mentioned users in a string
- * 
- * e.g, "hi @mike" -> hi <a href='/user/mike'>mike</a>
+ * process user input (comment, caption, ...)
  *
- * converts them string to JSXElements, so they actually appear as links
- * when rendered
+ * converts hashtags, mentions, urls,... into clickable JSX elements
  *
- * @param {string} str string
+ * @param      text          string to process
+ * @return     {ReactNode}
  */
-export const HighlightMentions: React.FC<{str: string}> = ({str}) => {
+export const ProcessUserInput: React.FC<{text: string}> = ({text})=>{
     const history = useHistory();
-    let strs = str.split('@');
-    let res: {type:string,str:string}[] = [];
 
-    if (strs[0] != '') {
-        res.push({
-            type: 'text',
-            str: strs[0],
-        });
-    }
+    const options = {
+        formatHref: {
+            hashtag(href) {
+                return `${location.host}/explore/${href.slice(1)}`;
+            },
+            mention(href) {
+                return `${location.host}/user/${href.slice(1)}`;
+            },
+        },
 
-    strs.shift();
-    let firstWord: string, s: string;
-    for (let i=0; i<strs.length; ++i) {
-        s = strs[i];
+        attributes: {
+            onClick(ev) {
+                ev.stopPropagation();
+                ev.preventDefault();
 
-        let match = s.match(/^(\w+)/);
-        if (match) {
-            // first word
-            res.push({
-                type: 'link',
-                str: match[0]
-            });
+                // check if they're not external links
+                // if so, use react-router to redirect user
+                // else use window.location
+                let href = ev.target.href;
+                href = href.replace(/^https?:\/\//, '');
+                href = href.replace(location.host, '');
 
-            // ...rest
-            res.push({
-                type: 'text',
-                str: s.slice(match[0].length)
-            });
-        } else {
-            res.push({
-                type: 'text',
-                str: "@" + s
-            });
-        }
-    }
+                const routes = ['user', 'explore', 'post'];
+                const regex = routes.map(r => new RegExp(`^\/?${r}\/(.+)`));
 
-    return (
-        <React.Fragment>
-        {
-            res.map((o,i)=>{
-                if (o.type == 'text') {
-                    return <span key={i}> {o.str} </span>;
+                if (regex.some(R => href.match(R))) {
+                    history.push(href);
                 } else {
-                    return (
-                        <a key={i} onClick={ev=>{ev.stopPropagation(); history.push(`/user/${o.str}`)}}>
-                            @{o.str}
-                        </a>
-                    );
+                    window.location = ev.target.href;
                 }
-            })
+            },
         }
-        </React.Fragment>
-    );
+    };
+
+    return <Linkify options={options}> {text} </Linkify>;
 }
