@@ -10,6 +10,8 @@ url(data:image/gif;base64,R0lGODlhIAAgALMPAPj4+Pf39/X19fT09Pb29vPz8/39/fLy8vn5+f
     border-radius: $property;
 }
 
+$font-size: 0.8em;
+
 .posts-wrapper {
     margin-bottom: 47px;
     padding: 24px 0 0 !important;
@@ -61,7 +63,7 @@ url(data:image/gif;base64,R0lGODlhIAAgALMPAPj4+Pf39/X19fT09Pb29vPz8/39/fLy8vn5+f
 
             div.user-name, div.user-opt {
                 margin-top: 9px;
-                font-size: 0.90em;
+                font-size: $font-size;
                 font-weight: bold;
             }
         }
@@ -83,6 +85,10 @@ url(data:image/gif;base64,R0lGODlhIAAgALMPAPj4+Pf39/X19fT09Pb29vPz8/39/fLy8vn5+f
                     border: none;
                     width: 40px;
                     height: 40px;
+                    box-shadow: none;
+                    &:active {
+                        border: none;
+                    }
                 }
             }
 
@@ -91,7 +97,7 @@ url(data:image/gif;base64,R0lGODlhIAAgALMPAPj4+Pf39/X19fT09Pb29vPz8/39/fLy8vn5+f
                 padding: 0 16px;
 
                 .comment {
-                    font-size: 0.92em;
+                    font-size: $font-size;
 
                     span.user a {
                         color: #262626;
@@ -107,7 +113,7 @@ url(data:image/gif;base64,R0lGODlhIAAgALMPAPj4+Pf39/X19fT09Pb29vPz8/39/fLy8vn5+f
 
                 div.more {
                     margin: 4px 0;
-                    font-size: 0.92em;
+                    font-size: $font-size;
                     a, a:visited { color: #868E96; }
                 }
 
@@ -118,7 +124,7 @@ url(data:image/gif;base64,R0lGODlhIAAgALMPAPj4+Pf39/X19fT09Pb29vPz8/39/fLy8vn5+f
                     input {
                         margin: 0;
                         width: 100%;
-                        font-size: 0.89em;
+                        font-size: $font-size;
                         border: none;
                     }
 
@@ -163,6 +169,7 @@ url(data:image/gif;base64,R0lGODlhIAAgALMPAPj4+Pf39/X19fT09Pb29vPz8/39/fLy8vn5+f
                 border: none;
                 display: block;
                 box-shadow: none;
+                font-size: 0.79em;
                 border-bottom: 1px solid rgba(var(--ce3,239,239,239),1);
 
                 a, a:visited {
