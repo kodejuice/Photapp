@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import authUser from '../../../state/auth_user';
 
 import {Post} from '../types.d';
 import LazyDP from '../../LazyDP';
 import FollowButton from '../../FollowButton';
+import showAlert from '../../Alert/showAlert';
 
-import {limit} from '../../../helpers/util';
+import {limit, copyText} from '../../../helpers/util';
 
 import './style.scss';
 
@@ -14,11 +16,8 @@ type HomePost = {
     data: Post[],
 }
 
-// TODO: get icons
-// TODO: auth_user_likes?
-// TODO: auth_user_saved?
+// TODO: highlightMention/Tags
 
-// TODO: copy link
 // TODO: media viewer
 // TODO: infinite scroll
 
@@ -31,22 +30,29 @@ type HomePost = {
  */
 const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     const {logged, user} = authUser();
+    const dispatch = useDispatch();
     const caption: string = post.caption || "";
     const i = idx, caption_limit = 100;
 
+    // post info
+    const [postLiked, likesPost] = useState(!!post.auth_user_likes);
+    const [postSaved, savesPost] = useState(!!post.auth_user_saved);
+    // ....
+
     const [commentText, setCommentText] = useState("");
 
-    const [postComment, setPostComment] = useState(limit(caption, caption_limit));
-    const [isFullComment, setFullComment] = useState(caption == postComment);
-
-    const show = (t)=>{
+    const [postCaption, setPostCaption] = useState(limit(caption, caption_limit));
+    const [isFullComment, setFullComment] = useState(caption == postCaption);
+    const showComment = (t)=>{
         if (t == 'more') {
-            setPostComment(caption);
+            setPostCaption(caption);
         } else if (t == 'less') {
-            setPostComment(limit(caption, caption_limit));
+            setPostCaption(limit(caption, caption_limit));
         }
         setFullComment(t == 'more' ? true : false);
     };
+
+
 
     return (
         <div className="card" key={post.post_id}>
@@ -61,7 +67,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         : <button className='delete-post'> Delete post </button>
                     }
                     <button> <Link to={`/post/${post.post_id}`}>Go to Post</Link> </button>
-                    <button> Copy link </button>
+                    <button onClick={_=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
                     <label htmlFor={`modal-${i+1}`}> Cancel </label>
                 </div>
             </div>
@@ -83,13 +89,23 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                 <div className='post-action row'>
                     <div className='col col-3'>
                         <div className='row btns'>
-                            <div className='col col-5'> <button> <img src="/icon/heart.png"/> </button> </div>
-                            <div className='col col-6'> <button> <img src="/icon/photapp-bw.png"/> </button> </div>
+                            <div className='col col-5'>
+                                {/*like button*/}
+                                <button onClick={_=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked))}>
+                                    <img src={`/icon/heart${postLiked?'.png':'-blank.svg'}`}/>
+                                </button>
+                            </div>
+                            <div className='col col-6'>
+                                {/*comment button*/}
+                                <button> <Link to={`/post/${post.post_id}`}> <img src={`/icon/comment.svg`} /> </Link> </button>
+                            </div>
                         </div>
                     </div>
                     <div className='col col-fill'></div>
                     <div className='col col-1'>
-                        <button> <img src="/icon/bookmark.png"/> </button>
+                        <button onClick={_=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved))}>
+                            <img src={`/icon/bookmark${postSaved?'.png':'-blank.svg'}`} />
+                        </button>
                     </div>
                 </div>
 
@@ -98,20 +114,22 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         <div className='comment'>
                             <span className='user'> <Link to={`/user/${post.username}`}>{post.username}</Link> </span>
                             <span className='msg'>
-                                <span>{postComment}</span>
+                                <span>{postCaption}</span>
                                 <span>{ 
                                     isFullComment
-                                    ? (caption.length > caption_limit ? <a onClick={_=>show('less')}> (less) </a> : "")
-                                    : <a onClick={_=>show('more')}> (more) </a>
+                                    ? (caption.length > caption_limit ? <a onClick={_=>showComment('less')}> (less) </a> : "")
+                                    : <a onClick={_=>showComment('more')}> (more) </a>
                                 }</span>
                             </span>
                         </div>
                     : "" }
+
                     {post.comment_count?
                         <div className='more'>
                             <Link to={`/post/${post.post_id}`}>View all {post.comment_count} comment{post.comment_count>1?'s':''}</Link>
                         </div>
                     : ""}
+
                     {logged && post.auth_user_comment?
                         <div className='comment auth-user-comment'>
                             <div> ... </div>
@@ -123,7 +141,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
 
                 <div className='add-comment row hide-mobile'>
                     <div className='col col-fill'>
-                        <input type='text' value={commentText} placeholder='Add a comment..' onChange={_=>setCommentText(_.target.value)}/>
+                        <input type='text' value={commentText} placeholder='Add a comment...' onChange={_=>setCommentText(_.target.value)}/>
                     </div>
                     <div className='col col-1'>
                         <button className='post' disabled={commentText.trim().length < 1}> Post </button>
@@ -132,6 +150,46 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
             </div>
         </div>                
     );
+}
+
+
+/**
+ * copy text to clipboard
+ * @param  {string} text           text to copy
+ * @param  {Function} dispatch     redux dipatch hook
+ */
+function copyToClipboard(text, dispatch) {
+    copyText(text, (copied)=>{
+        if (copied) {
+            showAlert(dispatch, ['Copied to clipboard'], 'success');
+        } else {
+            showAlert(dispatch, ['Failed to copy, please switch to a modern browser']);
+        }
+    });
+}
+
+
+/**
+ * likes a post
+ * @param  {number} post_id
+ * @param  {[type]} toggleLike: ()   toggle like state
+ */
+function likePost(post_id: number, toggleLike: ()=>boolean) {
+    const like = !toggleLike();
+
+    // TODO: perform action
+}
+
+
+/**
+ * bookmarks a post
+ * @param  {number} post_id
+ * @param  {[type]} toggleSave: ()   toggle save state
+ */
+function savePost(post_id: number, toggleSave: ()=>boolean) {
+    const save = !toggleSave();
+
+    // TODO: perform action
 }
 
 
