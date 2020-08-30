@@ -2,7 +2,7 @@ import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {NotificationProp} from './types.d';
 import {limit} from '../../../helpers/util';
-import {HighlightMentions} from '../../../helpers/mini-components';
+import {ProcessUserInput} from '../../../helpers/mini-components';
 
 import {howLong} from '../../../helpers/date-time';
 
@@ -30,7 +30,7 @@ const MentionAlert: React.FC<{data: NotificationProp}> = ({data})=>{
                             {d.associated_user+" "}
                         </a>
                     </span>
-                    <span id='msg'><HighlightMentions str={limit(d.message, 100)} /></span>
+                    <span id='msg'><ProcessUserInput text={limit(d.message, 100)} /></span>
                     <span id='time'> {howLong(d.created_at)} </span>
                 </div>
 

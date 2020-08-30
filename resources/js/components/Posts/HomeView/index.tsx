@@ -8,6 +8,7 @@ import LazyDP from '../../LazyDP';
 import FollowButton from '../../FollowButton';
 import showAlert from '../../Alert/showAlert';
 
+import {ProcessUserInput} from '../../../helpers/mini-components';
 import {limit, copyText} from '../../../helpers/util';
 
 import './style.scss';
@@ -16,7 +17,6 @@ type HomePost = {
     data: Post[],
 }
 
-// TODO: highlightMention/Tags
 
 // TODO: media viewer
 // TODO: infinite scroll
@@ -114,9 +114,9 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         <div className='comment'>
                             <span className='user'> <Link to={`/user/${post.username}`}>{post.username}</Link> </span>
                             <span className='msg'>
-                                <span>{postCaption}</span>
-                                <span>{ 
-                                    isFullComment
+                                <span> <ProcessUserInput text={postCaption} /> </span>
+                                <span>{
+                                    fullCommentShown
                                     ? (caption.length > caption_limit ? <a onClick={_=>showComment('less')}> (less) </a> : "")
                                     : <a onClick={_=>showComment('more')}> (more) </a>
                                 }</span>
@@ -134,7 +134,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         <div className='comment auth-user-comment'>
                             <div> ... </div>
                             <span className='user'> <Link to={`/user/${user.username}`}> {user.username} </Link> </span>
-                            <span className='msg'> {limit(post.auth_user_comment, 50)} </span>
+                            <span className='msg'> <ProcessUserInput text={limit(post.auth_user_comment, 59)} /> </span>
                         </div>
                     : ""}
                 </div>

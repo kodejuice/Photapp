@@ -12,6 +12,7 @@ url(data:image/gif;base64,R0lGODlhIAAgALMPAPj4+Pf39/X19fT09Pb29vPz8/39/fLy8vn5+f
 
 $font-size: 0.8em;
 
+
 .posts-wrapper {
     margin-bottom: 47px;
     padding: 24px 0 0 !important;
@@ -71,6 +72,10 @@ $font-size: 0.8em;
         .card-body {
             padding: 0;
             background: #FFF;
+
+            a {
+                margin-left: 0 !important;
+            }
 
             .post-action {
                 margin: 4px 0 0;

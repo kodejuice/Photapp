@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import "babel-polyfill";
 import '@testing-library/jest-dom';
 
-import {HighlightMentions} from '../mini-components';
+import {ProcessUserInput} from '../mini-components';
 
 
 /////////////////////
@@ -36,11 +36,13 @@ test("renders without failing", ()=>{
         "hi",
         "00@00@00",
         "@@h",
+        "hey @mike did u see that #dog runnning across the street #crazy_dog",
+        "http://kodejuice.now.sh is now live i guess :/ #LIVE !!!",
     ];
     const div = document.createElement('div');
 
     strs.map((v)=>{
-        ReactDOM.render(<HighlightMentions str={v}/>, div);
+        ReactDOM.render(<ProcessUserInput text={v}/>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 });
