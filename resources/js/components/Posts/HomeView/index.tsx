@@ -31,27 +31,28 @@ type HomePost = {
 const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     const {logged, user} = authUser();
     const dispatch = useDispatch();
-    const caption: string = post.caption || "";
-    const i = idx, caption_limit = 100;
+    const i = idx, caption_limit = 140;
 
-    // post info
+    const [commentText, setCommentText] = useState("");
+
+    // post info (authenticated user likes/saved)
     const [postLiked, likesPost] = useState(!!post.auth_user_likes);
     const [postSaved, savesPost] = useState(!!post.auth_user_saved);
     // ....
 
-    const [commentText, setCommentText] = useState("");
-
+    // post caption info
+    const caption: string = post.caption || "";
     const [postCaption, setPostCaption] = useState(limit(caption, caption_limit));
-    const [isFullComment, setFullComment] = useState(caption == postCaption);
+    const [fullCommentShown, showFullComment] = useState(caption == postCaption);
     const showComment = (t)=>{
         if (t == 'more') {
             setPostCaption(caption);
         } else if (t == 'less') {
             setPostCaption(limit(caption, caption_limit));
         }
-        setFullComment(t == 'more' ? true : false);
+        showFullComment(t == 'more' ? true : false);
     };
-
+    // ...
 
 
     return (
