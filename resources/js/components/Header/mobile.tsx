@@ -36,10 +36,10 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
                         <Link to="/"> <img src="/icon/home.png"/> </Link>
                     </div>
                     <div className="col col-fill btn" id={`curr-${current_page=='explore'}`}>
-                        <Link to="/explore"> <img src="/icon/search.png"/> </Link>
+                        <Link to="/explore"> <img src="/icon/search.svg"/> </Link>
                     </div>
                     <div className="col col-fill btn" id={`curr-${current_page=='add'}`}>
-                        <img src="/icon/add.png"/>
+                        <img src="/icon/add.svg"/>
                     </div>
                     <div className="col col-fill btn" id={`curr-${current_page=='activity'}`}>
                         <Link to={user?.id ? "/activity": "/login"}> <img src="/icon/heart.png"/> </Link>

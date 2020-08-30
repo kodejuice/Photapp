@@ -61,7 +61,7 @@ const Header: React.FC<{}> = ()=>{
 
                 {/*floating button*/}
                 <div className="floating-btn add">
-                    <img src="/icon/add.png"/>
+                    <img src="/icon/add.svg"/>
                 </div>
             </nav>
         </header>
