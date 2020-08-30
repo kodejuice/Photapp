@@ -54,7 +54,9 @@ a {
         flex: 0 0 100% !important;
         max-width: 100% !important;
         .card {
+            box-shadow: none !important;
             border: none !important;
+            margin-bottom: 20px !important;
             .card-header, .card-body {
                 background: inherit !important;
             }
@@ -97,7 +99,8 @@ a {
     width: 20%;
     font-size: 14px;
     min-width: 240px;
-    position: absolute;
+    position: fixed;
+    z-index: 1000;
 
     left: 50%;
     // bottom: 50px;
