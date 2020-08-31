@@ -50,9 +50,13 @@ a {
     .sm-hide {
         display: none;
     }
+    div.infinite-scroll-component p#msg {
+        margin-bottom: 0 !important;
+    }
     .home-posts {
         flex: 0 0 100% !important;
         max-width: 100% !important;
+        margin-bottom: 50px !important;
         .card {
             box-shadow: none !important;
             border: none !important;
@@ -60,6 +64,9 @@ a {
             .card-header, .card-body {
                 background: inherit !important;
             }
+        }
+        .hide-comment-mobile {
+            display: none;
         }
     }
 }
@@ -69,8 +76,12 @@ a {
     .sm-hide {
         display: none;
     }
+    div.infinite-scroll-component p#msg {
+        margin-bottom: 0 !important;
+    }
     .home-posts {
         margin: 0 auto !important;
+        margin-bottom: 50px !important;
         flex: 0 0 600px !important;
         width: 600px !important;
         max-width: 600px !important;
@@ -116,3 +127,11 @@ a {
     }
 }
 
+
+div.infinite-scroll-component {
+    overflow: hidden !important;
+
+    p#msg {
+        text-align: center;
+    }
+}
