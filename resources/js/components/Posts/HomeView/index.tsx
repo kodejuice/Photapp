@@ -7,10 +7,10 @@ import {Post} from '../types.d';
 import LazyDP from '../../LazyDP';
 import FollowButton from '../../FollowButton';
 import showAlert from '../../Alert/showAlert';
-
 import {ProcessUserInput} from '../../../helpers/mini-components';
 import {limit, copyText} from '../../../helpers/util';
 
+import AddComment from './AddComment';
 import './style.scss';
 
 type HomePost = {
@@ -32,8 +32,6 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     const {logged, user} = authUser();
     const dispatch = useDispatch();
     const i = idx, caption_limit = 140;
-
-    const [commentText, setCommentText] = useState("");
 
     // post info (authenticated user likes/saved)
     const [postLiked, likesPost] = useState(!!post.auth_user_likes);
@@ -141,12 +139,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                 </div>
 
                 <div className='add-comment row hide-mobile'>
-                    <div className='col col-fill'>
-                        <input type='text' value={commentText} placeholder='Add a comment...' onChange={_=>setCommentText(_.target.value)}/>
-                    </div>
-                    <div className='col col-1'>
-                        <button className='post' disabled={commentText.trim().length < 1}> Post </button>
-                    </div>
+                    <AddComment post_id={post.post_id} />
                 </div>
             </div>
         </div>                
