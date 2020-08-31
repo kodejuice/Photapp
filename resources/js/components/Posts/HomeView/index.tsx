@@ -57,6 +57,13 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
 
     return (
         <div className="card" key={post.post_id}>
+            <div style={{display: 'none'}}>
+                <img src="/icon/heart.png" />
+                <img src="/icon/heart-blank.svg" />
+                <img src="/icon/bookmark.png" />
+                <img src="/icon/bookmark-blank.svg" />
+                <img src="/icon/comment.svg" />
+            </div>
 
             {/* <Post modal> */}
             <input className="modal-state" id={`modal-${i+1}`} type="checkbox"/>
