@@ -63,10 +63,10 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                 <div className="modal-body">
                     {post.username != user.username
                         ? <FollowButton user={post.username} unfollow={post.auth_user_follows} />
-                        : <button onClick={_=>deletePost(post.post_id)} className='delete-post'> Delete post </button>
+                        : <button onClick={()=>deletePost(post.post_id)} className='delete-post'> Delete post </button>
                     }
                     <button> <Link to={`/post/${post.post_id}`}>Go to Post</Link> </button>
-                    <button onClick={_=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
+                    <button onClick={()=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
                     <label htmlFor={`modal-${i+1}`}> Cancel </label>
                 </div>
             </div>
@@ -90,7 +90,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         <div className='row btns'>
                             <div className='col col-5'>
                                 {/*like button*/}
-                                <button onClick={_=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked))}>
+                                <button onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked))}>
                                     <img src={`/icon/heart${postLiked?'.png':'-blank.svg'}`}/>
                                 </button>
                             </div>
@@ -102,7 +102,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                     </div>
                     <div className='col col-fill'></div>
                     <div className='col col-1'>
-                        <button onClick={_=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved))}>
+                        <button onClick={()=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved))}>
                             <img src={`/icon/bookmark${postSaved?'.png':'-blank.svg'}`} />
                         </button>
                     </div>
@@ -116,8 +116,8 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                                 <span> <ProcessUserInput text={postCaption} /> </span>
                                 <span>{
                                     fullCommentShown
-                                    ? (caption.length > caption_limit ? <a onClick={_=>showComment('less')}> (less) </a> : "")
-                                    : <a onClick={_=>showComment('more')}> (more) </a>
+                                    ? (caption.length > caption_limit ? <a onClick={()=>showComment('less')}> (less) </a> : "")
+                                    : <a onClick={()=>showComment('more')}> (more) </a>
                                 }</span>
                             </span>
                         </div>
