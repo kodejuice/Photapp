@@ -21,7 +21,6 @@ type HomePost = {
 
 
 // TODO: media viewer
-// TODO: infinite scroll
 
 
 
