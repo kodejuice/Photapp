@@ -13,6 +13,7 @@ const centerVertically: React.CSSProperties = {
 };
 
 const centerHorizonally: React.CSSProperties = {
+    margin: '0 auto',
 };
 
 
