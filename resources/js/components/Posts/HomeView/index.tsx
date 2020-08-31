@@ -65,7 +65,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                 <div className="modal-body">
                     {post.username != user.username
                         ? <FollowButton user={post.username} unfollow={post.auth_user_follows} />
-                        : <button className='delete-post'> Delete post </button>
+                        : <button onClick={_=>deletePost(post.post_id)} className='delete-post'> Delete post </button>
                     }
                     <button> <Link to={`/post/${post.post_id}`}>Go to Post</Link> </button>
                     <button onClick={_=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
@@ -167,6 +167,17 @@ function copyToClipboard(text, dispatch) {
             showAlert(dispatch, ['Failed to copy, please switch to a modern browser']);
         }
     });
+}
+
+
+
+/**
+ * deletes a post
+ * @param  {number} post_id
+ */
+function deletePost(post_id: number) {
+    // TODO: perform action
+
 }
 
 
