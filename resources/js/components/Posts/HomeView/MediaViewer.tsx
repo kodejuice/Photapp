@@ -2,7 +2,7 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 type ViewerProp = {
-    paths: [string, string][],
+    paths: [string, string][], // [[file_name, file_path], ...]
     mentions: string[] | null,
 };
 
