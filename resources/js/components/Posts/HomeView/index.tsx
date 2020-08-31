@@ -11,6 +11,8 @@ import {ProcessUserInput} from '../../../helpers/mini-components';
 import {limit, copyText} from '../../../helpers/util';
 
 import AddComment from './AddComment';
+import MediaViewer from './MediaViewer';
+
 import './style.scss';
 
 type HomePost = {
@@ -81,7 +83,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
             </div>
 
             <div className="card-post">
-                <img src="/test/1.png" alt="Card example image"/>
+                <MediaViewer paths={JSON.parse(post.post_url)} mentions={JSON.parse(post.mentions||"null")} />
             </div>
 
             <div className="card-body">
