@@ -138,7 +138,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                     : ""}
                 </div>
 
-                <div className='add-comment row hide-mobile'>
+                <div className='add-comment row hide-comment-mobile'>
                     <AddComment post_id={post.post_id} />
                 </div>
             </div>
