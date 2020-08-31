@@ -54,8 +54,8 @@ const Home: React.FC<{}> = ()=>{
                                     // setting the offset state causes the
                                     //  app to fetch new posts from the server
                                     //  with this offset as starting point
-                                    setOffset(postShown);
-                                    setPostShown(postShown + POST_PER_PAGE);
+                                    setOffset(Math.min(postShown, ALL_POST.length));
+                                    setPostShown(Math.min(postShown + POST_PER_PAGE, ALL_POST.length));
                                 } else {
                                     // reveal 10 more posts
                                     setPostShown(Math.min(postShown+10, ALL_POST.length));
