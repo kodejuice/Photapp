@@ -73,6 +73,11 @@ $font-size: 0.8em;
                 margin-left: 0 !important;
             }
 
+            div.likes {
+                font-size: $font-size;
+                padding: 0 16px;
+            }
+
             .post-action {
                 margin: 4px 0 0;
                 padding: 0 16px;
