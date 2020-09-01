@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
-import authUser from '../../../state/auth_user';
+import {useDoubleTap} from 'use-double-tap';
 
 import {Post} from '../types.d';
 import LazyDP from '../../LazyDP';
@@ -9,6 +9,7 @@ import FollowButton from '../../FollowButton';
 import showAlert from '../../Alert/showAlert';
 import {ProcessUserInput} from '../../../helpers/mini-components';
 import {limit, copyText} from '../../../helpers/util';
+import authUser from '../../../state/auth_user';
 
 import AddComment from './AddComment';
 import MediaViewer from './MediaViewer';
@@ -19,10 +20,7 @@ type HomePost = {
     data: Post[],
 }
 
-
-// TODO: media viewer
-
-
+// TODO: doubletap heart icon
 
 /**
  * single post component
@@ -53,6 +51,13 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     };
     // ...
 
+    // doubletap event handler
+    const ondoubletap = useDoubleTap((event) => {
+        likePost(post.post_id, ()=>{
+            likesPost(!postLiked);
+            return postLiked;
+        });
+    });
 
     return (
         <div className="card" key={post.post_id}>
@@ -89,11 +94,10 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
             </div>
 
             <div className="card-post">
-                <div>
+                <div {...ondoubletap}>
                     <MediaViewer
                         paths={JSON.parse(post.post_url)}
                         media_types={JSON.parse(post.media_type)}
-                        mentions={JSON.parse(post.mentions||"null")}
                     />
                 </div>
             </div>
@@ -121,7 +125,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         </button>
                     </div>
                 </div>
-
+                <div className='likes'>{post.like_count + Number(postLiked)} likes</div>
                 <div className='post-comments'>
                     {post.caption?
                         <div className='comment'>
