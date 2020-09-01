@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import {watchVideoFocus} from '../../../helpers/window';
+
+watchVideoFocus();
 
 type ViewerProp = {
     paths: [string, string][], // [[file_name, file_path], ...]
