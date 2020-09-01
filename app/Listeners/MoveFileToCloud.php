@@ -45,24 +45,28 @@ class MoveFileToCloud implements ShouldQueue
         // upload files to cloud //
         ///////////////////////////
         $paths = [];
+        $media_types = [];
         foreach ($data as $F) {
             $file = $F->data;
             $extension = $F->ext;
             $file_name = time() . Str::random(20) . "." . $extension;
             $R[] = $file_name;
 
-            $paths[] = Helper::storeFile(
+            $L = Helper::storeFile(
                 $file_name,
                 base64_decode($file),
                 env('FILESYSTEM_DRIVER')
-            );
+            ); // => [file_name, file_path]
+
+            $paths[] = $L;
+            $media_types[] = Helper::getUrlMediaType([], $L[1]); // 'image'|'video'
         }
 
         //////////////////////////
         // save file info to DB //
         //////////////////////////
         $post = new Post();
-        Helper::dbSave($user, $post, $caption, $paths);
+        Helper::dbSave($user, $post, $caption, $paths, $media_types);
 
         //////////////////////
         // update news feed //

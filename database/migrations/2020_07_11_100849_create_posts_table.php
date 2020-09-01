@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger("user_id");
 
             $table->text("post_url");               // json string -> "[[file_name, full_file_path], ...]"
+            $table->text('media_type');             // json string -> "[type1, type2, ...]"  where `typeN` = 'video'|'image'
 
             $table->text("caption") -> nullable();
             $table->text("tags") -> nullable();     // json string -> "['tag1', 'tag2', ...]"

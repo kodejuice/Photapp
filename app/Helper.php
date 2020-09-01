@@ -66,7 +66,7 @@ class Helper
      * @param  string $t       needle to look for
      * @return bool
      */
-    private static function isType($header, $t): bool
+    private static function isType(array $header, $t): bool
     {
         if (!array_key_exists("Content-Type", $header)) {
             return false;
@@ -114,12 +114,17 @@ class Helper
      */
     public static function getUrlMediaType($headers, $url='')
     {
+        $default = 'image';
+
         if (self::validImage($url)) {
-            return 'image';
-        } elseif (self::validVideo($headers)) {
-            return 'video';
+            return $default;
         } else {
-            return null;
+            if (empty($headers)) {
+                $headers = @get_headers($url, 1);
+                if (!$headers) return $default;
+            }
+
+            return self::validVideo($headers) ? 'video' : $default;
         }
     }
 
@@ -140,14 +145,17 @@ class Helper
      * Store a newly uploaded file to the DB
      * @param  User   $user
      * @param  Post   $post
-     * @param  string $caption  caption of the uploaded photo|video
+     * @param  string $caption      caption of the uploaded photo|video
+     * @param  array  $paths        urls of posts
+     * @param  array  $media_types  media types
      */
-    public static function dbSave(User $user, Post $post, string $caption, array $paths): void
+    public static function dbSave(User $user, Post $post, string $caption, array $paths, array $media_types): void
     {
         $post->user_id = $user->id;
 
         $post->caption = $caption;
         $post->post_url = json_encode($paths);
+        $post->media_type = json_encode($media_types);
         $post->tags = json_encode(self::getHashTags($caption));
         $post->mentions = json_encode(self::getMentions($caption));
 
@@ -170,9 +178,10 @@ class Helper
      */
     public static function storeFile(string $file_name, string $file, string $drive='google'): array
     {
+        // TODO: change this
         return [$file_name, $file_name];
-        //~ Storage::disk($drive)->put($file_name, $file);
-        //~ return [$file_name, Storage::disk($drive)->url($file_name)];
+        // Storage::disk($drive)->put($file_name, $file);
+        // return [$file_name, Storage::disk($drive)->url($file_name)];
     }
 
 
