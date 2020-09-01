@@ -202,10 +202,34 @@ $font-size: 0.8em;
         .slide {
             img, video {
                 position: relative;
-                left: 4px; // this fixes a visual bug that i dont know what causes                
+                left: 3.5px; // this fixes a visual bug that i dont know what causes                
             }
         }
     }
+
+
+    /////////////////
+    // ReactPlayer //
+    /////////////////
+
+    button.play-icon {
+        position: absolute;
+        left: 47%;
+        top: 50%;
+        z-index: 999;
+        padding: 0;
+        margin: 0;
+        width: 64px;
+        height: 64px;
+        border: none;
+        box-shadow: none;
+        @include border-radius(100%);
+        transform: translate(-50%, -50%);
+
+        &.display-false {
+            display: none;
+        }
+    };
 
 }
 
