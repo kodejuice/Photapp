@@ -76,6 +76,7 @@
         "react-paper-css": "0.0.4",
         "react-player": "^2.6.0",
         "react-redux": "^7.2.1",
+        "react-responsive-carousel": "^3.2.9",
         "react-router-dom": "^5.2.0",
         "redux": "^4.0.5",
         "swr": "^0.3.0",
