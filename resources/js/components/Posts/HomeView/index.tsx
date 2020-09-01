@@ -89,7 +89,13 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
             </div>
 
             <div className="card-post">
-                <MediaViewer paths={JSON.parse(post.post_url)} mentions={JSON.parse(post.mentions||"null")} />
+                <div>
+                    <MediaViewer
+                        paths={JSON.parse(post.post_url)}
+                        media_types={JSON.parse(post.media_type)}
+                        mentions={JSON.parse(post.mentions||"null")}
+                    />
+                </div>
             </div>
 
             <div className="card-body">

@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use App\User;
 use App\Post;
@@ -26,14 +27,10 @@ class UpdateNewsFeed implements ShouldQueue
 
     public function shouldQueue(NewsFeedRequested $event)
     {
-        $top = NewsFeed::first();
-        if (!$top) {
-            return true;
-        }
+        $feed = NewsFeed::all();
+        $posts = Post::all();
 
-        $latest = Post::orderByDesc('post_id')->first();
-
-        return $latest->post_url != $top->post_url;
+        return count($posts) > count($feed);
     }
 
 
@@ -65,7 +62,7 @@ ORDER BY
 DESC
 sql;
 
-        $posts = Post::whereRaw($query);
+        $posts = Post::whereRaw($query)->get();
 
         // $posts = Post::whereRaw('1=1 ORDER BY like_count + post_id DESC')->get();
 
@@ -76,6 +73,7 @@ sql;
                 'post_id' => $p->post_id,
                 'user_id' => $p->user_id,
                 'post_url' => $p->post_url,
+                'media_type' => $p->media_type,
                 'caption' => $p->caption,
                 'tags' => $p->tags,
                 'mentions' => $p->mentions,

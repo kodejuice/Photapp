@@ -27,6 +27,7 @@ class NewsFeed extends Model
         'caption',
         'tags',
         'mentions',
+        'media_type',
         'like_count',
         'comment_count',
         'created_at',

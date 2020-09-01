@@ -19,6 +19,7 @@ class CreateNewsFeedTable extends Migration
             $table->bigInteger("user_id");
 
             $table->text("post_url");
+            $table->text('media_type');
 
             $table->text("caption") -> nullable();
             $table->text("tags") -> nullable();

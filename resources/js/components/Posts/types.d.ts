@@ -6,6 +6,7 @@ export type Post = {
       post_id: number,
       user_id: number,
       post_url: string,
+      media_type: string,
 
       caption: string | null,
       tags: string | null,
@@ -23,7 +24,7 @@ export type Post = {
 
 
 /**
- * Post properties
+ * Post component properties
  * @type {Object}
  */
 export type PostProp = {
