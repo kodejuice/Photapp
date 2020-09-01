@@ -38,7 +38,7 @@ export function watchVideoFocus() {
             // 1 -> very visible
             visible = visibleX * visibleY / (w * h);
 
-            // this video is barely visible in the current page pause it
+            // this video is barely visible in the current page, pause it
             if (visible <= .40) {
                 video.pause();
             }
