@@ -189,5 +189,23 @@ $font-size: 0.8em;
             }
         }
     }
+
+
+    //////////////
+    // Carousel //
+    //////////////
+    
+    .carousel {
+        ul li::before {
+            content: "";
+        }
+        .slide {
+            img, video {
+                position: relative;
+                left: 4px; // this fixes a visual bug that i dont know what causes                
+            }
+        }
+    }
+
 }
 
