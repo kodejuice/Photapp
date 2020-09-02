@@ -7,8 +7,11 @@ import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
 import Wrapper from '../../__test__/wrap-component';
+import {CACHE} from '../../helpers/swr';
 
 import Home from '../Home';
+
+window.__JEST_TEST_ENV = true;
 
 const component = (
     <Wrapper>
@@ -16,7 +19,7 @@ const component = (
     </Wrapper>
 );
 
-
+let c = 0;
 
 const samplePosts = [
     {
@@ -49,13 +52,18 @@ const samplePosts = [
 /////////////////////
 /////////////////////
 // Server mockup
-const server = setupServer(
-
+let server = setupServer(
     // GET
     rest.get('/api/posts', (req, res, ctx) => {
-        return res(
+        c += 1;
+        return c <= 1
+        ? res(
             ctx.status(200),
             ctx.json(samplePosts)
+        )
+        : res(
+            ctx.status(200),
+            ctx.json({errors: ['this is just a sample error']})
         )
     }),
 );
@@ -68,14 +76,11 @@ afterAll(() => server.close())
 
 /////////////////////
 /////////////////////
-// this is just a little hack to silence a warning that we'll get until we
-// upgrade to 16.9: https://github.com/facebook/react/pull/14853
 const originalError = console.error
 beforeAll(() => {
   console.error = (...args) => {
-    if (/Warning.*not wrapped in act/.test(args[0])) {
-      return
-    }
+    if (/Warning.*not wrapped in act/.test(args[0])) return
+    if (/Warning.*Cannot update a component/.test(args[0])) return
     originalError.call(console, ...args)
   }
 })
@@ -92,14 +97,18 @@ test('renders without crashing', ()=>{
 });
 
 
-
 test("properly renders all posts", async ()=>{
     const {getByTestId} = render(component);
 
-    await screen.queryAllByRole('post-wrapper');
+    await screen.findByRole('post-wrapper');
     await screen.queryAllByRole('post');
     await screen.queryAllByRole('carousel-child');
     await screen.queryAllByRole('video-player');
     await screen.queryAllByRole('image-viewer');
+});
 
+
+test("test error response", async()=>{
+    const {getByTestId} = render(component);
+    await screen.findByRole('post-wrapper-err');
 });

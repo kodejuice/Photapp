@@ -24,7 +24,7 @@ const Home: React.FC<{}> = ()=>{
 
     if (data?.errors) {
         showAlert(dispatch, data.errors, 'error', 60);
-        data = null;
+        isError = true, data = null;
     }
 
     // clear all posts if offset is zero,
@@ -46,7 +46,7 @@ const Home: React.FC<{}> = ()=>{
         <React.Fragment>
             <Header page='/' />
 
-            <div className='row posts-wrapper' role='post-wrapper'>
+            <div className='row posts-wrapper' role={isError ? 'post-wrapper-err' : 'post-wrapper'}>
                 <div className='home-posts col col-9'>
                     { isLoading && offset==0 && <Spinner /> }
 
@@ -103,7 +103,7 @@ const Home: React.FC<{}> = ()=>{
  */
 function mergePosts(all_posts: any[], new_posts: any[]) {
     if (!new_posts) return;
-    const ids = new Set(all_posts.map(o=>o.post_id));
+    const ids = new Set(all_posts.map(o => o.post_id));
 
     for (let p of new_posts) {
         if (!ids.has(p.post_id)) {
