@@ -29,7 +29,7 @@ const App: React.FC<{}> = ()=>{
                     dispatch(set_user({id, username, email, full_name, profile_pic, followers, follows, posts_count}));
                 }
                 setMounted(true);
-            });
+            }).catch(()=>{});
         }
     });
 
@@ -40,7 +40,7 @@ const App: React.FC<{}> = ()=>{
         )
         :
         (
-            <main>
+            <main role={logged_in ? "app-logged" : "app-guest"}>
                 <Switch>
                     {routes.map((prop, i)=>
                         <ProgressRoute key={i} {...prop} />

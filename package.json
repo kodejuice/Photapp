@@ -17,7 +17,7 @@
         "verbose": true,
         "clearMocks": true,
         "collectCoverage": true,
-        "testRegex": "resources/js/.+/__test__/.*.test.(ts|js)x?$",
+        "testRegex": "resources/js/.+/.*.test.(ts|js)x?$",
         "roots": [
             "<rootDir>/resources/js/"
         ],
