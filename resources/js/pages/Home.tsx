@@ -94,8 +94,8 @@ const Home: React.FC<{}> = ()=>{
 /**
  * merge two array of posts together
  *  discarding duplicates
- * @param  {Post[]} all_posts: any[]         original post
- * @param  {Post[]} new_posts: any[]         post to merge with
+ * @param  {Post[]} all_posts         original post
+ * @param  {Post[]} new_posts         post to merge with
  */
 function mergePosts(all_posts: any[], new_posts: any[]) {
     if (!new_posts) return;
