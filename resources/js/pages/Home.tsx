@@ -33,7 +33,11 @@ const Home: React.FC<{}> = ()=>{
     //  2) posts were refreshed
     //
     if (offset == 0) {
-        ALL_POST = [];
+        // only clear if we have data to replace with
+        // (a refresh action)
+        if (data) {
+            ALL_POST = [];
+        }
     }
 
     mergePosts(ALL_POST, data);
