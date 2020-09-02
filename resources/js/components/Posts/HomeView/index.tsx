@@ -65,7 +65,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     });
 
     return (
-        <div className="card" key={post.post_id}>
+        <div role="post" className="card" key={post.post_id}>
             <div style={{display: 'none'}}>
                 <img src="/icon/heart.png" />
                 <img src="/icon/heart-blank.svg" />

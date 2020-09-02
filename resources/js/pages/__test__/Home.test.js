@@ -1,0 +1,105 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {render, screen} from '@testing-library/react';
+import "babel-polyfill";
+import '@testing-library/jest-dom';
+import {rest} from 'msw'
+import {setupServer} from 'msw/node'
+
+import Wrapper from '../../__test__/wrap-component';
+
+import Home from '../Home';
+
+const component = (
+    <Wrapper>
+        <Home />
+    </Wrapper>
+);
+
+
+
+const samplePosts = [
+    {
+        post_id: 1,
+        user_id: 1,
+        post_url: '[["file_name1", "file_url1"]]',
+        media_type: '["video"]',
+        caption: 'a test post by @somebody',
+        mentions: '["somebody"]',
+        tags: "[]",
+        like_count: 0,
+        comment_count: 10,
+        username: 'johndoe',
+    },
+    {
+        post_id: 2,
+        user_id: 1,
+        post_url: '[["file_name2", "file_url2"]]',
+        media_type: '["image"]',
+        caption: 'another test post by @somebody #no2',
+        mentions: '["somebody"]',
+        tags: '["no2"]',
+        like_count: 0,
+        comment_count: 10,
+        username: 'johndoe',
+    },
+];
+
+
+/////////////////////
+/////////////////////
+// Server mockup
+const server = setupServer(
+
+    // GET
+    rest.get('/api/posts', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json(samplePosts)
+        )
+    }),
+);
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
+/////////////////////
+/////////////////////
+
+
+/////////////////////
+/////////////////////
+// this is just a little hack to silence a warning that we'll get until we
+// upgrade to 16.9: https://github.com/facebook/react/pull/14853
+const originalError = console.error
+beforeAll(() => {
+  console.error = (...args) => {
+    if (/Warning.*not wrapped in act/.test(args[0])) {
+      return
+    }
+    originalError.call(console, ...args)
+  }
+})
+afterAll(() => {
+  console.error = originalError
+})
+/////////////////////
+/////////////////////
+
+
+test('renders without crashing', ()=>{
+    const div = document.createElement('div');
+    ReactDOM.render(component, div);
+});
+
+
+
+test("properly renders all posts", async ()=>{
+    const {getByTestId} = render(component);
+
+    await screen.queryAllByRole('post-wrapper');
+    await screen.queryAllByRole('post');
+    await screen.queryAllByRole('carousel-child');
+    await screen.queryAllByRole('video-player');
+    await screen.queryAllByRole('image-viewer');
+
+});

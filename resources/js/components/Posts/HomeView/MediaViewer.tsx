@@ -28,8 +28,10 @@ const PhotoViewer: React.FC<{url:string}> = ({url})=>{
 
     return (
         <React.Fragment>
-            <div style={{display:'none'}}><img src={url} onLoad={()=>setUrl(url)}/></div>
-            <img src={img_url} />
+            <div role="image-viewer">
+                <div style={{display:'none'}}><img src={url} onLoad={()=>setUrl(url)}/></div>
+                <img src={img_url} />
+            </div>
         </React.Fragment>
     );
 }
@@ -72,7 +74,7 @@ const VideoViewer: React.FC<{url:string}> = ({url})=>{
             {!playerLoaded && <img src={loading} />}
             {!isPlaying && <button className={`play-icon display-${playerLoaded}`} onClick={()=>setPlaying(!isPlaying)}> {playIcon} </button>}
 
-            <div style={{height: '100%'}} {...onclick}>
+            <div role="video-player" style={{height: '100%'}} {...onclick}>
                 <ReactPlayer {...config} />
             </div>
 
@@ -131,7 +133,7 @@ const MediaViewer: React.FC<ViewerProp> = ({paths, media_types})=>{
     return (
         <Carousel {...config}>
             {paths.map(([file_name, file_path], i)=>(
-                <div key={file_path} style={{height:'100%'}} id={id}>
+                <div key={file_path} style={{height:'100%'}} id={id} role="carousel-child">
                     {View[media_types[i]](file_path)}
                 </div>
             ))}

@@ -46,7 +46,7 @@ const Home: React.FC<{}> = ()=>{
         <React.Fragment>
             <Header page='/' />
 
-            <div className='row posts-wrapper'>
+            <div className='row posts-wrapper' role='post-wrapper'>
                 <div className='home-posts col col-9'>
                     { isLoading && offset==0 && <Spinner /> }
 
