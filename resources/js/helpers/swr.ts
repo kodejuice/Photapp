@@ -21,6 +21,11 @@ export default function useSWR(arg: string, fetcher) {
     let {data, error} = SWR(arg, fetcher);
     const key = arg + fetcher.name;
 
+    // we dont need CACHE in tests
+    if ((window as any).__JEST_TEST_ENV) {
+        return {data, error};
+    }
+
     if (error) {
         // return stale data if any
         data = CACHE[key];
