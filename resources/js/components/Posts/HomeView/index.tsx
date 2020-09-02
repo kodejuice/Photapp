@@ -20,7 +20,8 @@ type HomePost = {
     data: Post[],
 }
 
-// TODO: doubletap heart icon
+const heartIcon = <svg viewBox="0 0 50 50"><path fill="#fafafa" stroke="#fafafa" strokeLinecap="round" strokeMiterlimit="10" strokeWidth="2" d="M35,8c-4.176,0-7.851,2.136-10,5.373C22.851,10.136,19.176,8,15,8C8.373,8,3,13.373,3,20c0,14,16,21,22,26c6-5,22-12,22-26C47,13.373,41.627,8,35,8z"/></svg>;
+
 
 /**
  * single post component
@@ -30,6 +31,7 @@ type HomePost = {
 const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     const {logged, user} = authUser();
     const dispatch = useDispatch();
+    const [heartShown, showHeart] = useState(false);
     const i = idx, caption_limit = 140;
 
     // post info (authenticated user likes/saved)
@@ -57,6 +59,9 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
             likesPost(!postLiked);
             return postLiked;
         });
+
+        showHeart(true);
+        setTimeout(()=>showHeart(false), 400);
     });
 
     return (
@@ -95,6 +100,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
 
             <div className="card-post">
                 <div {...ondoubletap}>
+                    {heartShown && <div className="doubletap-icon"> {heartIcon} </div>}
                     <MediaViewer
                         paths={JSON.parse(post.post_url)}
                         media_types={JSON.parse(post.media_type)}

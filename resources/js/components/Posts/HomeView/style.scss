@@ -155,6 +155,30 @@ $font-size: 0.8em;
             img {
                 min-width: 100%;
             }
+
+            @keyframes reveal {
+                from {
+                    width: 30px;
+                    height: 30px;
+                }
+                to {
+                    width: 90px;
+                    height: 90px;
+                }
+            }
+
+            .doubletap-icon {
+                z-index: 1000;
+                position: absolute;
+                left: 50%;
+                top: calc(50% - 45px);
+                transform: translate(-50%, -50%);
+
+                svg {
+                    animation-name: reveal;
+                    animation-duration: 350ms;
+                }
+            }
         }
     }
 
