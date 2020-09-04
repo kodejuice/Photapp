@@ -79,10 +79,10 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
             <div className="modal">
                 <label className="modal-bg" htmlFor={`modal-${i+1}`}></label>
                 <div className="modal-body">
-                    {post.username != user.username
+                    {logged && (post.username != user.username
                         ? <FollowButton user={post.username} unfollow={post.auth_user_follows} />
                         : <button onClick={()=>deletePost(post.post_id)} className='delete-post'> Delete post </button>
-                    }
+                    )}
                     <button> <Link to={`/post/${post.post_id}`}>Go to Post</Link> </button>
                     <button onClick={()=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
                     <label htmlFor={`modal-${i+1}`}> Cancel </label>
