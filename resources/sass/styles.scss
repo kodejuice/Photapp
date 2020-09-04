@@ -1,3 +1,10 @@
+@mixin border-radius($property) {
+    -webkit-border-radius: $property;
+    -o-border-radius: $property;
+    -moz-border-radius: $property;
+    border-radius: $property;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -143,3 +150,77 @@ div.infinite-scroll-component {
         text-align: center;
     }
 }
+
+
+/////////////////
+// Suggestions //
+/////////////////
+
+.suggestions-column {
+    font-size: 0.80em;
+    width: 89%;
+    margin: 0 auto;
+    float: right;
+
+    p {margin: 0;}
+    div.row {margin-bottom: .5rem;}
+
+    #c-title {
+        font-weight: 600;
+        font-size: 0.99em;
+        color: #8E8E8E;
+    }
+    #see-more {
+        font-weight: 600;
+        font-size: 0.88em;
+        a {
+            color: #262626;
+        }
+    }
+
+    div.auth_user {
+        img {
+            width: 56px;
+            height: 56px;
+            @include border-radius(100%);
+            border: none;
+        }
+    }
+
+    div.user {
+        margin: 0;
+        height: 48px;
+        padding: 8px 16px;
+        padding-left: 0;
+
+        img {
+            height: 32px;
+            width: 32px;
+            margin: 0 auto;
+            @include border-radius(100%);
+            border: 0.5px solid #8E8E8E;
+        }
+        div.username {
+            color: #262626;
+            font-weight: 600;
+            font-size: 0.99em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        div.follow-info {
+            color: #8E8E8E;
+            font-size: 0.99em;
+        }
+        div.follow-col button {
+            padding: 0;
+            border: none;
+            color: #0095F6;
+            font-size: 0.90em;
+            font-weight: 600;
+            margin-top: 7px;
+            box-shadow: none;
+        }
+    }
+}
+

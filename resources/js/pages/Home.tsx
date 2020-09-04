@@ -7,6 +7,7 @@ import {fetchListing} from '../helpers/fetcher';
 import showAlert from '../components/Alert/showAlert';
 
 import Posts from '../components/Posts';
+import Suggestions from '../components/Suggestions';
 
 import Header from '../components/Header';
 import Spinner from '../components/Spinner';
@@ -85,8 +86,14 @@ const Home: React.FC<{}> = ()=>{
                 </div>
 
                 <div className='col col-fill sm-hide'>
-                    <div style={{width: '92%',margin: '0 auto'}}>
-                        Suggested for you
+
+                        <div className='row'>
+                            <p id='c-title' className='col col-fill'> Suggested For You </p>
+                            <p id='see-more' className='col col-2'> <Link to="/explore/people">See All</Link> </p>
+                        </div>
+                        <div className='users'>
+                            <Suggestions />
+                        </div>
                     </div>
                 </div>
             </div>
