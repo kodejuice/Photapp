@@ -247,9 +247,15 @@ class UserController extends Controller
         if (isset($suggest) && count($users)==0 || (!isset($query) && !isset($suggest))) {
             $offset = $request->input('offset', 0);
 
+            $auth_user_following = $auth_user ? array_map(
+                function ($v) { return $v['user2_id']; },
+                UserFollow::where('user1_id', $auth_user->id)->get()->toArray()
+            ) : [];
+
             // randomly select between most active/most followed users
             $users = User::orderByDesc(rand()%2 ? 'posts_count' : 'followers')
                         ->where('id', '!=', @$auth_user->id ?: '')
+                        ->whereNotIn('id', $auth_user_following) // make sure $auth_user doesnt follow anyone here
                         ->offset($offset)
                         ->limit($limit)
                         ->get();
