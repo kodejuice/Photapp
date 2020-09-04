@@ -91,24 +91,26 @@ const Home: React.FC<{}> = ()=>{
                 </div>
 
                 <div className='col col-fill sm-hide'>
-                    <div className='suggestions-column'>
+                    <div className='fixxed user-col'>
+                        <div className='suggestions-column'>
 
-                        {logged && (
-                            <div className='auth_user row'>
-                                <div className='col col-2'> <Link to={`/user/${user.username}`}><LazyDP user={user.username} /></Link></div>
-                                <div className='col col-fill user-info'>
-                                    <div className='username'><Link to={`/user/${user.username}`}>{user.username}</Link></div>
-                                    <div className='full_name'>{user.full_name}</div>
+                            {logged && (
+                                <div className='auth_user row'>
+                                    <div className='col col-2'> <Link to={`/user/${user.username}`}><LazyDP user={user.username} /></Link></div>
+                                    <div className='col col-fill user-info'>
+                                        <div className='username'><Link to={`/user/${user.username}`}>{user.username}</Link></div>
+                                        <div className='full_name'>{user.full_name}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        <div className='row'>
-                            <p id='c-title' className='col col-fill'> Suggested For You </p>
-                            <p id='see-more' className='col col-2'> <Link to="/explore/people">See All</Link> </p>
-                        </div>
-                        <div className='users'>
-                            <Suggestions />
+                            <div className='row'>
+                                <p id='c-title' className='col col-fill'> Suggested For You </p>
+                                <p id='see-more' className='col col-2'> <Link to="/explore/people">See All</Link> </p>
+                            </div>
+                            <div className='users'>
+                                <Suggestions />
+                            </div>
                         </div>
                     </div>
                 </div>
