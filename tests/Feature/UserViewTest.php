@@ -105,16 +105,8 @@ class UserViewTest extends TestCase
     {
         $response = $this->get(route('user.all_users'));
 
-        $user1 = $response[0];
-        tap($user1, function ($res) {
-            $this->assertEquals("John Doe", $res['full_name']);
-            $this->assertEquals("johndoe@example.com", $res['email']);
-            $this->assertEquals("johndoe", $res['username']);
-            $this->assertEquals(0, $res['auth_user_follows']);
-        });
-
-        $user2 = $response[1];
-        tap($user2, function ($res) {
+        $user = $response[0];
+        tap($user, function ($res) {
             $this->assertEquals("Don Joe", $res['full_name']);
             $this->assertEquals("donjoe@example.com", $res['email']);
             $this->assertEquals("donjoe", $res['username']);
