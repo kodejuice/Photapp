@@ -230,6 +230,7 @@ class UserController extends Controller
 
         $query = $request->input('q');
         $suggest = $request->input('suggest');
+        $limit = $request->input('limit', 50);
 
         if (isset($query) && strlen($query) > 2) {
             $query = addslashes($query);
@@ -237,7 +238,7 @@ class UserController extends Controller
                         ->get();
         }
         else if (isset($suggest)) {
-            $users = $this->getFriendsOfFriends($auth_user->id);
+            $users = $this->getFriendsOfFriends(@$auth_user->id ?: null, $limit);
         }
 
         // if
@@ -245,7 +246,6 @@ class UserController extends Controller
         //or 2) no queries were passed
         if (isset($suggest) && empty($users) || (!isset($query) && !isset($suggest))) {
             $offset = $request->input('offset', 0);
-            $limit = $request->input('limit', 50);
 
             // randomly select between most active/most followed users
             $users = User::orderByDesc(rand()%2 ? 'posts_count' : 'followers')
@@ -255,9 +255,7 @@ class UserController extends Controller
         }
 
 
-        if ($auth_user->id) {
-            $this->getFollowInfo($users, $auth_user->id);
-        }
+        $this->getFollowInfo($users, @$auth_user->id ?: null);
 
         return response($users);
     }
@@ -458,7 +456,9 @@ class UserController extends Controller
     /**
      * get friends of friends (the users my following follows)
      */
-    private function getFriendsOfFriends($user_id) {
+    private function getFriendsOfFriends($user_id, $limit) {
+        if (!$user_id) return [];
+
         $following = array_map(
             function ($v) { return $v['user2_id']; },
             UserFollow::where('user1_id', $user_id)->get()->toArray()
@@ -473,10 +473,12 @@ class UserController extends Controller
                         })
                         ->orderByDesc(rand()%2 ? 'users.posts_count' : 'users.followers')
                         ->select('users.id', 'users.full_name', 'users.username', 'users.profile_pic')
+                        ->limit($limit)
                         ->get();
 
         foreach ($ff as $u) {
             $u->auth_user_follows = 0 /*false*/;
+            $u->follows_auth_user = $this->userFollows($u->id, $user_id);
         }
 
         return $ff;
