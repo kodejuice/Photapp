@@ -244,7 +244,7 @@ class UserController extends Controller
         // if
         //   1) we need friends of friends and get nothing
         //or 2) no queries were passed
-        if (isset($suggest) && empty($users) || (!isset($query) && !isset($suggest))) {
+        if (isset($suggest) && count($users)==0 || (!isset($query) && !isset($suggest))) {
             $offset = $request->input('offset', 0);
 
             // randomly select between most active/most followed users
