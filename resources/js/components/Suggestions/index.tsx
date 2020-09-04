@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 
 import authUser from '../../state/auth_user';
@@ -26,12 +27,12 @@ const Suggestions: React.FC<{}> = ({})=>{
             { isLoading ? <Spinner type='list' /> : ""}
 
             <div className='users'>
-                { data && data.map(({username, profile_pic, auth_user_follows, follows_auth_user})=> (
+                { data && data.map(({username, profile_pic, auth_user_follows, follows_auth_user, full_name})=> (
                     <div className='user row' key={username}>
-                        <div className='col col-2'> <LazyDP user={username} /> </div>
+                        <div className='col col-2'> <Link to={`/user/${username}`}><LazyDP user={username} /></Link> </div>
                         <div className='col col-fill'>
-                            <div className='username'>{username}</div>
-                            {logged && <div className='follow-info'>{follows_auth_user ? "Follows You" : ""}</div>}
+                            <div className='username'><Link to={`/user/${username}`}>{username}</Link></div>
+                            {logged ? (<div className='follow-info'>{follows_auth_user ? "Follows You" : full_name}</div>) : full_name}
                         </div>
                         <div className='col col-2 follow-col'> <FollowButton user={username} unfollow={auth_user_follows} /> </div>
                     </div>
