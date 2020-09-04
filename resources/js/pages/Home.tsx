@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import useSWR from '../helpers/swr';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import authUser from '../state/auth_user';
 
+import LazyDP from '../components/LazyDP';
 import {fetchListing} from '../helpers/fetcher';
 import showAlert from '../components/Alert/showAlert';
 
@@ -18,6 +21,8 @@ const POST_PER_PAGE = 50;
 
 const Home: React.FC<{}> = ()=>{
     const dispatch = useDispatch();
+    const {user, logged} = authUser();
+
     const [offset, setOffset] = useState(0);
     const [postShown, setPostShown] = useState(POST_PER_PAGE);
 
@@ -86,6 +91,17 @@ const Home: React.FC<{}> = ()=>{
                 </div>
 
                 <div className='col col-fill sm-hide'>
+                    <div className='suggestions-column'>
+
+                        {logged && (
+                            <div className='auth_user row'>
+                                <div className='col col-2'> <Link to={`/user/${user.username}`}><LazyDP user={user.username} /></Link></div>
+                                <div className='col col-fill user-info'>
+                                    <div className='username'><Link to={`/user/${user.username}`}>{user.username}</Link></div>
+                                    <div className='full_name'>{user.full_name}</div>
+                                </div>
+                            </div>
+                        )}
 
                         <div className='row'>
                             <p id='c-title' className='col col-fill'> Suggested For You </p>

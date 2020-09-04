@@ -179,11 +179,34 @@ div.infinite-scroll-component {
     }
 
     div.auth_user {
+        width: 293px;
+        height: 56px;
+
         img {
             width: 56px;
             height: 56px;
+            margin-right: 0 !important;
             @include border-radius(100%);
             border: none;
+        }
+
+        div.user-info {
+            margin: 0 0 0 20px;
+            padding-top: 12px;
+            padding-bottom: 16px;
+
+            div.username {
+                a{color: #262626;}
+                font-weight: 600;
+                font-size: 0.99em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            div.full_name {
+                color: #8E8E8E;
+                font-size: 0.99em;
+            }
         }
     }
 
@@ -201,7 +224,7 @@ div.infinite-scroll-component {
             border: 0.5px solid #8E8E8E;
         }
         div.username {
-            color: #262626;
+            a{color: #262626;}
             font-weight: 600;
             font-size: 0.99em;
             overflow: hidden;
