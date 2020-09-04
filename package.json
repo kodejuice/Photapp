@@ -10,8 +10,8 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "test": "jest",
         "test:watch": "npm run test -- --watch",
-        "build": "./setup",
-        "app_test": "./test"
+        "build": "./bin/setup",
+        "app_test": "./bin/test"
     },
     "jest": {
         "verbose": true,
