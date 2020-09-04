@@ -213,10 +213,10 @@ class UserController extends Controller
         if (!$usr) {
             return response(['errors' => ['Not found']], 404);
         }
+
         $auth_user = $request->user();
-        if ($auth_user) {
-            $usr->auth_user_follows = $this->userFollows($auth_user->id, $usr->id);
-        }
+        $this->getFollowInfo([$usr], @$auth_user->id ?: null);
+
         return response($usr);
     }
 
@@ -233,29 +233,30 @@ class UserController extends Controller
 
         if (isset($query) && strlen($query) > 2) {
             $query = addslashes($query);
-            $matches = User::whereRaw("MATCH (username, full_name) AGAINST ('$query')")
+            $users = User::whereRaw("MATCH (username, full_name) AGAINST ('$query')")
                         ->get();
-
-            return response($matches);
         }
-
-        if (isset($suggest)) {
+        else if (isset($suggest)) {
             $users = $this->getFriendsOfFriends($auth_user->id);
-
-            return response($users);
         }
 
-        $offset = $request->input('offset', 0);
-        $limit = $request->input('limit', 50);
+        // if
+        //   1) we need friends of friends and get nothing
+        //or 2) no queries were passed
+        if (isset($suggest) && empty($users) || (!isset($query) && !isset($suggest))) {
+            $offset = $request->input('offset', 0);
+            $limit = $request->input('limit', 50);
 
-        // randomly select between most active/most followed users
-        $users = User::orderByDesc(rand()%2 ? 'posts_count' : 'followers')
-                    ->offset($offset)
-                    ->limit($limit)
-                    ->get();
+            // randomly select between most active/most followed users
+            $users = User::orderByDesc(rand()%2 ? 'posts_count' : 'followers')
+                        ->offset($offset)
+                        ->limit($limit)
+                        ->get();
+        }
 
-        foreach ($users as $u) {
-            $u->auth_user_follows = $this->userFollows($auth_user->id, $u->id);
+
+        if ($auth_user->id) {
+            $this->getFollowInfo($users, $auth_user->id);
         }
 
         return response($users);
@@ -302,8 +303,8 @@ class UserController extends Controller
                         ->get();
 
         $auth_user = $request->user();
-        foreach ($followers as $u) {
-            $u->auth_user_follows = $this->userFollows($auth_user->id, $u->id);
+        if ($auth_user->id) {
+            $this->getFollowInfo($followers, $auth_user->id);
         }
 
         return response($followers);
@@ -328,8 +329,8 @@ class UserController extends Controller
                         ->get();
 
         $auth_user = $request->user();
-        foreach ($following as $u) {
-            $u->auth_user_follows = $this->userFollows($auth_user->id, $u->id);
+        if ($auth_user->id) {
+            $this->getFollowInfo($following, $auth_user->id);
         }
 
         return response($following);
@@ -479,5 +480,25 @@ class UserController extends Controller
         }
 
         return $ff;
+    }
+
+    ////////////
+    // Helper //
+    ////////////
+
+    /**
+     * fill $users object with follow info:
+     *  `'user' follow you`
+     *  `you follow 'user'`
+     * @param  User[] $users
+     * @param  number $auth_user_id
+     * @return User[]
+     */
+    private function getFollowInfo($users, $auth_user_id) {
+        if (!$auth_user_id) return;
+        foreach ($users as $u) {
+            $u->auth_user_follows = $this->userFollows($auth_user_id, $u->id);
+            $u->follows_auth_user = $this->userFollows($u->id, $auth_user_id);
+        }
     }
 }
