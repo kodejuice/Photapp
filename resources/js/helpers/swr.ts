@@ -44,6 +44,11 @@ export default function useSWR(arg: string, fetcher) {
             // else store response in CACHE
             CACHE[key] = data;
         }
+    } else {
+        //  no data available, return CACHE data if available
+        if (CACHE[key]) {
+            data = CACHE[key];
+        }
     }
 
     return {
