@@ -175,6 +175,10 @@ $font-size: 0.8em;
                 transform: translate(-50%, -50%);
 
                 svg {
+                    width: 90px;
+                    height: 90px;
+                    -webkit-filter: drop-shadow( 1px 1px 0.5px rgba(0, 0, 0, .3));
+                    filter: drop-shadow( 1px 1px 0.5px rgba(0, 0, 0, .3));
                     animation-name: reveal;
                     animation-duration: 400ms;
                 }
