@@ -64,6 +64,7 @@ const Header: React.FC<{}> = ()=>{
                     <img src="/icon/add.svg"/>
                 </div>
             </nav>
+            <div style={{height: '54px'}}></div>
         </header>
     );
 }

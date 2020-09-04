@@ -108,7 +108,7 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
 @media screen and (min-width: 769px) {
     nav.header.border {
         height: 54px;
-        position: relative;
+        position: fixed;
 
         .header-wrapper {
             width: 100%;
