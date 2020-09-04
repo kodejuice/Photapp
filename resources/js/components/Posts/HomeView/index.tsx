@@ -37,6 +37,12 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     // post info (authenticated user likes/saved)
     const [postLiked, likesPost] = useState(!!post.auth_user_likes);
     const [postSaved, savesPost] = useState(!!post.auth_user_saved);
+    const post_likes = post.auth_user_likes && !postLiked
+        ? post.like_count-1
+        : (post.auth_user_likes
+            ? post.like_count
+            : post.like_count + Number(postLiked)
+        );
     // ....
 
     // post caption info
@@ -131,7 +137,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         </button>
                     </div>
                 </div>
-                <div className='likes'>{post.like_count + Number(postLiked)} likes</div>
+                <div className='likes'>{post_likes} likes</div>
                 <div className='post-comments'>
                     {post.caption?
                         <div className='comment'>
