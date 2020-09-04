@@ -61,7 +61,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
         });
 
         showHeart(true);
-        setTimeout(()=>showHeart(false), 400);
+        setTimeout(()=>showHeart(false), 790);
     });
 
     return (
