@@ -22,8 +22,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 
-        // \App\Http\Middleware\ForceJsonResponse::class,
-        // \App\Http\Middleware\Cors::class,
+        \App\Http\Middleware\CookieAuth::class,
     ];
 
     /**
@@ -58,6 +57,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.web' => \App\Http\Middleware\AuthenticateWeb::class,
+        'cookie.auth' => \App\Http\Middleware\CookieAuth::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

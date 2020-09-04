@@ -249,11 +249,11 @@ class UserController extends Controller
 
             // randomly select between most active/most followed users
             $users = User::orderByDesc(rand()%2 ? 'posts_count' : 'followers')
+                        ->where('id', '!=', @$auth_user->id ?: '')
                         ->offset($offset)
                         ->limit($limit)
                         ->get();
         }
-
 
         $this->getFollowInfo($users, @$auth_user->id ?: null);
 

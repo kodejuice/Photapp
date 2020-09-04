@@ -39,6 +39,6 @@ class AuthenticateWeb extends Middleware
      */
     protected function redirectTo($request)
     {
-        return route('login');
+        return "/login";
     }
 }
