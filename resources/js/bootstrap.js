@@ -24,6 +24,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.validateStatus = (status) => status >= 200;
 
 
+// i am very sure that this is treason
+// forgive me my lord :(
+const originalError = console.error
+console.error = (...args) => {
+    if (/Warning.*Cannot update a component/.test(args[0])) return
+    originalError.call(console, ...args)
+}
+
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
