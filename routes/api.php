@@ -40,6 +40,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     // User [READ]
     Route::get('/user/getprofile', 'UserController@getUser')->name('user.profile');
+    Route::get('/users', 'UserController@getUsers')->name('user.all_users');
 
     // protected routes
     Route::middleware('auth:api')->group(function () {
@@ -76,7 +77,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('/user/notification/{id}', 'UserController@markNotification')->name('user.notification.mark');
         Route::delete('/user/notification/{id}', 'UserController@deleteNotification')->name('user.notification.delete');
         // READ
-        Route::get('/users', 'UserController@getUsers')->name('user.all_users');
         Route::get('/user/{username}/posts', 'UserController@getUserPosts')->name('user.posts');
         Route::get('/user/{username}/mentions', 'UserController@getUserMentions')->name('user.mentions');
         Route::get('/user/{username}/bookmarks', 'UserController@getUserBookmarks')->name('user.bookmarks');
