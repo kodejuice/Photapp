@@ -27,16 +27,16 @@ const routes = [
         component: Notifications,
     },
     {
-        path: '/explore',
-        component: Explore,
+        path: ['/explore/search/:query','/explore/search/'],
+        component: Search,
     },
     {
         path: '/explore/people',
         component: People,
     },
     {
-        path: '/explore/search',
-        component: Search,
+        path: '/explore',
+        component: Explore,
     },
     {
         component: NotFound
