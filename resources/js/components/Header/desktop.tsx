@@ -98,7 +98,7 @@ function onSearch(ev: React.SyntheticEvent<HTMLFormElement>, input: HTMLInputEle
     const query = input?.value;
 
     if (query) {
-        history.push(`/explore/${query}`);
+        history.push(`/explore/search/${query}`);
     }
 }
 
