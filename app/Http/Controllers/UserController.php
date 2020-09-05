@@ -231,6 +231,7 @@ class UserController extends Controller
         $query = $request->input('q');
         $suggest = $request->input('suggest');
         $limit = $request->input('limit', 50);
+        $users = [];
 
         if (isset($query) && strlen($query) > 2) {
             $query = addslashes($query);
