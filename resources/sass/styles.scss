@@ -76,7 +76,7 @@ a {
             display: none;
         }
     }
-    .suggestions.page {
+    .suggestions.page, .search-page {
         max-width: 100%;
     }
 }
@@ -96,7 +96,7 @@ a {
         width: 600px !important;
         max-width: 600px !important;
     }
-    .suggestions.page {
+    .suggestions.page, .search-page {
         width: 600px !important;
         max-width: 600px !important;
         margin: 0 auto !important;
@@ -114,9 +114,12 @@ a {
             max-width: 614px !important;
         }
     }    
-    .suggestions.page {
+    .suggestions.page, .search-page {
         width: 614px !important;
         max-width: 614px;
+    }
+    .hide-big-screen {
+        display: none;
     }
 }
 
@@ -271,8 +274,9 @@ div.infinite-scroll-component {
         }
     }
 }
-
-
+//////////////////////
+// Suggestions Page //
+//////////////////////
 .suggestions.page {
     float: none;
     margin: 0 auto;
@@ -289,5 +293,67 @@ div.infinite-scroll-component {
     img {
         margin-right: 10px !important;
     }
+
+    div.row.single {
+        .col-3.more {
+        }
+        a {
+            font-size: 0.88em;
+            text-align: center;
+            color: #262626;
+        }
+    }
+
+    &.disp-1 {
+        border-bottom: 1px solid rgba(var(--b38,219,219,219),1);
+        .user.row {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+    }
 }
 
+
+
+/////////////////
+// Search Page //
+/////////////////
+
+@media screen and (min-width: 815px) {
+    .search-box {display: none;}
+}
+
+.search-page {
+    margin: 0 auto;
+
+    .posts-wrapper.search-results .home-posts {
+        margin: 0 auto;
+    }
+
+    .search-box {
+        input.search-input {
+            width: 99%;
+            padding: 3px;
+            margin: 0 auto;
+            // margin-top: 5px;
+            font-size: 0.89em;
+            text-align: center;
+            color: rgba(var(--i1d,38,38,38),1);
+            border: 1px solid rgba(var(--b38,219,219,219),1);
+            @include border-radius(6px);
+        }
+    }
+    label.title {
+        cursor: pointer;
+        font-size: 0.80em;
+    }
+
+    .see-all {
+        width: 20%;
+        margin: 0 auto;
+        text-align: center;
+        a {
+            color: #262626;
+        }
+    }
+}
