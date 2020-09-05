@@ -5,7 +5,7 @@ import Suggestions from '../components/Suggestions';
 const People: React.FC<{}> = ()=>{
     return (
         <React.Fragment>
-            <Header page='explore' />
+            <Header page='explore' hide_icon={true} header_title="Suggested" />
 
             <div className='suggestions page'>
                 <Suggestions limit={80} />
