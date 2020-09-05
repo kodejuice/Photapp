@@ -1,18 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 
-import authUser from '../../state/auth_user';
 import useSWR from '../../helpers/swr';
 import {fetchListing} from '../../helpers/fetcher';
 
-import LazyDP from '../../components/LazyDP';
-import FollowButton from '../../components/FollowButton';
 import showAlert from '../../components/Alert/showAlert';
 import Spinner from '../../components/Spinner';
 
+import Users from '../Users';
+
+
 const Suggestions: React.FC<{limit?:number}> = ({limit})=>{
-    const {user, logged} = authUser();
     const dispatch = useDispatch();
     let {data, isLoading, isError} = useUsers(limit || 5);
 
@@ -21,24 +19,13 @@ const Suggestions: React.FC<{limit?:number}> = ({limit})=>{
         data = null;
     }
 
-
     return (
         <React.Fragment>
             { isLoading ? <Spinner type='list' /> : ""}
 
             <div className='users'>
-                { data && data.map(({username, profile_pic, auth_user_follows, follows_auth_user, full_name})=> (
-                    <div className='user row' key={username}>
-                        <div className='col col-2'> <Link to={`/user/${username}`}><LazyDP user={username} /></Link> </div>
-                        <div className='col col-fill'>
-                            <div className='username'><Link to={`/user/${username}`}>{username}</Link></div>
-                            <div className='follow-info'>{(logged && follows_auth_user) ? "Follows You" : full_name}</div>
-                        </div>
-                        <div className='col col-2 follow-col'> <FollowButton user={username} unfollow={auth_user_follows} /> </div>
-                    </div>
-                )) }
+                { data && <Users data={data} /> }
             </div>
-
         </React.Fragment>
     );
 }
