@@ -43,7 +43,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/users', 'UserController@getUsers')->name('user.all_users');
 
     // protected routes
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware('auth:api', 'throttle:60,1')->group(function () {
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
 
         /////////////////
