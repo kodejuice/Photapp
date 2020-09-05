@@ -106,7 +106,7 @@ const Home: React.FC<{}> = ()=>{
 
                             <div className='row'>
                                 <p id='c-title' className='col col-fill'> Suggested For You </p>
-                                <p id='see-more' className='col col-2'> <Link to="/explore/people">See All</Link> </p>
+                                <p id='see-more' className='col col-3'> <Link to="/explore/people">See All</Link> </p>
                             </div>
                             <div className='users'>
                                 <Suggestions />
