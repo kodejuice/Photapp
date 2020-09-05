@@ -333,7 +333,8 @@ div.infinite-scroll-component {
     .search-box {
         input.search-input {
             width: 99%;
-            padding: 3px;
+            padding: 4px 12px;
+            overflow: visible;
             margin: 0 auto;
             // margin-top: 5px;
             font-size: 0.89em;
@@ -351,9 +352,10 @@ div.infinite-scroll-component {
     .see-all {
         width: 20%;
         margin: 0 auto;
-        text-align: center;
+        margin-left: 67%;
+        text-align: right;
         a {
-            color: #262626;
+            color: #8E8E8E;
         }
     }
 }

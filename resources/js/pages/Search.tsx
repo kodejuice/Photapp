@@ -10,6 +10,8 @@ import Spinner from '../components/Spinner';
 import showAlert from '../components/Alert/showAlert';
 import Suggestions from '../components/Suggestions';
 import Posts from '../components/Posts';
+import Users from '../components/Users';
+
 
 /**
  * posts search result component
@@ -38,8 +40,6 @@ const PostsResult: React.FC<{query:string}> = ({query}) => {
 
         </React.Fragment>
     );
-
-
 }
 
 
@@ -48,7 +48,26 @@ const PostsResult: React.FC<{query:string}> = ({query}) => {
  * @param  {string} options.query query string
  */
 const UsersResult: React.FC<{query:string}> = ({query}) => {
-    return <div> users result {query} </div>;
+    const dispatch = useDispatch();
+    let {data, isError, isLoading} = useUsers(query);
+
+    if (data?.errors) {
+        showAlert(dispatch, data.errors);
+        data = null;
+    }
+
+    return (
+        <React.Fragment>
+            <div className='search-result'>
+                { isLoading ? <Spinner type='list' /> : ""}
+
+                <div className='suggestions page' style={{paddingTop:'0'}}>
+                    {data && <Users data={data}/>}
+                </div>
+            </div>
+
+        </React.Fragment>
+    );
 }
 
 
@@ -56,20 +75,30 @@ const UsersResult: React.FC<{query:string}> = ({query}) => {
 /**
  * Search page
  */
+let id;
 const Search: React.FC<Router.RouteComponentProps> = ({match, history})=>{
     const params = (match.params as any);
     const [tab, setTab] = useState(0);
     const [query, _setQuery] = useState(params.query);
+    const [value, _setValue] = useState(params.query);
 
+    // set input value then wait for some milliseconds
+    //  before setting search query, so the browser doesnt lag
     const setQuery = (q)=>{
-        q = q.trim().replace(/#/g, "");
-        _setQuery(q);
+        clearTimeout(id); // clear previous timeout
+        q = q.trim().replace(/(#|@)/g, "");
         params.query = q;
+        id = setTimeout(()=>_setQuery(q), 700); // set query in 700ms
     }
 
-    // this can happen if the user uses the header
-    // search input, which routes to this component
+    const setValue = (v)=>{
+        _setValue(v);
+        setQuery(v);
+    };
+
     if (params.query != query) {
+        // this can happen if the user uses the header
+        // search input, which routes to this component
         setQuery(params.query);
     }
 
@@ -86,7 +115,11 @@ const Search: React.FC<Router.RouteComponentProps> = ({match, history})=>{
                 </div>
 
                 <div className='search-box'>
-                    <input placeholder="Search" type='search' value={query} className='search-input' onChange={(e)=>setQuery(e.target.value)} />
+                    <form onSubmit={(e)=>{e.preventDefault();setValue(value);}}>
+                        <input placeholder="Search" type='search' value={value} className='search-input'
+                           onChange={(e)=>setValue(e.target.value)}
+                       />
+                   </form>
                 </div>
                 <div className="row flex-spaces tabs">
                     <input id="tab1" type="radio" name="tabs" defaultChecked/>
@@ -102,6 +135,20 @@ const Search: React.FC<Router.RouteComponentProps> = ({match, history})=>{
 
         </React.Fragment>
     );
+}
+
+
+/**
+ * use users hook
+ * @param  {string} query query string
+ */
+function useUsers(query) {
+    const {data, error} = useSWR(`/api/users?q=${query}&limit=90`, fetchListing);
+    return {
+        data,
+        isError: error,
+        isLoading: !data && !error,
+    }    
 }
 
 
