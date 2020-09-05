@@ -137,7 +137,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         </button>
                     </div>
                 </div>
-                <div className='likes'>{post_likes} likes</div>
+                {post_likes>0 && <div className='likes'>{post_likes} likes</div>}
                 <div className='post-comments'>
                     {post.caption?
                         <div className='comment'>
