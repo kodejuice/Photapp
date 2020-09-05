@@ -18,6 +18,10 @@ Route::get('/{path?}', function () {
     return view('app');
 });
 
+Route::get('/{a}/{b}', function () {
+    return view('app');
+});
+
 
 // auth proctected routes
 Route::middleware('auth.web')->group(function () {

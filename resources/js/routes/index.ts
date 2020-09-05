@@ -1,5 +1,6 @@
 import Home from '../pages/Home';
 import Login from '../pages/auth/Login';
+import People from '../pages/People';
 import Register from '../pages/auth/Register';
 import Notifications from '../pages/account/Notifications/index';
 import NotFound from '../pages/PageNotFound';
@@ -22,6 +23,10 @@ const routes = [
   {
     path: '/activity',
     component: Notifications,
+  },
+  {
+    path: '/explore/people',
+    component: People,
   },
   {
     component: NotFound

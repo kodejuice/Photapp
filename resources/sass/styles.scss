@@ -76,6 +76,9 @@ a {
             display: none;
         }
     }
+    .suggestions.page {
+        max-width: 100%;
+    }
 }
 
 /* medium sized screens */
@@ -93,6 +96,11 @@ a {
         width: 600px !important;
         max-width: 600px !important;
     }
+    .suggestions.page {
+        width: 600px !important;
+        max-width: 600px !important;
+        margin: 0 auto !important;
+    }
 }
 
 /* big screens */
@@ -106,6 +114,10 @@ a {
             max-width: 614px !important;
         }
     }    
+    .suggestions.page {
+        width: 614px !important;
+        max-width: 614px;
+    }
 }
 
 
@@ -257,6 +269,25 @@ div.infinite-scroll-component {
             margin-top: 7px;
             box-shadow: none;
         }
+    }
+}
+
+
+.suggestions.page {
+    float: none;
+    margin: 0 auto;
+    padding-top: 30px;
+
+    .user.row {
+        margin-bottom: 12px;
+    }
+
+    .col {
+        padding: 0;
+    }
+
+    img {
+        margin-right: 10px !important;
     }
 }
 
