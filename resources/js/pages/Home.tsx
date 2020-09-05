@@ -89,10 +89,10 @@ const Home: React.FC<{}> = ()=>{
                         </InfiniteScroll>
                     )}
                 </div>
-
-                <div className='col col-fill sm-hide'>
+                <div className='col col-1 separator'></div>
+                <div className='col col-fill sm-hide' style={{position: 'relative'}}>
                     <div className='fixxed user-col'>
-                        <div className='suggestions-column suggestions'>
+                        <div className='suggestions-column'>
 
                             {logged && (
                                 <div className='auth_user row'>

@@ -32,7 +32,7 @@ const Suggestions: React.FC<{limit?:number}> = ({limit})=>{
                         <div className='col col-2'> <Link to={`/user/${username}`}><LazyDP user={username} /></Link> </div>
                         <div className='col col-fill'>
                             <div className='username'><Link to={`/user/${username}`}>{username}</Link></div>
-                            {logged ? (<div className='follow-info'>{follows_auth_user ? "Follows You" : full_name}</div>) : full_name}
+                            <div className='follow-info'>{(logged && follows_auth_user) ? "Follows You" : full_name}</div>
                         </div>
                         <div className='col col-2 follow-col'> <FollowButton user={username} unfollow={auth_user_follows} /> </div>
                     </div>
