@@ -92,7 +92,7 @@ const Home: React.FC<{}> = ()=>{
 
                 <div className='col col-fill sm-hide'>
                     <div className='fixxed user-col'>
-                        <div className='suggestions-column'>
+                        <div className='suggestions-column suggestions'>
 
                             {logged && (
                                 <div className='auth_user row'>

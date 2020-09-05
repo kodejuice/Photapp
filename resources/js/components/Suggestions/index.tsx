@@ -11,10 +11,10 @@ import FollowButton from '../../components/FollowButton';
 import showAlert from '../../components/Alert/showAlert';
 import Spinner from '../../components/Spinner';
 
-const Suggestions: React.FC<{}> = ({})=>{
+const Suggestions: React.FC<{limit?:number}> = ({limit})=>{
     const {user, logged} = authUser();
     const dispatch = useDispatch();
-    let {data, isLoading, isError} = useUsers();
+    let {data, isLoading, isError} = useUsers(limit || 5);
 
     if (data?.errors) {
         showAlert(dispatch, data.errors, 'error', 15);
@@ -48,8 +48,8 @@ const Suggestions: React.FC<{}> = ({})=>{
  * useUsers hook, 
  * fetches users from db w/ SWR
  */
-function useUsers() {
-    const { data, error } = useSWR(`/api/users?limit=5&suggest=1`, fetchListing);
+function useUsers(limit) {
+    const { data, error } = useSWR(`/api/users?limit=${limit}&suggest=1`, fetchListing);
     return {
         data: data,
         isLoading: !error && !data,
