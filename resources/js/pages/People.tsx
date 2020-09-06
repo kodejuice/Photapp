@@ -15,4 +15,3 @@ const People: React.FC<{}> = ()=>{
 }
 
 export default People;
-
