@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {sign_in, set_user} from '../state/actions';
 import {checkLoginStatus} from '../helpers/fetcher';

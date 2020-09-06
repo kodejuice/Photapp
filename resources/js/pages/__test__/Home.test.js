@@ -7,7 +7,6 @@ import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
 import Wrapper from '../../__test__/wrap-component';
-import {CACHE} from '../../helpers/swr';
 
 import Home from '../Home';
 
