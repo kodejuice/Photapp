@@ -31,7 +31,7 @@ const PostsResult: React.FC<{query:string}> = ({query}) => {
             <div className='search-result'>
                 { isLoading ? <Spinner type='list' /> : ""}
 
-                <div className='posts-wrapper search-results'>
+                <div role='search-results' className='posts-wrapper search-results'>
                     <div className='home-posts'>
                         {data && <Posts view='home' data={data}/>}
                     </div>
@@ -106,7 +106,7 @@ const Search: React.FC<Router.RouteComponentProps> = ({match, history})=>{
         <React.Fragment>
             <Header page='explore' hide_icon={true} header_title='Search' />
 
-            <div className='search-page'>
+            <div className='search-page' data-testid='search-page'>
                 <div className="suggestions page disp-1 hide-big-screen" style={{paddingTop: '10px'}}>
                     <Suggestions limit={1} />
                     <div className='see-all'>
@@ -115,18 +115,20 @@ const Search: React.FC<Router.RouteComponentProps> = ({match, history})=>{
                 </div>
 
                 <div className='search-box'>
-                    <form onSubmit={(e)=>{e.preventDefault();setValue(value);}}>
-                        <input placeholder="Search" type='search' value={value} className='search-input'
+                    <form data-testid='search-form' onSubmit={(e)=>{e.preventDefault();setValue(value);}}>
+                        <input data-testid='search-input' placeholder="Search" type='search'
+                           value={value}
+                           className='search-input'
                            onChange={(e)=>setValue(e.target.value)}
                        />
                    </form>
                 </div>
                 <div className="row flex-spaces tabs">
                     <input id="tab1" type="radio" name="tabs" defaultChecked/>
-                    <label onClick={()=>setTab(0)} className='title' htmlFor="tab1">Posts</label>
+                    <label data-testid="tab1" onClick={()=>setTab(0)} className='title' htmlFor="tab1">Posts</label>
 
                     <input id="tab2" type="radio" name="tabs"/>
-                    <label onClick={()=>setTab(1)} className='title' htmlFor="tab2">Users</label>
+                    <label data-testid="tab2" onClick={()=>setTab(1)} className='title' htmlFor="tab2">Users</label>
 
                     <div className="content" id="content1">{tab==0 && <PostsResult query={query} />}</div>
                     <div className="content" id="content2"> {tab==1 && <UsersResult query={query} />} </div>
