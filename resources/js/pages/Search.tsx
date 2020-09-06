@@ -116,10 +116,12 @@ const Search: React.FC<Router.RouteComponentProps> = ({match, history})=>{
 
                 <div className='search-box'>
                     <form data-testid='search-form' onSubmit={(e)=>{e.preventDefault();setValue(value);}}>
-                        <input data-testid='search-input' placeholder="Search" type='search'
-                           value={value}
-                           className='search-input'
-                           onChange={(e)=>setValue(e.target.value)}
+                        <input name="search" type='search'
+                            data-testid='search-input'
+                            placeholder="Search"
+                            value={value}
+                            className='search-input'
+                            onChange={(e)=>setValue(e.target.value)}
                        />
                    </form>
                 </div>
