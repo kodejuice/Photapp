@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {useDoubleTap} from 'use-double-tap';
 
-import {Post} from '../types.d';
+import {Post} from '../props.d';
 import LazyDP from '../../LazyDP';
 import FollowButton from '../../FollowButton';
 import showAlert from '../../Alert/showAlert';

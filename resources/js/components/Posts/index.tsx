@@ -1,5 +1,5 @@
 import React from 'react';
-import {PostProp} from './types.d';
+import {PostProp} from './props.d';
 
 import HomeView from './HomeView';
 // import {GridView} from './GridView';
