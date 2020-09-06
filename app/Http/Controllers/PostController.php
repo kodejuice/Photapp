@@ -261,13 +261,18 @@ class PostController extends Controller
             // posts tailored just for the authenticated user
             $posts = $this->getUserFeed($auth_user, $offset, $limit);
         } else {
-            // trigger event to update news feed in the background
-            event(new NewsFeedRequested());
+            $posts = [];
+            $update_feed = boolval($request->input('update_feed', 1));
 
-            $posts = NewsFeed::orderBy('id', 'asc')
-                            ->offset($offset)
-                            ->limit($limit)
-                            ->get();
+            if ($update_feed) {
+                // trigger event to update news feed in the background
+                event(new NewsFeedRequested());
+
+                $posts = NewsFeed::orderBy('id', 'asc')
+                                ->offset($offset)
+                                ->limit($limit)
+                                ->get();
+            }
 
             if (count($posts) == 0) {
                 $posts = Post::orderByDesc('post_id')

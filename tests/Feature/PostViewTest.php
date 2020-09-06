@@ -101,7 +101,7 @@ class PostViewTest extends TestCase
         $this->post(route('post.post_like', ['id'=>2])); // like it (post 2)
         $this->post(route('post.post_save', ['id'=>1])); // save post 1
 
-        $response = $this->get(route('post.all_posts'));
+        $response = $this->_get(route('post.all_posts'), "update_feed=0");
         $response->assertStatus(200);
 
         $r0 = $response[0];
