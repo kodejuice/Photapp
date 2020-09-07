@@ -2,6 +2,8 @@ import React from 'react';
 import Header from '../components/Header';
 import Suggestions from '../components/Suggestions';
 
+import "./styles/People.scss";
+
 const People: React.FC<{}> = ()=>{
     return (
         <React.Fragment>

@@ -1,0 +1,36 @@
+
+.suggestions.page {
+    float: none;
+    margin: 0 auto;
+    padding-top: 30px;
+
+    .user.row {
+        margin-bottom: 12px;
+    }
+
+    .col {
+        padding: 0;
+    }
+
+    img {
+        margin-right: 10px !important;
+    }
+
+    div.row.single {
+        .col-3.more {
+        }
+        a {
+            font-size: 0.88em;
+            text-align: center;
+            color: #262626;
+        }
+    }
+
+    &.disp-1 {
+        border-bottom: 1px solid rgba(var(--b38,219,219,219),1);
+        .user.row {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+    }
+}

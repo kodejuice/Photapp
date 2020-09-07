@@ -9,7 +9,7 @@ import Spinner from '../components/Spinner';
 import showAlert from '../components/Alert/showAlert';
 import Posts from '../components/Posts';
 import Users from '../components/Users';
-
+import "./styles/Search.scss";
 
 /**
  * posts search result component

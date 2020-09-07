@@ -1,0 +1,50 @@
+@mixin border-radius($property) {
+    -webkit-border-radius: $property;
+    -o-border-radius: $property;
+    -moz-border-radius: $property;
+    border-radius: $property;
+}
+
+
+@media screen and (min-width: 815px) {
+    .search-box {display: none;}
+}
+
+.search-box {
+    input.search-input {
+        width: 99%;
+        padding: 4px 12px;
+        overflow: visible;
+        margin: 0 auto;
+        // margin-top: 5px;
+        font-size: 0.89em;
+        text-align: center;
+        color: rgba(var(--i1d,38,38,38),1);
+        border: 1px solid rgba(var(--b38,219,219,219),1);
+        @include border-radius(6px);
+    }
+}
+
+.search-page {
+    margin: 0 auto;
+
+    .posts-wrapper.search-results .home-posts {
+        margin: 0 auto;
+    }
+
+    label.title {
+        cursor: pointer;
+        font-size: 0.80em;
+    }
+
+    .see-all {
+        width: 20%;
+        margin: 0 auto;
+        margin-left: 67%;
+        text-align: right;
+        a {
+            color: #8E8E8E;
+        }
+    }
+}
+
