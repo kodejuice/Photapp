@@ -361,3 +361,19 @@ div.infinite-scroll-component {
         }
     }
 }
+
+
+
+//////////////
+// Helpers  //
+//////////////
+
+.text-center {
+    text-align: center;
+}
+
+@media screen and (max-width: 362px) {
+    .hide-screen-362 {
+        display: none;
+    }
+}

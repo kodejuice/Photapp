@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import Router from 'react-router';
 import useSWR from '../helpers/swr';
@@ -8,7 +7,6 @@ import {fetchListing} from '../helpers/fetcher';
 import Header from '../components/Header';
 import Spinner from '../components/Spinner';
 import showAlert from '../components/Alert/showAlert';
-import Suggestions from '../components/Suggestions';
 import Posts from '../components/Posts';
 import Users from '../components/Users';
 
@@ -107,13 +105,6 @@ const Search: React.FC<Router.RouteComponentProps> = ({match, history})=>{
             <Header page='explore' hide_icon={true} header_title='Search' />
 
             <div className='search-page' data-testid='search-page'>
-                <div className="suggestions page disp-1 hide-big-screen" style={{paddingTop: '10px'}}>
-                    <Suggestions limit={1} />
-                    <div className='see-all'>
-                        <Link to="/explore/people"> See All </Link>
-                    </div>
-                </div>
-
                 <div className='search-box'>
                     <form data-testid='search-form' onSubmit={(e)=>{e.preventDefault();setValue(value);}}>
                         <input name="search" type='search'
