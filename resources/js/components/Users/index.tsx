@@ -9,6 +9,11 @@ import FollowButton from '../../components/FollowButton';
 const Users: React.FC<{data:any[]}> = ({data})=>{
     const {user, logged} = authUser();
 
+    // remove logged user
+    if (data) {
+        data = data.filter(x => x.username != user?.username);
+    }
+
     return (
         <React.Fragment>
             <div className='users'>
