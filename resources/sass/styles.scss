@@ -5,12 +5,16 @@
     border-radius: $property;
 }
 
-* {
-    box-sizing: border-box;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; 
 }
 
-html,
-body {
+html {
+    box-sizing: border-box;
     background: #FAFAFA
 }
 
