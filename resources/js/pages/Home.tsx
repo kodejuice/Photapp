@@ -24,7 +24,7 @@ const Home: React.FC<{}> = ()=>{
     const {user, logged} = authUser();
 
     const [offset, setOffset] = useState(0);
-    const [postShown, setPostShown] = useState(POST_PER_PAGE);
+    const [postToBeShown, setPostToBeShown] = useState(POST_PER_PAGE);
 
     let {data, isLoading, isError} = usePosts(offset);
 
@@ -58,17 +58,17 @@ const Home: React.FC<{}> = ()=>{
 
                     {ALL_POST.length > 0 && (
                         <InfiniteScroll
-                            dataLength={postShown}
+                            dataLength={postToBeShown}
                             next={()=>{
-                                if (postShown >= ALL_POST.length) {
+                                if (postToBeShown >= ALL_POST.length) {
                                     // setting the offset state causes the
                                     //  app to fetch new posts from the server
                                     //  with this offset as starting point
-                                    setOffset(Math.min(postShown, ALL_POST.length));
-                                    setPostShown(Math.min(postShown + POST_PER_PAGE, ALL_POST.length));
+                                    setOffset(Math.min(postToBeShown, ALL_POST.length));
+                                    setPostToBeShown(Math.min(postToBeShown + POST_PER_PAGE, ALL_POST.length));
                                 } else {
                                     // reveal 10 more posts
-                                    setPostShown(Math.min(postShown+10, ALL_POST.length));
+                                    setPostToBeShown(Math.min(postToBeShown+10, ALL_POST.length));
                                 }
                             }}
                             hasMore={data && data.length > 0}
@@ -77,12 +77,12 @@ const Home: React.FC<{}> = ()=>{
 
                             // pull down functionality
                             pullDownToRefresh
-                            refreshFunction={()=>(setOffset(0), setPostShown(POST_PER_PAGE))}
+                            refreshFunction={()=>(setOffset(0), setPostToBeShown(POST_PER_PAGE))}
                             pullDownToRefreshContent={ <p id='msg'>&#8595; Pull down to refresh</p> }
                             releaseToRefreshContent={ <p id='msg'>&#8593; Release to refresh</p> }
                         >
 
-                            <Posts data={ALL_POST.slice(0, postShown)} view='home'/>
+                            <Posts data={ALL_POST.slice(0, postToBeShown)} view='home'/>
 
                             {isLoading && offset>0 && <Spinner type='list' />}
 
