@@ -10,12 +10,14 @@
 
 .explore-page {
     .search-box {
+        margin-top: 4px;
         .col{padding: 0;}
         button {
             width: 89%;
             border: none;
             display: block;
             margin: 0 auto;
+            margin-top: 4px;
             box-shadow: none;
             padding: 4px 3px;
             padding-left: 0;
@@ -30,8 +32,8 @@
     .grid-container {
         width: 100% !important;
         .photo_grid {
-            margin-bottom: 2px;
-            grid-gap: 2px;
+            margin-bottom: 1px;
+            grid-gap: 1px;
         }
     }
 }
@@ -41,10 +43,6 @@
     .grid-container {
         margin: 0 auto !important;
         width: 98.75% !important;
-        .photo_grid {
-            margin-bottom: 24px;
-            grid-gap: 24px;
-        }
     }
 }
 
@@ -53,9 +51,23 @@
     .grid-container {
         width: 963px;
         margin: 0 auto;
-        .photo_grid {
-            margin-bottom: 24px;
-            grid-gap: 24px;
+    }
+}
+
+/*medium/big*/
+@media screen and (min-width: 763px) {
+    .photo_grid {
+        margin-bottom: 21px;
+        grid-gap: 21px;
+        figure {
+            div.media-info {
+                top: 15px;
+                right: 19px;
+            }
         }
     }
+}
+
+.grid-container {
+    margin-top: 27px !important;
 }

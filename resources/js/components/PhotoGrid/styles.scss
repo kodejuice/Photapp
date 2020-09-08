@@ -18,8 +18,54 @@
     }
 
     figure {
+        position: relative;
         margin: 0;
+
+        div.media-info {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+
+        div.post-info{display: none;}
+
+        &:hover {
+            div.post-info {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.3);
+
+                .like_comment {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    color: #fff;
+                    font-size: 88%;
+                    transform: translate(-50%, -50%);
+
+                    p {
+                        margin: 4px;
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                }
+
+                // border-radius
+                // adapt to <img/> child
+                border-bottom-left-radius: 15px 255px;
+                border-bottom-right-radius: 225px 15px;
+                border-top-left-radius: 255px 15px;
+                border-top-right-radius: 15px 225px;
+                border: 2px solid #41403e;
+            }
+        }
     }
+
+
 
     /**
      * style1
