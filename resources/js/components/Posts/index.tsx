@@ -2,12 +2,11 @@ import React from 'react';
 import {PostProp} from './props.d';
 
 import HomeView from './HomeView';
-// import {GridView} from './GridView';
-// import {TileView} from './TileView';
+import GridView from './GridView';
 
 const views = {
-    // 'tile': (data) => <TileView data={data} />,
-    // 'grid': (data) => <GridView data={data} />,
+    'grid': (data) => <GridView data={data} />,
+    'tile': (data) => <GridView data={data} view='tile' />,
     'home': (data) => <HomeView data={data} />,
 }
 
