@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Header from '../components/Header';
 import {fetchListing} from '../helpers/fetcher';
 import useSWR from '../helpers/swr';
+import Spinner from '../components/Spinner';
 
 import "./styles/Explore.scss";
 
@@ -13,6 +14,7 @@ const UserFeed: React.FC<{}> = ()=>{
 
     return (
         <React.Fragment>
+            {isLoading && <Spinner type='list' />}
             {data && (
                 <div className='grid-container'>
                     <Posts view="grid" data={data} />
