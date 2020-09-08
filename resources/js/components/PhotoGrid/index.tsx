@@ -74,7 +74,7 @@ const Grid: React.FC<{config:string, photos:Media[]}> = ({config, photos})=>{
                                    <p>{commentIcon}{photo.comment_count}</p>
                                 </div>
                             </div>
-                            <img className="grid__img" src={`/test/${photo.post_id}.png`} />
+                            <img className="grid__img" src={`${photo.preview_image}`} />
                         </Link>
                     </figure>
                 ))}
