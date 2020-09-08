@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -77,6 +78,13 @@ const UserFeed: React.FC<{}> = ()=>{
 
 const Explore: React.FC<{}> = ()=>{
     const [feedShown, showFeed] = useState(true);
+    const [query, setQuery] = useState("");
+    const history = useHistory();
+
+    const Search = (ev: React.SyntheticEvent<HTMLFormElement>)=>{
+        ev.preventDefault();
+        history.push(`/explore/search/${query}`);
+    }
 
     return (
         <React.Fragment>
@@ -86,7 +94,13 @@ const Explore: React.FC<{}> = ()=>{
                 <div className='search-box'>
                     <div className='row'>
                         <div className='col col-fill'>
-                            <input className='search-input' placeholder="Search" onFocus={()=>showFeed(false)} onBlur={()=>showFeed(true)} />
+                            <form onSubmit={Search}>
+                                <input value={query} className='search-input' placeholder="Search"
+                                    onChange={e=>setQuery(e.target.value)}
+                                    onFocus={()=>showFeed(false)}
+                                    onBlur={()=>showFeed(true)}
+                                />
+                            </form>
                         </div>
                         <div className='col col-2'> <div id='btn-wrp'> <button onClick={()=>showFeed(true)}>Cancel</button> </div> </div>
                     </div>
