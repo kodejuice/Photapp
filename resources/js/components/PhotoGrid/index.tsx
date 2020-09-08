@@ -63,7 +63,7 @@ const Grid: React.FC<{config:string, photos:Media[]}> = ({config, photos})=>{
         <React.Fragment>
             <div className={`photo_grid ${config}`}>
                 {photos.map((photo, i)=>(
-                    <figure key={photo.post_id} className={`grid__item${i+1}`}>
+                    <figure key={photo.post_id} className={`grid__item grid__item${i+1}`}>
                         <Link to={`/post/${photo.post_id}`}>
                             {(photo.media_type=='video' || photo.multiple) && (
                                 <div className='media-info'> {photo.media_type=='video' ? VideoIcon : multiplePhotoIcon} </div>
