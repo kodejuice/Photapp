@@ -25,7 +25,7 @@ export const ProcessUserInput: React.FC<{text: string}> = ({text})=>{
     const options = {
         formatHref: {
             hashtag(href) {
-                return `${location.host}/explore/${href.slice(1)}`;
+                return `${location.host}/explore/search/${href.slice(1)}`;
             },
             mention(href) {
                 return `${location.host}/user/${href.slice(1)}`;
@@ -44,7 +44,7 @@ export const ProcessUserInput: React.FC<{text: string}> = ({text})=>{
                 href = href.replace(/^https?:\/\//, '');
                 href = href.replace(location.host, '');
 
-                const routes = ['user', 'explore', 'post'];
+                const routes = ['user', 'explore\/search', 'post'];
                 const regex = routes.map(r => new RegExp(`^\/?${r}\/(.+)`));
 
                 if (regex.some(R => href.match(R))) {
