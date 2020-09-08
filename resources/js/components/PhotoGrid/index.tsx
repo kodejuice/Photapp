@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Link} from 'react-router-dom';
 import "./styles.scss";
-import {rand_int, random} from '../../helpers/util';
+import {rand_int, random, memoize} from '../../helpers/util';
 
 type Media = {
     post_id: number,
@@ -85,11 +85,11 @@ const Grid: React.FC<{config:string, photos:Media[]}> = ({config, photos})=>{
 
 
 const Photos: React.FC<Props> = ({data})=>{
-    let partitions = partitionPosts(data);
+    let partitions = memoize(()=>partitionPosts(data), [JSON.stringify(data)]);
 
     return (
         <React.Fragment>
-            {partitions.map((v,i) => <Grid key={v[0].preview_image} config={random(grid_config[v.length])} photos={v} />)}
+            {partitions.map((v,i) => <Grid key={v[0].post_id} config={random(grid_config[v.length])} photos={v} />)}
         </React.Fragment>
     );
 };
