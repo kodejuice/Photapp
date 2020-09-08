@@ -10,6 +10,34 @@ export function limit(str: string, lim: number): string {
 
 
 /**
+ * return random number from -> to
+ * @param {number}   from
+ * @param {number}   to
+ */
+export const rand_int = (from:number, to:number): number => from + ~~(Math.random() * (to-from+1));
+
+
+/**
+ * Return random array element
+ */
+export const random = (Arr: any[]): any => Arr[rand_int(0, Arr.length-1)];
+
+
+// /**
+//  * shuffle array
+//  * @param {any[]} array array to shuffle
+//  */
+// export function shuffle(arr: any[]) {
+//     const n = array.length;
+//     for (let i=0; i<n; ++i) {
+//         let rand_index = ~~(Math.random() * n);
+//         [array[i], array[rand_index]] = [array[rand_index], array[i]];
+//     }
+//     return array;
+// }
+
+
+/**
  * copies text to clipboard
  * @param {string} text [description]
  */
