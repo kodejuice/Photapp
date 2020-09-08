@@ -1,12 +1,13 @@
-@media screen and (max-width: 768px) {
-    .transparent {
-        top: 31px + 44px;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-    }
-}
+// @media screen and (max-width: 768px) {
+//     .transparent {
+//         top: 31px + 44px + 4px;
+//         position: absolute;
+//         width: 100%;
+//         height: 100%;
+//         background: rgba(0,0,0,0.5);
+//         z-index: 1000;
+//     }
+// }
 
 .explore-page {
     .search-box {

@@ -41,9 +41,7 @@ const Explore: React.FC<{}> = ()=>{
                     </div>
                 </div>
 
-                {!feedShown && <div className='transparent'></div>}
-
-                {(
+                {feedShown && (
                     <div className="auth_user_feed">
                         <UserFeed />
                     </div>
