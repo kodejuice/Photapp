@@ -9,7 +9,7 @@ type HeaderProps = {
     current_page: string
 };
 
-// floating `add photo` btn
+const backIcon = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAB30lEQVRoge2ZPW8UMRCGn0F0XNrU663zr5CIyHFQEsKHkpDkUgJhvU3yq+hz/bVeWoZiiZAuLnJrjzeR9m1Hsp7X44/xGCZNmjRpa6mKa8KV82GeOpTk4NlKquLa7gqYAwosVgc7zdDhnmUDe4hUxfnuBz089BOYlInnWcAeoruZFzZhRWBv6LBlMtDDf4d78ADXt+vZ4AzYG+iXzTdgEYler9azfY7lz9DhzQ3U7e8lwttIKBkejE+h2neXir6PhLLAg2EGqqZbWsOD0SlU+e5C0MNIKCs8GCyhf/AfIqHs8JDZgPPhHDiKhEzgIeMecG04ozA8ZMqAa8MZysdIyBQeMhhwPnwFPkVC5vCQuIRcE04ZER4SMuCacIrwORIqBg8DM1D7cPIY4GGAgboJxwpfIqHi8JC1lJDyrzsG7oHah5N4FuRmtX7xqmQWDDZxWRNJaX8MJgwvsjImjEsJexPZTo6xTBQqp+1MFHzQ2JgwuXxKmjC7PaumW4rE3sV5TYzUVslnwrx+sTZhX4DdtRaj3bl0E2UqyP/N3Uh/NM1Eme60iK5ez94BkY8MfVnvdk/gg6M3sUD5uRFRlF+Dh03E2l4bX0yivLmd7/jiHElSlcoHX7Vhf2yUSZMmjay/AkobJMlU9UcAAAAASUVORK5CYII=`;
 
 const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=>{
     const {user} = authUser();
@@ -18,11 +18,15 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
         <header className='hide-desktop'>
             <div className='fixed-wrapper'>
                 <nav className="header border">
-                    {!hide_icon?
-                    <div className="photo-btn">
-                        <img src="/favicon/favicon.ico"/>
-                    </div>
-                    :""}
+                    {!hide_icon?(
+                        <div className="photo-btn">
+                            <img src="/favicon/favicon.ico"/>
+                        </div>)
+                    :(
+                        <div className="photo-btn">
+                            <img id='go_back' src={backIcon} onClick={()=>history.back()} />
+                        </div>
+                    )}
 
                     {!header_title?
                     <Link to="/"><h1 className='header-title bg-logo'> </h1></Link>

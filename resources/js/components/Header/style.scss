@@ -53,6 +53,10 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
                 border: none;
                 width: 30px;
                 height: 30px;
+
+                &#go_back {
+                    cursor: pointer;
+                }
             }
         }
     }
