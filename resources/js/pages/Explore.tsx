@@ -14,9 +14,6 @@ import "./styles/Explore.scss";
 
 import Posts from '../components/Posts';
 
-// TODO:
-// - video thumbnail
-
 
 let ALL_POST: any[] = [];
 const POST_PER_PAGE = 100;
@@ -141,7 +138,7 @@ function mergePosts(all_posts: any[], new_posts: any[]) {
  */
 function useUserFeed(offset) {
     const LIMIT = POST_PER_PAGE * 2;
-    const { data, error } = useSWR(`/api/posts?limit=${LIMIT}&offset=${offset}`, fetchListing);
+    const { data, error } = useSWR(`/api/posts?limit=${LIMIT}&offset=${offset}&my_feed=1`, fetchListing);
     return {
         data: data,
         isLoading: !error && !data,
