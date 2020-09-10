@@ -340,3 +340,17 @@
 }
 
 
+/*medium/big screen */
+@media screen and (min-width: 763px) {
+    .photo_grid {
+        margin-bottom: 21px;
+        grid-gap: 21px;
+        figure {
+            div.media-info {
+                top: 15px;
+                right: 19px;
+            }
+        }
+    }
+}
+
