@@ -19,7 +19,7 @@ import Posts from '../components/Posts';
 
 
 let ALL_POST: any[] = [];
-const POST_PER_PAGE = 50;
+const POST_PER_PAGE = 100;
 
 
 const UserFeed: React.FC<{}> = ()=>{
@@ -39,7 +39,7 @@ const UserFeed: React.FC<{}> = ()=>{
 
     return (
         <React.Fragment>
-            {isLoading && <Spinner type='list' />}
+            {isLoading && offset==0 && <Spinner type='list' />}
 
             {ALL_POST.length > 0 && (
                 <div className='grid-container'>
