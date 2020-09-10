@@ -96,31 +96,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         // test //
         //////////
 
-        Route::get('/test', function (Request $req) {
-            $p = Post::whereRaw('1=1')->get();
-            Cache::put('k', $p, now()->addMinutes(1));
-
-            return Cache::get('k');
-        });
-
-        // user routes
-        // Route::get('/user', function (Request $request) {
-        //     $u = $request->user();
-        //     return $u;
-        // });
+        Route::get('/test', function (Request $req) {});
 
         // XXXX::all
-        // Route::get('/users', function (Request $req) {return User::all();});
-        // Route::get('/posts', function (Request $req) {return Post::all();});
-        Route::get('/saved', function (Request $req) {
-            return Bookmark::all();
-        });
-        Route::get('/notifs', function (Request $req) {
-            return Notification::all();
-        });
-        Route::get('/comments', function (Request $req) {
-            return Comment::all();
-        });
+        Route::get('/saved', function (Request $req) {return Bookmark::all();});
+        Route::get('/notifs', function (Request $req) {return Notification::all();});
+        Route::get('/comments', function (Request $req) {return Comment::all();});
         Route::get('/clr', function (Request $req) {
             // delete posts & notifs
             Like::where('user_id', '>', -1)->delete();
