@@ -75,9 +75,9 @@ const GridItem: React.FC<{photo: Media, index: number}> = ({photo, index})=>{
         <figure className={`grid__item grid__item${index}`}>
             <Link to={`/post/${photo.post_id}`}>
                 {(photo.media_type=='video' || photo.multiple) && (
-                    <div className='media-info'> {photo.media_type=='video' ? VideoIcon : multiplePhotoIcon} </div>
+                    <div className='media-info' role='media-info'> {photo.media_type=='video' ? VideoIcon : multiplePhotoIcon} </div>
                 )}
-                <div className='post-info'>
+                <div className='post-info' role='post-info'>
                     <div className='like_comment'>
                        <p>{heartIcon}{photo.like_count}</p>
                        <p>{commentIcon}{photo.comment_count}</p>
@@ -105,7 +105,7 @@ const GridItem: React.FC<{photo: Media, index: number}> = ({photo, index})=>{
 const Grid: React.FC<{config:string, photos:Media[]}> = ({config, photos})=>{
     return (
         <React.Fragment>
-            <div className={`photo_grid ${config}`}>
+            <div role='grid' className={`photo_grid ${config}`}>
                 {photos.map((photo, i)=>(
                     <GridItem photo={photo} key={photo.post_id} index={i+1}/>
                 ))}
@@ -119,7 +119,7 @@ const Grid: React.FC<{config:string, photos:Media[]}> = ({config, photos})=>{
 //  pick a random grid config
 //  and display the grid component
 const Photos: React.FC<Props> = ({data})=>{
-    let partitions = memoize(()=>partitionPosts(data), [JSON.stringify(data)]);
+    let partitions = memoize(()=>partitionPosts(data), JSON.stringify(data));
 
     return (
         <React.Fragment>

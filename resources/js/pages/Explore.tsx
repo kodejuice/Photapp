@@ -39,7 +39,7 @@ const UserFeed: React.FC<{}> = ()=>{
             {isLoading && offset==0 && <Spinner type='list' />}
 
             {ALL_POST.length > 0 && (
-                <div className='grid-container'>
+                <div className='grid-container' role='grid-container'>
                         <InfiniteScroll
                             dataLength={postToBeShown}
                             next={()=>{
