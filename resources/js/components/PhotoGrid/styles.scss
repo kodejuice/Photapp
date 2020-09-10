@@ -23,6 +23,8 @@
     grid-gap: .5rem; 
     -ms-grid-gap: .5rem; 
 
+    max-width: 963px;
+
     // margin-bottom: .5em;
 
     .grid__img {
@@ -354,3 +356,24 @@
     }
 }
 
+@media screen and (min-width: 669px) {
+    .photo_grid {
+        grid-template-rows: repeat(8, 7vw);
+        -ms-grid-template-rows: repeat(8, 7vw);    
+    }
+}
+
+
+@media screen and (min-width: 736px) {
+    .photo_grid {
+        grid-template-rows: repeat(8, 5vw);
+        -ms-grid-template-rows: repeat(8, 5vw);    
+    }
+}
+
+@media screen and (min-height: 941.98px) {
+    .photo_grid {
+        grid-template-rows: repeat(8, 2.445vw);
+        -ms-grid-template-rows: repeat(8, 2.445vw);    
+    }
+}
