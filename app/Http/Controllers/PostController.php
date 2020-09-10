@@ -250,13 +250,15 @@ class PostController extends Controller
         $offset = $request->input('offset', 0);
 
         $posts = [];
-        if (isset($query) && strlen($query) > 2) {
-            // post search
-            $query = addslashes($query);
-            $posts = Post::whereRaw("MATCH (caption, tags) AGAINST ('$query')")
-                        ->limit($limit)
-                        ->offset($offset)
-                        ->get();
+        if (isset($query)) {
+            if (strlen($query) > 2) {
+                // post search
+                $query = addslashes($query);
+                $posts = Post::whereRaw("MATCH (caption, tags) AGAINST ('$query')")
+                            ->limit($limit)
+                            ->offset($offset)
+                            ->get();
+            }
         } elseif (isset($auth_feed)) {
             // posts tailored just for the authenticated user
             $posts = $this->getUserFeed($auth_user, $offset, $limit);
