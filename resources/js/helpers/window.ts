@@ -1,22 +1,47 @@
-
+let W = window as any;
 
 /**
  * gets thumbnail from html video element
  *  as a base64 image
  * @param {HTMLVideoElement} video
  */
+W.__photo_grid_thumbnails__ = new Map();
 export function getVideoThumnail(video: HTMLVideoElement): string {
     let w = video.videoWidth,
-        h = video.videoHeight;
+        h = video.videoHeight,
+        key = video.src,
+        img;
+
+    // save it, so we dont have to do this as long as
+    // the user doesnt close the window
+    if (W.__photo_grid_thumbnails__.has(key)) {
+        return W.__photo_grid_thumbnails__.get(key);
+    }
 
     let canvas = document.createElement('canvas');
     canvas.width = w;
     canvas.height = h;
 
-    let ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    let ctx = canvas.getContext('2d') as CanvasRenderingContext2D
     ctx.drawImage(video, 0, 0, w, h);
 
-    return canvas.toDataURL("image/jpg");
+    img = canvas.toDataURL("image/jpg");
+
+    W.__photo_grid_thumbnails__.set(key, img);
+
+    return img;
+}
+
+/**
+ * get video thumbnail image from cache
+ *  if it exists this is called before we use the canvas trick
+ *  to get thumbnail from the video
+ * @param {string} key
+ */
+export function thumbnailFromCache(key: string): string|null {
+    return W.__photo_grid_thumbnails__.has(key)
+        ? W.__photo_grid_thumbnails__.get(key)
+        : null;
 }
 
 

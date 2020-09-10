@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import "./styles.scss";
 import {rand_int, random, memoize} from '../../helpers/util';
-import {getVideoThumnail} from '../../helpers/window';
+import {getVideoThumnail, thumbnailFromCache} from '../../helpers/window';
 
 type Media = {
     post_id: number,
@@ -65,7 +65,11 @@ function partitionPosts(posts: Media[]): Media[][] {
 // a single grid item component
 const GridItem: React.FC<{photo: Media, index: number}> = ({photo, index})=>{
     const videoRef = useRef<HTMLVideoElement|null>(null);
-    const [previewImage, setPreviewImage] = useState(photo.media_type == 'video' ? '' : photo.post_url);
+    const [previewImage, setPreviewImage] = useState(
+        photo.media_type == 'video'
+        ? thumbnailFromCache(photo.post_url)
+        : photo.post_url
+    );
 
     return (
         <figure className={`grid__item grid__item${index}`}>
@@ -79,7 +83,7 @@ const GridItem: React.FC<{photo: Media, index: number}> = ({photo, index})=>{
                        <p>{commentIcon}{photo.comment_count}</p>
                     </div>
                 </div>
-                {photo.media_type=='video' && <video
+                {photo.media_type=='video' && previewImage==null && <video
                     ref={videoRef}
                     src={photo.post_url}
                     onLoadedData={()=>{
