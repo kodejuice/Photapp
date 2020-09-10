@@ -35,12 +35,18 @@
 
         padding: 0;
         margin: 0;
+
+        background: rgba(var(--bb2,239,239,239),1);
         // border-radius: unset;
     }
 
     figure {
-        position: relative;
         margin: 0;
+        position: relative;
+
+        video {
+            display: none;
+        }
 
         div.media-info {
             position: absolute;

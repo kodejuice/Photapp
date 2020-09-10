@@ -1,4 +1,25 @@
 
+
+/**
+ * gets thumbnail from html video element
+ *  as a base64 image
+ * @param {HTMLVideoElement} video
+ */
+export function getVideoThumnail(video: HTMLVideoElement): string {
+    let w = video.videoWidth,
+        h = video.videoHeight;
+
+    let canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+
+    let ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    ctx.drawImage(video, 0, 0, w, h);
+
+    return canvas.toDataURL("image/jpg");
+}
+
+
 /**
  * helper function to pause videos
  * that are not visible to the user
@@ -9,9 +30,9 @@ export function watchVideoFocus() {
     const checkScroll = ()=>{
         const videos: NodeListOf<HTMLVideoElement> = document.querySelectorAll(`.home-posts .card video`);
 
-        for(var i = 0; i < videos.length; i++) {
-            var video = videos[i];
-            var x = 0,
+        for(let i = 0; i < videos.length; i++) {
+            let video = videos[i];
+            let x = 0,
             y = 0,
             w = video.offsetWidth,
             h = video.offsetHeight,
