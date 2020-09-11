@@ -23,7 +23,7 @@ class ApiAuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'full_name' => 'max:50',
-            'username' => 'required|string|max:40|min:4|unique:users',
+            'username' => 'required|string|max:27|min:4|unique:users',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -51,7 +51,7 @@ class ApiAuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:20',
+            'username' => 'required|string|max:27',
             'password' => 'required|string|min:6',
         ]);
 
