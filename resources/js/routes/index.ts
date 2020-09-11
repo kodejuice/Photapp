@@ -5,6 +5,7 @@ import Search from '../pages/Search';
 import Explore from '../pages/Explore';
 import Register from '../pages/auth/Register';
 import Notifications from '../pages/account/Notifications/index';
+import UserProfile from '../pages/account/User/index';
 import NotFound from '../pages/PageNotFound';
 
 
@@ -29,6 +30,10 @@ const routes = [
     {
         path: ['/explore/search/:query','/explore/search/'],
         component: Search,
+    },
+    {
+        path: '/user/:username',
+        component: UserProfile,
     },
     {
         path: '/explore/people',
