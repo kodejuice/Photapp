@@ -308,9 +308,7 @@ class UserController extends Controller
                         ->get();
 
         $auth_user = $request->user();
-        if ($auth_user->id) {
-            $this->getFollowInfo($followers, $auth_user->id);
-        }
+        $this->getFollowInfo($followers, @$auth_user->id ?: null);
 
         return response($followers);
     }
@@ -334,9 +332,7 @@ class UserController extends Controller
                         ->get();
 
         $auth_user = $request->user();
-        if ($auth_user->id) {
-            $this->getFollowInfo($following, $auth_user->id);
-        }
+        $this->getFollowInfo($following, @$auth_user->id ?: null);
 
         return response($following);
     }
