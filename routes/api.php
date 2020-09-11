@@ -41,6 +41,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     // User [READ]
     Route::get('/user/getprofile', 'UserController@getUser')->name('user.profile');
     Route::get('/users', 'UserController@getUsers')->name('user.all_users');
+    Route::get('/user/{username}/posts', 'UserController@getUserPosts')->name('user.posts');
+    Route::get('/user/{username}/mentions', 'UserController@getUserMentions')->name('user.mentions');
+    Route::get('/user/{username}/bookmarks', 'UserController@getUserBookmarks')->name('user.bookmarks');
+    Route::get('/user/{username}/followers', 'UserController@getUserFollowers')->name('user.followers');
+    Route::get('/user/{username}/following', 'UserController@getUserFollowing')->name('user.following');
 
     // protected routes
     Route::middleware('auth:api', 'throttle:60,1')->group(function () {
@@ -76,12 +81,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('/user/{id}/unfollow', 'UserController@unfollowUser')->name('user.unfollow');
         Route::post('/user/notification/{id}', 'UserController@markNotification')->name('user.notification.mark');
         Route::delete('/user/notification/{id}', 'UserController@deleteNotification')->name('user.notification.delete');
-        // READ
-        Route::get('/user/{username}/posts', 'UserController@getUserPosts')->name('user.posts');
-        Route::get('/user/{username}/mentions', 'UserController@getUserMentions')->name('user.mentions');
-        Route::get('/user/{username}/bookmarks', 'UserController@getUserBookmarks')->name('user.bookmarks');
-        Route::get('/user/{username}/followers', 'UserController@getUserFollowers')->name('user.followers');
-        Route::get('/user/{username}/following', 'UserController@getUserFollowing')->name('user.following');
         // :auth_user:
         Route::get('/user/profile', 'UserController@getAuthUserProfile')->name('auth_user.profile');
         Route::get('/user/posts', 'UserController@getAuthUserPosts')->name('auth_user.posts');
