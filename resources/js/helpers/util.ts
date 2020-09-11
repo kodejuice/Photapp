@@ -12,6 +12,38 @@ export function limit(str: string, lim: number): string {
 
 
 /**
+ * convert figure to human readable amount
+ * 123983 -> 123.9k
+ * @param  {number} figure
+ * @return {string}
+ */
+export function amount(figure: number): string {
+    const _1m = Number(1e6),
+          _100k = Number(1e5),
+          _10k = Number(1e4),
+          _1k = Number(1e3);
+
+    const rnd = (n: number, p: number, s=`${n}`) => s.slice(0, s[p-1] == '.' ? p+1 : p);
+
+    if (figure >= _1m){
+        return `${rnd(figure/_1m,3)}m`;
+    }
+    else if (figure >= _100k) {
+        return `${rnd(figure/_1k,4)}k`;
+    }
+    else if (figure >= _10k) {
+        return `${rnd(figure/_1k,4)}k`;
+    }
+    else if (figure >= _1k) {
+        return `${rnd(figure/_1k,3)}k`;
+    }
+    else {
+        return `${figure}`;
+    }
+}
+
+
+/**
  * return random number from -> to
  * @param {number}   from
  * @param {number}   to
