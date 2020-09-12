@@ -127,7 +127,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
                                     <div className='col-2 dp-col'>
                                         <LazyDP user={data.username} />
                                     </div>
-
+                                    <div className='col-1 hidden-col-dp'></div>
                                     <div className='col-9 username-col'>
                                         <div className='username'>
                                             <p id='username'>{data.username}</p>
@@ -157,14 +157,15 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
                                     <div className='col col-3 dp-col'>
                                         <LazyDP user={data.username} />
                                     </div>
-                                    <div className='col col-1'></div>
+                                    <div className='col col-1 hidden-col-big'></div>
 
                                     <div className='col col-fill'>
                                         <div className='row'>
                                             <div className='col col-2'>
                                                 <p id='username'>{data.username}</p>
                                             </div>
-                                            <div className='col col-3 follow-button'>
+                                            <div className='col col-1 hidden-col-username'></div>
+                                            <div className='col col-4 follow-button'>
                                                 <FollowButton user={data.username} />
                                             </div>
                                         </div>

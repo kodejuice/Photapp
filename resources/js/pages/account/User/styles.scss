@@ -11,6 +11,12 @@
     }
 }
 
+@media screen and (min-width: 426px) {
+    .hide-min-425 {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 735px) {
     .__hide-mobile {
         display: none;
@@ -75,7 +81,7 @@ a {
             margin-top: 10px;
 
             p#username {
-                font-size: 28px;
+                font-size: 24px;
                 color: #262626;
             }
         }
@@ -86,7 +92,7 @@ a {
 
         p#full_name {
             color: #262626;
-            font-size: 0.88em;
+            font-size: 0.79em;
             font-weight: 600;
         }
         .profile-bio {
@@ -103,7 +109,7 @@ a {
         .col {padding: 0;}
 
         p#count {
-            font-size: 0.90em;
+            font-size: 0.80em;
             font-weight: 600;
             color: #262626;
             text-align: center;
@@ -137,7 +143,7 @@ a {
             }
 
             p#username {
-                font-size: 28px;
+                font-size: 24px;
                 color: #262626;
             }
 
@@ -150,13 +156,17 @@ a {
             .row.stats {
                 a {color: unset;}
                 div#w, p#count {display: inline-block;}
+                div#w {
+                    font-size: 0.80em;
+                }
                 p#count {
+                    font-size: 0.80em;
                     font-weight: 600;
                 }
             }
 
             .bio {
-                font-size: 0.90em;
+                font-size: 0.79em;
 
                 p#full_name {
                     font-weight: 600;
@@ -164,6 +174,18 @@ a {
             }
         }
 
+    }
+}
+
+.hidden-col {
+    &-big {
+        flex: 0 0 27px !important;
+    }
+    &-username {
+        flex: 0 0 35px !important;
+    }
+    &-dp {
+        flex: 0 0 4px !important;
     }
 }
 
@@ -183,6 +205,7 @@ a {
 
 .tabs {
     label.title {
+        font-size: 0.70em;
         padding-bottom: 4px;
     }
 
