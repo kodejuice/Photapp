@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PhotoGrid from '../../PhotoGrid';
+import PhotoGrid from './PhotoGrid';
 
 const GridPosts: React.FC<{data:any[], view?:'tile'}> = ({data, view})=>{
     view = view || 'tile';

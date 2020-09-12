@@ -1,8 +1,8 @@
 import React, {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import "./styles.scss";
-import {rand_int, random, memoize} from '../../helpers/util';
-import {getVideoThumnail, thumbnailFromCache} from '../../helpers/window';
+import {rand_int, random, memoize} from '../../../../helpers/util';
+import {getVideoThumnail, thumbnailFromCache} from '../../../../helpers/window';
 
 type Media = {
     post_id: number,
