@@ -286,6 +286,9 @@ class UserController extends Controller
             ->limit($limit)
             ->get();
 
+        $auth_user = $request->user();
+        $this->getPostsAuthors(@$auth_user->id ?: null, $posts);
+
         return response($posts);
     }
 
@@ -504,6 +507,16 @@ class UserController extends Controller
         foreach ($users as $u) {
             $u->auth_user_follows = $this->userFollows($auth_user_id, $u->id);
             $u->follows_auth_user = $this->userFollows($u->id, $auth_user_id);
+        }
+    }
+
+    /**
+     * get user infos
+     */
+    private function getPostsAuthors($user_id, $posts)
+    {
+        foreach ($posts as $p) {
+            $p->username = User::firstWhere('id', $p->user_id)->username;   // username of post author
         }
     }
 }
