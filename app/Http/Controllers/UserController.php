@@ -302,12 +302,15 @@ class UserController extends Controller
             return response(['errors' => ['User not found']], 404);
         }
 
+        $limit = $request->input('limit', 50);
+
         $followers = DB::table('users')
                         ->join('user_follows', function ($join) use ($usr) {
                             $join->on('users.id', '=', 'user_follows.user1_id')
                                 ->where('user_follows.user2_id', $usr->id);
                         })
                         ->select('users.id', 'users.full_name', 'users.username', 'users.profile_pic')
+                        ->limit($limit)
                         ->get();
 
         $auth_user = $request->user();
@@ -326,12 +329,15 @@ class UserController extends Controller
             return response(['errors' => ['User not found']], 404);
         }
 
+        $limit = $request->input('limit', 50);
+
         $following = DB::table('users')
                         ->join('user_follows', function ($join) use ($usr) {
                             $join->on('users.id', '=', 'user_follows.user2_id')
                                 ->where('user_follows.user1_id', $usr->id);
                         })
                         ->select('users.id', 'users.full_name', 'users.username', 'users.profile_pic')
+                        ->limit($limit)
                         ->get();
 
         $auth_user = $request->user();
