@@ -37,7 +37,6 @@ const TileItem: React.FC<{post:Post}> = ({post})=>{
         if (img.alt == '.') {
             const day = format(new Date(post.created_at), "MMMM d, yyy");
             img.alt = post.caption || `Photo by ${post.username} on ${day}.`;
-            img.style.height = `${img.width}px`;
         }
     };
 
