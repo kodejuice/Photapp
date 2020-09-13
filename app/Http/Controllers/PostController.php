@@ -334,14 +334,17 @@ class PostController extends Controller
      */
     private function getUserFeed($user, $offset=0, $limit=50)
     {
-        $key = $user->username . "-feed";
+        // if the user isnt authenticated,
+        // we show 'anonymous's feed instead
+        //
+        $key = (@$user->username ?: 'anonymous') . "-feed";
 
         $posts = Cache::get($key, []);
         if (count($posts) == 0) {
             $posts = DB::table('posts')
                         ->join('user_follows', function ($join) use ($user) {
                             $join->on('posts.user_id', '=', 'user_follows.user2_id')
-                                ->where('user_follows.user1_id', $user->id);
+                                ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', 'anonymous')->id);
                         })
                         ->orderByDesc('.follow_score')
                         ->select('posts.*')
@@ -360,6 +363,7 @@ class PostController extends Controller
      */
     private function getPostInfos($user_id, $posts)
     {
+        if (!$user_id) return;
         foreach ($posts as $p) {
             $p->username = User::firstWhere('id', $p->user_id)->username;      // username of post author (posts table only stores user id)
             if ($user_id) {
