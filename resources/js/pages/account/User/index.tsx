@@ -28,13 +28,11 @@ const UserPosts: React.FC<{username:string}> = ({username}) => {
 
     return (
         <React.Fragment>
-            <div className='search-result'>
+            <div className='profile-posts'>
                 { isLoading ? <Spinner type='list' /> : ""}
 
                 <div role='user-posts' className='user-posts'>
-                    <div className='home-posts'>
-                        {data && <Posts view='grid' data={data}/>}
-                    </div>
+                    {data && <Posts view='tile' data={data}/>}
                 </div>
             </div>
 
@@ -54,13 +52,11 @@ const UserBookmarks: React.FC<{username:string}> = ({username}) => {
 
     return (
         <React.Fragment>
-            <div className='search-result'>
+            <div className='profile-posts'>
                 { isLoading ? <Spinner type='list' /> : ""}
 
                 <div role='user-posts' className='user-posts'>
-                    <div className='home-posts'>
-                        {data && <Posts view='grid' data={data}/>}
-                    </div>
+                    {data && <Posts view='tile' data={data}/>}
                 </div>
             </div>
 
@@ -80,13 +76,11 @@ const UserMentions: React.FC<{username:string}> = ({username}) => {
 
     return (
         <React.Fragment>
-            <div className='search-result'>
+            <div className='profile-posts'>
                 { isLoading ? <Spinner type='list' /> : ""}
 
                 <div role='user-posts' className='user-posts'>
-                    <div className='home-posts'>
-                        {data && <Posts view='grid' data={data}/>}
-                    </div>
+                    {data && <Posts view='tile' data={data}/>}
                 </div>
             </div>
 
@@ -244,7 +238,7 @@ function useUser(user) {
  * @param  {string} username
  */
 function usePosts(username, post_category='posts') {
-    const {data, error} = useSWR(`/api/user/${username}/${post_category}`, fetchListing);
+    const {data, error} = useSWR(`/api/user/${username}/${post_category}?limit=200`, fetchListing);
     return {
         data,
         isError: error,

@@ -89,6 +89,7 @@ a {
 
     .bio {
         padding: 0 16px 21px;
+        font-size: 0.79em;
 
         p#full_name {
             color: #262626;
@@ -204,6 +205,8 @@ a {
 
 
 .tabs {
+    border-top: .2px solid rgba(var(--b38,219,219,219),1);
+
     label.title {
         font-size: 0.70em;
         padding-bottom: 4px;
@@ -215,8 +218,5 @@ a {
         display: inline-block;
         border-radius: unset;
         border: none;
-    }
-
-    .content {
     }
 }
