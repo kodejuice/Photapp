@@ -20,6 +20,9 @@ export type Post = {
       auth_user_follows: boolean,
       auth_user_saved: boolean,
       auth_user_likes: boolean,
+
+      created_at: Date,
+      updated_at: Date,
 }
 
 
