@@ -363,7 +363,6 @@ class PostController extends Controller
      */
     private function getPostInfos($user_id, $posts)
     {
-        if (!$user_id) return;
         foreach ($posts as $p) {
             $p->username = User::firstWhere('id', $p->user_id)->username;      // username of post author (posts table only stores user id)
             if ($user_id) {

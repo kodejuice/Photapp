@@ -35,7 +35,7 @@
 
 
         div.__post {
-            .post-info{display: none;}
+            .post-info, video {display: none;}
 
             &:hover {
                 .post-info {
