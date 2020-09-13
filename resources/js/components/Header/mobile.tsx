@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import {useSelector} from 'react-redux';
 import authUser from '../../state/auth_user';
+import {limit} from '../../helpers/util';
 
 type HeaderProps = {
     header_title?: string,
@@ -30,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
 
                     {!header_title?
                     <Link to="/"><h1 className='header-title bg-logo'> </h1></Link>
-                    : <div className='header-title'> {header_title} </div> }
+                    : <div className='header-title'> {limit(header_title, 19)} </div> }
                 </nav>
             </div>
 
