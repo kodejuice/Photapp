@@ -14,6 +14,8 @@ import FollowButton from '../../../components/FollowButton';
 import Spinner from '../../../components/Spinner';
 import {ProcessUserInput} from '../../../helpers/mini-components';
 
+import UserFollow from './user_follows';
+
 import "./styles.scss";
 
 
@@ -94,7 +96,7 @@ const UserMentions: React.FC<{username:string}> = ({username}) => {
 const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
     const dispatch = useDispatch();
     const {logged, user} = authUser();
-    const [tab, setTab] = useState(0);
+    const [tab, setTab] = useState<0|1|2>(0);
 
     const params = (match.params as any);
     let {data, isLoading, isError} = useUser(params.username);
@@ -140,8 +142,8 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
                             </div>
                             <div className='stats row'>
                                 <div className='col col-fill'> <p id='count'>{amount(data.posts_count)}</p> <div id='w'>posts</div> </div>
-                                <div className='col col-fill'> <Link to={`/user/${data.username}/followers`}> <p id='count'>{amount(data.followers)}</p> <div id='w'>followers</div> </Link> </div>
-                                <div className='col col-fill'> <Link to={`/user/${data.username}/following`}> <p id='count'>{amount(data.follows)}</p> <div id='w'>following</div> </Link></div>
+                                <div className='col col-fill'> <p id='count'>{amount(data.followers)}</p> <label htmlFor="modal-followers"><div id='w'>followers</div></label> </div>
+                                <div className='col col-fill'> <p id='count'>{amount(data.follows)}</p> <label htmlFor="modal-following"><div id='w'>following</div></label></div>
                             </div>
                         </div>
 
@@ -166,8 +168,8 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
 
                                         <div className='row stats'>
                                             <div className='col col-3'> <p id='count'>{amount(data.posts_count)}</p> <div id='w'>posts</div> </div>
-                                            <div className='col col-3'> <Link to={`/user/${data.username}/followers`}> <p id='count'>{amount(data.followers)}</p> <div id='w'>followers</div> </Link> </div>
-                                            <div className='col col-3'> <Link to={`/user/${data.username}/following`}> <p id='count'>{amount(data.follows)}</p> <div id='w'>following</div> </Link></div>
+                                            <div className='col col-3'> <p id='count'>{amount(data.followers)}</p> <label  htmlFor="modal-followers"><div id='w'>followers</div></label></div>
+                                            <div className='col col-3'> <p id='count'>{amount(data.follows)}</p> <label htmlFor="modal-following"><div id='w'>following</div></label> </div>
                                         </div>
     
                                         <div className='bio'>
@@ -210,6 +212,44 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
                                 <div className="content" id="content3"> {tab==2 && <UserMentions username={data.username}/>} </div>
                             </div>
                         </div>
+
+
+                        {/* MODALS */}
+
+                        {data.followers && (
+                            <div>
+                            <input className="modal-state" id="modal-followers" type="checkbox"/>
+                            <div className="modal">
+                                <label className="modal-bg" htmlFor="modal-followers"></label>
+                                <div className="modal-body">
+                                    <label className="btn-close" htmlFor="modal-followers">X</label>
+                                    <div className='row'>
+                                        <div className='col col-1' style={{padding: '0'}}></div>
+                                        <div className='page-title'> {`${data.username} followers`} </div>
+                                    </div>
+                                    <UserFollow type='followers' username={data.username} />
+                                </div>
+                            </div>
+                            </div>
+                        )}
+
+                        {data.follows && (
+                            <div>
+                            <input className="modal-state" id="modal-following" type="checkbox"/>
+                            <div className="modal">
+                                <label className="modal-bg" htmlFor="modal-following"></label>
+                                <div className="modal-body">
+                                    <label className="btn-close" htmlFor="modal-following">X</label>
+                                    <div className='row'>
+                                        <div className='col col-1' style={{padding: '0'}}></div>
+                                        <div className='page-title'> {`${data.username} following`} </div>
+                                    </div>
+                                    <UserFollow type='following' username={data.username} />
+                                </div>
+                            </div>
+                            </div>
+                        )}
+
                     </React.Fragment>
                 )}
             </div>

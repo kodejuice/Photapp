@@ -5,6 +5,11 @@
     border-radius: $property;
 }
 
+
+//////////////////
+// User Profile //
+//////////////////
+
 @media screen and (min-width: 736px) {
     .mobile-profile-head {
         display: none;
@@ -158,6 +163,7 @@ a {
                 a {color: unset;}
                 div#w, p#count {display: inline-block;}
                 div#w {
+                    cursor: pointer;
                     font-size: 0.80em;
                 }
                 p#count {
@@ -218,5 +224,53 @@ a {
         display: inline-block;
         border-radius: unset;
         border: none;
+    }
+}
+
+
+/////////////////
+// User Follow //
+/////////////////
+
+.user-follow {
+    width: 94%;
+    float: none;
+    margin: 0 auto;
+    max-width: 600px;
+
+    #more {
+        font-size: 0.88em;
+        color: #262626;
+    }
+
+    .user.row {margin-bottom: 12px;}
+    .col {padding: 0;}
+    img {margin-right: 10px !important;}
+
+    div.row.single {
+        a {
+            font-size: 0.88em;
+            text-align: center;
+            color: #262626;
+        }
+    }
+
+}
+
+
+.modal-body {
+    overflow: scroll;
+    overflow-y: scroll;
+    min-width: 300px;
+    max-width: 70%;
+    max-height: 70%;
+
+    .page-title {
+        font-size: 0.80em;
+    }
+
+    label.btn-close {
+        position: fixed;
+        top: 0;
     }
 }
