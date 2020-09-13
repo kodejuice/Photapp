@@ -24,7 +24,7 @@ const Users: React.FC<{data:any[]}> = ({data})=>{
                             <div className='username'><Link to={`/user/${username}`}>{username}</Link></div>
                             <div className='follow-info'>{(logged && follows_auth_user) ? "Follows You" : full_name}</div>
                         </div>
-                        <div className='col col-2 follow-col'> <FollowButton user={username} unfollow={auth_user_follows} /> </div>
+                        <div className='col col-2 follow-col'> {logged && <FollowButton user={username} unfollow={auth_user_follows} />} </div>
                     </div>
                 )) }
             </div>
