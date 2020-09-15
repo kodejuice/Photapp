@@ -93,12 +93,14 @@ const UserMentions: React.FC<{username:string}> = ({username}) => {
 
 
 
-const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
+const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
     const dispatch = useDispatch();
     const {logged, user} = authUser();
-    const [tab, setTab] = useState<0|1|2>(0);
-
     const params = (match.params as any);
+
+    const query = new URLSearchParams(location.search);
+    const [tab, setTab] = useState<0|1|2>(query.get('tab')=='saved' ? 1 : 0);
+
     let {data, isLoading, isError} = useUser(params.username);
 
     if (data?.errors) {
@@ -188,21 +190,21 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
 
                         <div className='tabs'>
                             <div className="row flex-spaces tabs">
-                                <input id="tab1" type="radio" name="tabs" defaultChecked/>
+                                <input id="tab1" type="radio" name="tabs" defaultChecked={tab==0}/>
                                 <label data-testid="tab1" onClick={()=>setTab(0)} className='title' htmlFor="tab1">
                                     <img id='icon' src='/icon/grid.png'/> <span className='__hide-mobile'>POSTS</span>
                                 </label>
 
                                 {isSelf && (
                                 <React.Fragment>
-                                    <input id="tab2" type="radio" name="tabs"/>
+                                    <input id="tab2" type="radio" name="tabs" defaultChecked={tab==1}/>
                                     <label data-testid="tab2" onClick={()=>setTab(1)} className='title' htmlFor="tab2">
                                         <img id='icon' src='/icon/bookmark.png'/> <span className='__hide-mobile'>SAVED</span>
                                     </label>
                                 </React.Fragment>
                                 )}
 
-                                <input id="tab3" type="radio" name="tabs"/>
+                                <input id="tab3" type="radio" name="tabs" defaultChecked={tab==2}/>
                                 <label data-testid="tab3" onClick={()=>setTab(2)} className='title' htmlFor="tab3">
                                     <img id='icon' src='/icon/tag.png'/> <span className='__hide-mobile'>TAGGED</span>
                                 </label>
@@ -231,7 +233,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
                                 </div>
                             </div>
                             </div>
-                        )}
+                        ) || ""}
 
                         {data.follows && (
                             <div>
@@ -248,7 +250,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
                                 </div>
                             </div>
                             </div>
-                        )}
+                        ) || ""}
 
                     </React.Fragment>
                 )}
