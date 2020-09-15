@@ -9,11 +9,6 @@ import FollowButton from '../../components/FollowButton';
 const Users: React.FC<{data:any[],rdr?:boolean}> = ({data, rdr})=>{
     const {user, logged} = authUser();
 
-    // remove logged user
-    if (data) {
-        data = data.filter(x => x.username != user?.username);
-    }
-
     return (
         <React.Fragment>
             <div className='users'>
@@ -24,7 +19,9 @@ const Users: React.FC<{data:any[],rdr?:boolean}> = ({data, rdr})=>{
                             <div className='username'><Link target={rdr ? 'blank' : ""} to={`/user/${username}`}>{username}</Link></div>
                             <div className='follow-info'>{(logged && follows_auth_user) ? "Follows You" : full_name}</div>
                         </div>
-                        <div className='col col-2 follow-col'> {logged && <FollowButton user={username} unfollow={auth_user_follows} />} </div>
+                        <div className='col col-2 follow-col'>
+                            {logged && username!=user.username && <FollowButton user={username} unfollow={auth_user_follows} />}
+                        </div>
                     </div>
                 )) }
             </div>
