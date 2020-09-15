@@ -56,6 +56,10 @@ a {
     margin-top: 34px;
 }
 
+
+////////////
+// Mobile //
+////////////
 .mobile-profile-head {
     width: 100%;
     margin: 0 auto;
@@ -128,7 +132,9 @@ a {
     }
 }
 
-
+/////////////
+// Desktop //
+/////////////
 .desktop-profile-head {
     .profile-info {
         width: 94%;
@@ -205,8 +211,14 @@ a {
     background: #0095F6;
     max-width: 198px;
     width: 46%;
-    font-weight: 500;
+    font-weight: 550;
     @include border-radius(3px);
+
+    &.unfollow-button {
+        background: transparent;
+        border: 1.5px solid rgba(var(--ca6,219,219,219),1);
+        color: rgba(var(--f75,38,38,38),1);
+    }
 }
 
 
@@ -261,7 +273,7 @@ a {
 .modal-body {
     overflow: scroll;
     overflow-y: scroll;
-    min-width: 300px;
+    min-width: 310px;
     max-width: 70%;
     max-height: 70%;
 

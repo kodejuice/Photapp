@@ -131,7 +131,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                             <p id='username'>{data.username}</p>
                                         </div>
                                         <div className='follow-button'>
-                                            {logged && <FollowButton user={data.username} />}
+                                            {logged && !isSelf && <FollowButton user={data.username} unfollow={data.auth_user_follows} />}
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +164,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                             </div>
                                             <div className='col col-1 hidden-col-username'></div>
                                             <div className='col col-4 follow-button'>
-                                                {logged && <FollowButton user={data.username} />}
+                                                {logged && !isSelf && <FollowButton user={data.username} unfollow={data.auth_user_follows}/>}
                                             </div>
                                         </div>
 
