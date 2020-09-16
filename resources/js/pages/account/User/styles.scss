@@ -93,6 +93,7 @@ a {
             margin-top: 10px;
 
             p#username {
+                text-overflow: ellipsis;
                 font-size: 24px;
                 color: #262626;
             }
@@ -104,6 +105,7 @@ a {
         font-size: 0.79em;
 
         p#full_name {
+            text-overflow: ellipsis;
             color: #262626;
             font-size: 0.79em;
             font-weight: 600;
