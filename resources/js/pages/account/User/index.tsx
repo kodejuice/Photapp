@@ -135,7 +135,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                         <div className='username'>
                                             <p id='username'>
                                                 {data.username}
-                                                {isSelf && <label htmlFor='modal-editprofile'><div className='settings-icon-mobile'> {SettingsIcons} </div> </label>}
+                                                {isSelf && <label htmlFor='modal-editprofile'><span className='settings-icon-mobile'> {SettingsIcons} </span> </label>}
                                             </p>
                                         </div>
                                         <div className='follow-button'>
