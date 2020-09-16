@@ -275,8 +275,8 @@ a {
 
 
 .modal-body {
-    overflow: scroll;
     overflow-y: scroll;
+    overflow-x: hidden;
     min-width: 310px;
     max-width: 70%;
     max-height: 70%;
