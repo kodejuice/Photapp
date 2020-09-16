@@ -337,7 +337,7 @@ class PostController extends Controller
         // if the user isnt authenticated,
         // we show 'anonymous's feed instead
         //
-        $key = (@$user->username ?: 'anonymous') . "-feed";
+        $key = ":" . (@$user->username ?: 'anonymous') . "-feed";
 
         $posts = Cache::get($key, []);
         if (count($posts) == 0) {
