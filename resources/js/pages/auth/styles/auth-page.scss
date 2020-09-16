@@ -34,7 +34,7 @@
         .separate-or {
             width: 61% !important;
         }
-        #password-container button#show-pass {
+        #password-container div#show-pass {
             right: 19.5% !important;
         }
     }
@@ -49,7 +49,7 @@
  * else if smaller screen (<= 200px)
  */
 @media screen and (max-width: 200px) {
-    .login-box #password-container button#show-pass {
+    .login-box #password-container div#show-pass {
         display: none;
     }
 }
@@ -156,7 +156,7 @@ div.card.login-card, div.card.register-card {
         #password-container {
             position: relative;
 
-            button#show-pass {
+            div#show-pass {
                 top: 0;
                 right: 41px;
                 position: absolute;
@@ -170,3 +170,24 @@ div.card.login-card, div.card.register-card {
 div.card.register-card {
     height: 390px;
 }
+
+
+div#show-pass {
+    // -webkit-appearance: button;
+    transition: all 235ms ease 0s;
+    box-shadow: 10px 19px 17px -13px rgba(0, 0, 0, 0.2);
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    border-bottom-left-radius: 15px 255px;
+    border-bottom-right-radius: 225px 15px;
+    border-top-left-radius: 255px 15px;
+    border-top-right-radius: 15px 225px;
+    align-self: center;
+    background: transparent;
+    border: 2px solid #41403e;
+    color: #41403e;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+}
+

@@ -46,7 +46,7 @@ const Register: React.FC<{}> = () => {
         UserSignup(d, setErrs, history);
     }
 
-    const showPassClick: React.ReactEventHandler<HTMLButtonElement> = ev => {
+    const showPassClick: React.ReactEventHandler<HTMLDivElement> = ev => {
         ev.preventDefault();
         showPass(!passwordShown);
     };
@@ -90,9 +90,9 @@ const Register: React.FC<{}> = () => {
                                     {...(errorProps(errors.password))}
                                     data-testid="pass-input"
                                 />
-                                <button data-testid="show-pass" className='btn btn-small' onClick={showPassClick} id='show-pass'>
+                                <div data-testid="show-pass" className='btn btn-small' onClick={showPassClick} id='show-pass'>
                                     {passwordShown?"Hide":"Show"}
-                                </button>
+                                </div>
                             </div>
 
                             <button data-testid='submit' type='submit' className='btn btn-block btn-small btn-secondary'> Sign up </button>

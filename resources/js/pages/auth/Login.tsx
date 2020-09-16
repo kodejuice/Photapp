@@ -35,7 +35,7 @@ const Login: React.FC<{}> = () => {
         UserSignin(d, setErrs);
     }
 
-    const showPassClick: React.ReactEventHandler<HTMLButtonElement> = ev => {
+    const showPassClick: React.ReactEventHandler<HTMLDivElement> = ev => {
         ev.preventDefault();
         showPass(!passwordShown);
     };
@@ -76,12 +76,12 @@ const Login: React.FC<{}> = () => {
                                     {...(errorProps(errors.password))}
                                     data-testid="pass-input"
                                 />
-                                <button data-testid="show-pass" className='btn btn-small'
+                                <div data-testid="show-pass" className='btn btn-small'
                                     onClick={showPassClick}
                                     id='show-pass'
                                 >
                                     {passwordShown?"Hide":"Show"}
-                                </button>
+                                </div>
                             </div>
 
                             <button data-testid='submit' type="submit" className='btn btn-block btn-small btn-secondary'> Log in </button>
