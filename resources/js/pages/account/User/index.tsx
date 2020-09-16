@@ -95,11 +95,12 @@ const UserMentions: React.FC<{username:string}> = ({username}) => {
 
 const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
     const dispatch = useDispatch();
-    const {logged, user} = authUser();
     const params = (match.params as any);
+    const {logged, user} = authUser();
+    const isSelf = logged && user.username == params.username;
 
     const query = new URLSearchParams(location.search);
-    const [tab, setTab] = useState<0|1|2>(query.get('tab')=='saved' ? 1 : 0);
+    const [tab, setTab] = useState<0|1|2>((isSelf && query.get('tab')=='saved') ? 1 : 0);
 
     let {data, isLoading, isError} = useUser(params.username);
 
@@ -108,7 +109,6 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
         data = null;
     }
 
-    const isSelf = logged && user.username == params.username;
 
     return (
         <React.Fragment>
@@ -280,7 +280,7 @@ function useUser(user) {
  * @param  {string} username
  */
 function usePosts(username, post_category='posts') {
-    const {data, error} = useSWR(`/api/user/${username}/${post_category}?limit=200`, fetchListing);
+    const {data, error} = useSWR(`/api/user/${username}/${post_category}?limit=1000`, fetchListing);
     return {
         data,
         isError: error,
