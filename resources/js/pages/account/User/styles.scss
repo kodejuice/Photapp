@@ -225,6 +225,10 @@ a {
 .tabs {
     border-top: .2px solid rgba(var(--b38,219,219,219),1);
 
+    &.row.flex-spaces {
+      justify-content: space-evenly;
+    }
+
     label.title {
         font-size: 0.70em;
         padding-bottom: 4px;
