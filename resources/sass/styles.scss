@@ -5,13 +5,14 @@
     border-radius: $property;
 }
 
-*,
-*::after,
-*::before {
+* {
   margin: 0;
   padding: 0;
   box-sizing: inherit; 
+  font: inherit;
+  letter-spacing: .4px;
 }
+
 
 html {
     box-sizing: border-box;
