@@ -14,6 +14,9 @@
     .mobile-profile-head {
         display: none;
     }
+    .tabs.row.flex-spaces {
+        justify-content: center !important;
+    }
 }
 
 @media screen and (min-width: 426px) {
@@ -226,7 +229,7 @@ a {
     border-top: .2px solid rgba(var(--b38,219,219,219),1);
 
     &.row.flex-spaces {
-      justify-content: space-evenly;
+        justify-content: space-evenly;
     }
 
     label.title {
