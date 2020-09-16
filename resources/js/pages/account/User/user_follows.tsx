@@ -27,7 +27,7 @@ const UserFollow: React.FC<{username: string, type:'followers'|'following'}> = (
             <div className='user-follow users suggestions'>
                 { isLoading && <Spinner type='list' /> }
 
-                { data && <Users data={data} rdr={true} /> }
+                { data && <Users show_full_name={type=='followers'} data={data} rdr={true} /> }
 
                 {data && data.length>LIMIT && (
                     <div className='row'>
