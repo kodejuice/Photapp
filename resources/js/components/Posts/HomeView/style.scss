@@ -191,7 +191,7 @@ $font-size: 0.8em;
     ////////////////    
     div.modal {
         .modal-body {
-            @include border-radius(4px);
+            @include border-radius(12px);
             width: 32%;
             padding: 0;
             min-width: 170px;
