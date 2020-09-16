@@ -64,15 +64,15 @@ export const random = (Arr: any[]): any => Arr[rand_int(0, Arr.length-1)];
  *  so it doesnt get cleared when react router navigates
  *  to a different page/component, otherwise i could have used useMemo
  */
-W.__photo_grid_config_cache__ = new Map();
+W.__memoize_cache__ = new Map();
 export function memoize<T>(fn: ()=>T, ...deps: any[]) {
     let val, key = JSON.stringify(deps);
 
-    if (W.__photo_grid_config_cache__.has(key)) {
-        return W.__photo_grid_config_cache__.get(key);
+    if (W.__memoize_cache__.has(key)) {
+        return W.__memoize_cache__.get(key);
     }
 
-    W.__photo_grid_config_cache__.set(key, val = fn());
+    W.__memoize_cache__.set(key, val = fn());
 
     return val;
 }
