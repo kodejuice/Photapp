@@ -382,7 +382,10 @@ a {
         @include border-radius(12px);
 
         button, label {
-            a {color: unset;}
+            a {
+                color: unset;
+                display: block;
+            }
             margin: 0;
             width: 100%;
             color: inherit;

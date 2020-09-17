@@ -33,12 +33,12 @@ const UserPosts: React.FC<{username:string, type: 'posts'|'mentions'|'bookmarks'
 
     return (
         <React.Fragment>
-            <div className='profile-posts'>
+            <div className='profile-posts' role={type}>
                 { isLoading ? <Spinner type='list' /> : ""}
 
                 <div role='user-posts' className='user-posts'>
                     {data && <Posts view='tile' data={data.slice()}/>}
-                    {data && !data.length && !isLoading && <div style={{textAlign:'center'}}>Nothing here!</div>}
+                    {data && !data.length && <div style={{textAlign:'center'}}>Nothing here!</div>}
                 </div>
             </div>
 
@@ -69,14 +69,14 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
         <React.Fragment>
             <Header page='profile' hide_icon={true} header_title='Profile' />
 
-            <div className='user-profile'>
+            <div className='user-profile' role='user-profile'>
                 { isLoading && <Spinner />}
 
                 {data && (
                     <React.Fragment>
 
                         {/*mobile*/}
-                        <div className='mobile-profile-head'>
+                        <div className='mobile-profile-head' role='user-profile-sm'>
                             <div className='profile-info'>
                                 <div className='row info'>
                                     <div className='col-2 dp-col'>
@@ -111,7 +111,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                         </div>
 
                         {/*desktop*/}
-                        <div className='desktop-profile-head'>
+                        <div className='desktop-profile-head' role='user-profile-bg'>
                             <div className='profile-info'>
                                 <div className='row info'>
                                     <div className='col col-3 dp-col'>

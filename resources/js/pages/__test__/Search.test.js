@@ -105,6 +105,7 @@ beforeAll(() => {
   console.error = (...args) => {
     if (/Warning.*not wrapped in act/.test(args[0])) return
     if (/Warning.*Cannot update a component/.test(args[0])) return
+    if (/Warning.*Can't perform a React state/.test(args[0])) return
     originalError.call(console, ...args)
   }
 })

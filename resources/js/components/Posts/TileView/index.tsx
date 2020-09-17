@@ -47,7 +47,7 @@ const TileItem: React.FC<{post:Post}> = ({post})=>{
                     {(media_type=='video' || multiple) && (
                         <div className='media-info' role='media-info'> {media_type=='video' ? VideoIcon : multiplePhotoIcon} </div>
                     )}
-                    <div className='__post'>
+                    <div className='__post' role='post'>
                         <div className='post-info' role='post-info'>
                             <div className='like_comment'>
                                 <div className='row'>
