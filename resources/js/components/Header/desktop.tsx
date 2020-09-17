@@ -12,6 +12,16 @@ const Header: React.FC<{}> = ()=>{
     const [dropdown_shown, showDropdown] = useState(false) ;
     const {user} = authUser();
 
+    const toggleDropdown = ()=>{
+        showDropdown(!dropdown_shown);
+
+        // toggle dropdown in 7 seconds
+        // if this component is still mounted
+        setTimeout((reverse)=>{
+            if (ref.current != null) showDropdown(reverse);
+        }, 7000, dropdown_shown);
+    }
+
     return (
         <header className='hide-mobile'>
             <nav className="header border fixed">
@@ -41,7 +51,7 @@ const Header: React.FC<{}> = ()=>{
                                         <li><Link to="/activity"><img src="/icon/heart.png"/></Link></li>
                                         <li>
                                             <div className="dropdown">
-                                                <img onClick={_=>showDropdown(!dropdown_shown)}
+                                                <img onClick={_=>toggleDropdown()}
                                                      className='dropbtn avatar'
                                                      src={user.profile_pic ? `/avatar/${user.profile_pic}` : '/icon/avatar.png'}
                                                 />
