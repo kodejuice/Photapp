@@ -362,6 +362,7 @@ class UserController extends Controller
                         $join->on('posts.post_id', '=', 'bookmarks.post_id')
                             ->where('bookmarks.user_id', $usr->id);
                     })
+                    ->orderByDesc('bookmark_id')
                     ->select('posts.*')
                     ->get();
 
@@ -379,7 +380,9 @@ class UserController extends Controller
         }
 
         $username = addslashes($username);
-        $matches = Post::whereRaw("MATCH(mentions) AGAINST('$username')")->get();
+        $matches = Post::whereRaw("MATCH(mentions) AGAINST('$username')")
+                        ->orderByDesc('post_id')
+                        ->get();
 
         return response($matches);
     }
