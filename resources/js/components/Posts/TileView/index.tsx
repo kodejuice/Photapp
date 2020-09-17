@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {format} from 'date-fns';
 import {Post} from '../props.d';
+import {amount} from '../../../helpers/util';
 import {getVideoThumnail, thumbnailFromCache} from '../../../helpers/window';
 
 import "./styles.scss";
@@ -49,8 +50,11 @@ const TileItem: React.FC<{post:Post}> = ({post})=>{
                     <div className='__post'>
                         <div className='post-info' role='post-info'>
                             <div className='like_comment'>
-                               <p>{heartIcon}{post.like_count}</p>
-                               <p>{commentIcon}{post.comment_count}</p>
+                                <div className='row'>
+                                   <p className='col col-fill'><span>{heartIcon}</span><span>{amount(post.like_count)}</span></p>
+                                   <p className='col col-fill hidden'></p>
+                                   <p className='col col-fill'><span>{commentIcon}</span><span>{amount(post.comment_count)}</span></p>
+                                </div>
                             </div>
                         </div>
                         {media_type=='video' && previewImage==null && <video

@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import "./styles.scss";
-import {rand_int, random, memoize} from '../../../../helpers/util';
+import {rand_int, random, memoize, amount} from '../../../../helpers/util';
 import {getVideoThumnail, thumbnailFromCache} from '../../../../helpers/window';
 
 type Media = {
@@ -79,8 +79,11 @@ const GridItem: React.FC<{photo: Media, index: number}> = ({photo, index})=>{
                 )}
                 <div className='post-info' role='post-info'>
                     <div className='like_comment'>
-                       <p>{heartIcon}{photo.like_count}</p>
-                       <p>{commentIcon}{photo.comment_count}</p>
+                        <div className='row'>
+                           <p className='col col-fill'><span>{heartIcon}</span><span>{amount(photo.like_count)}</span></p>
+                           <p className='col col-fill hidden'></p>
+                           <p className='col col-fill'><span>{commentIcon}</span><span>{amount(photo.comment_count)}</span></p>
+                        </div>
                     </div>
                 </div>
                 {photo.media_type=='video' && previewImage==null && <video

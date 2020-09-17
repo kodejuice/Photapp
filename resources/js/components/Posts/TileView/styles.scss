@@ -56,12 +56,17 @@
                         left: 50%;
                         color: #fff;
                         font-size: 88%;
+                        width: 100%;
                         transform: translate(-50%, -50%);
 
                         p {
-                            margin: 4px;
-                            display: inline-block;
+                            display: block;
+                            padding: 0;
                             vertical-align: middle;
+
+                            &:first-child {text-align: right;}
+                            &.hidden {max-width: 15px !important;}
+                            &:last-child {text-align: left;}
                         }
                     }
 
