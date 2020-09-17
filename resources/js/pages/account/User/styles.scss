@@ -129,8 +129,11 @@ a {
         padding: 12px 0;
         border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
-        .col {padding: 0;}
-
+        .col {
+            padding: 0;
+            cursor: pointer;
+            label {cursor: pointer;}
+        }
         p#count {
             font-size: 0.80em;
             font-weight: 600;
@@ -185,6 +188,10 @@ a {
             .row.stats {
                 a {color: unset;}
                 div#w, p#count {display: inline-block;}
+                .col {
+                    cursor: pointer;
+                    label {cursor: pointer;}
+                }
                 div#w {
                     cursor: pointer;
                     font-size: 0.80em;
