@@ -282,6 +282,7 @@ class UserController extends Controller
         $limit = $request->input('limit', 50);
 
         $posts = Post::where('user_id', $usr->id)
+            ->orderByDesc('post_id')
             ->offset($offset)
             ->limit($limit)
             ->get();
