@@ -28,15 +28,17 @@ export default function useSWR(arg: string, fetcher) {
         return {data, error};
     }
 
+    // store data in map
     if (data) {
         if (data instanceof Array) {
             if (data.length) {
                 W.__SWR_CACHE__.set(key, data);
             }
-        } else {
+        } else if (!data.errors) {
             W.__SWR_CACHE__.set(key, data);
         }
     }
+
 
     if (error) {
         // return stale data if any
