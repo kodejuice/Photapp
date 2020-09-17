@@ -14,7 +14,9 @@ import SWR from 'swr';
  *
  */
 
-const CACHE = {};
+const W = window as any;
+
+W.__SWR_CACHE__ = new Map<string, object>();
 
 
 export default function useSWR(arg: string, fetcher) {
@@ -26,9 +28,19 @@ export default function useSWR(arg: string, fetcher) {
         return {data, error};
     }
 
+    if (data) {
+        if (data instanceof Array) {
+            if (data.length) {
+                W.__SWR_CACHE__.set(key, data);
+            }
+        } else {
+            W.__SWR_CACHE__.set(key, data);
+        }
+    }
+
     if (error) {
         // return stale data if any
-        data = CACHE[key];
+        data = W.__SWR_CACHE__.get(key);
     }
     else if (data) {
         // if data.errors[] isnt undefined
@@ -37,17 +49,14 @@ export default function useSWR(arg: string, fetcher) {
         // @see `helpers/fetcher.ts` -> section /_User Accout Requests_/
         // 
         if (data.errors instanceof Array) {
-            if (CACHE[key]) {
-                data = CACHE[key];
+            if (W.__SWR_CACHE__.has(key)) {
+                data = W.__SWR_CACHE__.get(key);
             }
-        } else {
-            // else store response in CACHE
-            CACHE[key] = data;
         }
     } else {
-        //  no data available, return CACHE data if available
-        if (CACHE[key]) {
-            data = CACHE[key];
+        //  no data available, return __SWR_CACHE__ data if available
+        if (W.__SWR_CACHE__.has(key)) {
+            data = W.__SWR_CACHE__.get(key);
         }
     }
 

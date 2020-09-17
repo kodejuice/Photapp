@@ -37,7 +37,8 @@ const UserPosts: React.FC<{username:string, type: 'posts'|'mentions'|'bookmarks'
                 { isLoading ? <Spinner type='list' /> : ""}
 
                 <div role='user-posts' className='user-posts'>
-                    {data && <Posts view='tile' data={data}/>}
+                    {data && <Posts view='tile' data={data.slice()}/>}
+                    {data && !data.length && !isLoading && <div style={{textAlign:'center'}}>Nothing here!</div>}
                 </div>
             </div>
 
