@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import Router, {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import useSWR from '../../../helpers/swr';
@@ -38,7 +38,7 @@ const UserPosts: React.FC<{username:string, type: 'posts'|'mentions'|'bookmarks'
 
                 <div role='user-posts' className='user-posts'>
                     {data && <Posts view='tile' data={data.slice()}/>}
-                    {data && !data.length && <div style={{textAlign:'center'}}>Nothing here!</div>}
+                    {data && !data.length && <div style={{textAlign:'center',marginTop: "30px"}}>Nothing here!</div>}
                 </div>
             </div>
 
@@ -49,6 +49,7 @@ const UserPosts: React.FC<{username:string, type: 'posts'|'mentions'|'bookmarks'
 
 const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
     const dispatch = useDispatch();
+    const inputFile = useRef<HTMLInputElement>(null);
     const params = (match.params as any);
     const {logged, user} = authUser();
     const isSelf = logged && user.username == params.username;
@@ -80,7 +81,9 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                             <div className='profile-info'>
                                 <div className='row info'>
                                     <div className='col-2 dp-col'>
-                                        <LazyDP user={data.username} />
+                                        <div  title="Edit profile picture" id='dp-change' onClick={()=>(inputFile.current as HTMLInputElement).click()}>
+                                            <LazyDP user={data.username} />
+                                        </div>
                                     </div>
                                     <div className='col-1 hidden-col-dp'></div>
                                     <div className='col-9 username-col'>
@@ -115,7 +118,9 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                             <div className='profile-info'>
                                 <div className='row info'>
                                     <div className='col col-3 dp-col'>
-                                        <LazyDP user={data.username} />
+                                        <div title="Edit profile picture" id='dp-change' onClick={()=>(inputFile.current as HTMLInputElement).click()}>
+                                            <LazyDP user={data.username} />
+                                        </div>
                                     </div>
                                     <div className='col col-1 hidden-col-big'></div>
 
@@ -225,10 +230,32 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
 
                     </React.Fragment>
                 )}
+
+                <input hidden accept='image/*' name="image" type='file' ref={inputFile} onChange={uploadUserDP} />
             </div>
         </React.Fragment>
     );
 };
+
+
+/**
+ * uploads user DP
+ */
+function uploadUserDP(ev: React.FormEvent<HTMLInputElement>) {
+    ev.stopPropagation();
+    ev.preventDefault();
+
+    let file = (ev.target as any).files[0];
+
+    if (file.size > 10485760) { // > 10MB
+        return alert("Image too large (max 10MB)");
+    }
+
+    let form = new FormData();
+    form.append('image', file);
+
+    // TODO: axios.post('/user/dp', form);
+}
 
 
 /**
