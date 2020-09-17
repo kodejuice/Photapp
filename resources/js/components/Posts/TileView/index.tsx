@@ -76,11 +76,12 @@ const TileItem: React.FC<{post:Post}> = ({post})=>{
 
 
 const TileRow: React.FC<{posts:any[]}> = ({posts})=>{
+    const R = React.useRef<number>(Math.floor(Math.random() * 1e10));
     return (
         <React.Fragment>
             <div className='row'>
                 {posts.map((post, i)=>(
-                    <div key={post?.post_id || 4-i} role='post-col' className='col col-fill post-col'>
+                    <div key={post?.post_id || (R.current * i)} role='post-col' className='col col-fill post-col'>
                         {post && <TileItem post={post} />}
                     </div>
                 ))}
