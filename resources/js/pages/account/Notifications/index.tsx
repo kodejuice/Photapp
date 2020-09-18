@@ -8,6 +8,7 @@ import Spinner from '../../../components/Spinner';
 import Splash from '../../../components/Splash';
 import showAlert from '../../../components/Alert/showAlert';
 import Suggestions from '../../../components/Suggestions';
+import PageNotFound from '../../PageNotFound';
 
 import authUser from '../../../state/auth_user';
 import {fetchListing, markNotification} from '../../../helpers/fetcher';
@@ -25,8 +26,9 @@ import './style.scss';
 
 const Notifications: React.FC<{}> = ()=>{
     const {logged} = authUser();
-    const dispatch = useDispatch();
+    if (!logged) return <PageNotFound />;
 
+    const dispatch = useDispatch();
     const res = useNotification();
 
     if (res.data?.errors) {
