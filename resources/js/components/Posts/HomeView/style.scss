@@ -1,10 +1,5 @@
+@import '../../../../sass/variables';
 
-@mixin border-radius($property) {
-    -webkit-border-radius: $property;
-    -o-border-radius: $property;
-    -moz-border-radius: $property;
-    border-radius: $property;
-}
 
 $font-size: 0.8em;
 
@@ -26,10 +21,21 @@ $font-size: 0.8em;
         border-top: 0.5px solid rgba(var(--ce3,239,239,239),1);
         margin-bottom: 9px;
 
+        &, div.modal {
+            @include border-radius-top('left', 255px 15px);        
+            @include border-radius-top('right', 15px 255px);        
+            @include border-radius-bottom('left', 15px 255px);        
+            @include border-radius-bottom('right', 255px 15px);        
+        }
+
         .card-header {
             height: 60px;
             padding: 0;
             background: #FFF;
+
+            @include border-radius-top('left', 255px 15px);        
+            @include border-radius-top('right', 15px 255px);        
+            border: 0.5px solid rgba(var(--ce3,239,239,239),1);
 
             label {
                 cursor: pointer;
@@ -68,6 +74,10 @@ $font-size: 0.8em;
         .card-body {
             padding: 0;
             background: #FFF;
+
+            border: 1px solid rgba(var(--ce3,239,239,239),1);
+            @include border-radius-bottom('left', 15px 255px);        
+            @include border-radius-bottom('right', 255px 15px);        
 
             a {
                 margin-left: 0 !important;
