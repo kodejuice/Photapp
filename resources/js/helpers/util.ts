@@ -42,6 +42,12 @@ export function amount(figure: number): string {
     }
 }
 
+/**
+ * convert string to camle case
+ * @param {string}
+ */
+export const camel = (x: string) => x[0].toUpperCase() + x.slice(1);
+
 
 /**
  * return random number from -> to
