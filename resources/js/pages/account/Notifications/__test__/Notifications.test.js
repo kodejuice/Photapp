@@ -10,9 +10,11 @@ import Wrapper from '../../../../__test__/wrap-component';
 
 import Notifications from '../index';
 
+window.__JEST_TEST_ENV = true;
+
 const component = (
     <Wrapper>
-        <Notifications />
+        <Notifications __JEST_TEST_ENV={true} />
     </Wrapper>
 );
 
