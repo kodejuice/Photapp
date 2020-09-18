@@ -11,8 +11,8 @@ export const EditProfileModal: React.FC<{}> = ()=>{
             <div className="modal">
                 <label className="modal-bg" htmlFor="modal-editprofile"></label>
                 <div className="modal-body edit-profile">
-                    <button> <Link to="/account/password/change">Change Password</Link> </button>
-                    <button> <Link to="/account/notifications">Notifications</Link> </button>
+                    <button> <Link to="/accounts/edit/password">Change Password</Link> </button>
+                    <button> <Link to="/accounts/edit/notifications">Notifications</Link> </button>
                     <label htmlFor='modal-logout'> Log out </label>
                     <label htmlFor='modal-editprofile'> Cancel </label>
                 </div>

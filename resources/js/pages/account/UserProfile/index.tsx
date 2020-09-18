@@ -95,7 +95,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                         </div>
                                         <div className='follow-button'>
                                             {logged && !isSelf && <FollowButton user={data.username} unfollow={data.auth_user_follows} />}
-                                            {isSelf && <Link to="/accounts/edit"><button className='edit-profile'>Edit Profile</button></Link>}
+                                            {isSelf && <Link to="/accounts/edit/profile"><button className='edit-profile'>Edit Profile</button></Link>}
                                         </div>
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                             <div className='col col-1 hidden-col-username'></div>
                                             <div className='col col-7 follow-button'>
                                                 {logged && !isSelf && <FollowButton user={data.username} unfollow={data.auth_user_follows}/>}
-                                                {isSelf && <Link to="/accounts/edit"><button className='edit-profile'>Edit Profile</button></Link>}
+                                                {isSelf && <Link to="/accounts/edit/profile"><button className='edit-profile'>Edit Profile</button></Link>}
                                                 {isSelf && <label htmlFor='modal-editprofile'><div className='settings-icon'> {SettingsIcons} </div> </label>}
                                             </div>
                                         </div>
