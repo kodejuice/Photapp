@@ -17,3 +17,25 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+
+
+@mixin border-radius($property) {
+    -webkit-border-radius: $property;
+    -o-border-radius: $property;
+    -moz-border-radius: $property;
+    border-radius: $property;
+}
+
+@mixin border-radius-top($where, $property) {
+    -webkit-border-top-#{$where}-radius: $property;
+    -o-border-top-#{$where}-radius: $property;
+    -moz-border-top-#{$where}-radius: $property;
+    border-top-#{$where}-radius: $property;
+}
+
+@mixin border-radius-bottom($where, $property) {
+    -webkit-border-bottom-#{$where}-radius: $property;
+    -o-border-bottom-#{$where}-radius: $property;
+    -moz-border-bottom-#{$where}-radius: $property;
+    border-bottom-#{$where}-radius: $property;
+}

@@ -1,3 +1,4 @@
+@import '../../../../sass/variables';
 
 .tile-view {
     margin: 0 auto;
@@ -72,10 +73,10 @@
 
                     // border-radius
                     // adapt to <img/> child
-                    border-bottom-left-radius: 15px 255px;
-                    border-bottom-right-radius: 225px 15px;
-                    border-top-left-radius: 255px 15px;
-                    border-top-right-radius: 15px 225px;
+                    @include border-radius-top('left', 255px 15px);
+                    @include border-radius-top('right', 15px 255px);
+                    @include border-radius-bottom('left', 15px 255px);
+                    @include border-radius-bottom('right', 255px 15px);
                     border: 2px solid #41403e;
                 }
             }
