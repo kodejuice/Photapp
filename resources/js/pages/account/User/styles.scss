@@ -131,7 +131,6 @@ a {
         border-bottom: 1px solid #ccc;
         .col {
             padding: 0;
-            cursor: pointer;
             label {cursor: pointer;}
         }
         p#count {
@@ -189,7 +188,6 @@ a {
                 a {color: unset;}
                 div#w, p#count {display: inline-block;}
                 .col {
-                    cursor: pointer;
                     label {cursor: pointer;}
                 }
                 div#w {
