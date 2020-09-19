@@ -339,6 +339,17 @@ class PostController extends Controller
         //
         $key = ":" . (@$user->username ?: 'anonymous') . "-feed";
 
+        $last_pid = Post::orderByDesc('post_id')->first()->post_id; // last post id
+        // sorts user feed in descending order of follow score and recency
+        $sort_query = <<<sql
+1=1
+ORDER BY
+    post_id * follow_score
+    +
+    (follow_score / $last_pid)
+DESC
+sql;
+
         $posts = Cache::get($key, []);
         if (count($posts) == 0) {
             $posts = DB::table('posts')
@@ -346,7 +357,7 @@ class PostController extends Controller
                             $join->on('posts.user_id', '=', 'user_follows.user2_id')
                                 ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', 'anonymous')->id);
                         })
-                        ->orderByDesc('.follow_score')
+                        ->whereRaw($sort_query)
                         ->select('posts.*')
                         ->get();
 
