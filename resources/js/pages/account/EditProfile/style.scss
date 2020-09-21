@@ -1,12 +1,53 @@
 @import '../../../../sass/variables';
 
-
+@media screen and (max-width: 385px) {
+    .fields .field-value {
+        input, textarea {
+            max-width: 88% !important;
+        }
+    }
+}
 @media screen and (max-width: 450px) {
     .page-wrapper {margin: 1px auto !important;}
 }
 @media screen and (max-width: 735px) {
     .page-wrapper .nav {display: none;}
+    .fields {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 20px !important;
+        .field-name, .field-value {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+    .head-field {
+        margin-left: 0 !important;
+        .head-field-name {
+            flex: 0 0 70px !important;
+            max-width: 70px !important;
+            padding-left: 4% !important;
+        }
+        .head-field-value {
+            flex: 0 0 181.203px !important;
+            max-width: 181.203px !important;
+        }
+    }
 }
+@media screen and (min-width: 736px) {
+    .fields, .head-field {
+        .field-name {
+            flex: 0 0 27.874%;
+            max-width: 27.874%;
+            padding-left: 8% !important;
+        }
+        .field-value {
+            flex: 0 0 72.126%;
+            max-width: 72.126%;
+        }
+    }
+}
+
 
 .page-wrapper {
     width: 100%;
@@ -42,6 +83,101 @@
                 line-height: 20px;
                 width: 100%;
             }
+        }
+    }
+}
+
+
+
+.head-field {
+    margin: 32px auto 0;
+    width: 86.8%;
+    max-width: 539.91px;
+
+    .head-field-name {
+        flex: 0 0 27.874%;
+        max-width: 27.874%;
+        padding: 0;
+        padding-left: 10%;
+
+        img {
+            width: 38px;
+            height: 38px;
+            @include border-radius(100%);
+        }
+    }
+
+    .head-field-value {
+        padding: 0;
+        flex: 0 0 72.126%;
+        max-width: 72.126%;
+
+        h1.username {
+            margin: unset;
+            font-size: 20px;
+            line-height: 22px;
+            margin-bottom: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 400;
+            max-width: 264px;
+        }
+
+        .change-dp button {
+            margin: 0;
+            border: 0;
+            color: #0095f6;
+            padding: 0;
+            -webkit-appearance: none;
+            font-weight: 600;
+            transform: none;
+            box-shadow: none;
+            font-size: 0.70em;
+        }
+    }
+}
+
+
+.fields {
+    width: 86.8%;
+    margin: 0 auto;
+    max-width: 539.91px;
+
+    .field-name {
+        label {
+            font-size: 15.13px;
+            font-weight: 600;
+        }
+    }
+
+    .field-value {
+        input, textarea {
+            color: #262626;
+            border: 1px solid #dbdbdb;
+            font-size: 16px;
+            width: 100%;
+            max-width: 355px;
+        }
+        input {
+            height: 32px;
+            padding: 0 10px;
+        }
+        textarea {
+            padding: 6px 10px;
+            height: 60px;
+            resize: vertical;
+        }
+        button {
+            width: 77px;
+            height: 30px;
+            border: 1px solid transparent;
+            background-color: #0095f6;
+            font-weight: 600;
+            padding: 5px 9px;
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
         }
     }
 }
