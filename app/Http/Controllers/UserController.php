@@ -27,6 +27,7 @@ class UserController extends Controller
             'full_name' => 'string|max:50',
             'bio' => 'string|max:150',
             'dob' => 'nullable|date',
+            'email' => 'string|email|max:50|unique:users',
 
             // settings
             'notify_post_likes' => 'boolean',
