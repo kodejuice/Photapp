@@ -33,18 +33,27 @@
             max-width: 181.203px !important;
         }
     }
+    .change-pass input {
+        width: 88% !important;
+        max-width: 88% !important;
+    }
 }
 @media screen and (min-width: 736px) {
     .fields, .head-field {
         .field-name {
             flex: 0 0 27.874%;
             max-width: 27.874%;
-            padding-left: 8% !important;
+            &:not(.no-pl) {
+                padding-left: 8% !important;
+            }
         }
         .field-value {
             flex: 0 0 72.126%;
             max-width: 72.126%;
         }
+    }
+    .change-pass .field-value {
+        padding-left: 5%;
     }
 }
 
@@ -70,7 +79,7 @@
             .active-true {
                 border-left: 2px solid #262626;
                 a {font-weight: 600;}
-                &.last-true { @include border-radius-bottom('left', 50px 255px); border-left: 3px solid }
+                &.last-true { border-left: 2px solid }
             }
             a {
                 color: #262626;
@@ -122,6 +131,12 @@
             white-space: nowrap;
             font-weight: 400;
             max-width: 264px;
+
+            &.big {
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 38px;
+            }
         }
 
         .change-dp button {
@@ -182,3 +197,20 @@
     }
 }
 
+
+.change-pass {
+    input {
+        background: #fafafa;
+        border: 1px solid #dbdbdb;
+        font-size: 14px;
+        line-height: 30px;
+        margin: 0;
+        overflow: visible;
+        padding: 4px 12px;
+        height: 40px !important;
+    }
+
+    button {
+        width: 165.53px !important;
+    }
+}

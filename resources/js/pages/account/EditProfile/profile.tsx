@@ -18,9 +18,9 @@ const Profile: React.FC<{user: userProfile}> = ({user})=>{
     const onSubmit = ()=>{
         let pwd = prompt("Enter password to save settings");
 
-        setSaving(true);
+        setSaving(!saving);
 
-        // TODO: make it work
+        // TODO: save profile edits
     };
 
     return (
