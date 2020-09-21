@@ -43,13 +43,10 @@ class UserController extends Controller
 
         $user = $request->user();
 
-        $name = $request->input('full_name', '');
-        $bio = $request->input('bio', '');
-        $dob = $request->input('dob', null);
-
-        $user->full_name = $name ?: $user->full_name;
-        $user->bio = $bio ?: $user->bio;
-        $user->dob = $dob ?: $user->dob;
+        $user->email = $request->input('email', $user->email);
+        $user->full_name = $request->input('full_name', $user->full_name);
+        $user->bio = $request->input('bio', $user->bio);
+        $user->dob = $request->input('dob', $user->dob);
 
         $user->save();
 
