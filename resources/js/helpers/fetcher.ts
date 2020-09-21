@@ -197,6 +197,26 @@ export async function fetchPost(post_id: number) {
 
 
 /**
+ * fetch authenticated user settings from DB
+ */
+export async function fetchSettings() {
+    let req;
+    try {
+        req = await axios.get(`/api/user/settings`);
+
+        if (req?.data?.user_id) {
+            return req.data;
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
  * fetch list of {X} from DB, e.g posts, notifications, followers, e.t.c...
  * @param {string} url     API url
  */
