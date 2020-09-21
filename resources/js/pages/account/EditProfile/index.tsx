@@ -13,15 +13,15 @@ import PageNotFound from '../../PageNotFound';
 import "./style.scss";
 
 const EditProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
-    const {logged} = authUser();
+    const {logged, user} = authUser();
     if (!logged) return <PageNotFound />;
 
     const page = (match.params as any).page.toLowerCase();
 
     const components = {
-        'profile': <Profile />,
-        'notifications': <Notifications />,
-        'password': <Password />,
+        'profile': <Profile user={user}/>,
+        'notifications': <Notifications user={user} />,
+        'password': <Password user={user} />,
     };
 
     if (page in components) {

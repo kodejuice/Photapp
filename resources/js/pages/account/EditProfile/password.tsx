@@ -1,7 +1,9 @@
 import React from 'react';
 import Header from './Header';
 
-const Password: React.FC<{}> = ()=>{
+import {userProfile} from '../../../state/userProfile.d';
+
+const Password: React.FC<{user:userProfile}> = ({user})=>{
     return (
         <Header page='password'>
             password
