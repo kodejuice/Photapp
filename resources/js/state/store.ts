@@ -8,6 +8,7 @@ export type RootState = {
         id: number,
         email: string,
         username: string,
+        bio: string,
 
         full_name: string,
         profile_pic: string,

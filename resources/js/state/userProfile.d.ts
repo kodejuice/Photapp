@@ -2,6 +2,7 @@ export type userProfile = {
     id?: number,
     email?: string,
     username?: string,
+    bio?: string,
 
     full_name?: string,
     profile_pic?: string,
