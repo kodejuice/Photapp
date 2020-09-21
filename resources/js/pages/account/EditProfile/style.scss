@@ -2,7 +2,7 @@
 
 @media screen and (max-width: 385px) {
     .fields .field-value {
-        input, textarea {
+        input[type=text], input[type=email], input[type=password], textarea {
             max-width: 88% !important;
         }
     }
@@ -33,7 +33,7 @@
             max-width: 181.203px !important;
         }
     }
-    .change-pass input {
+    .change-pass input[type=text], input[type=email], input[type=password] {
         width: 88% !important;
         max-width: 88% !important;
     }
@@ -167,14 +167,14 @@
     }
 
     .field-value {
-        input, textarea {
+        input[type=text], input[type=email], input[type=password], textarea {
             color: #262626;
             border: 1px solid #dbdbdb;
             font-size: 16px;
             width: 100%;
             max-width: 355px;
         }
-        input {
+        input[type=text], input[type=email], input[type=password] {
             height: 32px;
             padding: 0 10px;
         }
@@ -199,7 +199,7 @@
 
 
 .change-pass {
-    input {
+    input[type=text], input[type=email], input[type=password] {
         background: #fafafa;
         border: 1px solid #dbdbdb;
         font-size: 14px;
@@ -214,3 +214,34 @@
         width: 165.53px !important;
     }
 }
+
+
+.notifications {
+    margin: 32px 0 0;
+
+    input[type=radio] {
+        @include border-radius(100%);
+        display: inline-block;
+    }
+
+    .field-name {
+        label {
+            font-size: 18px;
+            font-weight: 100;
+        }
+    }
+
+    .field-value {
+        .field-radio {
+            font-size: 15.3px;
+            font-weight: 600;
+        }
+    }
+
+    div.sample p {
+        color: #888;
+        font-size: 14px;
+        margin-top: 7px;
+    }
+}
+
