@@ -201,6 +201,7 @@ $font-size: 0.8em;
         .modal-body {
             @include border-radius(12px);
             width: 32%;
+            overflow-y: hidden;
             padding: 0;
             min-width: 170px;
 
