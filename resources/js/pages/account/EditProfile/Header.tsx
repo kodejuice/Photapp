@@ -12,14 +12,19 @@ const NavBar: React.FC<{active: pages}> = ({active})=>{
         'password': link('password'),
     };
     const list: pages[] = ['profile','notifications','password'];
-    const title = (p: pages) => p == 'password' ? "Change password" : `Edit ${camel(p)}`;
+    const title = {
+        'profile': 'Edit Profile',
+        'password': "Change Password",
+        'notifications': "Notifications",
+    };
+
 
     return (
         <React.Fragment>
             <div className='links'>
                 {list.map((p,i)=>(
                     <div key={p} className={`active-${p==active} last-${i==list.length-1}`}>
-                        <Link to={links[p]}> {title(p)} </Link>
+                        <Link to={links[p]}> {title[p]} </Link>
                     </div>
                 ))}
             </div>

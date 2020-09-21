@@ -25,9 +25,11 @@ const EditProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
     };
 
     if (page in components) {
-        const title = page=='password'
-            ? "Change password"
-            : `Edit ${camel(page)}`;
+        const title = {
+            'profile': 'Edit Profile',
+            'password': "Change Password",
+            'notifications': "Notifications",
+        }[page];
 
         return (
             <React.Fragment>
