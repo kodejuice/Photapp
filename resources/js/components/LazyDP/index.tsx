@@ -29,6 +29,31 @@ export default function LazyDP({user}) {
 
 
 /**
+ * display user profile pic
+ * present in the user object
+ * @param {[type]} options.user_object [description]
+ */
+export function LazyDPSync(props) {
+    const data = props?.data,
+          isLoading = props?.loading;
+
+    // load default_avatar if dp image url is invalid
+    const onError = (ev: React.SyntheticEvent<HTMLImageElement>)=>{
+        const img = (ev.target as HTMLImageElement);
+        if (img.src != default_avatar) {
+            img.src = default_avatar;
+        }
+    };
+
+    const url = (!data?.profile_pic)
+        ? default_avatar
+        :`/avatar/${data.profile_pic}`;
+
+    return <img role={data?'dp':''} src={isLoading ? waiting : url} onError={onError} />;
+}
+
+
+/**
  * useUser hook
  * @param  string   username
  */

@@ -9,7 +9,7 @@ import authUser from '../../../state/auth_user';
 
 import Header from '../../../components/Header';
 import Posts from '../../../components/Posts';
-import LazyDP from '../../../components/LazyDP';
+import {LazyDPSync} from '../../../components/LazyDP';
 import FollowButton from '../../../components/FollowButton';
 import Spinner from '../../../components/Spinner';
 import {ProcessUserInput} from '../../../helpers/mini-components';
@@ -82,7 +82,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                 <div className='row info'>
                                     <div className='col-2 dp-col'>
                                         <div  title="Edit profile picture" id='dp-change' onClick={()=>(inputFile.current as HTMLInputElement).click()}>
-                                            <LazyDP user={data.username} />
+                                            <LazyDPSync data={data} />
                                         </div>
                                     </div>
                                     <div className='col-1 hidden-col-dp'></div>
@@ -119,7 +119,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                 <div className='row info'>
                                     <div className='col col-3 dp-col'>
                                         <div title="Edit profile picture" id='dp-change' onClick={()=>(inputFile.current as HTMLInputElement).click()}>
-                                            <LazyDP user={data.username} />
+                                            <LazyDPSync data={data} />
                                         </div>
                                     </div>
                                     <div className='col col-1 hidden-col-big'></div>
@@ -245,10 +245,10 @@ function uploadUserDP(ev: React.FormEvent<HTMLInputElement>) {
     ev.stopPropagation();
     ev.preventDefault();
 
-    let file = (ev.target as any).files[0];
+    let file = ((ev.target as HTMLInputElement).files as FileList)[0];
 
-    if (file.size > 10485760) { // > 10MB
-        return alert("Image too large (max 10MB)");
+    if (file.size > 4194304) { // > 4MB
+        return alert("Image too large (max 4MB)");
     }
 
     let form = new FormData();

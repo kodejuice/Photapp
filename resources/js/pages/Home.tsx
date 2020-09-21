@@ -5,7 +5,7 @@ import useSWR from '../helpers/swr';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import authUser from '../state/auth_user';
 
-import LazyDP from '../components/LazyDP';
+import {LazyDPSync} from '../components/LazyDP';
 import {fetchListing} from '../helpers/fetcher';
 import showAlert from '../components/Alert/showAlert';
 
@@ -96,7 +96,7 @@ const Home: React.FC<{}> = ()=>{
 
                             {logged && (
                                 <div className='auth_user row'>
-                                    <div className='col col-2'> <Link to={`/user/${user.username}`}><LazyDP user={user.username} /></Link></div>
+                                    <div className='col col-2'> <Link to={`/user/${user.username}`}><LazyDPSync data={user} /></Link></div>
                                     <div className='col col-fill user-info'>
                                         <div className='username'><Link to={`/user/${user.username}`}>{user.username}</Link></div>
                                         <div className='full_name'>{user.full_name}</div>
