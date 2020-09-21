@@ -21,12 +21,10 @@ $font-size: 0.8em;
         border-top: 0.5px solid rgba(var(--ce3,239,239,239),1);
         margin-bottom: 9px;
 
-        &, div.modal {
-            @include border-radius-top('left', 255px 15px);        
-            @include border-radius-top('right', 15px 255px);        
-            @include border-radius-bottom('left', 15px 255px);        
-            @include border-radius-bottom('right', 255px 15px);        
-        }
+        @include border-radius-top('left', 255px 15px);
+        @include border-radius-top('right', 15px 255px);
+        @include border-radius-bottom('left', 15px 255px);
+        @include border-radius-bottom('right', 255px 15px);
 
         .card-header {
             height: 60px;
