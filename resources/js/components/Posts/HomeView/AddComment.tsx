@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {submitComment} from './helper';
 
 /**
  * component for adding comments to
@@ -23,11 +24,5 @@ const AddComment: React.FC<{post_id: number}> = ({post_id})=>{
 };
 
 
-function submitComment(post_id: number, commentText: string) {
-    if (!commentText.length) return;
-    // TODO: submit comment
-
-    alert(commentText);
-}
 
 export default AddComment;
