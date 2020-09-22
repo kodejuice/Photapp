@@ -25,7 +25,7 @@ const Profile: React.FC<{user: userProfile}> = ({user})=>{
 
     return (
         <Header page='profile'>
-            <div className='row head-field'>
+            <div className='row head-field' role='user-info'>
                 <div className='col head-field-name'>
                     <LazyDPSync data={user} loading={loadingDP} />
                 </div>
@@ -39,15 +39,15 @@ const Profile: React.FC<{user: userProfile}> = ({user})=>{
                 </div>
             </div>
 
-            <div className='row fields'>
+            <div className='row fields' role={`name-${full_name}`}>
                 <div className='field-name'><label> Name </label> </div>
                 <div className='field-value'> <input placeholder='Name' type='text' value={full_name} onChange={(e)=>setFullName(e.target.value)} /> </div>
             </div>
-            <div className='row fields'>
+            <div className='row fields' role={`bio-${bio}`}>
                 <div className='field-name'> <label> Bio </label> </div>
-                <div className='field-value'> <textarea value={bio} onChange={(e)=>setBio(e.target.value)} /> </div>
+                <div className='field-value'> <textarea  value={bio} onChange={(e)=>setBio(e.target.value)} /> </div>
             </div>
-            <div className='row fields'>
+            <div className='row fields' role={`email-${email}`}>
                 <div className='field-name'> <label> Email </label> </div>
                 <div className='field-value'> <input placeholder='Email' type='email' value={email} onChange={(e)=>setEmail(e.target.value)} required /> </div>
             </div>

@@ -11,7 +11,8 @@ import routes from '../routes';
 import Splash from '../components/Splash';
 
 
-const App: React.FC<{}> = ()=>{
+const App: React.FC<{path?:string}> = ({path})=>{
+    path = path || '/';
     const [mounted, setMounted] = useState(false);
     const dispatch = useDispatch();
     const logged_in = authUser().logged;
@@ -42,7 +43,7 @@ const App: React.FC<{}> = ()=>{
         (
             <main role={logged_in ? "app-logged" : "app-guest"}>
                 <Switch>
-                    {routes.map((prop, i)=>
+                    {routes(path).map((prop, i)=>
                         <ProgressRoute key={i} {...prop} />
                     )}
                 </Switch>

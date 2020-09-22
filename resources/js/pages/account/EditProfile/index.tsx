@@ -12,11 +12,13 @@ import PageNotFound from '../../PageNotFound';
 
 import "./style.scss";
 
+const W = window as any;
+
 const EditProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
     const {logged, user} = authUser();
     if (!logged) return <PageNotFound />;
 
-    const page = (match.params as any).page.toLowerCase();
+    const page = ((match.params as any).page || W.__page).toLowerCase();
 
     const components = {
         'profile': <Profile user={user}/>,

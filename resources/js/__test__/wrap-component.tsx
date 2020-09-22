@@ -21,4 +21,18 @@ const Wrap: React.FC<{children: React.ReactNode}> = ({children}) => {
     );  
 }
 
+
+/////////////////////
+/////////////////////
+const originalError = console.error;
+console.error = (...args) => {
+    if (/Warning.*not wrapped in act/.test(args[0])) return
+    if (/Warning.*Cannot update a component/.test(args[0])) return
+    if (/Error.*socket hang up/.test(args[0])) return;
+    originalError.call(console, ...args)
+}
+/////////////////////
+/////////////////////
+
+
 export default Wrap;

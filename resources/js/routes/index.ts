@@ -9,48 +9,59 @@ import UserProfile from '../pages/account/UserProfile/index';
 import EditProfile from '../pages/account/EditProfile/index';
 import NotFound from '../pages/PageNotFound';
 
-
-const routes = [
-    {
-        path: '/',
-        exact: true,
-        component: Home
-    },
-    {
+const route_map = {
+    'login': {
         path: '/login',
         component: Login,
     },
-    {
-        path: '/register',
-        component: Register,
-    },
-    {
+    'activity': {
         path: '/activity',
         component: Notifications,
     },
-    {
+    'register': {
+        path: '/register',
+        component: Register,
+    },
+    'explore': {
         path: ['/explore/search/:query','/explore/search/'],
         component: Search,
     },
-    {
+    'user': {
         path: '/user/:username',
         component: UserProfile,
     },
-    {
-        path: '/accounts/edit/:page',
-        component: EditProfile,
-    },
-    {
-        path: '/explore/people',
-        component: People,
-    },
-    {
+    'search': {
         path: '/explore',
         component: Explore,
     },
-    {
+    'people': {
+        path: '/explore/people',
+        component: People,
+    },
+    'accounts': {
+        path: '/accounts/edit/:page',
+        component: EditProfile,
+    },
+    '404': {
         component: NotFound
-    }
-]
+    },
+}
+
+
+const routes = (path)=>{
+    const home = {
+        path: '/',
+        exact: true,
+        component: Home,
+    },
+        route_list = Object.values(route_map);
+
+    if (path != '/')
+        home.component = route_map[path].component;
+
+    route_list.unshift(home);
+
+    return route_list;
+};
 
 export default routes;
