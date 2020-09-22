@@ -118,13 +118,13 @@ let server = setupServer(
     rest.get('/api/user/johndoe/following', (req, res, ctx) => {
         return res(
             ctx.status(200),
-            ctx.json(samplePosts)
+            ctx.json(sampleUsers)
         )
     }),
     rest.get('/api/user/johndoe/followers', (req, res, ctx) => {
         return res(
             ctx.status(200),
-            ctx.json(samplePosts)
+            ctx.json(sampleUsers)
         )
     }),
 );
