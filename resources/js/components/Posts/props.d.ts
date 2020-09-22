@@ -32,5 +32,5 @@ export type Post = {
  */
 export type PostProp = {
       data: Post[],
-      view: "grid" | "tile" | "home",
+      view: "grid" | "tile" | "home" | "full",
 };

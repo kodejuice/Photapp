@@ -30,7 +30,7 @@ const PhotoViewer: React.FC<{url:string}> = ({url})=>{
         <React.Fragment>
             <div role="image-viewer">
                 <div style={{display:'none'}}><img src={url} onLoad={()=>setUrl(url)}/></div>
-                <img src={img_url} />
+                <img role="post-image" src={img_url} />
             </div>
         </React.Fragment>
     );

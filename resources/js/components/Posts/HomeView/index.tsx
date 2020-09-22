@@ -6,13 +6,13 @@ import {useDoubleTap} from 'use-double-tap';
 import {Post} from '../props.d';
 import LazyDP from '../../LazyDP';
 import FollowButton from '../../FollowButton';
-import showAlert from '../../Alert/showAlert';
 import {ProcessUserInput} from '../../../helpers/mini-components';
-import {limit, copyText} from '../../../helpers/util';
+import {limit, amount} from '../../../helpers/util';
 import authUser from '../../../state/auth_user';
 
 import AddComment from './AddComment';
 import MediaViewer from './MediaViewer';
+import {likePost, copyToClipboard, deletePost, savePost} from './helper';
 
 import './style.scss';
 
@@ -64,7 +64,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
         likePost(post.post_id, ()=>{
             likesPost(!postLiked);
             return postLiked;
-        });
+        }, post);
 
         showHeart(true);
         setTimeout(()=>showHeart(false), 790);
@@ -120,7 +120,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         <div className='row btns'>
                             <div className='col col-5'>
                                 {/*like button*/}
-                                <button onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked))}>
+                                <button onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked), post)}>
                                     <img src={`/icon/heart${postLiked?'.png':'-blank.svg'}`}/>
                                 </button>
                             </div>
@@ -132,12 +132,12 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                     </div>
                     <div className='col col-fill'></div>
                     <div className='col col-1'>
-                        <button onClick={()=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved))}>
+                        <button onClick={()=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved), post)}>
                             <img src={`/icon/bookmark${postSaved?'.png':'-blank.svg'}`} />
                         </button>
                     </div>
                 </div>
-                {post_likes>0 && <div className='likes'>{post_likes} likes</div>}
+                {post_likes>0 && <div className='likes'>{amount(post_likes)} likes</div>}
                 <div className='post-comments'>
                     {post.caption?
                         <div className='comment'>
@@ -155,7 +155,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
 
                     {post.comment_count?
                         <div className='more'>
-                            <Link to={`/post/${post.post_id}`}>View all {post.comment_count} comment{post.comment_count>1?'s':''}</Link>
+                            <Link to={`/post/${post.post_id}`}>View all {amount(post.comment_count)} comment{post.comment_count>1?'s':''}</Link>
                         </div>
                     : ""}
 
@@ -174,57 +174,6 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
             </div>
         </div>                
     );
-}
-
-
-/**
- * copy text to clipboard
- * @param  {string} text           text to copy
- * @param  {Function} dispatch     redux dipatch hook
- */
-function copyToClipboard(text, dispatch) {
-    copyText(text, (copied)=>{
-        if (copied) {
-            showAlert(dispatch, ['Copied to clipboard'], 'success');
-        } else {
-            showAlert(dispatch, ['Failed to copy, please switch to a modern browser']);
-        }
-    });
-}
-
-
-
-/**
- * deletes a post
- * @param  {number} post_id
- */
-function deletePost(post_id: number) {
-    // TODO: perform action
-
-}
-
-
-/**
- * likes a post
- * @param  {number} post_id
- * @param  {[type]} toggleLike: ()   toggle like state
- */
-function likePost(post_id: number, toggleLike: ()=>boolean) {
-    const like = !toggleLike();
-
-    // TODO: perform action
-}
-
-
-/**
- * bookmarks a post
- * @param  {number} post_id
- * @param  {[type]} toggleSave: ()   toggle save state
- */
-function savePost(post_id: number, toggleSave: ()=>boolean) {
-    const save = !toggleSave();
-
-    // TODO: perform action
 }
 
 

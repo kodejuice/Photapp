@@ -1,0 +1,196 @@
+@import '../../../../sass/variables';
+
+
+$font-size: 0.8em;
+
+@media screen and (max-width: 319px) {
+    .card-full .card-post .post-caption {display: none;}
+}
+@media screen and (max-width: 249px) {
+    .card-full .card-post .post-info ._row {display: none;}
+}
+@media screen and (max-width: 299px) {
+    .card-full .card-post .post-info ._row.save-post {display: none;}    
+}
+@media screen and (max-width: 185px) {
+    .card-full .card-post .post-info .author-dp {display: none;}    
+}
+
+.posts-wrapper {
+    margin-bottom: 0;
+    padding: 24px 0 0 !important;
+    .col, .home-posts {padding: 0; }
+
+    .home-posts .card-full {
+        position: relative;
+        border-top: 0.5px solid rgba(var(--ce3,239,239,239),1);
+        margin-bottom: 5px;
+
+        .card-post {
+            position: relative;
+
+            img[role=post-image] {min-height: 320px;}
+
+            img {
+                border-radius: unset;
+                min-width: 100%;
+            }
+
+            @keyframes reveal {
+                from {
+                    width: 30px;
+                    height: 30px;
+                }
+                to {
+                    width: 90px;
+                    height: 90px;
+                }
+            }
+
+            .doubletap-icon {
+                z-index: 1000;
+                position: absolute;
+                left: 50%;
+                top: calc(50% - 45px);
+                transform: translate(-50%, -50%);
+
+                svg {
+                    width: 90px;
+                    height: 90px;
+                    -webkit-filter: drop-shadow( 1px 1px 0.5px rgba(0, 0, 0, .3));
+                    filter: drop-shadow( 1px 1px 0.5px rgba(0, 0, 0, .3));
+                    animation-name: reveal;
+                    animation-duration: 400ms;
+                }
+            }
+
+            .post-info {
+                position: absolute;
+                top: 20px;
+                right: 14px;
+                z-index: 0;
+                height: calc(100% - 30px);
+
+                img, svg:not(.load) {
+                    border: none;
+                    min-width: unset;
+                    width: 41px;
+                    height: 41px;
+                }
+
+                .count {
+                    font-size: 15px;
+                    color: #fff;
+                    text-align: center;
+                }
+
+                ._row {
+                    margin: 14px auto;
+
+                    &.save-post {
+                        position: absolute;
+                        // margin-top: 10px;
+                        bottom: 1%;
+                    }
+                }
+
+                .author-dp {
+                    img { @include border-radius(100%); }
+                    height: 53px;
+                    position: relative;
+
+                    .follow-user {
+                        position: absolute;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translate(-50%, 0);
+
+                        button {
+                            padding: 0;
+                            margin: 0;
+                            width: 19px;
+                            height: 19px;
+                            background: #0095F6;
+                            color: #fff;
+                            border: none;
+                            @include border-radius(100%);
+
+                            div {
+                                font-size: 16px;
+                                margin: 0 auto;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .post-caption {
+                position: absolute;
+                left: 15px;
+                bottom: 5%;
+                width: 82%;
+
+                div.username {
+                    margin-bottom: 9px;
+                    font-size: 0.86em;
+                }
+
+                a,p {
+                    color: #fafafa;
+                    font-size: 0.88em;
+                    text-shadow: 1.5px 1.5px 2.5px #888;
+                    font-family: sans-serif;
+                }
+
+                a {
+                    font-weight: 600;
+                }
+
+                p {
+
+                }
+            }
+        }
+    }
+    //////////////
+    // Carousel //
+    //////////////
+    
+    .carousel {
+        ul li::before {
+            content: "";
+        }
+        .slide {
+            img, video {
+                position: relative;
+                left: 3.5px; // this fixes a visual bug that i dont know what causes                
+            }
+        }
+    }
+
+
+    /////////////////
+    // ReactPlayer //
+    /////////////////
+
+    button.play-icon {
+        position: absolute;
+        left: 47%;
+        top: 50%;
+        z-index: 999;
+        padding: 0;
+        margin: 0;
+        width: 64px;
+        height: 64px;
+        border: none;
+        box-shadow: none;
+        @include border-radius(100%);
+        transform: translate(-50%, -50%);
+
+        &.display-false {
+            display: none;
+        }
+    };
+
+}
+
