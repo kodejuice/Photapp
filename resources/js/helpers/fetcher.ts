@@ -14,7 +14,11 @@ const handleServerError = (err, onError: (d: Array<string>) => void): Array<stri
         if (typeof err?.data?.message == 'string') {
             ret = [err.data.message || "An unknown error occured"];
         } else {
-            ret = [JSON.stringify(err)];
+            if (err.message) {
+                ret = [err.message]
+            } else {
+                ret = [JSON.stringify(err)];
+            }
         }
     }
 
