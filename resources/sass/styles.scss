@@ -96,6 +96,12 @@ a {
         width: 600px !important;
         max-width: 600px !important;
     }
+    .post-view-toggle {
+        margin: 0 auto !important;
+        flex: 0 0 600px !important;
+        width: 600px !important;
+        max-width: 600px !important;
+    }
     .suggestions.page, .search-page {
         width: 600px !important;
         max-width: 600px !important;
@@ -105,7 +111,7 @@ a {
 
 /* big screens */
 @media screen and (min-width: 1000px) {
-    .posts-wrapper {
+    .posts-wrapper, .post-view-toggle {
         width: 935px !important;
         margin: 0 auto !important;
         .home-posts {
@@ -123,6 +129,10 @@ a {
     }
 }
 
+
+.row.post-view-toggle {
+    margin: 0 auto;
+}
 
 
 /////////////////
