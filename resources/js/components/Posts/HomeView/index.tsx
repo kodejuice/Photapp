@@ -6,6 +6,7 @@ import {useDoubleTap} from 'use-double-tap';
 import {Post} from '../props.d';
 import LazyDP from '../../LazyDP';
 import FollowButton from '../../FollowButton';
+import RepostButton from '../../RepostButton';
 import {ProcessUserInput} from '../../../helpers/mini-components';
 import {limit, amount} from '../../../helpers/util';
 import authUser from '../../../state/auth_user';
@@ -71,7 +72,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     });
 
     return (
-        <div role="post" className="card" key={post.post_id}>
+        <div role="post" className="card">
             <div style={{display: 'none'}}>
                 <img src="/icon/heart.png" />
                 <img src="/icon/heart-blank.svg" />
@@ -90,8 +91,9 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         : <button onClick={()=>deletePost(post.post_id)} className='delete-post'> Delete post </button>
                     )}
                     <button> <Link to={`/post/${post.post_id}`}>Go to Post</Link> </button>
+                    <RepostButton post_id={+post.post_id} />
                     <button onClick={()=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
-                    <label htmlFor={`modal-${i+1}`}> Cancel </label>
+                    <label className='cancel' htmlFor={`modal-${i+1}`}> Cancel </label>
                 </div>
             </div>
             {/* </Post modal> */}
