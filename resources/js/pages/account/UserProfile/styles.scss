@@ -416,6 +416,10 @@ a {
                 border-top-left-radius: 12px;
                 border-top-right-radius: 12px;
             }
+
+            &[for=modal-logout] {
+                color: #A7342D;
+            }
         }
     }
 
