@@ -1,0 +1,205 @@
+@import '../../../sass/variables';
+
+@media screen and (max-width: 600px) {
+    .post-page {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 50px;
+    }
+}
+@media screen and (min-width: 601px) and (max-width: 999px) {
+    .post-page {
+        margin: 0 auto;
+        flex: 0 0 600px;
+        width: 600px;
+        max-width: 600px;
+    }
+}
+@media screen and (min-width: 1000px) {
+    .post-page {
+        width: 935px;
+        margin: 0 auto;
+        flex: 0 0 935px;
+        max-width: 935px;
+    }    
+}
+@media screen and (max-width: 735px) {
+    .post-media {
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+    }
+    .post-data {
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+    }
+}
+@media screen and (min-width: 736px) {
+    .post-page {
+        margin-bottom: 40px;
+        padding: 24px 0 0;
+    }
+    .post-media {
+        flex: 0 0 70%;
+        width: 70%;
+        max-width: 70%;
+    }
+    .post-data {
+        flex: 0 0 29%;
+        width: 29%;
+        max-width: 29%;
+    }
+}
+
+
+
+.post-page {
+    .row {margin: 0;}
+    .col {padding: 0;}
+
+    .card {
+        transform: none !important;
+        margin-bottom: 20px;
+
+        position: relative;
+        border-top: 0.5px solid rgba(var(--ce3,239,239,239),1);
+        margin-bottom: 9px;
+
+        .card-header {
+            height: 55px;
+            padding: 0 !important;
+            padding-left: 10px !important;
+            background: #FFF;
+
+            label {
+                cursor: pointer;
+            }
+
+            .row {
+                height: 42px;
+                margin: 9px 0;
+
+                .col.col-1 {
+                    max-width: 37px !important;
+                }
+
+                &.post-info {
+                    a {
+                        color: #41403E;
+                    }
+                }
+            }
+
+            div.user-dp, div.user-opt {
+                width: 42px;
+                margin: 0 auto;
+
+                img {
+                    width: 32px;
+                    height: 32px;
+
+                    @include border-radius(100%);
+                }
+            }
+
+            div.user-name, div.user-opt {
+                margin-top: 9px;
+                margin-left: 8px;
+                font-size: .8em;
+                font-weight: bold;
+            }
+        }
+
+        .card-post {
+            img {
+                min-width: 100%;
+            }
+        }
+    }
+
+
+    ///////////
+    // Modal //
+    ///////////
+
+    div.modal {
+        .modal-body {
+            @include border-radius(12px);
+            width: 32%;
+            overflow-y: hidden;
+            padding: 0;
+            min-width: 170px;
+
+            button, label {
+                margin: 0;
+                width: 100%;
+                padding: 13px 0;
+                border: none;
+                display: block;
+                box-shadow: none;
+                font-size: 0.79em;
+                border-bottom: 1px solid rgba(var(--ce3,239,239,239),1);
+
+                a, a:visited {
+                    color: #41403E;
+                    background-image: none;
+                }
+
+                &[for=modal-post] {
+                    color: #A7342D;
+                }
+            }
+
+            button.unfollow-button, button.delete-post {
+                color: #A7342D;
+            }
+
+            label {
+                text-align: center;
+                cursor: pointer;
+            }
+        }
+    }
+
+
+    //////////////
+    // Carousel //
+    //////////////
+
+    .carousel {
+        ul li::before {
+            content: "";
+        }
+        .slide {
+            img, video {
+                position: relative;
+                left: 3.5px; // this fixes a visual bug that i dont know what causes                
+            }
+        }
+    }
+
+
+    /////////////////
+    // ReactPlayer //
+    /////////////////
+
+    button.play-icon {
+        position: absolute;
+        left: 47%;
+        top: 50%;
+        z-index: 999;
+        padding: 0;
+        margin: 0;
+        width: 64px;
+        height: 64px;
+        border: none;
+        box-shadow: none;
+        @include border-radius(100%);
+        transform: translate(-50%, -50%);
+
+        &.display-false {
+            display: none;
+        }
+    };
+}

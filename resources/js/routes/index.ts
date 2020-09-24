@@ -1,4 +1,5 @@
 import Home from '../pages/Home';
+import Post from '../pages/Post/index';
 import Login from '../pages/auth/Login';
 import People from '../pages/People';
 import Search from '../pages/Search';
@@ -10,6 +11,10 @@ import EditProfile from '../pages/account/EditProfile/index';
 import NotFound from '../pages/PageNotFound';
 
 const route_map = {
+    'post': {
+        path: '/post/:id',
+        component: Post,
+    },
     'login': {
         path: '/login',
         component: Login,
@@ -42,9 +47,6 @@ const route_map = {
         path: '/accounts/edit/:page',
         component: EditProfile,
     },
-    '404': {
-        component: NotFound
-    },
 }
 
 
@@ -54,12 +56,16 @@ const routes = (path)=>{
         exact: true,
         component: Home,
     },
+        _404 = {
+        component: NotFound,
+    },
         route_list = Object.values(route_map);
 
     if (path != '/')
         home.component = route_map[path].component;
 
     route_list.unshift(home);
+    route_list.push(_404 as any);
 
     return route_list;
 };
