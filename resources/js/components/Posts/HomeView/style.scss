@@ -219,6 +219,10 @@ $font-size: 0.8em;
                     color: #41403E;
                     background-image: none;
                 }
+
+                &.cancel {
+                    color: #A7342D;
+                }
             }
 
             button.unfollow-button, button.delete-post {

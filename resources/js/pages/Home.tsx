@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import useSWR from '../helpers/swr';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Cookie from 'js-cookie';
-import Toggle from '../components/Toggle';
+import {Toggle} from '../helpers/mini-components';
 import "react-toggle/style.css";
 import authUser from '../state/auth_user';
 
@@ -58,10 +58,10 @@ const Home: React.FC<{}> = ()=>{
 
             <div className='row posts-wrapper' role={isError ? 'post-wrapper-err' : 'post-wrapper'}>
                 <div className='post-view-toggle col-12'>
-                    <Toggle
+                    {ALL_POST.length>0 && <Toggle
                         current={postView}
                         setState={setPostView}
-                    />
+                    />}
                 </div>
 
                 <div className='home-posts col col-9'>

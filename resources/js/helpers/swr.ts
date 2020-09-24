@@ -14,9 +14,9 @@ import SWR from 'swr';
  *
  */
 
-const W = window as any;
+export const W = window as any;
 
-W.__SWR_CACHE__ = new Map<string, object>();
+W.__SWR_MAP__ = new Map<string, object>();
 
 
 export default function useSWR(arg: string, fetcher) {
@@ -32,17 +32,17 @@ export default function useSWR(arg: string, fetcher) {
     if (data) {
         if (data instanceof Array) {
             if (data.length) {
-                W.__SWR_CACHE__.set(key, data);
+                W.__SWR_MAP__.set(key, data);
             }
         } else if (!data.errors) {
-            W.__SWR_CACHE__.set(key, data);
+            W.__SWR_MAP__.set(key, data);
         }
     }
 
 
     if (error) {
         // return stale data if any
-        data = W.__SWR_CACHE__.get(key);
+        data = W.__SWR_MAP__.get(key);
     }
     else if (data) {
         // if data.errors[] isnt undefined
@@ -51,14 +51,14 @@ export default function useSWR(arg: string, fetcher) {
         // @see `helpers/fetcher.ts` -> section /_User Accout Requests_/
         // 
         if (data.errors instanceof Array) {
-            if (W.__SWR_CACHE__.has(key)) {
-                data = W.__SWR_CACHE__.get(key);
+            if (W.__SWR_MAP__.has(key)) {
+                data = W.__SWR_MAP__.get(key);
             }
         }
     } else {
-        //  no data available, return __SWR_CACHE__ data if available
-        if (W.__SWR_CACHE__.has(key)) {
-            data = W.__SWR_CACHE__.get(key);
+        //  no data available, return __SWR_MAP__ data if available
+        if (W.__SWR_MAP__.has(key)) {
+            data = W.__SWR_MAP__.get(key);
         }
     }
 

@@ -1,3 +1,5 @@
+import {Post} from '../components/Posts/props.d';
+
 let W = window as any;
 
 /**
@@ -23,19 +25,19 @@ export function amount(figure: number): string {
           _10k = Number(1e4),
           _1k = Number(1e3);
 
-    const rnd = (n: number, p: number, s=`${n}`) => s.slice(0, s[p-1] == '.' ? p+1 : p);
+    const fixed = (n: number) => n.toFixed(1);
 
     if (figure >= _1m){
-        return `${rnd(figure/_1m,3)}m`;
+        return `${fixed(figure/_1m)}m`;
     }
     else if (figure >= _100k) {
-        return `${rnd(figure/_1k,4)}k`;
+        return `${fixed(figure/_1k)}k`;
     }
     else if (figure >= _10k) {
-        return `${rnd(figure/_1k,4)}k`;
+        return `${fixed(figure/_1k)}k`;
     }
     else if (figure >= _1k) {
-        return `${rnd(figure/_1k,3)}k`;
+        return `${fixed(figure/_1k)}k`;
     }
     else {
         return `${figure}`;
@@ -43,7 +45,8 @@ export function amount(figure: number): string {
 }
 
 /**
- * convert string to camle case
+ * convert string to camel case
+ * 'user' -> 'User'
  * @param {string}
  */
 export const camel = (x: string) => x[0].toUpperCase() + x.slice(1);
@@ -68,7 +71,7 @@ export const random = (Arr: any[]): any => Arr[rand_int(0, Arr.length-1)];
  *
  * we store the memoized values in a global map
  *  so it doesnt get cleared when react router navigates
- *  to a different page/component, otherwise i could have used useMemo
+ *  to a different page/component, otherwise we could have used useMemo
  */
 W.__memoize_cache__ = new Map();
 export function memoize<T>(fn: ()=>T, ...deps: any[]) {
