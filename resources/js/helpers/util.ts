@@ -86,6 +86,42 @@ export function memoize<T>(fn: ()=>T, ...deps: any[]) {
     return val;
 }
 
+
+/**
+ * Post memoizer
+ *
+ * loop over a list of posts and store them in a hash
+ *
+ * @param {Post[]} posts array of posts to store
+ */
+W.__memoize_post__ = new Map<number, Post>();
+export function posts_store(posts: Post[]) {
+    posts.forEach(p => {
+        W.__memoize_post__.set(Number(p.post_id), p);
+    });
+}
+
+/**
+ * store single post
+ * @param {Post} post
+ */
+export function post_store(post: Post) {
+    W.__memoize_post__.set(post.post_id, post);
+}
+
+/**
+ * retrieve stored post if any
+ * @param {number} post_id  id of post, a key in the map
+ */
+export function post_get(post_id: number): Post|null {
+    post_id = Number(post_id);
+    return W.__memoize_post__.has(post_id)
+            ? W.__memoize_post__.get(post_id)
+            : null;
+}
+
+
+
 // /**
 //  * shuffle array
 //  * @param {any[]} array array to shuffle
@@ -100,35 +136,3 @@ export function memoize<T>(fn: ()=>T, ...deps: any[]) {
 // }
 
 
-/**
- * copies text to clipboard
- * @param {string} text [description]
- */
-export function copyText(text: string, callback: (copied: boolean)=>void) {
-    var textArea = document.createElement("textarea");
-    textArea.style.position = 'fixed';
-    textArea.style.top = '0';
-    textArea.style.left = '0';
-    textArea.style.width = '2em';
-    textArea.style.height = '2em';
-    textArea.style.padding = '0';
-    textArea.style.border = 'none';
-    textArea.style.outline = 'none';
-    textArea.style.boxShadow = 'none';
-    textArea.style.background = 'transparent';
-    textArea.value = text;
-
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-
-    try {
-        if (document.execCommand('copy')) {
-            callback(true);
-        }
-    } catch (err) {
-        callback(false);
-    }
-
-    document.body.removeChild(textArea);
-}

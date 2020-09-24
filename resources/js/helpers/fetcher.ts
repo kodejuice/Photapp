@@ -1,6 +1,9 @@
 import axios from 'axios';
 import nprogress from '../routes/nprogress';
 
+import {posts_store} from './util';
+import {Post} from '../components/Posts/props.d';
+
 /**
  * Returns meaningful errors? from server error response
  */
@@ -201,14 +204,32 @@ export async function fetchPost(post_id: number) {
 
 
 /**
- * fetch authenticated user settings from DB
+ * fetch list of {X} from DB, e.g notifications, followers, e.t.c...
+ * @param {string} url     API url
  */
-export async function fetchSettings() {
+export async function fetchListing(url) {
     let req;
     try {
-        req = await axios.get(`/api/user/settings`);
+        req = await axios.get(url);
 
-        if (req?.data?.user_id) {
+        if (req?.data instanceof Array) {
+            // check if its a post listing, then store them individually in a hash
+            // so when a user opens a post, we dont need to individually fetch the 
+            // post from the DB using `fetchPost` since each post object in a post listing
+            // is same as a single post object in the DB
+            const resp = req.data as Post[];
+            if (resp.length) {
+                const first = resp[0];
+                if (
+                    typeof first.post_url=='string'
+                    && typeof first.media_type=='string'
+                    && typeof first.like_count=='number'
+                ) {
+                    // ...
+                    posts_store(resp);
+                }
+            }
+
             return req.data;
         }
 
@@ -221,15 +242,14 @@ export async function fetchSettings() {
 
 
 /**
- * fetch list of {X} from DB, e.g posts, notifications, followers, e.t.c...
- * @param {string} url     API url
+ * fetch authenticated user settings from DB
  */
-export async function fetchListing(url) {
+export async function fetchSettings() {
     let req;
     try {
-        req = await axios.get(url);
+        req = await axios.get(`/api/user/settings`);
 
-        if (req?.data instanceof Array) {
+        if (req?.data?.user_id) {
             return req.data;
         }
 
