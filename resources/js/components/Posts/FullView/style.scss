@@ -115,6 +115,10 @@ $font-size: 0.8em;
                             border: none;
                             @include border-radius(100%);
 
+                            &.unfollow-button {
+                                display: none;
+                            }
+
                             div {
                                 font-size: 16px;
                                 margin: 0 auto;
