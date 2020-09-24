@@ -126,7 +126,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                             </div>
                             <div className='col col-6'>
                                 {/*comment button*/}
-                                <button> <Link to={`/post/${post.post_id}`}> <img src={`/icon/comment.svg`} /> </Link> </button>
+                                <button> <Link to={`/post/${post.post_id}#comments`}> <img src={`/icon/comment.svg`} /> </Link> </button>
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
 
                     {post.comment_count?
                         <div className='more'>
-                            <Link to={`/post/${post.post_id}`}>View all {amount(post.comment_count)} comment{post.comment_count>1?'s':''}</Link>
+                            <Link to={`/post/${post.post_id}#comments`}>View all {amount(post.comment_count)} comment{post.comment_count>1?'s':''}</Link>
                         </div>
                     : ""}
 

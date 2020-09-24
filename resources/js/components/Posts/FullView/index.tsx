@@ -89,7 +89,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         <div className='count'> {amount(post_likes)} </div>
                     </div>
                     <div className='comment-count _row'>
-                        <Link to={`/post/${post.post_id}`}>
+                        <Link to={`/post/${post.post_id}#comments`}>
                             <div className='icon'> {commentIcon} </div>
                             <div className='count'> {amount(post.comment_count)} </div>
                         </Link>
