@@ -1,5 +1,5 @@
 import showAlert from '../../Alert/showAlert';
-import {copyText} from '../../../helpers/util';
+import {copyText} from '../../../helpers/window';
 
 /**
  * helper functions for the post HomeView post component
