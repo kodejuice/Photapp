@@ -87,6 +87,9 @@
                     width: 25%;
                     max-width: 70px;
                 }
+                .save-btn {
+                    max-width: 40px;
+                }
 
                 &.post-info {
                     a {
@@ -118,6 +121,11 @@
         .card-post {
             img {
                 min-width: 100%;
+            }
+
+            &.comment-card {
+                padding-top: 10px;
+                background: #fff;
             }
         }
 
