@@ -9,10 +9,11 @@ import Header from '../../components/Header';
 import Spinner from '../../components/Spinner';
 import showAlert from '../../components/Alert/showAlert';
 
-import {post_get} from '../../helpers/util';
+import {post_get, camel} from '../../helpers/util';
 
 import Post from './Post';
-import "../styles/Post.scss";
+import PostInfo from './PostInfo';
+import "./style.scss";
 
 
 const PostPage: React.FC<Router.RouteComponentProps> = ({match})=>{
@@ -28,7 +29,7 @@ const PostPage: React.FC<Router.RouteComponentProps> = ({match})=>{
 
     return (
         <React.Fragment>
-            <Header page="/" header_title="Post" hide_icon={true} />
+            <Header page="/" header_title={headerTitle(post)} hide_icon={true} />
             {isLoading && <div style={{marginTop:'40px'}}><Spinner /></div>}
             <div className='post-page'>
 
@@ -41,7 +42,10 @@ const PostPage: React.FC<Router.RouteComponentProps> = ({match})=>{
                     </div>
 
                     <div className='post-data' id='comments'>
-                        {post && "post info"}
+                        {post && <PostInfo
+                            post={post}
+                            auth_user={auth_user}
+                        />}
                     </div>
                 </div>
 
@@ -50,6 +54,17 @@ const PostPage: React.FC<Router.RouteComponentProps> = ({match})=>{
     );
 }
 
+
+function headerTitle(post) {
+    if (!post || !post?.media_type) {
+        return "Post";
+    }
+    const media_types = JSON.parse(post.media_type);
+    if (media_types.length > 1) {
+        return "Post";
+    }
+    return camel(media_types[0] == 'image' ? 'photo' : media_types[0]);
+}
 
 
 /**
