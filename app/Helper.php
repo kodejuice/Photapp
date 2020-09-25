@@ -203,16 +203,16 @@ class Helper
         }
 
         $map = [
-            'post_like' => 0.01,      // 100 likes to get to 1   (from 0)
-            'post_dislike' => -0.02,  // 50 dislikes to get to 0 (from 1)
-            
-            'comment' => 0.02,   // 50 comments to get to 1 (from 0)
-            'uncomment' => -0.02,
+            'post_like' => 1.01,
+            'post_dislike' => -1.01,
 
-            'comment_like' => 0.001,
-            'comment_dislike' => -0.001,
+            'comment' => 1.02,
+            'uncomment' => -1.02,
 
-            'save' => 0.002,
+            'comment_like' => 1.001,
+            'comment_dislike' => -1.001,
+
+            'save' => 1.002,
         ];
 
         // if (!array_key_exists($action, $map))
