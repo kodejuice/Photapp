@@ -22,9 +22,6 @@ const addIcon = <svg viewBox="0 0 64 64" width="32px" height="32px"><path fill="
 
 const W = window as any;
 
-// AddComment component
-
-
 type CommentProps = {
     text: string,
     author: string,

@@ -6,12 +6,24 @@ import RepostButton from '../../components/RepostButton';
 import LazyDP from '../../components/LazyDP';
 
 import MediaViewer from '../../components/Posts/HomeView/MediaViewer';
-import {copyToClipboard, deletePost} from '../../components/Posts/HomeView/helper';
+import {deletePost, copyToClipboard} from '../../components/Posts/HomeView/helper';
+
+
+// TODO: edit caption
+
+const EditCaptionButton = ({caption, post})=>{
+    return (
+        <button disabled={caption.trim()==post.caption}> Submit </button>
+    );
+}
 
 
 export default function Post({post, auth_user}) {
     const dispatch = useDispatch();
     const {user, logged} = auth_user;
+    const [postCaption, setPostCaption] = useState(post.caption);
+
+    const isAuthor = logged && user.username == post.username;
 
     return (
         <div className="card">
@@ -25,12 +37,27 @@ export default function Post({post, auth_user}) {
                        ? <FollowButton user={post.username} unfollow={post.auth_user_follows} />
                        : <button onClick={()=>deletePost(post.post_id)} className='delete-post'> Delete post </button>
                    )}
+                   {isAuthor && <label htmlFor={`modal-edit_caption`}> Modify Caption </label>}
                    <button onClick={()=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
                    <RepostButton post_id={post.post_id} />
-                   <label htmlFor={`modal-post`}> Cancel </label>
+                   <label id='close' htmlFor={`modal-post`}> Cancel </label>
                </div>
             </div>
-           {/* </Post modal> */}
+            {/* </Post modal> */}
+
+
+            {/* <EditCaption modal> */}
+            <input className="modal-state" id={`modal-edit_caption`} type="checkbox"/>
+            <div className="modal">
+               <label className="modal-bg" htmlFor={`modal-edit_caption`}></label>
+               <div className="modal-body edit-caption">
+                   <input value={postCaption||""} onChange={e=>setPostCaption(e.target.value)} />
+                   <EditCaptionButton caption={postCaption} post={post} />
+                   <label htmlFor={`modal-edit_caption`} id='close'> Cancel </label>
+               </div>
+            </div>
+            {/* </EditCaption modal> */}
+
 
            <div className="card-header">
                <div className='row post-info'>
