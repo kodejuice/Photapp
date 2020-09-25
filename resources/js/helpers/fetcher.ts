@@ -223,7 +223,6 @@ export async function fetchListing(url) {
                 if (
                     typeof first.post_url=='string'
                     && typeof first.media_type=='string'
-                    && typeof first.like_count=='number'
                 ) {
                     // ...
                     posts_store(resp);

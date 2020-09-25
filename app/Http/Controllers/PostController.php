@@ -308,7 +308,7 @@ class PostController extends Controller
                             $join->on('users.id', '=', 'comments.user_id')
                                 ->where('comments.post_id', '=', $post->post_id);
                         })
-                        ->select('users.id', '.username', '.post_id', '.message', '.comment_id', '.likes', '.followers', 'comments.created_at')
+                        ->select('users.id', '.username', '.profile_pic', '.post_id', '.message', '.comment_id', '.likes', 'comments.created_at')
                         ->orderByDesc('.likes')
                         ->limit($limit)
                         ->offset($offset)

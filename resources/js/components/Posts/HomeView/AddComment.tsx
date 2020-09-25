@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {submitComment} from './helper';
 
 /**
- * component for adding comments to
- *  posts displayed in the home page
+ * component for adding comment to
+ *  a post
  */
 
 const AddComment: React.FC<{post_id: number}> = ({post_id})=>{
