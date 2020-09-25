@@ -33,11 +33,11 @@ export default function PostInfo({post, auth_user}) {
                         </button>
                     </div>
                     <div className='col-fill'></div>
-                    <div className='save-btn'>
+                    {logged && <div className='save-btn'>
                         <button onClick={()=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved), post)}>
                             <img src={`/icon/bookmark${postSaved?'.png':'-blank.svg'}`} />
                         </button>
-                    </div>
+                    </div>}
                 </div>
                 <div className='row act'>
                     <div className='col-likes'>
@@ -46,11 +46,9 @@ export default function PostInfo({post, auth_user}) {
                 </div>
             </div>
 
-           <div className="card-post comment-card">
-               <div className='comments'>
-                   <Comments post={post} post_id={post.post_id} />
-               </div>
-           </div>
+            <div className="card-post comment-card">
+                <Comments post={post} post_id={post.post_id} />
+            </div>
 
         </div>
     );

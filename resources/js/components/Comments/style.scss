@@ -1,0 +1,160 @@
+@import '../../../sass/variables';
+
+@media screen and (min-width: 1000px) {
+    .scroll-par {
+        height: 550px !important;
+    }
+}
+@media screen and (max-width: 735px) {
+    .scroll-par {
+        height: 200px !important;
+    }
+}
+
+.comments {
+    height: 100%;
+    overflow: hidden;
+
+    .add-comment {
+        margin-bottom: 2px;
+
+        .col-fill {
+            flex: 0 0 70%;
+            max-width: 70%;
+            width: 70%;
+        }
+        .col-1 {
+            flex: 0 0 29%;
+            max-width: 29%;
+            width: 29%;
+        }
+
+        input, button {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            @include border-radius(4px);
+            border: 1px solid #dbdbdb;
+            font-size: 0.8em;
+        }
+        input {
+            margin-left: 2px;
+            padding: 6px 9px;
+        }
+        button {
+            // transform: none;
+            border: none;
+            color: #64A3CC;
+            padding: 5.9px;
+            box-shadow: none;
+
+            &[disabled] {
+                cursor: pointer !important;
+            }
+        }
+    }
+
+    .scroll-par {
+        overflow: hidden;
+        height: 300px;
+        .scrolling-list {
+            height: 100%;
+            overflow-y: scroll;
+
+            #load-more {
+                width: 100%;
+                button {
+                    width: 32px;
+                    height: 32px;
+                    margin: 0 auto;
+                    display: block;
+                    padding: 0;
+                    border: none;
+                }
+            }
+
+            ////////////////////
+            // hide scrollbar //
+            ////////////////////
+            /* Maximum width of scrollbar -> 50px */
+            margin-right: -50px;
+            padding-right: 50px; /* <- Cross browser */
+            scrollbar-width: none; /* <- Firefox */
+            -ms-overflow-style: none;  /* <- Internet Explorer 10+ */
+            &::-webkit-scrollbar { /* <- WebKit */
+                width: 0;
+                height: 0;
+            }
+        }
+        p#comment-count {
+            color: #868E96;
+            font-size: 0.75em;
+            margin-left: 10px;
+            margin-top: 5px;
+        }
+    }
+
+    .caption {
+        ._border {
+            width: 92%;
+            margin: 0 auto;
+            border-bottom: 0.5px solid #dbdbdb;
+        }
+    }
+
+    .row.comment {
+        margin: 12px 0 !important;
+        font-size: 0.7em;
+
+        div.dp {
+            max-width: 60px;
+            img {
+                min-width: unset;
+                width: 40px;
+                height: 40px;
+                margin: 0 auto;
+                @include border-radius(100%);
+            }
+        }
+
+        .comment-text {
+            span.user {
+                a {
+                    font-weight: 600;
+                    color: #262626;
+                    text-overflow: ellipsis;
+                }
+            }
+
+            span.comment {
+                a {
+                    color: #07439D;
+                }
+                span.hw {
+                    color: #868E96;
+                    font-size: 0.9em;
+                }
+            }
+        }
+
+        .action-button {
+            button {
+                padding: 0;
+                margin: 0 auto;
+                border: none;
+                width: 17px;
+                height: 17px;
+                box-shadow: none;
+                transform: none;
+                margin-right: 4px;
+                margin-top: 50%;
+
+                img, svg {
+                    min-width: unset;
+                    width: 15px;
+                    height: 15px;
+                }
+            }
+        }
+    }
+}
