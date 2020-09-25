@@ -121,6 +121,27 @@ export function post_get(post_id: number): Post|null {
 }
 
 
+/**
+ * merge two array of objects together
+ *  discarding duplicates
+ * @param  {string}    uid              unique prop of each object (used to discard duplicates)
+ * @param  {Post[]} all_data         original array
+ * @param  {Post[]} new_data         array to merge with
+ */
+export function merge_objects(uid: string, all_data: any[], new_data: any[]) {
+    if (!new_data) return;
+    if (new_data[0] && !(uid in new_data[0])) return;
+    const ids = new Set(all_data.map(o => o[uid]));
+
+    for (let p of new_data) {
+        if (!ids.has(p[uid])) {
+            all_data.push(p);
+        }
+    }
+}
+
+
+
 
 // /**
 //  * shuffle array

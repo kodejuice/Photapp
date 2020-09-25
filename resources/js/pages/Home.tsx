@@ -18,6 +18,8 @@ import Suggestions from '../components/Suggestions';
 import Header from '../components/Header';
 import Spinner from '../components/Spinner';
 
+import {merge_objects} from '../helpers/util';
+
 let ALL_POST: any[] = [];
 const POST_PER_PAGE = 50;
 
@@ -50,7 +52,7 @@ const Home: React.FC<{}> = ()=>{
         }
     }
 
-    mergePosts(ALL_POST, data);
+    merge_objects('post_id', ALL_POST, data);
 
     return (
         <React.Fragment>
@@ -128,24 +130,6 @@ const Home: React.FC<{}> = ()=>{
             </div>
         </React.Fragment>
     );
-}
-
-
-/**
- * merge two array of posts together
- *  discarding duplicates
- * @param  {Post[]} all_posts         original post
- * @param  {Post[]} new_posts         post to merge with
- */
-function mergePosts(all_posts: any[], new_posts: any[]) {
-    if (!new_posts) return;
-    const ids = new Set(all_posts.map(o => o.post_id));
-
-    for (let p of new_posts) {
-        if (!ids.has(p.post_id)) {
-            all_posts.push(p);
-        }
-    }
 }
 
 
