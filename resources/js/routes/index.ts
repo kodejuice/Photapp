@@ -27,6 +27,10 @@ const route_map = {
         path: '/register',
         component: Register,
     },
+    'people': {
+        path: '/explore/people',
+        component: People,
+    },
     'explore': {
         path: ['/explore/search/:query','/explore/search/'],
         component: Search,
@@ -38,10 +42,6 @@ const route_map = {
     'search': {
         path: '/explore',
         component: Explore,
-    },
-    'people': {
-        path: '/explore/people',
-        component: People,
     },
     'accounts': {
         path: '/accounts/edit/:page',
@@ -64,8 +64,8 @@ const routes = (path)=>{
     if (path != '/')
         home.component = route_map[path].component;
 
-    route_list.unshift(home);
-    route_list.push(_404 as any);
+    route_list.unshift(home);     // first
+    route_list.push(_404 as any); // last
 
     return route_list;
 };
