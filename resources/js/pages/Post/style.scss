@@ -1,33 +1,28 @@
 @import '../../../sass/variables';
 
+// page
 @media screen and (min-width: 601px) {
     .post-page {
         margin-bottom: 50px !important;
     }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 735px) {
     .post-page {
         flex: 0 0 100%;
         max-width: 100%;
         margin-bottom: 50px;
     }
 }
-@media screen and (min-width: 601px) and (max-width: 999px) {
+@media screen and (min-width: 736px) {
     .post-page {
+        width: calc(100% - 40px);
         margin: 0 auto;
-        flex: 0 0 600px;
-        width: 600px;
-        max-width: 600px;
-    }
-}
-@media screen and (min-width: 1000px) {
-    .post-page {
-        width: 935px;
-        margin: 0 auto;
-        flex: 0 0 935px;
-        max-width: 935px;
+        flex: 0 0 calc(100% - 40px);
+        max-width: 872px;
     }    
 }
+
+// columns
 @media screen and (max-width: 735px) {
     .post-media {
         flex: 0 0 100%;
@@ -46,14 +41,14 @@
         padding: 24px 0 0;
     }
     .post-media {
-        flex: 0 0 70%;
-        width: 70%;
-        max-width: 70%;
+        flex: 0 0 62%;
+        width: 62%;
+        max-width: 62%;
     }
     .post-data {
-        flex: 0 0 29%;
-        width: 29%;
-        max-width: 29%;
+        flex: 0 0 38%;
+        width: 38%;
+        max-width: 335px;
     }
 }
 

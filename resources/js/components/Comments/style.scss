@@ -2,12 +2,12 @@
 
 @media screen and (min-width: 1000px) {
     .scroll-par {
-        height: 550px !important;
+        height: 350px !important;
     }
 }
 @media screen and (max-width: 735px) {
     .scroll-par {
-        height: 200px !important;
+        height: 250px !important;
     }
 }
 
@@ -16,9 +16,12 @@
     overflow: hidden;
 
     .add-comment {
-        border-top: 1px solid #dbdbdb;
+        width: 100%;
         padding-top: 2px;
         margin-bottom: 2px;
+        border-top: 1px solid #dbdbdb;
+        border-bottom: 1px solid #dbdbdb;
+        background: #fff;
 
         .col-fill {
             flex: 0 0 70%;
@@ -55,24 +58,31 @@
         }
     }
 
+    #load-more {
+        width: 100%;
+        height: 40px;
+        button {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            display: block;
+            padding: 0;
+            border: none;
+            transform: none;
+            img {
+                min-width: unset;
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+
     .scroll-par {
         overflow: hidden;
         height: 300px;
         .scrolling-list {
             height: 100%;
             overflow-y: scroll;
-
-            #load-more {
-                width: 100%;
-                button {
-                    width: 32px;
-                    height: 32px;
-                    margin: 0 auto;
-                    display: block;
-                    padding: 0;
-                    border: none;
-                }
-            }
 
             ////////////////////
             // hide scrollbar //
