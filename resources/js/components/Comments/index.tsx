@@ -42,6 +42,7 @@ type DeleteButtonProps = {
 type LikeButtonProps = {
     comment_id: number,
     dislike: boolean,
+    setCommentLiked: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 /**
@@ -49,19 +50,21 @@ type LikeButtonProps = {
  * @param  {number} comment_id
  * @param  {boolean} dislike
  */
-const LikeButton: React.FC<LikeButtonProps> = ({comment_id, dislike})=>{
-    const [commentLikes, setLikeComment] = useState(!dislike);
+const LikeButton: React.FC<LikeButtonProps> = ({comment_id, dislike, setCommentLiked})=>{
+    const [buttonInActive, activateButton] = useState(!dislike);
 
     const likeComment = ()=>{
-        const like = commentLikes;
-        setLikeComment(!like);
+        const liked = buttonInActive;
+        activateButton(!liked);
+        setCommentLiked(liked);
+
         // TODO: like comment
     };
 
     return (
         <div className='action-button'>
             <button onClick={likeComment}>
-                {commentLikes ? heartIcon_blank : heartIcon}
+                {buttonInActive ? heartIcon_blank : heartIcon}
             </button>
         </div>
     );
@@ -94,11 +97,20 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({comment_id, showComment})=>{
 
 
 const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id, auth_user_likes, profile_pic, how_long})=>{
+    likes = likes||0;
     const {user, logged} = authUser();
     const [commentShown, showThisComment] = useState(true);
 
     const isAuthor = logged && user.username == author;
     const authUserLikes = !!(logged && comment_id && auth_user_likes);
+
+    const [commentLiked, setCommentLiked] = useState(authUserLikes);
+    const post_likes = authUserLikes && !commentLiked
+        ? likes-1
+        : (authUserLikes
+            ? likes
+            : likes + Number(commentLiked)
+        );
 
     const comment: string = text;
     const message_limit = 100;
@@ -136,12 +148,12 @@ const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id,
                     </span>
                     <div className='comment-info'>
                         <span className='hw'>{how_long}</span>
-                        {comment_id && <span className='hw bold'>{likes} likes</span>}
+                        {comment_id && <span className='hw bold'>{post_likes} likes</span>}
                     </div>
                 </div>
                 {isAuthor && comment_id
                     ? <DeleteButton showComment={showThisComment} comment_id={comment_id} />
-                    : comment_id && <LikeButton comment_id={comment_id} dislike={authUserLikes} />
+                    : comment_id && <LikeButton setCommentLiked={setCommentLiked} comment_id={comment_id} dislike={commentLiked} />
                 }
             </div>}
         </React.Fragment>
