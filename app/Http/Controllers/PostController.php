@@ -309,7 +309,7 @@ class PostController extends Controller
                                 ->where('comments.post_id', '=', $post->post_id);
                         })
                         ->select('users.id', '.username', '.profile_pic', '.post_id', '.message', '.comment_id', '.likes', 'comments.created_at')
-                        ->orderByDesc('.likes')
+                        ->orderByDesc('comments.created_at')
                         // ->limit($limit)
                         // ->offset($offset)
                         ->where('.comment_id', '<', $limit)
