@@ -59,7 +59,7 @@ const TileItem: React.FC<{post:Post}> = ({post})=>{
                         </div>
                         {media_type=='video' && previewImage==null && <video
                             ref={videoRef}
-                            src={post_url}
+                            src={`/api/dl?url=${post_url}`}
                             onLoadedData={()=>{
                                 setPreviewImage(
                                     getVideoThumnail(videoRef.current as HTMLVideoElement)

@@ -86,15 +86,17 @@ const GridItem: React.FC<{photo: Media, index: number}> = ({photo, index})=>{
                         </div>
                     </div>
                 </div>
-                {photo.media_type=='video' && previewImage==null && <video
-                    ref={videoRef}
-                    src={photo.post_url}
-                    onLoadedData={()=>{
-                        setPreviewImage(
-                            getVideoThumnail(videoRef.current as HTMLVideoElement)
-                        )
-                    }}
-                />}
+                {photo.media_type=='video' && previewImage==null && (
+                    <video
+                        ref={videoRef}
+                        src={`/api/dl?url=${photo.post_url}`}
+                        onLoadedData={()=>{
+                            console.log(photo.post_url)
+                            setPreviewImage(
+                                getVideoThumnail(videoRef.current as HTMLVideoElement)
+                            )
+                        }} />
+                )}
                 <img className="grid__img" src={`${previewImage}`} />
             </Link>
         </figure>

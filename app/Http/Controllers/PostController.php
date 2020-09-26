@@ -448,4 +448,32 @@ sql;
                 ->first();
         return $L ? 1 : 0;
     }
+
+
+    /**
+     * download a file via url
+     */
+    public function download(Request $request) {
+        $url = $request->input("url");
+
+        // TODO: uncomment this
+        // downloaded files should never exceed 5MB
+        // $head = array_change_key_case(get_headers($url, 1));
+        // $bytes = isset($head['content-length']) ? $head['content-length'] : 0;
+        // if ($bytes > 5242880) { // 5MB
+        //     return;
+        // }
+
+        return $this->curl_get_contents($url);
+    }
+
+    private function curl_get_contents($url) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
 }

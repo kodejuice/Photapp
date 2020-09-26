@@ -47,6 +47,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/user/{username}/followers', 'UserController@getUserFollowers')->name('user.followers');
     Route::get('/user/{username}/following', 'UserController@getUserFollowing')->name('user.following');
 
+    // ...
+    Route::get('/dl', 'PostController@download');
+
     // protected routes
     Route::middleware('auth:api', 'throttle:60,1')->group(function () {
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
