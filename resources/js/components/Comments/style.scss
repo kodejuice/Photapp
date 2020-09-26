@@ -131,9 +131,15 @@
                 a {
                     color: #07439D;
                 }
+            }
+
+            div.comment-info {
                 span.hw {
                     color: #868E96;
                     font-size: 0.9em;
+                    display: inline-block;
+                    margin-right: 5px;
+                    &.bold{font-weight: 600;}
                 }
             }
         }
