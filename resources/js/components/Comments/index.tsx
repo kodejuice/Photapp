@@ -83,7 +83,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({comment_id, showComment})=>{
     return (
         <div className='action-button'>
             <button onClick={deleteComment}>
-                d
+                {deleteIcon}
             </button>
         </div>
     );
