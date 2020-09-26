@@ -301,7 +301,7 @@ class PostController extends Controller
         }
 
         $limit = $request->input('limit', 50);
-        $offset = $request->input('offset', 0);
+        // $offset = $request->input('offset', 0);
 
         $comments = DB::table('users')
                         ->join('comments', function ($join) use ($post) {
@@ -310,8 +310,9 @@ class PostController extends Controller
                         })
                         ->select('users.id', '.username', '.profile_pic', '.post_id', '.message', '.comment_id', '.likes', 'comments.created_at')
                         ->orderByDesc('.likes')
-                        ->limit($limit)
-                        ->offset($offset)
+                        // ->limit($limit)
+                        // ->offset($offset)
+                        ->where('.comment_id', '<', $limit)
                         ->get();
 
         $auth_user = $request->user();
