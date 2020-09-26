@@ -36,7 +36,9 @@ const EditProfile: React.FC<Router.RouteComponentProps> = ({match})=>{
         return (
             <React.Fragment>
                 <Header page='profile' hide_icon={true} header_title={title}/>
-                {components[page]}
+                <div className='edit-profile-page'>
+                    {components[page]}
+                </div>
             </React.Fragment>
         );
     }

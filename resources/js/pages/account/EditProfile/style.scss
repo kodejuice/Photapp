@@ -1,9 +1,11 @@
 @import '../../../../sass/variables';
 
 @media screen and (max-width: 385px) {
-    .fields .field-value {
-        input[type=text], input[type=email], input[type=password], textarea {
-            max-width: 88% !important;
+    .edit-profile-page {
+        .fields .field-value {
+            input[type=text], input[type=email], input[type=password], textarea {
+                max-width: 88% !important;
+            }
         }
     }
 }
@@ -11,31 +13,33 @@
     .page-wrapper {margin: 1px auto !important;}
 }
 @media screen and (max-width: 735px) {
-    .page-wrapper .nav {display: none;}
-    .fields {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 20px !important;
-        .field-name, .field-value {
-            flex: 0 0 100%;
-            max-width: 100%;
+    .edit-profile-page {
+        .page-wrapper .nav {display: none;}
+        .fields {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 20px !important;
+            .field-name, .field-value {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
         }
-    }
-    .head-field {
-        margin-left: 0 !important;
-        .head-field-name {
-            flex: 0 0 70px !important;
-            max-width: 70px !important;
-            padding-left: 4% !important;
+        .head-field {
+            margin-left: 0 !important;
+            .head-field-name {
+                flex: 0 0 70px !important;
+                max-width: 70px !important;
+                padding-left: 4% !important;
+            }
+            .head-field-value {
+                flex: 0 0 181.203px !important;
+                max-width: 181.203px !important;
+            }
         }
-        .head-field-value {
-            flex: 0 0 181.203px !important;
-            max-width: 181.203px !important;
+        .change-pass input[type=text], input[type=email], input[type=password] {
+            width: 88% !important;
+            max-width: 88% !important;
         }
-    }
-    .change-pass input[type=text], input[type=email], input[type=password] {
-        width: 88% !important;
-        max-width: 88% !important;
     }
 }
 @media screen and (min-width: 736px) {
