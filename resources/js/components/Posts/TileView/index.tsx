@@ -42,7 +42,7 @@ const TileItem: React.FC<{post:Post}> = ({post})=>{
 
     return (
         <React.Fragment>
-            <div className='post-wrap'>
+            <div className='post-wrap' onClick={()=>window.scrollTo(0,0)}>
                 <Link to={`/post/${post.post_id}`}>
                     {(media_type=='video' || multiple) && (
                         <div className='media-info' role='media-info'> {media_type=='video' ? VideoIcon : multiplePhotoIcon} </div>
