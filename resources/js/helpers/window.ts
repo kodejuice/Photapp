@@ -53,7 +53,7 @@ export function thumbnailFromCache(key: string): string|null {
  */
 export function watchVideoFocus() {
     const checkScroll = ()=>{
-        const videos: NodeListOf<HTMLVideoElement> = document.querySelectorAll(`.card video`);
+        const videos: NodeListOf<HTMLVideoElement> = document.querySelectorAll(`video`);
 
         for(let i = 0; i < videos.length; i++) {
             let video = videos[i];
