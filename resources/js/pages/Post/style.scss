@@ -170,6 +170,34 @@
     }
 
 
+    ////////////////
+    // More Posts //
+    ////////////////
+    .row.more-posts {
+        padding-top: 6vh;
+        margin-top: 48px;
+        border-top: 1px solid rgba(var(--b38,219,219,219),1);
+
+        .title {
+            color: #8e8e8e;
+            line-height: 18px;
+            // font-size: 0.8em;
+            font-size: 14px;
+            margin: -3px 0 -4px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            a {
+                font-size: inherit;
+                color: #262626;
+            }
+        }
+
+        .tile-view {
+            width: 100%;
+        }
+    }
+
+
     ///////////
     // Modal //
     ///////////

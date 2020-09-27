@@ -12,6 +12,7 @@ import showAlert from '../../components/Alert/showAlert';
 import {post_get, camel} from '../../helpers/util';
 
 import Post from './Post';
+import MorePosts from './MorePosts';
 import PostInfo from './PostInfo';
 import "./style.scss";
 
@@ -48,6 +49,10 @@ const PostPage: React.FC<Router.RouteComponentProps> = ({match})=>{
                         />}
                     </div>
                 </div>
+
+                {post && <div className='row more-posts'>
+                    <MorePosts user={post.username} exclude={post.post_id} />
+                </div>}
 
             </div>
         </React.Fragment>
