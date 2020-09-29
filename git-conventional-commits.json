@@ -11,7 +11,8 @@
       "ops",
       "docs",
       "merge",
-      "revert"
+      "revert",
+      "todo"
     ],
     "commitScopes": [],
     "releaseTagGlobPattern": "v[0-9]*.[0-9]*.[0-9]*",
@@ -24,11 +25,11 @@
       "fix",
       "perf",
       "merge",
-      "todo",
+      "todo"
     ],
     "commitIgnoreRegexPattern": "^WIP ",
     "headlines": {
-      "todo": "Todos"
+      "todo": "Todos",
       "feat": "Features",
       "fix": "Bug Fixes",
       "perf": "Performance Improvements",

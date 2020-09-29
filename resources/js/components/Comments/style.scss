@@ -84,18 +84,7 @@
             height: 100%;
             overflow-y: scroll;
 
-            ////////////////////
-            // hide scrollbar //
-            ////////////////////
-            /* Maximum width of scrollbar -> 50px */
-            margin-right: -50px;
-            padding-right: 50px; /* <- Cross browser */
-            scrollbar-width: none; /* <- Firefox */
-            -ms-overflow-style: none;  /* <- Internet Explorer 10+ */
-            &::-webkit-scrollbar { /* <- WebKit */
-                width: 0;
-                height: 0;
-            }
+            @include hide-scrollbar();
         }
         p#comment-count {
             color: #868E96;
