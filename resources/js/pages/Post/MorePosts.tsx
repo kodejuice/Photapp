@@ -6,7 +6,11 @@ import Posts from '../../components/Posts';
 import {fetchListing} from '../../helpers/fetcher';
 
 export default function MorePosts({exclude, user}) {
-    const {posts, isLoading} = usePosts({exclude, user});
+    let {posts, isLoading} = usePosts({exclude, user});
+    if (posts?.errors) {
+        posts = null;
+    }
+
     return (
         <React.Fragment>
             {posts && posts.length>0 && (
