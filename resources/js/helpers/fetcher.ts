@@ -282,3 +282,32 @@ export async function deleteNotification(id: number) {
     axios.delete(`/api/user/notification/${id}`);
 }
 
+
+////////////
+// User DP /
+////////////
+
+/**
+ * uploads user DP
+ * @param {React.FormEvent<HTMLInputElement>}                        ev [description]
+ * @param {React.Dispatch<React.SetStateAction<boolean>> |  null}    setDPLoading [description]
+ */
+export function uploadUserDP(ev: React.FormEvent<HTMLInputElement>, setDPLoading: React.Dispatch<React.SetStateAction<boolean>> | null) {
+    ev.stopPropagation();
+    ev.preventDefault();
+
+    let file = ((ev.target as HTMLInputElement).files as FileList)[0];
+
+    if (file.size > 10 * 1024 * 1024) { // > 10MB
+        return alert("Image too large (max 10MB)");
+    }
+
+    let form = new FormData();
+    form.append('image', file);
+
+    // TODO: axios.post('/user/dp', form);
+
+    if (setDPLoading) {
+        setDPLoading(true);
+    }
+}

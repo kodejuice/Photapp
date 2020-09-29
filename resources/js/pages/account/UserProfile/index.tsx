@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import Router, {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import useSWR from '../../../helpers/swr';
-import {fetchUser, fetchListing} from '../../../helpers/fetcher';
+import {fetchUser, fetchListing, uploadUserDP} from '../../../helpers/fetcher';
 import {limit, amount} from '../../../helpers/util';
 import showAlert from '../../../components/Alert/showAlert';
 import authUser from '../../../state/auth_user';
@@ -231,31 +231,11 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                     </React.Fragment>
                 )}
 
-                <input hidden accept='image/*' name="image" type='file' ref={inputFile} onChange={uploadUserDP} />
+                <input hidden accept='image/*' name="image" type='file' ref={inputFile} onChange={e=>uploadUserDP(e,null)} />
             </div>
         </React.Fragment>
     );
 };
-
-
-/**
- * uploads user DP
- */
-function uploadUserDP(ev: React.FormEvent<HTMLInputElement>) {
-    ev.stopPropagation();
-    ev.preventDefault();
-
-    let file = ((ev.target as HTMLInputElement).files as FileList)[0];
-
-    if (file.size > 4194304) { // > 4MB
-        return alert("Image too large (max 4MB)");
-    }
-
-    let form = new FormData();
-    form.append('image', file);
-
-    // TODO: axios.post('/user/dp', form);
-}
 
 
 /**
