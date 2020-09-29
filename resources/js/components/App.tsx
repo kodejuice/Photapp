@@ -5,6 +5,7 @@ import {sign_in, set_user} from '../state/actions';
 import {checkLoginStatus} from '../helpers/fetcher';
 import authUser from '../state/auth_user';
 
+import AddPostModal from '../components/AddPost';
 import ProgressRoute from '../routes/ProgressRoute';
 
 import routes from '../routes';
@@ -12,7 +13,6 @@ import Splash from '../components/Splash';
 
 
 const App: React.FC<{path?:string}> = ({path})=>{
-    path = path || '/';
     const [mounted, setMounted] = useState(false);
     const dispatch = useDispatch();
     const logged_in = authUser().logged;
@@ -42,8 +42,10 @@ const App: React.FC<{path?:string}> = ({path})=>{
         :
         (
             <main role={logged_in ? "app-logged" : "app-guest"}>
+                <AddPostModal />
+
                 <Switch>
-                    {routes(path).map((prop, i)=>
+                    {routes(path || '/').map((prop, i)=>
                         <ProgressRoute key={i} {...prop} />
                     )}
                 </Switch>

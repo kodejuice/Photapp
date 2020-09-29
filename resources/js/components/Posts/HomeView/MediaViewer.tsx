@@ -75,7 +75,7 @@ const PhotoViewer: React.FC<{url:string}> = ({url})=>{
  * Video player component
  * @param  {string} url [description]
  */
-const VideoViewer: React.FC<{url:string}> = ({url})=>{
+export const VideoViewer: React.FC<{url:string}> = ({url})=>{
     const [playerLoaded, showPlayer] = useState(false);
     const [isPlaying, setPlaying] = useState(false);
 

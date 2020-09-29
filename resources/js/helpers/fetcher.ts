@@ -283,20 +283,22 @@ export async function deleteNotification(id: number) {
 }
 
 
-////////////
-// User DP /
-////////////
+/////////////////
+// User Upload /
+////////////////
 
 /**
- * uploads user DP
+ * Uploads user DP
+ * 
  * @param {React.FormEvent<HTMLInputElement>}                        ev [description]
- * @param {React.Dispatch<React.SetStateAction<boolean>> |  null}    setDPLoading [description]
+ * @param {React.Dispatch<React.SetStateAction<boolean>> |  null}    setLoading [description]
  */
-export function uploadUserDP(ev: React.FormEvent<HTMLInputElement>, setDPLoading: React.Dispatch<React.SetStateAction<boolean>> | null) {
+export async function uploadUserDP(ev: React.FormEvent<HTMLInputElement>, setLoading: React.Dispatch<React.SetStateAction<boolean>> | null) {
     ev.stopPropagation();
     ev.preventDefault();
 
     let file = ((ev.target as HTMLInputElement).files as FileList)[0];
+    if (!file.size) return;
 
     if (file.size > 10 * 1024 * 1024) { // > 10MB
         return alert("Image too large (max 10MB)");
@@ -307,7 +309,35 @@ export function uploadUserDP(ev: React.FormEvent<HTMLInputElement>, setDPLoading
 
     // TODO: axios.post('/user/dp', form);
 
-    if (setDPLoading) {
-        setDPLoading(true);
+    if (setLoading) {
+        setLoading(true);
     }
 }
+
+
+/**
+ * Uploads user post.
+ *
+ * @param      {File}    posts    The posts
+ * @param      {string}  caption  The caption
+ */
+export async function uploadUserPost(posts: File[], caption: string) {
+    nprogress.start();
+
+    let form = new FormData();
+    posts.forEach(file => {
+        form.append('files[]', file);
+    });
+
+    let req;
+    try {
+
+        return {message: ""};
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+

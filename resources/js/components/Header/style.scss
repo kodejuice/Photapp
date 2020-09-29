@@ -50,6 +50,11 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
             height: $header_height;
             margin: 0 auto;
 
+            label {
+                display: block;
+                cursor: pointer;
+            }
+
             img {
                 border: none;
                 width: 30px;
@@ -79,6 +84,11 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
 
         .btn {
             height: $footer_height;
+
+            label {
+                display: block;
+                cursor: pointer;
+            }
         }
 
         .row.btns {
@@ -226,6 +236,11 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
             position: fixed;
             bottom: 50px;
             right: 50px;
+
+            label {
+                display: block;
+                cursor: pointer;
+            }
 
             img {
                 cursor: pointer;

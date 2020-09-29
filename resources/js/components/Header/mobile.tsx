@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import {useSelector} from 'react-redux';
 import authUser from '../../state/auth_user';
+import {openFileDialog} from '../../components/AddPost/helper';
 import {limit} from '../../helpers/util';
 
 type HeaderProps = {
@@ -27,7 +28,9 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
                 <nav className="header border">
                     {!hide_icon?(
                         <div className="photo-btn">
-                            <img src="/favicon/favicon.ico"/>
+                            <label htmlFor="modal-addpost">
+                                <img src="/favicon/favicon.ico"/>
+                            </label>
                         </div>)
                     :(
                         <div className="photo-btn">
@@ -50,7 +53,9 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
                         <Link to="/explore"> <img src={searchIcon}/> </Link>
                     </div>
                     <div className="col col-fill btn" id={`curr-${current_page=='add'}`}>
-                        <img src={addIcon}/>
+                        <label htmlFor='modal-addpost' onClick={()=>openFileDialog()}>
+                            <img src={addIcon}/>
+                        </label>
                     </div>
                     <div className="col col-fill btn" id={`curr-${current_page=='activity'}`}>
                         <Link to={user?.id ? "/activity": "/login"}> <img src={heartIcon}/> </Link>

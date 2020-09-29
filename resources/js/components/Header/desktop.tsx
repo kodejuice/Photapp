@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import { useHistory, Link } from "react-router-dom";
 
+import {openFileDialog} from '../../components/AddPost/helper';
 import {logUserOut} from '../../helpers/fetcher';
 import authUser from '../../state/auth_user';
 
@@ -76,7 +77,9 @@ const Header: React.FC<{}> = ()=>{
 
                 {/*floating button*/}
                 <div className="floating-btn add">
-                    <img src="/icon/add.svg"/>
+                    <label htmlFor='modal-addpost' onClick={()=>openFileDialog()}>
+                        <img src="/icon/add.svg"/>
+                    </label>
                 </div>
             </nav>
             <div style={{height: '54px'}}></div>
