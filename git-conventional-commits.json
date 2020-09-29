@@ -23,10 +23,12 @@
       "feat",
       "fix",
       "perf",
-      "merge"
+      "merge",
+      "todo",
     ],
     "commitIgnoreRegexPattern": "^WIP ",
     "headlines": {
+      "todo": "Todos"
       "feat": "Features",
       "fix": "Bug Fixes",
       "perf": "Performance Improvements",
