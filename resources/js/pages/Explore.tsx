@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -37,6 +37,8 @@ const UserFeed: React.FC<{}> = ()=>{
     return (
         <React.Fragment>
             {isLoading && offset==0 && <Spinner type='list' />}
+
+            {data && ALL_POST.length == 0 && <p id='explore-msg'> Nothing here, <Link to="/explore/people">follow more people</Link> </p>}
 
             {ALL_POST.length > 0 && (
                 <div className='grid-container' role='grid-container'>
