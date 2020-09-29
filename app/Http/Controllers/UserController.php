@@ -72,8 +72,10 @@ class UserController extends Controller
     public function updateDP(Request $request)
     {
         $this->validate($request, [
-          'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+          'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ]);
+
+        // TODO: move DP to cloud
 
         $user = $request->user();
 

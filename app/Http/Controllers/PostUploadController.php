@@ -23,6 +23,8 @@ class PostUploadController extends Controller
      */
     public function fileUpload(Request $request)
     {
+        // TODO: max photo size-> 30720 (30MB)
+        // TODO: max video size-> 10240 (10MB)
         $this->validate($request, [
           'files' => 'required|max:5120',
           'files.*' => 'mimes:png,jpeg,jpg,bmp,svg,jfif,pjp,mp4,webm,3gp',
