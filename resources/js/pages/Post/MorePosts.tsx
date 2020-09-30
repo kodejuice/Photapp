@@ -14,7 +14,7 @@ export default function MorePosts({exclude, user}) {
     return (
         <React.Fragment>
             {posts && posts.length>0 && (
-                <div className='title'>
+                <div className='title' role='more-posts-title'>
                     More posts from <Link to={`/user/${user}`}>{user}</Link>
                 </div>
             )}

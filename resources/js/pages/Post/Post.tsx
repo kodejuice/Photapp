@@ -26,7 +26,7 @@ export default function Post({post, auth_user}) {
     const isAuthor = logged && user.username == post.username;
 
     return (
-        <div className="card">
+        <div className="card" role="post-card">
 
             {/* <Post modal> */}
             <input className="modal-state" id={`modal-post`} type="checkbox"/>
@@ -61,7 +61,7 @@ export default function Post({post, auth_user}) {
 
            <div className="card-header">
                <div className='row post-info'>
-                   <div className='col col-1'> <div className='user-dp'> <Link to={`/user/${post.username}`}> <LazyDP user={post.username} /> </Link>  </div> </div>
+                   <div className='col col-1'> <div className='user-dp' role='user-dp'> <Link to={`/user/${post.username}`}> <LazyDP user={post.username} /> </Link>  </div> </div>
                    <div className='col col-fill'> <div className='user-name'> <Link to={`/user/${post.username}`}> {post.username} </Link> </div> </div>
                    <label htmlFor={`modal-post`}> <div className='col col-1'> <div className='user-opt'> <svg aria-label="More options" fill="#262626" height="16" viewBox="0 0 48 48" width="16"><circle clipRule="evenodd" cx="8" cy="24" fillRule="evenodd" r="4.5"></circle><circle clipRule="evenodd" cx="24" cy="24" fillRule="evenodd" r="4.5"></circle><circle clipRule="evenodd" cx="40" cy="24" fillRule="evenodd" r="4.5"></circle></svg> </div> </div> </label>
                </div>

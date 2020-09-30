@@ -23,12 +23,12 @@ export default function PostInfo({post, auth_user}) {
     // ....
 
     return (
-        <div className="card info">
+        <div className="card info" role='post-info-card'>
 
             <div className="card-header">
                 <div className='row'>
                     <div className='like-btn'>
-                        <button onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked), post)}>
+                        <button data-testid="like-btn" onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked), post)}>
                             <img src={`/icon/heart${postLiked?'.png':'-blank.svg'}`}/>
                         </button>
                     </div>
@@ -41,7 +41,7 @@ export default function PostInfo({post, auth_user}) {
                 </div>
                 <div className='row act'>
                     <div className='col-likes'>
-                        <p id='likes-count'> {amount(post_likes)} likes </p>
+                        <p id='likes-count' data-testid='likes-count'> {amount(post_likes)} likes </p>
                     </div>
                 </div>
             </div>

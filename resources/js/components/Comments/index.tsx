@@ -62,7 +62,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({comment_id, dislike, setCommentL
 
     return (
         <div className='action-button'>
-            <button onClick={likeComment}>
+            <button role='comment-like-btn' onClick={likeComment}>
                 {buttonInActive ? heartIcon_blank : heartIcon}
             </button>
         </div>
@@ -126,7 +126,7 @@ const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id,
 
     return (
         <React.Fragment>
-            {commentShown && <div className='row comment'>
+            {commentShown && <div className='row comment' role={comment_id?'user-comment':'post-caption'}>
                 <div className='col-3 dp'>
                     <Link to={`/user/${author}`}>
                         {profile_pic
@@ -137,7 +137,7 @@ const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id,
                 </div>
                 <div className='col-fill comment-text'>
                     <span className='user'> <Link to={`/user/${author}`}> {author} </Link> </span>
-                    <span className='comment'>
+                    <span className='comment' data-testid={!comment_id?'caption':''} role={comment_id?'user-comment-message':''}>
                         <ProcessUserInput text={commentMessage} />
                         <span>{
                             fullCommentShown
@@ -147,7 +147,7 @@ const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id,
                     </span>
                     <div className='comment-info'>
                         <span className='hw'>{how_long}</span>
-                        {comment_id && <span className='hw bold'>{post_likes} likes</span>}
+                        {comment_id && <span role='comment-like' className='hw bold'>{post_likes} likes</span>}
                     </div>
                 </div>
                 {isAuthor && comment_id
@@ -181,7 +181,7 @@ const Comments: React.FC<{
 
     return (
         <React.Fragment>
-           <div className='comments'>
+           <div className='comments' role='comments'>
                 {post.caption && (
                     <div className='caption'>
                         <SingleComment text={post.caption} author={post.username} how_long={howLong(post.created_at)} />
@@ -197,7 +197,7 @@ const Comments: React.FC<{
 
                 {isLoading && <Spinner type='list'/>}
                 <div className='scroll-par'>
-                    {data && <p id='comment-count'> {post.comment_count} comments </p>}
+                    {data && <p id='comment-count' data-testid='comment-count'> {post.comment_count} comments </p>}
                     <div className='scrolling-list'>
                         {data && data.slice(0,limit).map(({message, likes, comment_id, username, auth_user_likes, profile_pic, created_at})=>(
                             <SingleComment
