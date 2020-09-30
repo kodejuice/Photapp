@@ -167,15 +167,15 @@ class PostViewTest extends TestCase
         $response->assertStatus(200);
 
         tap($response[0], function ($res) {
-            $this->assertEquals("i am second to comment", $res['message']);
-            $this->assertEquals(1, $res['auth_user_likes']);
-            $this->assertEquals(1, $res['likes']);
-        });
-        tap($response[1], function ($res) {
             $this->assertEquals("i am first to comment", $res['message']);
-            $this->assertEquals("johndoe", $res['username']);
             $this->assertEquals(0, $res['likes']);
             $this->assertEquals(0, $res['auth_user_likes']);
+        });
+        tap($response[1], function ($res) {
+            $this->assertEquals("i am second to comment", $res['message']);
+            $this->assertEquals("johndoe", $res['username']);
+            $this->assertEquals(1, $res['likes']);
+            $this->assertEquals(1, $res['auth_user_likes']);
         });
         tap($response[2], function ($res) {
             $this->assertEquals("i am last to comment", $res['message']);
