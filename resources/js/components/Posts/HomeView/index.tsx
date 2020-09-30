@@ -122,7 +122,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         <div className='row btns'>
                             <div className='col col-5'>
                                 {/*like button*/}
-                                <button onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked), post)}>
+                                <button role='like-post-btn-H' onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked), post)}>
                                     <img src={`/icon/heart${postLiked?'.png':'-blank.svg'}`}/>
                                 </button>
                             </div>
@@ -139,7 +139,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         </button>
                     </div>
                 </div>
-                {post_likes>0 && <div className='likes'>{amount(post_likes)} likes</div>}
+                {post_likes>0 && <div className='likes' role='post-likes-H'>{amount(post_likes)} likes</div>}
                 <div className='post-comments'>
                     {post.caption?
                         <div className='comment'>

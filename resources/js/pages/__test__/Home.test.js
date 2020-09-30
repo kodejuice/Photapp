@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {render, screen} from '@testing-library/react';
+import {render, fireEvent, screen} from '@testing-library/react';
 import "babel-polyfill";
 import '@testing-library/jest-dom';
 import {rest} from 'msw'
@@ -104,6 +104,38 @@ test("properly renders all posts", async ()=>{
     await screen.queryAllByRole('carousel-child');
     await screen.queryAllByRole('video-player');
     await screen.queryAllByRole('image-viewer');
+
+    //////////////////////
+    // test like button //
+    //////////////////////
+
+    const likeBtns = await screen.queryAllByRole('like-post-btn-H');
+    fireEvent.click(likeBtns[0]);
+
+    const likes = await screen.queryAllByRole('post-likes-H');
+    expect(likes[0]).toHaveTextContent('1 likes');
+});
+
+
+test("can switch post view to compact mode", async ()=>{
+    const {getByTestId} = render(component);
+
+    // toggle view
+    fireEvent.click(getByTestId('toggler-input-hidden'));
+
+    await screen.queryAllByRole('full-view-card');
+
+    //////////////////////
+    // test like button //
+    //////////////////////
+
+    const likeBtns = await screen.queryAllByRole('like-post-btn');
+    const likes = await screen.queryAllByRole('post-likes');
+
+    expect(likes[0]).toHaveTextContent('0');
+    fireEvent.click(likeBtns[0]);
+    expect(likes[0]).toHaveTextContent('1');
+
 });
 
 
@@ -111,3 +143,4 @@ test("test error response", async()=>{
     const {getByTestId} = render(component);
     await screen.findByRole('post-wrapper-err');
 });
+

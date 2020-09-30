@@ -78,17 +78,20 @@ const toggleView:{[index:string]:views} = {
 
 export function Toggle({setState, current}) {
     return (
-        <Toggler
-            defaultChecked={current=='full'}
-            icons={{
-                checked: listViewIcon,
-                unchecked: compactViewIcon,
-            }}
-            onChange={()=>{
-                Cookie.set('post_view', toggleView[current], { expires: 7 });
-                setState(toggleView[current]);
-            }}
-        />
+        <React.Fragment>
+            <input hidden onClick={()=>setState(toggleView[current])} data-testid='toggler-input-hidden' />
+            <Toggler
+                defaultChecked={current=='full'}
+                icons={{
+                    checked: listViewIcon,
+                    unchecked: compactViewIcon,
+                }}
+                onChange={()=>{
+                    Cookie.set('post_view', toggleView[current], { expires: 7 });
+                    setState(toggleView[current]);
+                }}
+            />
+        </React.Fragment>
     );
 }
 

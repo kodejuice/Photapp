@@ -68,7 +68,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                 <img src="/icon/heart.png" />
             </div>
 
-            <div className="card-post">
+            <div className="card-post" role='full-view-card'>
                 <div {...ondoubletap}>
                     {heartShown && <div className="doubletap-icon"> {heartIcon_blank} </div>}
                     <MediaViewer
@@ -84,9 +84,9 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                             { shouldFollow && <FollowButton child={<div>+</div>} user={post.username} />}
                         </div>
                     </div>
-                    <div className='like-count _row' onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked), post)}>
+                    <div role='like-post-btn' className='like-count _row' onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked), post)}>
                         <div className='icon'> {postLiked ? heartIcon: heartIcon_blank} </div>
-                        <div className='count'> {amount(post_likes)} </div>
+                        <div className='count' role='post-likes'> {amount(post_likes)} </div>
                     </div>
                     <div className='comment-count _row'>
                         <Link to={`/post/${post.post_id}#comments`}>
