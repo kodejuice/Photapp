@@ -239,11 +239,12 @@ function useComments(post_id): {data:any, isLoading:boolean} {
     const url = `/api/post/${post_id}/comments?limit=${limit}`;
 
     const fetched = React.useRef(false);
+    const unmounted = React.useRef(false);
     const [data, setData] = useState(W.__posts_cache__[url]);
     const [error, setError] = useState(undefined);
 
     // here we dont use SWR, because the number of comments may be large
-    // bcos we intend to fetch alot at once and nevery fetch more,
+    // bcos we intend to fetch alot at once and never fetch more,
     // SWR revalidates, which keeps making the request to the server
     // and we dont want that
 
@@ -251,6 +252,7 @@ function useComments(post_id): {data:any, isLoading:boolean} {
         if (!fetched.current) {
             fetchListing(url)
                 .then(data => {
+                    if (unmounted.current) return;
                     if (data?.errors && W.__posts_cache__[url]) {
                         setData(W.__posts_cache__[url])
                     } else {
@@ -261,6 +263,7 @@ function useComments(post_id): {data:any, isLoading:boolean} {
                     }
                 })
                 .catch(err => {
+                    if (unmounted.current) return;
                     if (W.__posts_cache__[url]) {
                         setData(W.__posts_cache__[url])
                     } else {
@@ -271,6 +274,7 @@ function useComments(post_id): {data:any, isLoading:boolean} {
                     fetched.current = true;
                 });
         }
+        return () => {unmounted.current = true;}
     });
 
     return {

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import { useHistory, Link } from "react-router-dom";
 
 import {openFileDialog} from '../../components/AddPost/helper';
@@ -17,6 +17,10 @@ const Header: React.FC<{}> = ()=>{
 
     const [dropdown_shown, showDropdown] = useState(false) ;
     const {user} = authUser();
+
+    useEffect(()=>{
+        return () => {ref.current = null}
+    });
 
     const toggleDropdown = ()=>{
         showDropdown(!dropdown_shown);
