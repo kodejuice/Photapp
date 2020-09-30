@@ -139,21 +139,3 @@ export function merge_objects(uid: string, all_data: any[], new_data: any[]) {
         }
     }
 }
-
-
-
-
-// /**
-//  * shuffle array
-//  * @param {any[]} array array to shuffle
-//  */
-// export function shuffle(arr: any[]) {
-//     const n = array.length;
-//     for (let i=0; i<n; ++i) {
-//         let rand_index = ~~(Math.random() * n);
-//         [array[i], array[rand_index]] = [array[rand_index], array[i]];
-//     }
-//     return array;
-// }
-
-
