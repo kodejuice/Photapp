@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
+import useSWR from '../../helpers/swr';
 import {useDispatch} from 'react-redux';
 
 import authUser from '../../state/auth_user';
@@ -237,45 +238,7 @@ W.__posts_cache__ = {};
 function useComments(post_id): {data:any, isLoading:boolean} {
     const limit = 900;
     const url = `/api/post/${post_id}/comments?limit=${limit}`;
-
-    const fetched = React.useRef(false);
-    const unmounted = React.useRef(false);
-    const [data, setData] = useState(W.__posts_cache__[url]);
-    const [error, setError] = useState(undefined);
-
-    // here we dont use SWR, because the number of comments may be large
-    // bcos we intend to fetch alot at once and never fetch more,
-    // SWR revalidates, which keeps making the request to the server
-    // and we dont want that
-
-    React.useEffect(()=>{
-        if (!fetched.current) {
-            fetchListing(url)
-                .then(data => {
-                    if (unmounted.current) return;
-                    if (data?.errors && W.__posts_cache__[url]) {
-                        setData(W.__posts_cache__[url])
-                    } else {
-                        setData(data)
-                        if (!data?.errors) {
-                            W.__posts_cache__[url] = data;
-                        }
-                    }
-                })
-                .catch(err => {
-                    if (unmounted.current) return;
-                    if (W.__posts_cache__[url]) {
-                        setData(W.__posts_cache__[url])
-                    } else {
-                        setError(err)
-                    }
-                })
-                .finally(()=>{
-                    fetched.current = true;
-                });
-        }
-        return () => {unmounted.current = true;}
-    });
+    const {data, error} = useSWR(url, fetchListing);
 
     return {
         data,
