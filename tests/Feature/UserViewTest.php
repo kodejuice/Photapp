@@ -144,7 +144,7 @@ class UserViewTest extends TestCase
     public function user_can_view_followers_and_following()
     {
         // follow donjoe first
-        $this->post(route('user.follow', ['id'=>2]))
+        $this->post(route('user.follow', ['username'=>'donjoe']))
             ->assertStatus(200);
 
         // followers
