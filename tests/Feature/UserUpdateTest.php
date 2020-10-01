@@ -30,6 +30,9 @@ class UserUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
+    private object $user1_login;
+    private object $user2_login;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -53,15 +56,20 @@ class UserUpdateTest extends TestCase
             'password_confirmation' => '123456'
         ]);
 
-        $login = $this->post(route('login.api'), [
+        $this->user1_login = $this->post(route('login.api'), [
           'username' => 'johndoe',
           'password' => '123456',
         ]);
 
-        $this->withHeader(
-            'Authorization',
-            'Bearer ' . $login['token']
-        );
+        $this->user2_login = $this->post(route('login.api'), [
+          'username' => 'doejohn',
+          'password' => '123456',
+        ]);
+
+        // $this->withHeader(
+        //     'Authorization',
+        //     'Bearer ' . $this->user1_login['token']
+        // );
     }
 
     public function tearDown(): void
@@ -78,6 +86,8 @@ class UserUpdateTest extends TestCase
     {
         $response = $this->json("POST", route('user.update'), [
             'full_name' => "Real John Doe"
+        ], [
+            'Authorization' => 'Bearer ' . $this->user1_login['token']
         ]);
         $response->assertStatus(200);
 
@@ -94,6 +104,8 @@ class UserUpdateTest extends TestCase
         $response = $this->post(route('user.update'), [
             'full_name' => "Real John Doe",
             'bio' => "mehn i'm tired",
+        ], [
+            'Authorization' => 'Bearer ' . $this->user1_login['token']
         ]);
         $response->assertStatus(200);
 
@@ -112,6 +124,8 @@ class UserUpdateTest extends TestCase
             'full_name' => "Real John Doe",
             'bio' => "mehn i'm tired",
             'dob' => DATE,
+        ], [
+            'Authorization' => 'Bearer ' . $this->user1_login['token']
         ]);
         $response->assertStatus(200);
 
@@ -133,6 +147,8 @@ class UserUpdateTest extends TestCase
             'notify_comments' => 1,
             'notify_mentions' => 0,
             'notify_follows' => 1,
+        ], [
+            'Authorization' => 'Bearer ' . $this->user1_login['token']
         ]);
         $response->assertStatus(200);
 
@@ -151,14 +167,15 @@ class UserUpdateTest extends TestCase
      */
     public function user_can_follow_and_unfollow_user()
     {
-        $response = $this
-            ->json("POST", route('user.follow', ['id'=>2]));
+        $response = $this->json("POST", route('user.follow', ['username'=>'doejohn']), [], [
+            'Authorization' => 'Bearer ' . $this->user1_login['token']
+        ]);
         $response->assertStatus(200);
 
         tap(User::first(), function ($user) {
             $this->assertEquals(1, $user->follows);
         });
-        tap(User::where('id', 2)->first(), function ($user) {
+        tap(User::where('username', 'doejohn')->first(), function ($user) {
             $this->assertEquals(1, $user->followers);
         });
 
@@ -166,7 +183,7 @@ class UserUpdateTest extends TestCase
             $this->assertEquals(1, $fllw->user1_id);
             $this->assertEquals(2, $fllw->user2_id);
         });
-        
+
         $this->user_can_receive_fllw_alerts();
     }
 
@@ -179,40 +196,21 @@ class UserUpdateTest extends TestCase
             $this->assertEquals('johndoe', $notif->associated_user);
         });
 
-        $this->user_can_mark_notification();
-    }
-
-    private function user_can_mark_notification()
-    {
-        $response = $this->post(route('user.notification.mark', ['id' => 1]));
-        $response->assertStatus(200);
-
-        tap(Notification::first(), function ($notif) {
-            $this->assertEquals(0, $notif->new);
-        });
-
-        $this->user_can_unfollow_user();
-    }
-
-    private function user_can_delete_notification()
-    {
-        $response = $this->post(route('user.notification.delete', ['id' => 1]));
-        $response->assertStatus(200);
-
-        $this->assertCount(0, Notification::all());
-
         $this->user_can_unfollow_user();
     }
 
     private function user_can_unfollow_user()
     {
-        $response = $this->post(route('user.unfollow', ['id'=>2]));
+        $response = $this
+            ->post(route('user.unfollow', ['username'=>'doejohn']), [], [
+                'Authorization' => 'Bearer ' . $this->user1_login['token']
+            ]);
         $response->assertStatus(200);
 
         tap(User::first(), function ($user) {
             $this->assertEquals(0, $user->follows);
         });
-        tap(User::where('id', 2)->first(), function ($user) {
+        tap(User::where('username', 'doejohn')->first(), function ($user) {
             $this->assertEquals(0, $user->followers);
         });
 

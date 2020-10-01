@@ -13,13 +13,17 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-function auth_logic($user, $id) {
-    return (int) $user->id === (int) $id;
+
+if (!function_exists('broadcast_auth_logic')) {
+    // i have a feeling this isnt bad code :/
+    function broadcast_auth_logic($user, $id) {
+        return (int) $user->id === (int) $id;
+    }
 }
 
 $auth_guard = ['guards' => ['api']];
 
-Broadcast::channel('comment.{id}', "auth_logic", $auth_guard);
-Broadcast::channel('post.{id}', "auth_logic", $auth_guard);
-Broadcast::channel('mention.{id}', "auth_logic", $auth_guard);
-Broadcast::channel('follow.{id}', "auth_logic", $auth_guard);
+Broadcast::channel('comment.{id}', "broadcast_auth_logic", $auth_guard);
+Broadcast::channel('post.{id}', "broadcast_auth_logic", $auth_guard);
+Broadcast::channel('mention.{id}', "broadcast_auth_logic", $auth_guard);
+Broadcast::channel('follow.{id}', "broadcast_auth_logic", $auth_guard);
