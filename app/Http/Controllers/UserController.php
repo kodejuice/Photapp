@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+// use Illuminate\Support\Facades\Log;
+
 use ImageResize;
 
 use App\User;
@@ -100,9 +102,9 @@ class UserController extends Controller
     /**
      * follow user
      */
-    public function followUser(int $id, Request $request)
+    public function followUser(string $username, Request $request)
     {
-        $user = User::firstWhere('id', $id);
+        $user = User::firstWhere('username', $username);
         if (!$user) {
             return response(['errors' => ['User not found']]);
         }
@@ -110,7 +112,7 @@ class UserController extends Controller
         $self = $request->user();
 
         $follows = UserFollow::where('user1_id', $self->id)->where('user2_id', $user->id);
-        if ($follows->first() || $self->id == $user->id) {
+        if ($follows->first() || $self->username == $user->username) {
             // user already followed
             return response(['errors' => ["Invalid action"]]);
         }
@@ -121,7 +123,7 @@ class UserController extends Controller
 
         $self->follows += 1;
         $self->save();
-        
+
         $user->followers += 1;
         $user->save();
 
@@ -137,9 +139,9 @@ class UserController extends Controller
     /**
      * unfollow user
      */
-    public function unfollowUser(int $id, Request $request)
+    public function unfollowUser(string $username, Request $request)
     {
-        $user = User::firstWhere('id', $id);
+        $user = User::firstWhere('username', $username);
         if (!$user) {
             return response(['errors' => ['User not found']]);
         }
