@@ -91,7 +91,6 @@ const GridItem: React.FC<{photo: Media, index: number}> = ({photo, index})=>{
                         ref={videoRef}
                         src={`/api/dl?url=${photo.post_url}`}
                         onLoadedData={()=>{
-                            console.log(photo.post_url)
                             setPreviewImage(
                                 getVideoThumnail(videoRef.current as HTMLVideoElement)
                             )

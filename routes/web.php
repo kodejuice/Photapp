@@ -14,14 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/{path?}', function () {return view('app');});
-
-// auth proctected routes
-Route::middleware('auth.web')->group(function () {
-    // upload file
-    Route::post('/post/upload', 'PostUploadController@fileUpload')->name('post.file_upload');
-});
-
+// Route::get('/{path?}', function () {return view('app');});
 
 Route::fallback(function () {
     return view('app');
