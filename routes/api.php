@@ -27,8 +27,7 @@ use Illuminate\Support\Facades\Log;
 |
 */
 
-Route::group(['middleware' => ['cors', 'json.response']], function () {
-
+Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], function () {
     // public routes
     Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
     Route::post('/register', 'Auth\ApiAuthController@register')->name('register.api');
@@ -47,11 +46,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/user/{username}/followers', 'UserController@getUserFollowers')->name('user.followers');
     Route::get('/user/{username}/following', 'UserController@getUserFollowing')->name('user.following');
 
+
     // ...
     Route::get('/dl', 'PostController@download');
 
     // protected routes
-    Route::middleware('auth:api', 'throttle:60,1')->group(function () {
+    Route::middleware('auth:api')->group(function () {
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
 
         /////////////////
