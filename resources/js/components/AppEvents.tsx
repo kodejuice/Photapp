@@ -28,7 +28,7 @@ const AppEvents: React.FC<{}> = () => {
         dispatch(set_notification(notify));
     }
 
-    if (notifications) {
+    if (notifications && Array.isArray(notifications)) {
         notifyUser(
             notifications.some(n => +n.new == 1)
         );
