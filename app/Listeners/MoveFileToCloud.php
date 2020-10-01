@@ -83,7 +83,7 @@ class MoveFileToCloud implements ShouldQueue
         if (!empty($mentions)) {
             // bg task&
             foreach ($mentions as $mentioned) {
-                event(new UserMentioned($mentioned, $user, $post->post_id));
+                event(new UserMentioned($mentioned, $user, $post->post_id, ""));
             }
         }
 

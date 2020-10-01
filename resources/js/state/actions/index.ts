@@ -20,3 +20,10 @@ export const set_alert_messages = (message, type) => {
         }
     }
 }
+
+export const set_notification = (newNotification: boolean) => {
+    return {
+        type: "SET_NOTIFICATION",
+        payload: newNotification,
+    }
+}

@@ -1,6 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import { useHistory, Link } from "react-router-dom";
 
+import {AlertIndicator} from '../../helpers/mini-components';
 import {openFileDialog} from '../../components/AddPost/helper';
 import {logUserOut} from '../../helpers/fetcher';
 import authUser from '../../state/auth_user';
@@ -17,10 +18,6 @@ const Header: React.FC<{}> = ()=>{
 
     const [dropdown_shown, showDropdown] = useState(false) ;
     const {user} = authUser();
-
-    useEffect(()=>{
-        return () => {ref.current = null}
-    });
 
     const toggleDropdown = ()=>{
         showDropdown(!dropdown_shown);
@@ -58,7 +55,10 @@ const Header: React.FC<{}> = ()=>{
                                     </React.Fragment>
                                     :
                                     <React.Fragment>
-                                        <li><Link to="/activity"><img src={heartIcon}/></Link></li>
+                                        <li id='notif'>
+                                            <Link to="/activity"><img src={heartIcon}/></Link>
+                                            {user?.id && <AlertIndicator />}
+                                        </li>
                                         <li>
                                             <div className="dropdown">
                                                 <img onClick={_=>toggleDropdown()}

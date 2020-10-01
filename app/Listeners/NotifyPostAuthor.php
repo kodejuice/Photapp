@@ -44,9 +44,9 @@ class NotifyPostAuthor implements ShouldQueue
         $user_setting = UserSetting::firstWhere('user_id', $event->post->user_id);
 
         if ($action == 'like') {
-            return $user_setting->notify_post_likes==1 && $not_same;
+            return $user_setting->notify_post_likes==1;
         } elseif ($action == 'comment') {
-            return $user_setting->notify_comments==1 && $not_same;
+            return $user_setting->notify_comments==1;
         }
 
         return false;

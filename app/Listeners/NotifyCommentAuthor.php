@@ -39,7 +39,7 @@ class NotifyCommentAuthor
         // check (if the user wants such notification)
         $user_setting = UserSetting::firstWhere('user_id', $event->comment->user_id);
 
-        return $user_setting->notify_comments_likes==1 && $valid;
+        return $user_setting->notify_comments_likes==1;
     }
 
 

@@ -43,7 +43,7 @@ class NotifyMentionedUser implements ShouldQueue
         $mentioned_user = User::firstWhere('username', $event->mentioned_user);
         $user_setting = UserSetting::firstWhere('user_id', $mentioned_user->id);
 
-        return $user_setting->notify_mentions==1 && $valid;
+        return $user_setting->notify_mentions==1;
     }
 
 
@@ -58,6 +58,7 @@ class NotifyMentionedUser implements ShouldQueue
         // User          $event->who_mentioned
         // string        $event->mentioned_user
         // int           $event->post_id
+        // string        $event->comment_message
 
         $mentioned_user = User::firstWhere('username', $event->mentioned_user);
 
@@ -67,7 +68,12 @@ class NotifyMentionedUser implements ShouldQueue
         $notif->post_id = $event->post_id;
         $notif->user_id = $mentioned_user->id;
         $notif->associated_user = $event->who_mentioned->username;
-        $notif->message = "mentioned you in a post: " . Post::firstWhere('post_id', $event->post_id)->caption;
+
+        if (strlen($event->comment_message)) {
+            $notif->message = "mentioned you in a comment: " . $event->comment_message;
+        } else {
+            $notif->message = "mentioned you in a post: " . Post::firstWhere('post_id', $event->post_id)->caption;
+        }
 
         $notif->save();
 

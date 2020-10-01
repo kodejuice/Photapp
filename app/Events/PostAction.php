@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Log;
 use App\User;
 use App\Post;
 
-class PostAction
+class PostAction implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
     public User $user;
     public Post $post;
-    public string $action;
+    public string $action; // 'like' or 'comment'
     public string $comment_message;
 
     /**
@@ -44,6 +44,7 @@ class PostAction
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+
+        return new PrivateChannel('post.' . $this->post->user_id);
     }
 }

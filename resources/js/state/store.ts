@@ -4,6 +4,8 @@
 export type RootState = {
     readonly isLogged: boolean,
 
+    readonly newNotification: boolean,
+
     readonly userProfile: {
         id: number,
         email: string,

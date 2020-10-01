@@ -5,11 +5,12 @@ import {sign_in, set_user} from '../state/actions';
 import {checkLoginStatus} from '../helpers/fetcher';
 import authUser from '../state/auth_user';
 
-import AddPostModal from '../components/AddPost';
+import AppEvents from './AppEvents';
+import AddPostModal from './AddPost';
 import ProgressRoute from '../routes/ProgressRoute';
 
 import routes from '../routes';
-import Splash from '../components/Splash';
+import Splash from './Splash';
 
 
 const App: React.FC<{path?:string}> = ({path})=>{
@@ -43,6 +44,7 @@ const App: React.FC<{path?:string}> = ({path})=>{
         (
             <main role={logged_in ? "app-logged" : "app-guest"}>
                 <AddPostModal />
+                <AppEvents />
 
                 <Switch>
                     {routes(path || '/').map((prop, i)=>

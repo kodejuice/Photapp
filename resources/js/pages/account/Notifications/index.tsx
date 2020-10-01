@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import useSWR from '../../../helpers/swr';
+import minuteDifference from 'date-fns/differenceInMinutes';
 
 import Header from '../../../components/Header';
 import Spinner from '../../../components/Spinner';
@@ -81,10 +82,19 @@ function Notif({data}) {
     if (data.new == false) {
         checkForDeletion(data);
     }
-
     // mark this notification as read
-    if (type != 'follow' && data.new == true) {
-        markNotification(data.notification_id);
+    else if (data.new == true) {
+        const mins = minuteDifference(
+            new Date(),
+            new Date(data.created_at)
+        );
+
+        // mark notification if notification is altleast
+        // 10minutes old
+        if (mins >= 10) {
+            // TODO: uncomment this
+            // markNotification(data.notification_id);
+        }
     }
 
     if (type == 'like') {

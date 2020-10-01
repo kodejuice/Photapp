@@ -1,5 +1,7 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {RootState as Root} from '../state/store';
 import Toggler from 'react-toggle';
 import Cookie from 'js-cookie';
 
@@ -91,6 +93,22 @@ export function Toggle({setState, current}) {
                     setState(toggleView[current]);
                 }}
             />
+        </React.Fragment>
+    );
+}
+
+
+/**
+ * small red dot, displayed beneath nofication icon
+ * whenever thers a new notification
+ *
+ */
+export function AlertIndicator() {
+    const {newNotification} = useSelector<Root,Root>(s => s);
+
+    return (
+        <React.Fragment>
+            {newNotification && <span id='red-dot'></span>}
         </React.Fragment>
     );
 }

@@ -61,7 +61,7 @@ class CommentController extends Controller
         $mentions = Helper::getMentions($comment->message);
         if (!empty($mentions)) {
             foreach ($mentions as $mentioned) {
-                event(new UserMentioned($mentioned, $user, $post->post_id));
+                event(new UserMentioned($mentioned, $user, $post->post_id, $comment->message));
             }
         }
 

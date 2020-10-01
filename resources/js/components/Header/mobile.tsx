@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import {useSelector} from 'react-redux';
 import authUser from '../../state/auth_user';
+import {AlertIndicator} from '../../helpers/mini-components';
 import {openFileDialog} from '../../components/AddPost/helper';
 import {limit} from '../../helpers/util';
 
@@ -57,8 +58,9 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
                             <img src={addIcon}/>
                         </label>
                     </div>
-                    <div className="col col-fill btn" id={`curr-${current_page=='activity'}`}>
+                    <div className="col col-fill btn notif" id={`curr-${current_page=='activity'}`}>
                         <Link to={user?.id ? "/activity": "/login"}> <img src={heartIcon}/> </Link>
+                        {user?.id && <AlertIndicator />}
                     </div>
                     <div className="col col-fill btn" id={`curr-${current_page=='profile'}`}>
                         {

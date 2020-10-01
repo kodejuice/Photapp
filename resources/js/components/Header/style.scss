@@ -8,6 +8,18 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
 }
 
 
+span#red-dot {
+    $size: 8;
+    width: $size * 1px;
+    height: $size * 1px;
+    display: block;
+    position: absolute;
+    left: calc(50% - #{$size/2}px);
+    background: red;
+    @include border-radius(100%);
+}
+
+
 /**
  * if mobile devices (<=768)
  */
@@ -17,6 +29,10 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
     div.fixed-wrapper {
         position: relative;
         height: $header_height;
+    }
+
+    span#red-dot {
+        bottom: 1px;
     }
 
     // header
@@ -99,6 +115,10 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
                 border-top: 3px solid;
             }
 
+            .btn.notif {
+                position: relative;
+            }
+
             .col {
                 padding: 0;
             }
@@ -176,6 +196,10 @@ $photapp_logo: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATQAAABXCAYAAA
                 ul {
                     margin-top: 0;
                     float: right;
+                    position: relative;
+                    li#notif {
+                        position: relative;
+                    }
                     li img {
                         border: none;
                         width: 36px;

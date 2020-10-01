@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use App\User;
 use App\Comment;
 
-class CommentAction
+class CommentAction implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -40,6 +40,6 @@ class CommentAction
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('comment.' . $this->comment->user_id);
     }
 }

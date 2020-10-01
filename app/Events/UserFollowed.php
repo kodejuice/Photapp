@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 use App\User;
 
-class UserFollowed
+class UserFollowed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -38,6 +38,6 @@ class UserFollowed
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('follow.' . $this->user2->id);
     }
 }
