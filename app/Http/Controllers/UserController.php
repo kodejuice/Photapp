@@ -173,7 +173,9 @@ class UserController extends Controller
      */
     public function markNotification($id, Request $request)
     {
-        $notif = Notification::where('notification_id', $id)->first();
+        $notif = Notification::where('notification_id', $id)
+                ->where('user_id', @$request->user()->id)
+                ->first();
         if (!$notif) {
             return response(['errors' => ['Notification not found']], 404);
         }
@@ -189,8 +191,10 @@ class UserController extends Controller
      */
     public function deleteNotification($id, Request $request)
     {
-        $notif = Notification::where('notification_id', $id);
-        if (!$notif->first()) {
+        $notif = Notification::where('notification_id', $id)
+                ->where('user_id', @$request->user()->id)
+                ->first();
+        if (!$notif) {
             return response(['errors' => ['Notification not found']], 404);
         }
 
