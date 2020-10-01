@@ -260,6 +260,41 @@ export async function fetchSettings() {
 }
 
 
+
+export async function followUser(user: string) {
+    let req;
+    try {
+        req = await axios.post(`/api/user/${user}/follow`);
+
+        if (req?.data?.message?.includes('Followed')) {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+export async function unfollowUser(user: string) {
+    let req;
+    try {
+        req = await axios.post(`/api/user/${user}/unfollow`);
+
+        if (req?.data?.message?.includes('Unfollowed')) {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
 //////////////////
 // Notifications /
 //////////////////

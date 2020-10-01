@@ -29,7 +29,7 @@ const FollowAlert: React.FC<{data: NotificationProp}> = ({data})=>{
                 </div>
 
                 <div className="col col-3 follow_btn-col">
-                    <FollowButton user={d.associated_user} notification_id={d.notification_id} />
+                    <FollowButton notification_id={d.notification_id} user={d.associated_user} />
                 </div>
             </div>
 

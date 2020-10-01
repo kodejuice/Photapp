@@ -27,3 +27,17 @@ export const set_notification = (newNotification: boolean) => {
         payload: newNotification,
     }
 }
+
+export const add_user_follow = (user: string) => {
+    return {
+        type: "ADD_USER_FOLLOW",
+        payload: user,
+    }
+}
+
+export const delete_user_follow = (user: string) => {
+    return {
+        type: "DELETE_USER_FOLLOW",
+        payload: user,
+    }
+}

@@ -56,13 +56,33 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
 
     const query = new URLSearchParams(location.search);
     const [tab, setTab] = useState<0|1|2>((isSelf && query.get('tab')=='saved') ? 1 : 0);
-                            // 0 -> Posts, 1 -> Saved, 2 -> Tagged
+    // 0 -> Posts, 1 -> Saved, 2 -> Tagged
+
+    const [followInfo, setFollowInfo] = useState<{[K:string]: null|any}>({
+        follows: null,
+        followers: null,
+        followed: null,
+    });
+
+    const onFollow = (F: boolean) => {
+        setFollowInfo({
+            ...followInfo,
+            followers: followInfo.followers + (F ? 1 : -1),
+            followed: F,
+        });
+    }
 
     let {data, isLoading, isError} = useUser(params.username);
-
     if (data?.errors) {
         showAlert(dispatch, data.errors, 'error', 60);
         data = null;
+    }
+
+    if (data && (followInfo.follows!=data.follows || followInfo.followers!=data.followers)) {
+        setFollowInfo({
+            follows: data.follows,
+            followers: data.followers,
+        });
     }
 
 
@@ -94,7 +114,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                             </p>
                                         </div>
                                         <div className='follow-button'>
-                                            {logged && !isSelf && <FollowButton user={data.username} unfollow={data.auth_user_follows} />}
+                                            {logged && !isSelf && <FollowButton onFollow={()=>onFollow(true)} onUnfollow={()=>onFollow(false)} user={data.username} unfollow={data.auth_user_follows} />}
                                             {isSelf && <Link to="/accounts/edit/profile"><button className='edit-profile'>Edit Profile</button></Link>}
                                         </div>
                                     </div>
@@ -108,8 +128,8 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                             </div>
                             <div className='stats row'>
                                 <div className='col col-fill'> <p id='count'>{amount(data.posts_count)}</p> <div id='w'>posts</div> </div>
-                                <div className='col col-fill'> <p id='count'>{amount(data.followers)}</p> <label htmlFor="modal-followers"><div id='w'>followers</div></label> </div>
-                                <div className='col col-fill'> <p id='count'>{amount(data.follows)}</p> <label htmlFor="modal-following"><div id='w'>following</div></label></div>
+                                <div className='col col-fill'> <p id='count'>{amount(followInfo.followers)}</p> <label htmlFor="modal-followers"><div id='w'>followers</div></label> </div>
+                                <div className='col col-fill'> <p id='count'>{amount(followInfo.follows)}</p> <label htmlFor="modal-following"><div id='w'>following</div></label></div>
                             </div>
                         </div>
 
@@ -131,7 +151,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                             </div>
                                             <div className='col col-1 hidden-col-username'></div>
                                             <div className='col col-7 follow-button'>
-                                                {logged && !isSelf && <FollowButton user={data.username} unfollow={data.auth_user_follows}/>}
+                                                {logged && !isSelf && <FollowButton onFollow={()=>onFollow(true)} onUnfollow={()=>onFollow(false)} user={data.username} unfollow={data.auth_user_follows}/>}
                                                 {isSelf && <Link to="/accounts/edit/profile"><button className='edit-profile'>Edit Profile</button></Link>}
                                                 {isSelf && <label htmlFor='modal-editprofile'><div className='settings-icon'> {SettingsIcons} </div> </label>}
                                             </div>
@@ -139,8 +159,8 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
 
                                         <div className='row stats'>
                                             <div className='col col-3'> <p id='count'>{amount(data.posts_count)}</p> <div id='w'>posts</div> </div>
-                                            <div className='col col-3'> <p id='count'>{amount(data.followers)}</p> <label  htmlFor="modal-followers"><div id='w'>followers</div></label></div>
-                                            <div className='col col-3'> <p id='count'>{amount(data.follows)}</p> <label htmlFor="modal-following"><div id='w'>following</div></label> </div>
+                                            <div className='col col-3'> <p id='count'>{amount(followInfo.followers)}</p> <label  htmlFor="modal-followers"><div id='w'>followers</div></label></div>
+                                            <div className='col col-3'> <p id='count'>{amount(followInfo.follows)}</p> <label htmlFor="modal-following"><div id='w'>following</div></label> </div>
                                         </div>
     
                                         <div className='bio'>
@@ -186,7 +206,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
 
 
                         {/* MODALS */}
-                        {data.followers && (
+                        {followInfo.followers && (
                             <React.Fragment>
                                 <input className="modal-state" id="modal-followers" type="checkbox"/>
                                 <div className="modal">
@@ -197,7 +217,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                             <div className='col col-1' style={{padding: '0'}}></div>
                                             <div className='page-title'> {`${data.username} followers`} </div>
                                         </div>
-                                        <UserFollow type='followers' username={data.username} />
+                                        <UserFollow authUser={user} auth_user_follows={followInfo.followed} type='followers' username={data.username} />
                                     </div>
                                 </div>
                             </React.Fragment>

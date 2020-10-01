@@ -13,7 +13,12 @@ import Users from '../../../components/Users';
 
 const LIMIT = 100;
 
-const UserFollow: React.FC<{username: string, type:'followers'|'following'}> = ({username, type})=>{
+const UserFollow: React.FC<{
+    username: string,
+    type:'followers'|'following',
+    authUser?: any,
+    auth_user_follows?: boolean,
+}> = ({username, type, authUser, auth_user_follows})=>{
     const dispatch = useDispatch();
     let {data, isLoading, isError} = useFollows(username, type);
 
@@ -27,7 +32,7 @@ const UserFollow: React.FC<{username: string, type:'followers'|'following'}> = (
             <div className='user-follow users suggestions'>
                 { isLoading && <Spinner type='list' /> }
 
-                { data && <Users show_full_name={type=='followers'} data={data} rdr={true} /> }
+                { data && <Users show_full_name={type=='followers'} data={authUser?.username!=username ? addUser(data, authUser, auth_user_follows): data} rdr={true} /> }
 
                 {data && data.length>LIMIT && (
                     <div className='row'>
@@ -38,6 +43,21 @@ const UserFollow: React.FC<{username: string, type:'followers'|'following'}> = (
             </div>
         </React.Fragment>
     );
+}
+
+// add/remove auth_user to/from UserFollow list
+// this occures when the auth_user followers someone on thier profile
+function addUser(users, authUser, auth_user_follows) {
+    if (!authUser) return users;
+    if (auth_user_follows == null) return users;
+
+    if (auth_user_follows) {
+        if (users.some(u => u.username == authUser.username)) return users;
+        return users.concat(authUser);
+    }
+    else {
+        return users.filter(u => u.username != authUser.username);
+    }
 }
 
 

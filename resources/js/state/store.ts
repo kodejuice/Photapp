@@ -6,6 +6,10 @@ export type RootState = {
 
     readonly newNotification: boolean,
 
+    readonly userFollow: {
+        [index:string]: boolean
+    },
+
     readonly userProfile: {
         id: number,
         email: string,
