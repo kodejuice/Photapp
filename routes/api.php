@@ -60,6 +60,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
         //
         // CREATE, UPDATE, DELETE
         Route::put('/post/upload', 'PostUploadController@UrlUpload')->name('post.url_upload');
+        Route::post('/post/upload', 'PostUploadController@fileUpload')->name('post.file_upload');
         Route::post('/post/{id}/like', 'PostController@likePost')->name('post.post_like');
         Route::post('/post/{id}/save', 'PostController@savePost')->name('post.post_save');
         Route::post('/post/{id}/unsave', 'PostController@unsavePost')->name('post.post_unsave');
