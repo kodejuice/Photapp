@@ -319,6 +319,28 @@ export async function repostUserPost(post_id: number) {
     }
 }
 
+
+export async function deletePost(post_id: number) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.delete(`/api/post/${post_id}`);
+
+        if (req?.data?.message == 'Post deleted') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+
+}
+
 //////////////////
 // Notifications /
 //////////////////

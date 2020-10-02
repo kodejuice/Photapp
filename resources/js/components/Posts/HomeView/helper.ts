@@ -1,5 +1,6 @@
 import showAlert from '../../Alert/showAlert';
 import {copyText} from '../../../helpers/window';
+import {deletePost as deleteUserPost} from '../../../helpers/fetcher';
 
 /**
  * helper functions for the post HomeView post component
@@ -36,8 +37,18 @@ export function copyToClipboard(text, dispatch) {
  * @param  {number} post_id
  */
 export function deletePost(post_id: number) {
-    // TODO: perform action
+    if (!confirm("Delete this post?")) return;
 
+    deleteUserPost(post_id)
+    .then(res=>{
+        if (res.errors) {
+            console.error(res.errors);
+            return alert(`An error occured, try again\n\n${res.errors[0]}`);
+        } else if (res.success) {
+            (window as any).location = "/";
+        }
+    })
+    .catch(()=>{});
 }
 
 
