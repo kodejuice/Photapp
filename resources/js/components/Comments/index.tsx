@@ -197,23 +197,25 @@ const Comments: React.FC<{
                 </div>
 
                 {isLoading && <Spinner type='list'/>}
-                <div className='scroll-par'>
-                    {data && <p id='comment-count' data-testid='comment-count'> {post.comment_count} comments </p>}
-                    <div className='scrolling-list'>
-                        {data && data.slice(0,limit).map(({message, likes, comment_id, username, auth_user_likes, profile_pic, created_at})=>(
-                            <SingleComment
-                                key={username+comment_id}
-                                text={message}
-                                likes={likes}
-                                comment_id={comment_id}
-                                author={username}
-                                auth_user_likes={auth_user_likes}
-                                profile_pic={profile_pic}
-                                how_long={howLong(created_at)}
-                            />
-                        ))}
+                {data && data.length>0 && (
+                    <div className='scroll-par'>
+                        {data && <p id='comment-count' data-testid='comment-count'> {post.comment_count} comments </p>}
+                        <div className='scrolling-list'>
+                            {data && data.slice(0,limit).map(({message, likes, comment_id, username, auth_user_likes, profile_pic, created_at})=>(
+                                <SingleComment
+                                    key={username+comment_id}
+                                    text={message}
+                                    likes={likes}
+                                    comment_id={comment_id}
+                                    author={username}
+                                    auth_user_likes={auth_user_likes}
+                                    profile_pic={profile_pic}
+                                    how_long={howLong(created_at)}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {data && limit < data.length && (
                     <div id='load-more'>
