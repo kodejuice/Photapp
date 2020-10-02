@@ -91,7 +91,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                         : <button onClick={()=>deletePost(post.post_id)} className='delete-post'> Delete post </button>
                     )}
                     <button> <Link to={`/post/${post.post_id}`}>Go to Post</Link> </button>
-                    <RepostButton post_id={+post.post_id} />
+                    {logged && user?.username != post.username && <RepostButton username={post.username} post_id={+post.post_id} />}
                     <button onClick={()=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
                     <label className='cancel' htmlFor={`modal-${i+1}`}> Cancel </label>
                 </div>

@@ -260,7 +260,9 @@ export async function fetchSettings() {
 }
 
 
-
+/**
+ * follow user
+ */
 export async function followUser(user: string) {
     let req;
     try {
@@ -278,6 +280,9 @@ export async function followUser(user: string) {
 }
 
 
+/**
+ * unfollow user
+ */
 export async function unfollowUser(user: string) {
     let req;
     try {
@@ -294,6 +299,25 @@ export async function unfollowUser(user: string) {
     }
 }
 
+
+/**
+ * repost users post
+ */
+export async function repostUserPost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/repost`);
+
+        if (req?.data?.message?.includes('Success')) {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
 
 //////////////////
 // Notifications /

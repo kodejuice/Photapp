@@ -216,6 +216,43 @@ class PostController extends Controller
     }
 
 
+    /**
+     * repose user post
+     */
+    public function rePost($id, Request $request)
+    {
+        $post = Post::firstWhere('post_id', $id);
+        if (!$post) {
+            return response(['errors' => ["Post doesn't exist"]], 404);
+        }
+
+        $post_url = json_encode(json_decode($post->post_url));
+
+        $user = $request->user();
+        $existing = Post::where('post_url', $post_url)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if ($existing) {
+            return response(['errors' => ['You already reposted this']], 422);
+        }
+        if ($post->user_id == $user->id) {
+            return response(['errors' => ['You cant repost your own post']], 422);
+        }
+
+        $new_post = new Post();
+        Helper::dbSave(
+            $user,
+            $new_post,
+            $new_post->caption ?: "",
+            json_decode($post->post_url),
+            json_decode($post->media_type)
+        );
+
+        return response(['message' => "Success"]);
+    }
+
+
     //////////
     // GETs //
     //////////
