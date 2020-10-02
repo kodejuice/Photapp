@@ -59,6 +59,7 @@
     .col {padding: 0;}
 
     .card {
+        width: 100%;
         box-shadow: none;
         transform: none !important;
 
@@ -81,6 +82,10 @@
 
                 .col.col-1 {
                     max-width: 37px !important;
+                    .user-opt {
+                        width: unset;
+                        margin-right: 13px;
+                    }
                 }
 
                 .like-btn, .save-btn {
