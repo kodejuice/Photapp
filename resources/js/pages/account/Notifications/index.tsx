@@ -50,16 +50,19 @@ const Notifications: React.FC<{}> = (props)=>{
                 </div>
 
                 {res.data && (
-                    <div className="suggestions page disp-1 hide-big-screen" style={{paddingTop: '10px'}}>
-                        <div className='row'>
-                            <div className='col col-1 hide-screen-362'></div>
-                            <p id='c-title' className='col col-fill'> Suggested For You </p>
-                            <p id='see-more' className='col col-3 text-center'> <Link to="/explore/people">See All</Link> </p>
+                    <React.Fragment>
+                        <span>{res.data.length<1 && <p id='note-msg'> Nothing here </p>}</span>
+                        <div className="suggestions page disp-1 hide-big-screen" style={{paddingTop: '10px'}}>
+                            <div className='row'>
+                                <div className='col col-1 hide-screen-362'></div>
+                                <p id='c-title' className='col col-fill'> Suggested For You </p>
+                                <p id='see-more' className='col col-3 text-center'> <Link to="/explore/people">See All</Link> </p>
+                            </div>
+                            <div>
+                                <Suggestions limit={10} />
+                            </div>
                         </div>
-                        <div>
-                            <Suggestions limit={10} />
-                        </div>
-                    </div>
+                    </React.Fragment>
                 )}
 
             </div>
