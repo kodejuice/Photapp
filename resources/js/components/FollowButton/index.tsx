@@ -64,7 +64,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({user, unfollow:_unfollow, no
             else if (!follow && onUnfollow) onUnfollow();
 
             // delete associated notification
-            if (follow && notification_id) {
+            if (notification_id) {
                 deleteNotification(notification_id);
             }
         })

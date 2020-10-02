@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Header from '../components/Header';
 import useSWR from '../helpers/swr';
 
+import authUser from '../state/auth_user'; 
 import {fetchListing} from '../helpers/fetcher';
 import Spinner from '../components/Spinner';
 import showAlert from '../components/Alert/showAlert';
@@ -21,6 +22,7 @@ const POST_PER_PAGE = 100;
 
 const UserFeed: React.FC<{}> = ()=>{
     const dispatch = useDispatch();
+    const {logged} = authUser();
 
     const [offset, setOffset] = useState(0);
     const [postToBeShown, setPostToBeShown] = useState(POST_PER_PAGE);
@@ -38,7 +40,11 @@ const UserFeed: React.FC<{}> = ()=>{
         <React.Fragment>
             {isLoading && offset==0 && <Spinner type='list' />}
 
-            {data && ALL_POST.length == 0 && <p id='explore-msg'> Nothing here, <Link to="/explore/people">follow more people</Link> </p>}
+            {data && ALL_POST.length == 0 && 
+                logged
+                ? <p id='explore-msg'> Nothing here, <Link to="/explore/people">follow more people</Link> </p>
+                : <p id='explore-msg'> Nothing here, this is unusual. Try reloading the page </p>
+            }
 
             {ALL_POST.length > 0 && (
                 <div className='grid-container' role='grid-container'>

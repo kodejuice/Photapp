@@ -39,7 +39,7 @@ export default function Post({post, auth_user}) {
                    )}
                    {isAuthor && <label htmlFor={`modal-edit_caption`}> Modify Caption </label>}
                    <button onClick={()=>copyToClipboard(`${location.host}/post/${post.post_id}`, dispatch)}> Copy link </button>
-                   <RepostButton post_id={post.post_id} />
+                   {logged && <RepostButton post_id={post.post_id} />}
                    <label id='close' htmlFor={`modal-post`}> Cancel </label>
                </div>
             </div>

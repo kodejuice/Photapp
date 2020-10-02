@@ -17,7 +17,7 @@ const Header: React.FC<{}> = ()=>{
     const history = useHistory();
 
     const [dropdown_shown, showDropdown] = useState(false) ;
-    const {user} = authUser();
+    const {user, logged} = authUser();
 
     const toggleDropdown = ()=>{
         showDropdown(!dropdown_shown);
@@ -48,9 +48,8 @@ const Header: React.FC<{}> = ()=>{
                             <li><Link to="/"><img src={homeIcon}/></Link></li>
                             <li><Link to="/explore"><img src={exploreIcon}/></Link></li>
                             {
-                                !user?.id ?
+                                !logged ?
                                     <React.Fragment>
-                                        <li> <Link to="/login"><img src={heartIcon}/></Link> </li>
                                         <li> <Link to="/login"><img src={loginIcon}/></Link> </li>
                                     </React.Fragment>
                                     :
