@@ -78,11 +78,11 @@ const FollowButton: React.FC<FollowButtonProps> = ({user, unfollow:_unfollow, no
     return (
         unfollow || userFollow[user]
 
-        ? <button className='unfollow-button' onClick={_=>onButtonClick(false)}>
+        ? <button role='unfollow-btn' data-testid='unfollow-btn' className='unfollow-button' onClick={_=>onButtonClick(false)}>
             {isLoading ? loadingBig : "Unfollow" }
         </button>
 
-        : <button onClick={_=>onButtonClick(true)}>
+        : <button role='follow-btn' data-testid='follow-btn' onClick={_=>onButtonClick(true)}>
             {(isLoading && child)
                 ? loadingSmall
                 : (isLoading ? loadingBig : (child || "Follow"))}
