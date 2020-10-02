@@ -22,10 +22,31 @@ export default function LazyPost({post_id}) {
 
     const url = (isError || isLoading || (!post?.post_url))
         ? default_image
-        : JSON.parse(post.post_url)[0][1];
-    /* post_url is a json string -> "[[file_name, full_file_path], ...]"  */
+        : getImageInPost(post);
 
     return <img role={post?'post-img':''} data-testid='post-img' src={isLoading ? waiting : url} onError={onError} />;
+}
+
+
+/**
+ * Gets the first image in a post.
+ *
+ * @param      {<Post object>}  post
+ */
+function getImageInPost(post) {
+    const media_types = JSON.parse(post.media_type);
+    // post.media_type is a JSON string -> "['image', 'video', ...]"
+    
+    const posts = JSON.parse(post.post_url);
+    /* post.post_url is a JSON string -> "[[file_name, full_file_path], ...]"  */
+
+    for (let i=0; i<media_types.length; ++i) {
+        if (media_types[i] == 'image') {
+            return posts[i][1];
+        }
+    }
+
+    return default_image;
 }
 
 
