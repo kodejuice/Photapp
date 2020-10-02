@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
@@ -235,9 +236,6 @@ class PostController extends Controller
 
         if ($existing) {
             return response(['errors' => ['You already reposted this']], 422);
-        }
-        if ($post->user_id == $user->id) {
-            return response(['errors' => ['You cant repost your own post']], 422);
         }
 
         $new_post = new Post();
@@ -494,7 +492,8 @@ sql;
     public function download(Request $request) {
         $url = $request->input("url");
 
-        // TODO: uncomment this
+        // TODO: move this to a serverless function
+        // 
         // downloaded files should never exceed 5MB
         // $head = array_change_key_case(get_headers($url, 1));
         // $bytes = isset($head['content-length']) ? $head['content-length'] : 0;
