@@ -15,7 +15,7 @@ span#red-dot {
     display: block;
     position: absolute;
     left: calc(50% - #{$size/2}px);
-    background: #E11111;
+    background: #ED4956;
     @include border-radius(100%);
 }
 
