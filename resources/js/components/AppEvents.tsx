@@ -16,14 +16,13 @@ const {Echo} = (window as any);
 
 const AppEvents: React.FC<{}> = () => {
     const {logged, user} = authUser();
-    if (!logged) return null;
 
     const dispatch = useDispatch();
     const ref = useRef<boolean|null>(false);
     const {notifications} = useNotifications();
 
     const notifyUser = (notify: boolean)=>{
-        if (ref.current == null) return; // unmounted
+        if (ref.current == null || !logged) return; // unmounted
 
         dispatch(set_notification(notify));
     }
@@ -42,8 +41,8 @@ const AppEvents: React.FC<{}> = () => {
 
             // listen for Laravel Echo broadcast
             channels.forEach((c, i)=>{
-                Echo.private(c)
-                    .listen(events[i], (e) => {
+                Echo?.private(c)
+                    ?.listen(events[i], (e) => {
                         notifyUser(true);
                     });
             });

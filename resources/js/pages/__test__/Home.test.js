@@ -100,10 +100,10 @@ test("properly renders all posts", async ()=>{
     const {getByTestId} = render(component);
 
     await screen.findByRole('post-wrapper');
-    await screen.queryAllByRole('post');
-    await screen.queryAllByRole('carousel-child');
-    await screen.queryAllByRole('video-player');
-    await screen.queryAllByRole('image-viewer');
+    expect((await screen.queryAllByRole('post'))[0]).not.toEqual(undefined);
+    expect((await screen.queryAllByRole('carousel-child'))[0]).not.toEqual(undefined);
+    expect((await screen.queryAllByRole('video-player'))[0]).not.toEqual(undefined);
+    expect((await screen.queryAllByRole('image-viewer'))[0]).not.toEqual(undefined);
 
     //////////////////////
     // test like button //
