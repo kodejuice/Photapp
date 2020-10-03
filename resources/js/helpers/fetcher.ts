@@ -366,6 +366,36 @@ export async function deletePost(post_id: number) {
 }
 
 
+/**
+ * update user password
+ *
+ * @param      {string}  old_pass  The old password
+ * @param      {string}  new_pass  The new password
+ */
+export async function updatePassword(old_pass: string, new_pass: string) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post(`/api/user/password/update`, {
+            old_password: old_pass,
+            new_password: new_pass,
+        });
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+
+
 //////////////////
 // Notifications /
 //////////////////

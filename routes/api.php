@@ -82,6 +82,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
         //UPDATE, DELETE
         Route::post('/user/dp', 'UserController@updateDP')->name('user.dp_update');
         Route::post('/user/update', 'UserController@updateInfo')->name('user.update');
+        Route::post('/user/password/update', 'UserController@updatePassword')->name('user.password.update');
         Route::post('/user/{username}/follow', 'UserController@followUser')->name('user.follow');
         Route::post('/user/{username}/unfollow', 'UserController@unfollowUser')->name('user.unfollow');
         Route::post('/user/notification/{id}', 'UserController@markNotification')->name('user.notification.mark');

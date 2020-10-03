@@ -77,9 +77,7 @@ const Notifications: React.FC<{user: userProfile}> = ({user})=>{
         saveSettings(name, value)
         .then(res => {
             if (unmounted.current) return;
-            if (res?.errors) {
-                return showAlert(dispatch, res.errors);
-            }
+            if (res?.errors) return showAlert(dispatch, res.errors);
             if (res?.success) return showAlert(dispatch, ['Settings updated!'], 'success');
         })
         .catch(()=>{})

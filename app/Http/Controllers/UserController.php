@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 // use Illuminate\Support\Facades\Log;
@@ -63,6 +64,32 @@ class UserController extends Controller
         $set->notify_mentions = $request->input('notify_mentions', $set->notify_mentions);
         $set->notify_follows = $request->input('notify_follows', $set->notify_follows);
         $set->save();
+
+        return response(['message' => 'Done']);
+    }
+
+
+    /**
+     * update user password
+     */
+    public function updatePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string|min:6',
+            'new_password' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $user = $request->user();
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response(['errors' => ["Old password is incorrect"]], 422);
+        }
+
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
 
         return response(['message' => 'Done']);
     }
