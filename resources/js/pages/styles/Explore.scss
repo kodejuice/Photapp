@@ -1,3 +1,5 @@
+@import '../../../sass/variables';
+
 // @media screen and (max-width: 768px) {
 //     .transparent {
 //         top: 31px + 44px + 4px;
@@ -13,6 +15,24 @@
     .search-box {
         margin-top: 4px;
         .col{padding: 0;}
+        .col.col-2 {
+            flex: 0 0 20%;
+            max-width: 20%;
+            width: 20%;
+        }
+
+        input.search-input {
+            width: 99%;
+            padding: 4px 12px;
+            overflow: visible;
+            margin: 0 auto;
+            font-size: 0.89em;
+            text-align: center;
+            color: rgba(var(--i1d,38,38,38),1);
+            border: 1px solid rgba(var(--b38,219,219,219),1);
+            @include border-radius(6px);
+        }
+
         button {
             width: 89%;
             border: none;
@@ -25,6 +45,30 @@
             font-size: 0.80em;
         }
     }
+
+    .grid-container {
+        margin-top: 27px !important;
+    }
+
+    p#explore-msg {
+        color: #262626;
+        display: block;
+        width: 97%;
+        margin: 0 auto;
+        text-align: center;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        a {
+            color: #07439D;
+        }
+    }
+
+
+
 }
 
 
@@ -52,26 +96,5 @@
     .grid-container {
         width: 963px;
         margin: 0 auto;
-    }
-}
-
-.grid-container {
-    margin-top: 27px !important;
-}
-
-p#explore-msg {
-    color: #262626;
-    display: block;
-    width: 97%;
-    margin: 0 auto;
-    text-align: center;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    a {
-        color: #07439D;
     }
 }

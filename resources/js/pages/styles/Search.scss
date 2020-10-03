@@ -1,10 +1,4 @@
-@mixin border-radius($property) {
-    -webkit-border-radius: $property;
-    -o-border-radius: $property;
-    -moz-border-radius: $property;
-    border-radius: $property;
-}
-
+@import '../../../sass/variables';
 
 @media screen and (min-width: 815px) {
     .search-box {display: none;}

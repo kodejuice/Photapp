@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import useSWR from '../helpers/swr';
 
 import authUser from '../state/auth_user'; 
+import {merge_objects} from '../helpers/util';
 import {fetchListing} from '../helpers/fetcher';
 import Spinner from '../components/Spinner';
 import showAlert from '../components/Alert/showAlert';
@@ -34,13 +35,13 @@ const UserFeed: React.FC<{}> = ()=>{
         isError = true, data = null;
     }
 
-    mergePosts(ALL_POST, data);
+    merge_objects('post_id', ALL_POST, data);
 
     return (
         <React.Fragment>
             {isLoading && offset==0 && <Spinner type='list' />}
 
-            {data && data.length == 0 && (
+            {data && data.length == 0 && ALL_POST.length==0 && (
                 logged
                 ? <p id='explore-msg'> Nothing here, <Link to="/explore/people">follow more people</Link> </p>
                 : <p id='explore-msg'> Nothing here, this is unusual. Try reloading the page </p>
@@ -62,7 +63,7 @@ const UserFeed: React.FC<{}> = ()=>{
                                     setPostToBeShown(Math.min(postToBeShown+10, ALL_POST.length));
                                 }
                             }}
-                            hasMore={isLoading ? true : data && data.length > 0}
+                            hasMore={isLoading || (data && data.length > 0)}
                             loader={ <span></span> }
                             endMessage={ !isLoading && <p id='msg'> &#8593; Thats all! </p> }
                         >
@@ -86,7 +87,7 @@ const Explore: React.FC<{}> = ()=>{
     const [query, setQuery] = useState("");
     const history = useHistory();
 
-    const Search = (ev: React.SyntheticEvent<HTMLFormElement>)=>{
+    const Search = (ev)=>{
         ev.preventDefault();
         history.push(`/explore/search/${query}`);
     }
@@ -101,13 +102,18 @@ const Explore: React.FC<{}> = ()=>{
                         <div className='col col-fill'>
                             <form onSubmit={Search}>
                                 <input value={query} className='search-input' placeholder="Search"
+                                    name='search'
                                     onChange={e=>setQuery(e.target.value)}
                                     onFocus={()=>showFeed(false)}
                                     onBlur={()=>showFeed(true)}
                                 />
                             </form>
                         </div>
-                        <div className='col col-2'> <div id='btn-wrp'> <button onClick={()=>showFeed(true)}>Cancel</button> </div> </div>
+                        <div className='col col-2'>{
+                            query.trim().length
+                            ? <div id='btn-wrp'> <button onClick={Search}>Search</button> </div>
+                            : <div id='btn-wrp'> <button onClick={()=>showFeed(true)}>Cancel</button> </div>
+                        }</div>
                     </div>
                 </div>
 
@@ -121,23 +127,6 @@ const Explore: React.FC<{}> = ()=>{
     );
 }
 
-
-/**
- * merge two array of posts together
- *  discarding duplicates
- * @param  {Post[]} all_posts         original post
- * @param  {Post[]} new_posts         post to merge with
- */
-function mergePosts(all_posts: any[], new_posts: any[]) {
-    if (!new_posts) return;
-    const ids = new Set(all_posts.map(o => o.post_id));
-
-    for (let p of new_posts) {
-        if (!ids.has(p.post_id)) {
-            all_posts.push(p);
-        }
-    }
-}
 
 
 /**
