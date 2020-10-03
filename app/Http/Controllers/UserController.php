@@ -31,7 +31,7 @@ class UserController extends Controller
             'bio' => 'string|max:200',
             'dob' => 'nullable|date',
             'email' => 'email|max:50',
-            'password' => 'string|required',
+            'password' => 'string',
 
             // settings
             'notify_post_likes' => 'boolean',
@@ -42,11 +42,14 @@ class UserController extends Controller
         ]);
 
         $user = $request->user();
-        if (!Hash::check($request->password, $user->password)) {
-            return response(['errors'=>["Password is incorrect, couldn't save changes"]], 422);
+
+        if ($request->full_name || $request->bio || $request->dob || $request->email) {
+            if (!$request->password || !Hash::check($request->password, $user->password)) {
+                return response(['errors'=>["Password is incorrect, couldn't save changes"]], 422);
+            }
         }
 
-        $email = $request->input('email');
+        $email = $request->email;
         if ($email && $user->email != $email) {
             if (User::firstWhere('email', $email)) {
                 return response(['errors' => ["Email already taken"]], 422);

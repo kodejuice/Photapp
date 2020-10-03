@@ -81,7 +81,8 @@ class UserUpdateTest extends TestCase
     public function user_can_update_info()
     {
         $response = $this->json("POST", route('user.update'), [
-            'full_name' => "Real John Doe"
+            'full_name' => "Real John Doe",
+            'password' => '123456'
         ], [
             'Authorization' => 'Bearer ' . $this->user1_login['token']
         ]);
@@ -100,6 +101,7 @@ class UserUpdateTest extends TestCase
         $response = $this->post(route('user.update'), [
             'full_name' => "Real John Doe",
             'bio' => "mehn i'm tired",
+            'password' => '123456'
         ], [
             'Authorization' => 'Bearer ' . $this->user1_login['token']
         ]);
@@ -138,6 +140,7 @@ class UserUpdateTest extends TestCase
             'full_name' => "Real John Doe",
             'bio' => "mehn i'm tired",
             'dob' => DATE,
+            'password' => '123456'
         ], [
             'Authorization' => 'Bearer ' . $this->user1_login['token']
         ]);
