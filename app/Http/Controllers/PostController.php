@@ -52,7 +52,7 @@ class PostController extends Controller
         $post->caption = $request->input('caption');
         $post->save();
 
-        return response(['message' => 'Successfully updated caption']);
+        return response(['message' => 'Done']);
     }
 
     /**

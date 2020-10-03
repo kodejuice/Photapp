@@ -130,9 +130,10 @@ const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id,
             : likes + Number(commentLiked)
         );
 
-    const comment: string = text;
     const message_limit = 100;
-    const [commentMessage, setCommentMessage] = useState(limit(comment, message_limit));
+    const comment: string = text;
+    const limitedCommentText = limit(text, message_limit);
+    const [commentMessage, setCommentMessage] = useState(limitedCommentText);
     const [fullCommentShown, showFullComment] = useState(comment == commentMessage);
     const showComment = (t)=>{
         if (t == 'more') {
@@ -142,6 +143,10 @@ const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id,
         }
         showFullComment(t == 'more' ? true : false);
     };
+
+    if (limitedCommentText != commentMessage) {
+        setCommentMessage(limitedCommentText);
+    }
 
     return (
         <React.Fragment>

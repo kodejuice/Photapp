@@ -1,19 +1,54 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
+import {mutate} from 'swr';
+import {updatePostCaption} from '../../helpers/fetcher';
 import FollowButton from '../../components/FollowButton';
 import RepostButton from '../../components/RepostButton';
 import LazyDP from '../../components/LazyDP';
+import showAlert from '../../components/Alert/showAlert';
 
 import MediaViewer from '../../components/Posts/HomeView/MediaViewer';
 import {deletePost, copyToClipboard} from '../../components/Posts/HomeView/helper';
 
 
-// TODO: edit caption
+const EditCaptionButton = ({caption, post, onInputChange})=>{
+    const dispatch = useDispatch();
+    const unmounted = useRef(false);
+    const [isLoading, setLoading] = useState(false);
 
-const EditCaptionButton = ({caption, post})=>{
+    useEffect(()=>{
+        unmounted.current = false;
+        return ()=>{unmounted.current = true;}
+    });
+
+    const updateCaption = ()=>{
+        setLoading(true);
+
+        updatePostCaption(post.post_id, caption)
+        .then(res=>{
+            if (unmounted.current) return;
+            if (res?.success) {
+                mutate(`${post.post_id}`, async post => {
+                    post.caption = caption;
+                    return post;
+                });
+
+                showAlert(dispatch, ['Caption updated'], 'success');
+            } else if (res?.errors) {
+                showAlert(dispatch, res.errors);
+            }
+        })
+        .finally(()=>setLoading(false));
+    };
+
     return (
-        <button disabled={caption.trim()==post.caption}> Submit </button>
+        <React.Fragment>
+            <form onSubmit={e=>{e.preventDefault(); updateCaption();}}>
+                <input value={caption} onChange={onInputChange} />
+                <button onClick={updateCaption} disabled={caption.trim()==post.caption}> Submit </button>
+            </form>
+        </React.Fragment>
     );
 }
 
@@ -51,8 +86,7 @@ export default function Post({post, auth_user}) {
             <div className="modal">
                <label className="modal-bg" htmlFor={`modal-edit_caption`}></label>
                <div className="modal-body edit-caption">
-                   <input value={postCaption||""} onChange={e=>setPostCaption(e.target.value)} />
-                   <EditCaptionButton caption={postCaption} post={post} />
+                   <EditCaptionButton caption={postCaption} post={post} onInputChange={e=>setPostCaption(e.target.value)} />
                    <label htmlFor={`modal-edit_caption`} id='close'> Cancel </label>
                </div>
             </div>

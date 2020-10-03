@@ -390,6 +390,28 @@ export async function deletePostComment(comment_id: number) {
 }
 
 
+export async function updatePostCaption(post_id: number, caption: string) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/update`, {
+            caption
+        });
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+
 /**
  * update user password
  *
