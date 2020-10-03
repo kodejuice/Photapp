@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
+// TODO: check if user wants such notifications (in `UserSettings` table)
 
 if (!function_exists('broadcast_auth_logic')) {
     // i have a feeling this isnt bad code :/
