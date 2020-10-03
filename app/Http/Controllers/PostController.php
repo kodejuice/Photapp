@@ -247,6 +247,9 @@ class PostController extends Controller
             json_decode($post->media_type)
         );
 
+        // update follow score
+        Helper::updateFollowScore($user, $post->user_id, 'repost');
+
         return response(['message' => "Success"]);
     }
 

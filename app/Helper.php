@@ -213,6 +213,8 @@ class Helper
             'comment_dislike' => -1.001,
 
             'save' => 1.002,
+
+            'repost' => 1.009,
         ];
 
         // if (!array_key_exists($action, $map))
