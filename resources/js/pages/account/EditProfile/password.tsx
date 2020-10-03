@@ -41,7 +41,10 @@ const Password: React.FC<{user:userProfile}> = ({user})=>{
         .then(res=>{
             if (unmounted.current) return;
             if (res?.errors) return showAlert(dispatch, res.errors);
-            if (res?.success) return showAlert(dispatch, ['Password updated!'], 'success');
+            if (res?.success) {
+                showAlert(dispatch, ['Password updated!'], 'success');
+                location.reload();
+            }
         })
         .catch(()=>{})
         .finally(()=>{
