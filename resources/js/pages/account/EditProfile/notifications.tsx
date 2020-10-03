@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
+import {useDispatch} from 'react-redux';
 import useSWR from '../../../helpers/swr';
 import Spinner from '../../../components/Spinner';
 import Header from './Header';
 
-import {fetchSettings} from '../../../helpers/fetcher';
+import showAlert from '../../../components/Alert/showAlert';
+import {fetchSettings, saveSettings} from '../../../helpers/fetcher';
 import {userProfile} from '../../../state/userProfile.d';
 
 const savingIcon = <svg style={{display: 'block', 'shapeRendering': 'auto'}} width="25px" height="25px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"> <circle cx="50" cy="50" fill="none" stroke="#93dbe9" strokeWidth="10" r="35" strokeDasharray="164.93361431346415 56.97787143782138" transform="rotate(176.644 50 50)"> <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform> </circle> </svg>;
@@ -12,17 +14,17 @@ const savingIcon = <svg style={{display: 'block', 'shapeRendering': 'auto'}} wid
  * map of settings that are currently beign saved in the DB
  * @type {Map}
  */
-let isSaving: Map<string, boolean>;
+let isSavingInBackground: Map<string, boolean>;
 
 
 /**
  * radio component
  * @param  {string} props.name  Radio name
  * @param  {string} props.value Radio value
- * @param  {[type]} props._set  onChange function
+ * @param  {Function} props._set  onChange function
  */
 const Radio = ({name,value,_set, saving})=>{
-    const disabled = saving && isSaving.has(name);
+    const disabled = saving && isSavingInBackground.has(name);
     return (
         <div onChange={_set}>
             <div className='field-radio'> <input disabled={disabled} type='radio' value="On" name={name} defaultChecked={value=="On"} /> On </div>
@@ -34,7 +36,9 @@ const Radio = ({name,value,_set, saving})=>{
 
 
 const Notifications: React.FC<{user: userProfile}> = ({user})=>{
-    const rendered = React.useRef<boolean|null>(false);
+    const dispatch = useDispatch();
+    const rendered = useRef(false);
+    const unmounted = useRef(false);
     const [saving, setSaving] = useState<boolean>(false);
     const {data, isLoading} = useUserSettings();
 
@@ -46,6 +50,11 @@ const Notifications: React.FC<{user: userProfile}> = ({user})=>{
         comments: false,
     });
 
+    useEffect(()=>{
+        unmounted.current = false;
+        return ()=>{unmounted.current = true;}
+    });
+
     if (data && !rendered.current) {
         setAlerts({
             post_likes: Boolean(data.notify_post_likes),
@@ -54,14 +63,33 @@ const Notifications: React.FC<{user: userProfile}> = ({user})=>{
             follows: Boolean(data.notify_follows),
             comments: Boolean(data.notify_comments),
         });
-        isSaving = new Map();
+        isSavingInBackground = new Map();
         rendered.current = true;
     }
 
     const change = (w) => {
-        setAlerts({ ...alerts, [w]: !alerts[w] });
-        updateSettings(w, !alerts[w], setSaving);
+        const [name, value] = [w, !alerts[w]];
+
+        setSaving(name);
+        setAlerts({ ...alerts, [name]: value });
+        isSavingInBackground.set(name, true);
+
+        saveSettings(name, value)
+        .then(res => {
+            if (unmounted.current) return;
+            if (res?.errors) {
+                return showAlert(dispatch, res.errors);
+            }
+            if (res?.success) return showAlert(dispatch, ['Settings updated!'], 'success');
+        })
+        .catch(()=>{})
+        .finally(()=>{
+            if (unmounted.current) return;
+            setSaving(false);
+            isSavingInBackground.delete(name);
+        });
     }
+
 
     return (
         <Header page='notifications'>
@@ -122,18 +150,6 @@ const Notifications: React.FC<{user: userProfile}> = ({user})=>{
         </Header>
     );
 };
-
-
-function updateSettings(name, value, setSaving) {
-    setSaving(name);
-    isSaving.set(name, true);
-
-    console.log(`${name} => ${value}`);
-
-    // TODO: update settings
-
-    // isSaving.delete(name);
-}
 
 
 function useUserSettings() {

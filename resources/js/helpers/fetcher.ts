@@ -261,6 +261,29 @@ export async function fetchSettings() {
 
 
 /**
+ * Saves notification settings.
+ *
+ */
+export async function saveSettings(name, value) {
+    let req;
+    try {
+        req = await axios.post(`/api/user/update`, {
+            [`notify_${name}`]: Number(value)
+        });
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
  * follow user
  */
 export async function followUser(user: string) {
@@ -319,7 +342,9 @@ export async function repostUserPost(post_id: number) {
     }
 }
 
-
+/**
+ * delete user post
+ */
 export async function deletePost(post_id: number) {
     nprogress.start();
 
@@ -338,8 +363,8 @@ export async function deletePost(post_id: number) {
     } finally {
         nprogress.done();
     }
-
 }
+
 
 //////////////////
 // Notifications /
