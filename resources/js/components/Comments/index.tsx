@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import useSWR from '../../helpers/swr';
 import {useDispatch} from 'react-redux';
@@ -6,10 +6,10 @@ import {useDispatch} from 'react-redux';
 import authUser from '../../state/auth_user';
 import LazyDP, {LazyDPSync} from '../LazyDP';
 import showAlert from '../../components/Alert/showAlert';
-import {fetchListing} from '../../helpers/fetcher';
+import {fetchListing, deletePostComment} from '../../helpers/fetcher';
 import {ProcessUserInput} from '../../helpers/mini-components';
 import {howLong} from '../../helpers/date-time';
-import {limit, merge_objects} from '../../helpers/util';
+import {limit, merge_objects, amount} from '../../helpers/util';
 import Spinner from '../../components/Spinner';
 
 import AddComment from '../../components/Posts/HomeView/AddComment';
@@ -32,11 +32,13 @@ type CommentProps = {
     profile_pic?: string,
     comment_id?: number,
     auth_user_likes?: boolean,
+    onDelete: ()=>void,
 }
 
 type DeleteButtonProps = {
     comment_id: number,
     showComment: React.Dispatch<React.SetStateAction<boolean>>,
+    onDelete: ()=>void,
 }
 
 type LikeButtonProps = {
@@ -77,13 +79,29 @@ const LikeButton: React.FC<LikeButtonProps> = ({comment_id, dislike, setCommentL
  * @param  {Dispatch<SetStateAction<boolean>>} showComment
  */
 let deletedComments: Set<number>;
-const DeleteButton: React.FC<DeleteButtonProps> = ({comment_id, showComment})=>{
+const DeleteButton: React.FC<DeleteButtonProps> = ({comment_id, showComment, onDelete})=>{
+    const dispatch = useDispatch();
+    const unmounted = useRef(false);
+
+    useEffect(()=>{
+        unmounted.current = false;
+        return ()=>{unmounted.current = true;}
+    });
 
     const deleteComment = ()=>{
-        // TODO: delete comment
-        // onDelete:
-        //     deletedComments.add(comment_id)
-        //     showComment(false)
+        if (!confirm("Delete comment?")) return;
+
+        deletePostComment(comment_id)
+        .then(res=>{
+            if (unmounted.current) return;
+            if (res?.errors) return showAlert(dispatch, res.errors);
+            if (res?.success) {
+                deletedComments.add(comment_id);
+                onDelete();
+                showAlert(dispatch, ['Comment deleted'], 'success');
+                showComment(false);
+            }
+        })
     }
 
     return (
@@ -96,7 +114,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({comment_id, showComment})=>{
 }
 
 
-const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id, auth_user_likes, profile_pic, how_long})=>{
+const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id, auth_user_likes, profile_pic, how_long, onDelete})=>{
     likes = likes||0;
     const {user, logged} = authUser();
     const [commentShown, showThisComment] = useState(true);
@@ -148,11 +166,11 @@ const SingleComment: React.FC<CommentProps> = ({text, author, likes, comment_id,
                     </span>
                     <div className='comment-info'>
                         <span className='hw'>{how_long}</span>
-                        {comment_id && <span role='comment-like' className='hw bold'>{post_likes} likes</span>}
+                        {comment_id && <span role='comment-like' className='hw bold'>{amount(post_likes)} likes</span>}
                     </div>
                 </div>
                 {isAuthor && comment_id
-                    ? <DeleteButton showComment={showThisComment} comment_id={comment_id} />
+                    ? <DeleteButton onDelete={onDelete} showComment={showThisComment} comment_id={comment_id} />
                     : comment_id && <LikeButton setCommentLiked={setCommentLiked} comment_id={comment_id} dislike={commentLiked} />
                 }
             </div>}
@@ -168,6 +186,8 @@ const Comments: React.FC<{
     const dispatch = useDispatch();
     const [limit, setLimit] = useState(10);
     let {data, isLoading} = useComments(post_id);
+
+    const [commentCount, setCommentCount] = useState(post.comment_count);
 
     if (data?.errors) {
         showAlert(dispatch, data.errors);
@@ -185,7 +205,7 @@ const Comments: React.FC<{
            <div className='comments' role='comments'>
                 {post.caption && (
                     <div className='caption'>
-                        <SingleComment text={post.caption} author={post.username} how_long={howLong(post.created_at)} />
+                        <SingleComment onDelete={()=>void 0} text={post.caption} author={post.username} how_long={howLong(post.created_at)} />
                         <div className='_border'></div>
                     </div>
                 )}
@@ -199,9 +219,11 @@ const Comments: React.FC<{
                 {isLoading && <Spinner type='list'/>}
                 {data && data.length>0 && (
                     <div className='scroll-par'>
-                        {data && <p id='comment-count' data-testid='comment-count'> {post.comment_count} comments </p>}
+                        {data && <p id='comment-count' data-testid='comment-count'> {amount(commentCount)} comments </p>}
                         <div className='scrolling-list'>
                             {data && data.slice(0,limit).map(({message, likes, comment_id, username, auth_user_likes, profile_pic, created_at})=>(
+                                !deletedComments.has(comment_id)
+                                &&
                                 <SingleComment
                                     key={username+comment_id}
                                     text={message}
@@ -211,6 +233,10 @@ const Comments: React.FC<{
                                     auth_user_likes={auth_user_likes}
                                     profile_pic={profile_pic}
                                     how_long={howLong(created_at)}
+                                    onDelete={()=>{
+                                        setCommentCount(commentCount-1)
+                                        post.comment_count -= 1;
+                                    }}
                                 />
                             ))}
                         </div>

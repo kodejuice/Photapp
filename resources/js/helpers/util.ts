@@ -14,8 +14,9 @@ export function limit(str: string, lim: number): string {
 
 
 /**
- * convert figure to human readable amount
+ * make figure succinct
  * 123983 -> 123.9k
+ * 
  * @param  {number} figure
  * @return {string}
  */

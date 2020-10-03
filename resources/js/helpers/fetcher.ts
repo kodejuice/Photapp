@@ -367,6 +367,30 @@ export async function deletePost(post_id: number) {
 
 
 /**
+ * delete post comment
+ */
+export async function deletePostComment(comment_id: number) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.delete(`/api/comment/${comment_id}`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+
+
+/**
  * update user password
  *
  * @param      {string}  old_pass  The old password

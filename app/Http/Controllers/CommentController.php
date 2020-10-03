@@ -87,12 +87,12 @@ class CommentController extends Controller
         // delete all associated rows
         Like::where('comment_id', $id)->delete();
         Notification::where('post_id', $comment->post_id)
-                    ->where('associated_user', $user->username)
-                    ->where('message', $comment->message)
-                    ->where('type', 'comment')
-                    ->delete();
+            ->where('associated_user', $user->username)
+            ->where('message', $comment->message)
+            ->where('type', 'comment')
+            ->delete();
         Notification::where('comment_id', $comment->comment_id)
-                    ->delete();
+            ->delete();
 
         $post = Post::firstWhere('post_id', $comment->post_id);
         $post->comment_count -= 1;
@@ -104,7 +104,7 @@ class CommentController extends Controller
         // then delete comment
         $comment->delete();
 
-        return response(['message' => "Comment deleted"], 200);
+        return response(['message' => "Done"], 200);
     }
     
 
