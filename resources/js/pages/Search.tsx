@@ -32,6 +32,7 @@ const PostsResult: React.FC<{query:string}> = ({query}) => {
                 <div role='search-results' className='posts-wrapper search-results'>
                     <div className='home-posts'>
                         {data && <Posts view='home' data={data}/>}
+                        {data && data.length==0 && <p id='err-msg'>No results found</p>}
                     </div>
                 </div>
             </div>
@@ -61,6 +62,7 @@ const UsersResult: React.FC<{query:string}> = ({query}) => {
 
                 <div className='suggestions page' style={{paddingTop:'0'}}>
                     {data && <Users data={data}/>}
+                    {data && data.length==0 && <p id='err-msg'>No results found</p>}
                 </div>
             </div>
 
@@ -96,7 +98,7 @@ const Search: React.FC<Router.RouteComponentProps> = ({match, history})=>{
 
     if (params.query != query) {
         // this can happen if the user uses the header
-        // search input, which routes to this component
+        // search input, which routes to this component/page
         setQuery(params.query);
     }
 
