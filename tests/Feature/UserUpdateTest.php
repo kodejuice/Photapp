@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 use App\User;
@@ -65,11 +66,6 @@ class UserUpdateTest extends TestCase
           'username' => 'doejohn',
           'password' => '123456',
         ]);
-
-        // $this->withHeader(
-        //     'Authorization',
-        //     'Bearer ' . $this->user1_login['token']
-        // );
     }
 
     public function tearDown(): void
@@ -112,6 +108,24 @@ class UserUpdateTest extends TestCase
         tap(User::first(), function ($user) {
             $this->assertEquals("Real John Doe", $user->full_name);
             $this->assertEquals("mehn i'm tired", $user->bio);
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_update_password()
+    {
+        $response = $this->post(route('user.password.update'), [
+            'old_password' => '123456',
+            'new_password' => '654321'
+        ], [
+            'Authorization' => 'Bearer ' . $this->user1_login['token']
+        ]);
+        $response->assertStatus(200);
+
+        tap(User::firstWhere('id', 1), function ($user) {
+            $this->assertTrue(Hash::check("654321", $user->password), "test fail: password didn't update");
         });
     }
 

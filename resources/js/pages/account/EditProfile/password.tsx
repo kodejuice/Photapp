@@ -64,25 +64,27 @@ const Password: React.FC<{user:userProfile}> = ({user})=>{
                     </div>
                 </div>
 
-                <div className='row fields'>
-                    <div className='field-name no-pl'><label> Old Password </label> </div>
-                    <div className='field-value'> <input name='password' type='password' value={old_pass} onChange={(e)=>setOldPass(e.target.value)} /> </div>
-                </div>
+                <form onSubmit={e=>{e.preventDefault(); onSubmit()}}>
+                    <div className='row fields'>
+                        <div className='field-name no-pl'><label> Old Password </label> </div>
+                        <div className='field-value'> <input name='password' type='password' value={old_pass} onChange={(e)=>setOldPass(e.target.value)} /> </div>
+                    </div>
 
-                <div className='row fields'>
-                    <div className='field-name no-pl'><label> New Password </label> </div>
-                    <div className='field-value'> <input type='password' value={new_pass} onChange={(e)=>setNewPass1(e.target.value)} /> </div>
-                </div>
+                    <div className='row fields'>
+                        <div className='field-name no-pl'><label> New Password </label> </div>
+                        <div className='field-value'> <input type='password' value={new_pass} onChange={(e)=>setNewPass1(e.target.value)} /> </div>
+                    </div>
 
-                <div className='row fields'>
-                    <div className='field-name no-pl'><label> Confirm New Password </label> </div>
-                    <div className='field-value'> <input type='password' value={new_pass_2} onChange={(e)=>setNewPass2(e.target.value)} /> </div>
-                </div>
+                    <div className='row fields'>
+                        <div className='field-name no-pl'><label> Confirm New Password </label> </div>
+                        <div className='field-value'> <input type='password' value={new_pass_2} onChange={(e)=>setNewPass2(e.target.value)} /> </div>
+                    </div>
 
-                <div className='row fields'>
-                    <div className='field-name'> </div>
-                    <div className='field-value'> <button disabled={saving || !new_pass.length || !old_pass.length} onClick={onSubmit}> {saving ? savingIcon : "Change Password"} </button> </div>
-                </div>
+                    <div className='row fields'>
+                        <div className='field-name'> </div>
+                        <div className='field-value'> <button disabled={saving || !new_pass.length || !old_pass.length} onClick={onSubmit}> {saving ? savingIcon : "Change Password"} </button> </div>
+                    </div>
+                </form>
 
             </div>
 
