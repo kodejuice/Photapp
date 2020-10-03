@@ -24,6 +24,7 @@ class CreateUserSettingsTable extends Migration
             // index
             //
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unique('user_id');
         });
     }
 
