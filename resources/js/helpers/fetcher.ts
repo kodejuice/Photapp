@@ -96,8 +96,8 @@ export async function auth_fetch(url: string, body: auth_body, onErr: (d: Array<
 
 /**
  * checks user Login Status from server
- * @param  {Array<string>) => void}  onErr    callback invoked onError
- * @return {Promise<{}|boolean>}              logged in or not
+ * @param  {Array<string>) => void}  onErr             callback invoked onError
+ * @return {Promise<userProfile|boolean>}              logged in or not
  */
 export async function checkLoginStatus(onErr): Promise<userProfile|boolean> {
     nprogress.start();
@@ -381,6 +381,35 @@ export async function updatePassword(old_pass: string, new_pass: string) {
             old_password: old_pass,
             new_password: new_pass,
         });
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+
+
+/**
+ * update user profile
+ *
+ * @param      {string}  email
+ * @param      {string}  bio
+ * @param      {string}  full_name
+ * @param      {string}  password
+ */
+export async function updateProfile(fields: {[index:string]: string}) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post(`/api/user/update`, fields);
 
         if (req?.data?.message == 'Done') {
             return {success: true};

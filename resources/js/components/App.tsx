@@ -26,9 +26,9 @@ const App: React.FC<{path?:string}> = ({path})=>{
             const onErr = (errs: Array<string>) => {alert(errs.join("\n")), setMounted(true)};
             checkLoginStatus(onErr).then((logged) => {
                 if (logged) {
-                    const {id, username, email, full_name, profile_pic, followers, follows, posts_count} = logged as any;
+                    const {id, username, bio, email, full_name, profile_pic, followers, follows, posts_count} = logged as any;
                     dispatch(sign_in());
-                    dispatch(set_user({id, username, email, full_name, profile_pic, followers, follows, posts_count}));
+                    dispatch(set_user({id, username, bio, email, full_name, profile_pic, followers, follows, posts_count}));
                 }
                 setMounted(true);
             }).catch(()=>{});

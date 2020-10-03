@@ -28,9 +28,10 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'full_name' => 'string|max:50',
-            'bio' => 'string|max:150',
+            'bio' => 'string|max:200',
             'dob' => 'nullable|date',
-            'email' => 'string|email|max:50|unique:users',
+            'email' => 'email|max:50',
+            'password' => 'string|required',
 
             // settings
             'notify_post_likes' => 'boolean',
@@ -40,11 +41,22 @@ class UserController extends Controller
             'notify_follows' => 'boolean',
         ]);
 
+        $user = $request->user();
+        if (!Hash::check($request->password, $user->password)) {
+            return response(['errors'=>["Password is incorrect, couldn't save changes"]], 422);
+        }
+
+        $email = $request->input('email');
+        if ($email && $user->email != $email) {
+            if (User::firstWhere('email', $email)) {
+                return response(['errors' => ["Email already taken"]], 422);
+            }
+        }
+
         if ($validator->fails()) {
             return response(['errors'=>$validator->errors()->all()], 422);
         }
 
-        $user = $request->user();
 
         $user->email = $request->input('email', $user->email);
         $user->full_name = $request->input('full_name', $user->full_name);
