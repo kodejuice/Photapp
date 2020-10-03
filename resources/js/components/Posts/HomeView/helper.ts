@@ -1,6 +1,6 @@
 import showAlert from '../../Alert/showAlert';
 import {copyText} from '../../../helpers/window';
-import {deletePost as deleteUserPost} from '../../../helpers/fetcher';
+import {deletePost as deleteUserPost, savePost as saveUserPost, unsavePost} from '../../../helpers/fetcher';
 
 /**
  * helper functions for the post HomeView post component
@@ -68,12 +68,27 @@ export function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
 /**
  * bookmarks a post
  * @param  {number} post_id
- * @param  {Fn} toggleSave: ()   toggle save state
+ * @param  {Fn} toggleSave: ()   toggle save state and return previous state value
  * @param  {object} post : post beign saved
  */
 export function savePost(post_id: number, toggleSave: ()=>boolean, post: any) {
     const save = !toggleSave();
 
-    // TODO: perform action
+    const promise = save ? saveUserPost(post_id) : unsavePost(post_id);
+    promise
+    .then(res=>{
+        if (res.errors) {
+            if (res.errors[0].includes('Already')) {
+                post.auth_user_saved = save;
+                return;
+            }
+            toggleSave();
+            console.error(res.errors);
+            return alert(`Failed to save post\n\n${res.errors[0]}`);
+        } else if (res.success) {
+            post.auth_user_saved = save;
+        }
+    })
+    .catch(()=>{});
 }
 

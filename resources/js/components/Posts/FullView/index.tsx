@@ -94,9 +94,18 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                             <div className='count'> {amount(post.comment_count)} </div>
                         </Link>
                     </div>
-                    {logged && <div className='save-post _row' title="Save this post" onClick={()=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved), post)}>
-                        <div className='icon'> {postSaved ? bookmarkIcon: bookmarkIcon_blank} </div>
-                    </div>}
+                    {logged && (
+                        <div className='save-post _row' title="Save this post"
+                            onClick={()=>{
+                                const callback = ()=>{
+                                    savesPost(!postSaved)
+                                    return postSaved;
+                                }
+                                savePost(post.post_id, callback, post);
+                            }}>
+                            <div className='icon'> {postSaved ? bookmarkIcon: bookmarkIcon_blank} </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className='post-caption'>

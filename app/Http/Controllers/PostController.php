@@ -68,7 +68,7 @@ class PostController extends Controller
         $user = $request->user();
 
         if ($this->userSavedPost($user->id, $post->post_id)) {
-            return response(['message' => ["Already saved"]]);
+            return response(['errors' => ["Already saved"]]);
         }
 
         $bmark = new Bookmark();
@@ -95,7 +95,7 @@ class PostController extends Controller
         $user = $request->user();
 
         if (!$this->userSavedPost($user->id, $post->post_id)) {
-            return response(['message' => ["Invalid action"]]);
+            return response(['errors' => ["Already unsaved"]]);
         }
 
         Bookmark::where('user_id', $user->id)

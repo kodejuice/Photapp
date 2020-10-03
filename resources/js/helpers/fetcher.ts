@@ -425,6 +425,40 @@ export async function updateProfile(fields: {[index:string]: string}) {
 }
 
 
+export async function savePost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/save`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+export async function unsavePost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/unsave`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
 //////////////////
 // Notifications /
 //////////////////

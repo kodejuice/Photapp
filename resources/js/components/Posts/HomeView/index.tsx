@@ -134,7 +134,14 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                     </div>
                     <div className='col col-fill'></div>
                     <div className='col col-1'>
-                        <button onClick={()=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved), post)}>
+                       <button
+                            onClick={()=>{
+                                const callback = ()=>{
+                                    savesPost(!postSaved)
+                                    return postSaved;
+                                }
+                                savePost(post.post_id, callback, post);
+                            }}>
                             <img src={`/icon/bookmark${postSaved?'.png':'-blank.svg'}`} />
                         </button>
                     </div>

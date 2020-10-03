@@ -6,6 +6,9 @@ import {amount} from '../../helpers/util';
 import Comments from '../../components/Comments';
 import {likePost, savePost, deletePost} from '../../components/Posts/HomeView/helper';
 
+const bookmarkIcon = <img src="/icon/bookmark.png" />;
+const bookmarkIcon_blank = <svg fill="#000000" viewBox="0 0 50 50"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M37 3L13 3 13 47 25 40 37 47z"/></svg>;
+
 
 export default function PostInfo({post, auth_user}) {
     const dispatch = useDispatch();
@@ -34,8 +37,15 @@ export default function PostInfo({post, auth_user}) {
                     </div>
                     <div className='col-fill'></div>
                     {logged && <div className='save-btn'>
-                        <button onClick={()=>savePost(post.post_id, ()=>(savesPost(!postSaved), postSaved), post)}>
-                            <img src={`/icon/bookmark${postSaved?'.png':'-blank.svg'}`} />
+                        <button
+                            onClick={()=>{
+                                const callback = ()=>{
+                                    savesPost(!postSaved)
+                                    return postSaved;
+                                }
+                                savePost(post.post_id, callback, post);
+                            }}>
+                            {postSaved ? bookmarkIcon: bookmarkIcon_blank}
                         </button>
                     </div>}
                 </div>
