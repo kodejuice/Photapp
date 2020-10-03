@@ -7,7 +7,7 @@ import Comments from '../../components/Comments';
 import {likePost, savePost, deletePost} from '../../components/Posts/HomeView/helper';
 
 const bookmarkIcon = <img src="/icon/bookmark.png" />;
-const bookmarkIcon_blank = <svg fill="#000000" viewBox="0 0 50 50"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M37 3L13 3 13 47 25 40 37 47z"/></svg>;
+const bookmarkIcon_blank = <svg fill="#000000" viewBox="0 0 50 50"><path fill="none" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="2" d="M37 3L13 3 13 47 25 40 37 47z"/></svg>;
 
 
 export default function PostInfo({post, auth_user}) {
