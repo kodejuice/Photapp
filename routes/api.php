@@ -28,9 +28,12 @@ use Illuminate\Support\Facades\Log;
 */
 
 Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], function () {
-    // public routes
+    ///////////////////
+    // public routes //
+    ///////////////////
     Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
     Route::post('/register', 'Auth\ApiAuthController@register')->name('register.api');
+    Route::get('/dl', 'PostController@download'); // TODO: move this
 
     // Post [READ]
     Route::get('/posts', 'PostController@getPosts')->name('post.all_posts');
@@ -47,10 +50,27 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
     Route::get('/user/{username}/following', 'UserController@getUserFollowing')->name('user.following');
 
 
-    // ...
-    Route::get('/dl', 'PostController@download');
+    /////////////////////////////////////////////////////////
+    // [WRITE] Routes that anonymous users can also access //
+    /////////////////////////////////////////////////////////
+    Route::middleware('anonymous')->group(function () {
+        Route::put('/post/upload', 'PostUploadController@UrlUpload')->name('post.url_upload');
+        Route::post('/post/upload', 'PostUploadController@fileUpload')->name('post.file_upload');
+        Route::post('/post/{id}/like', 'PostController@likePost')->name('post.post_like');
+        Route::post('/post/{id}/dislike', 'PostController@dislikePost')->name('post.post_dislike');
+        Route::post('/post/{id}/comment', 'CommentController@comment')->name('post.post_comment');
+        Route::post('/comment/{id}/like', 'CommentController@likeComment')->name('post.like_comment');
+        Route::post('/comment/{id}/dislike', 'CommentController@dislikeComment')->name('post.dislike_comment');
 
-    // protected routes
+        Route::get('/test', function (Request $req) {
+            return response($req->user());
+        });
+
+    });
+
+    //////////////////////
+    // protected routes //
+    //////////////////////
     Route::middleware('auth:api')->group(function () {
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
 
@@ -59,19 +79,11 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
         /////////////////
         //
         // CREATE, UPDATE, DELETE
-        Route::put('/post/upload', 'PostUploadController@UrlUpload')->name('post.url_upload');
-        Route::post('/post/upload', 'PostUploadController@fileUpload')->name('post.file_upload');
         Route::post('/post/{id}/repost', 'PostController@rePost')->name('post.post_repost');
-        Route::post('/post/{id}/like', 'PostController@likePost')->name('post.post_like');
         Route::post('/post/{id}/save', 'PostController@savePost')->name('post.post_save');
         Route::post('/post/{id}/unsave', 'PostController@unsavePost')->name('post.post_unsave');
-        Route::post('/post/{id}/dislike', 'PostController@dislikePost')->name('post.post_dislike');
         Route::post('/post/{id}/update', 'PostController@updatePost')->name('post.post_update');
         Route::delete('/post/{id}', 'PostController@deletePost')->name('post.post_delete');
-        //
-        Route::post('/post/{id}/comment', 'CommentController@comment')->name('post.post_comment');
-        Route::post('/comment/{id}/like', 'CommentController@likeComment')->name('post.like_comment');
-        Route::post('/comment/{id}/dislike', 'CommentController@dislikeComment')->name('post.dislike_comment');
         Route::delete('/comment/{id}', 'CommentController@deleteComment')->name('post.delete_comment');
 
 
@@ -100,8 +112,6 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
         //////////
         // test //
         //////////
-
-        Route::get('/test', function (Request $req) {});
 
         // XXXX::all
         Route::get('/saved', function (Request $req) {return Bookmark::all();});
