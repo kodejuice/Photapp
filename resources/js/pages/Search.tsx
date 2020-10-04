@@ -61,7 +61,7 @@ const UsersResult: React.FC<{query:string}> = ({query}) => {
                 { isLoading ? <Spinner type='list' /> : ""}
 
                 <div className='suggestions page' style={{paddingTop:'0'}}>
-                    {data && <Users data={data}/>}
+                    {data && <Users mutate={()=>void 0} data={data}/>}
                     {data && data.length==0 && <p id='err-msg'>No results found</p>}
                 </div>
             </div>

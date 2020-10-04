@@ -9,10 +9,13 @@ import Spinner from '../../components/Spinner';
 
 import Users from '../Users';
 
+const center: React.CSSProperties = {
+    textAlign: 'center',
+}
 
 const Suggestions: React.FC<{limit?:number}> = ({limit})=>{
     const dispatch = useDispatch();
-    let {data, isLoading, isError} = useUsers(limit || 5);
+    let {data, isLoading, mutate, isError} = useUsers(limit || 5);
 
     if (data?.errors) {
         showAlert(dispatch, data.errors, 'error', 15);
@@ -24,7 +27,8 @@ const Suggestions: React.FC<{limit?:number}> = ({limit})=>{
             { isLoading ? <Spinner type='list' /> : ""}
 
             <div className='users'>
-                { data && <Users data={data} /> }
+                { data && <Users mutate={mutate} data={data} /> }
+                { data && data.length==0 && <p style={center}> Nobody here </p>}
             </div>
         </React.Fragment>
     );
@@ -36,9 +40,10 @@ const Suggestions: React.FC<{limit?:number}> = ({limit})=>{
  * fetches users from db w/ SWR
  */
 function useUsers(limit) {
-    const { data, error } = useSWR(`/api/users?limit=${limit}&suggest=1`, fetchListing);
+    const { data, mutate, error } = useSWR(`/api/users?limit=${limit}&suggest=1`, fetchListing);
     return {
-        data: data,
+        data,
+        mutate,
         isLoading: !error && !data,
         isError: error
     }
