@@ -20,12 +20,13 @@ W.__SWR_MAP__ = new Map<string, object>();
 
 
 export default function useSWR(arg: string, fetcher) {
-    let {data, error} = SWR(arg, fetcher);
+    let response = SWR(arg, fetcher);
     const key = arg + fetcher.name;
+    let {data, error}  = response;
 
     // we dont need CACHE in tests
     if ((window as any).__JEST_TEST_ENV) {
-        return {data, error};
+        return response;
     }
 
     // store data in map
@@ -64,6 +65,6 @@ export default function useSWR(arg: string, fetcher) {
 
     return {
         data,
-        error,
-    };
+        ...response,
+    }
 }

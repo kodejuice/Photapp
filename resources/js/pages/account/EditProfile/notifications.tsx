@@ -40,7 +40,7 @@ const Notifications: React.FC<{user: userProfile}> = ({user})=>{
     const rendered = useRef(false);
     const unmounted = useRef(false);
     const [saving, setSaving] = useState<boolean>(false);
-    const {data, isLoading} = useUserSettings();
+    const {data, mutate, isLoading} = useUserSettings();
 
     const [alerts, setAlerts] = useState<{[index:string]: boolean}>({
         post_likes: false,
@@ -78,7 +78,19 @@ const Notifications: React.FC<{user: userProfile}> = ({user})=>{
         .then(res => {
             if (unmounted.current) return;
             if (res?.errors) return showAlert(dispatch, res.errors);
-            if (res?.success) return showAlert(dispatch, ['Settings updated!'], 'success');
+            if (res?.success) {
+                // revalidate SWR
+                mutate(async settings => {
+                    return {
+                        notify_comments: alerts.comments,
+                        notify_follows: alerts.follows,
+                        notify_mentions: alerts.mentions,
+                        notify_comments_likes: alerts.comments_likes,
+                        notify_post_likes: alerts.post_likes,
+                    }
+                });
+                return showAlert(dispatch, ['Settings updated!'], 'success');
+            }
         })
         .catch(()=>{})
         .finally(()=>{
@@ -151,9 +163,10 @@ const Notifications: React.FC<{user: userProfile}> = ({user})=>{
 
 
 function useUserSettings() {
-    const {data, error} = useSWR("...", fetchSettings);
+    const {data, error, mutate} = useSWR("...", fetchSettings);
     return {
         data,
+        mutate,
         isLoading: !data && !error,
     }
 }
