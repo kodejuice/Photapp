@@ -22,10 +22,10 @@ const Header: React.FC<{}> = ()=>{
     const toggleDropdown = ()=>{
         showDropdown(!dropdown_shown);
 
-        // toggle dropdown in 7 seconds
+        // hide dropdown in 7 seconds
         // if this component is still mounted
         setTimeout((reverse)=>{
-            if (ref.current != null) showDropdown(reverse);
+            if (ref.current != null) showDropdown(false);
         }, 7000, dropdown_shown);
     }
 
