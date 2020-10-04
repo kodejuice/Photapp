@@ -33,7 +33,7 @@ const TileItem: React.FC<{post:Post}> = ({post})=>{
         : post_url
     );
 
-    const day = format(new Date(post.created_at), "MMMM d, yyy");
+    const day = format(new Date(post.created_at || 0), "MMMM d, yyy");
     const caption = post.caption || (post.username ? `Photo by @${post.username} on ${day}.` : '');
 
     // show img alt text if post image fails to load
