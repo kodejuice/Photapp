@@ -48,7 +48,7 @@ const TileItem: React.FC<{post:Post}> = ({post})=>{
 
     return (
         <React.Fragment>
-            <div className='post-wrap' onClick={()=>window.scrollTo(0,0)}>
+            <div className='post-wrap'>
                 <div onClick={()=>history.push(`/post/${post.post_id}`)} className='link'>
                     {(media_type=='video' || multiple) && (
                         <div className='media-info' role='media-info'> {media_type=='video' ? VideoIcon : multiplePhotoIcon} </div>
