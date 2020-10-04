@@ -124,7 +124,7 @@ class CommentController extends Controller
                  ->where('comment_id', $comment->comment_id)
                  ->first();
         if ($L) {
-            return response(['message' => "You already liked this"]);
+            return response(['message' => "Already liked"]);
         }
 
         $new_like = new Like();
@@ -142,7 +142,7 @@ class CommentController extends Controller
         // trigger event to notify the comment author of a new like
         event(new CommentAction($user, $comment, "like"));
 
-        return response(['message' => 'Liked'], 200);
+        return response(['message' => 'Done'], 200);
     }
 
 
@@ -161,7 +161,7 @@ class CommentController extends Controller
         $L = Like::where('user_id', $user->id)->where('comment_id', $comment->comment_id);
         if (!$L->first()) {
             // user doesnt like this comment
-            return response(['errors' => ["Invalid action"]], 200);
+            return response(['errors' => ["Already disliked"]], 200);
         }
 
         $L->delete();
@@ -178,6 +178,6 @@ class CommentController extends Controller
         // update follow score
         Helper::updateFollowScore($user, $comment->user_id, 'comment_dislike');
 
-        return response(['message' => "Disliked"], 200);
+        return response(['message' => "Done"], 200);
     }
 }

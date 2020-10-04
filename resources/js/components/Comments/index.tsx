@@ -6,11 +6,17 @@ import {useDispatch} from 'react-redux';
 import authUser from '../../state/auth_user';
 import LazyDP, {LazyDPSync} from '../LazyDP';
 import showAlert from '../../components/Alert/showAlert';
-import {fetchListing, deletePostComment} from '../../helpers/fetcher';
 import {ProcessUserInput} from '../../helpers/mini-components';
 import {howLong} from '../../helpers/date-time';
 import {limit, merge_objects, amount} from '../../helpers/util';
 import Spinner from '../../components/Spinner';
+
+import {
+    fetchListing,
+    deletePostComment,
+    likeComment as likePostComment,
+    dislikeComment
+} from '../../helpers/fetcher';
 
 import AddComment from '../../components/Posts/HomeView/AddComment';
 
@@ -53,14 +59,22 @@ type LikeButtonProps = {
  * @param  {boolean} dislike
  */
 const LikeButton: React.FC<LikeButtonProps> = ({comment_id, dislike, setCommentLiked})=>{
-    const [buttonInActive, setButtonInActive] = useState(!dislike);
+    const [buttonInActive, setButtonInactive] = useState(!dislike);
 
     const likeComment = ()=>{
         const liked = buttonInActive;
-        setButtonInActive(!liked);
+        setButtonInactive(!liked);
         setCommentLiked(liked);
 
-        // TODO: like comment
+        const promise = liked ? likePostComment(comment_id) : dislikeComment(comment_id);
+        promise
+        .then(res=>{
+            if (res?.errors && !res.errors[0].includes("Already")) {
+                setButtonInactive(true);
+                setCommentLiked(false);
+                console.error(res.errors);
+            }
+        })
     };
 
     return (

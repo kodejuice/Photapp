@@ -390,6 +390,56 @@ export async function deletePostComment(comment_id: number) {
 }
 
 
+/**
+ * likes comment
+ *
+ * @param      {number}  comment_id  The comment identifier
+ */
+export async function likeComment(comment_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/comment/${comment_id}/like`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
+ * dislike comment
+ *
+ * @param      {number}  comment_id  The comment identifier
+ */
+export async function dislikeComment(comment_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/comment/${comment_id}/dislike`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
+ * update post caption
+ *
+ * @param      {number}  post_id  The post identifier
+ * @param      {string}  caption  The new caption
+ */
 export async function updatePostCaption(post_id: number, caption: string) {
     nprogress.start();
 
