@@ -92,7 +92,6 @@ class UserViewTest extends TestCase
 
         tap($response, function ($res) {
             $this->assertEquals("John Doe", $res['full_name']);
-            $this->assertEquals("johndoe@example.com", $res['email']);
             $this->assertEquals("johndoe", $res['username']);
             $this->assertEquals(0, $res['auth_user_follows']);
         });
@@ -108,7 +107,6 @@ class UserViewTest extends TestCase
         $user = $response[0];
         tap($user, function ($res) {
             $this->assertEquals("Don Joe", $res['full_name']);
-            $this->assertEquals("donjoe@example.com", $res['email']);
             $this->assertEquals("donjoe", $res['username']);
             $this->assertEquals(0, $res['auth_user_follows']);
         });
@@ -119,7 +117,6 @@ class UserViewTest extends TestCase
         $user = $response[0];
         tap($user, function ($res) {
             $this->assertEquals("Don Joe", $res['full_name']);
-            $this->assertEquals("donjoe@example.com", $res['email']);
             $this->assertEquals("donjoe", $res['username']);
         });
     }

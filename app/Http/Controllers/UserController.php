@@ -257,7 +257,9 @@ class UserController extends Controller
      */
     public function getUser(Request $request)
     {
-        $usr = User::where('username', $request->input('username'))->first();
+        $usr = User::where('username', $request->input('username'))
+            ->select('.id', '.full_name', '.username', '.profile_pic', '.followers', '.follows', '.posts_count', '.bio')
+            ->first();
         if (!$usr) {
             return response(['errors' => ['Not found']], 404);
         }
@@ -284,6 +286,7 @@ class UserController extends Controller
         if (isset($query) && strlen($query) > 2) {
             $query = addslashes($query);
             $users = User::whereRaw("MATCH (username, full_name) AGAINST ('$query')")
+                        ->select('users.id', 'users.full_name', 'users.username', 'users.profile_pic')
                         ->get();
         }
         else if (isset($suggest)) {
@@ -585,17 +588,4 @@ class UserController extends Controller
             $p->username = User::firstWhere('id', $p->user_id)->username;   // username of post author
         }
     }
-
-    // private function remove_duplicate_users(array $users) {
-    //     $map = [];
-    //     $clean = [];
-    //     foreach ($users as $u) {
-    //         $key = @$u->id;
-    //         if (isset($map[$key])) {
-    //             $clean[] = $u;
-    //             $map[$key] = 1;
-    //         }
-    //     }
-    //     return $users;
-    // }
 }
