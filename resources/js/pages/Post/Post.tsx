@@ -30,6 +30,7 @@ const EditCaptionButton = ({caption, post, onInputChange})=>{
             if (unmounted.current) return;
             if (res?.success) {
                 mutate(`${post.post_id}`, async post => {
+                    if (!post.caption) return;
                     post.caption = caption;
                     return post;
                 });

@@ -201,10 +201,11 @@ const Comments: React.FC<{
     post_id: number,
     post: any,
 }> = ({post, post_id})=>{
-    const rendered = React.useRef(false);
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const rendered = useRef(false);
     const dispatch = useDispatch();
     const [limit, setLimit] = useState(10);
-    let {data, isLoading} = useComments(post_id);
+    let {data, mutate, isLoading} = useComments(post_id);
 
     const [commentCount, setCommentCount] = useState(post.comment_count);
 
@@ -231,7 +232,7 @@ const Comments: React.FC<{
 
                 <div className='add-comment'>
                     <div className='row'>
-                        <AddComment post_id={post.post_id} />
+                        <AddComment post_id={post.post_id} mutate={mutate} />
                     </div>
                 </div>
 
@@ -239,7 +240,7 @@ const Comments: React.FC<{
                 {data && data.length>0 && (
                     <div className='scroll-par'>
                         {data && <p id='comment-count' data-testid='comment-count'> {amount(commentCount)} comments </p>}
-                        <div className='scrolling-list'>
+                        <div className='scrolling-list' ref={scrollRef}>
                             {data && data.slice(0,limit).map(({message, likes, comment_id, username, auth_user_likes, profile_pic, created_at})=>(
                                 !deletedComments.has(comment_id)
                                 &&
@@ -264,7 +265,19 @@ const Comments: React.FC<{
 
                 {data && limit < data.length && (
                     <div id='load-more'>
-                        <button onClick={()=>setLimit(limit+10)}>
+                        <button onClick={()=>{
+                            const scrollDiv = scrollRef.current as HTMLDivElement;
+                            setLimit(limit+10)
+
+                            // scroll to bottom (smoothly)
+                            setTimeout(()=>{
+                                scrollDiv.scroll({
+                                    behavior: 'smooth',
+                                    left: 0,
+                                    top: scrollDiv.scrollHeight,
+                                })
+                            }, 500);
+                        }}>
                             {plusIcon}
                         </button>
                     </div>
@@ -282,13 +295,14 @@ const Comments: React.FC<{
  * @param  {number} post_id
  */
 W.__posts_cache__ = {};
-function useComments(post_id): {data:any, isLoading:boolean} {
+function useComments(post_id): {data:any, isLoading:boolean, mutate: Function} {
     const limit = 900;
     const url = `/api/post/${post_id}/comments?limit=${limit}`;
-    const {data, error} = useSWR(url, fetchListing);
+    const {data, error, mutate} = useSWR(url, fetchListing);
 
     return {
         data,
+        mutate,
         isLoading: !data && !error,
     }
 }

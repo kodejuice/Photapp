@@ -14,14 +14,6 @@ import {
  */
 
 
-export function submitComment(post_id: number, commentText: string) {
-    if (!commentText.length) return;
-    // TODO: submit comment
-
-    alert(commentText);
-}
-
-
 /**
  * copy text to clipboard
  * @param  {string} text           text to copy

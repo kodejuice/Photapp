@@ -573,6 +573,28 @@ export async function updatePostCaption(post_id: number, caption: string) {
 }
 
 
+export async function submitUserComment(post_id: number, message: string) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/comment`, {
+            message
+        });
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+
 
 ///////////////////
 // User settings //

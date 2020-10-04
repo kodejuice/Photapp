@@ -65,7 +65,7 @@ class CommentController extends Controller
             }
         }
 
-        return response(['message' => 'Comment added']);
+        return response(['message' => 'Done']);
     }
 
 
