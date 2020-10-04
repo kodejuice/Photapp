@@ -156,53 +156,6 @@ export async function logUserOut(onLogOut, onErr): Promise<boolean> {
 }
 
 
-//////////////////////////
-// User Accout Requests //
-//////////////////////////
-
-
-/**
- * fetch user profile from DB
- * @param {string} user username
- */
-export async function fetchUser(user: string) {
-    let req;
-    try {
-        req = await axios.get(`/api/user/getprofile?username=${user}`);
-
-        if (req?.data?.username) {
-            return req.data;
-        }
-
-        throw req;
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    }
-}
-
-
-/**
- * fetch post from DB
- * @param {number} post_id post id
- */
-export async function fetchPost(post_id: number) {
-    let req;
-    try {
-        req = await axios.get(`/api/post/${post_id}`);
-
-        if (req?.data?.post_url) {
-            return req.data;
-        }
-
-        throw req;
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    }
-}
-
-
 /**
  * fetch list of {X} from DB, e.g notifications, followers, e.t.c...
  * @param {string} url     API url
@@ -240,39 +193,22 @@ export async function fetchListing(url) {
 }
 
 
+//////////////////////////
+// User Accout Requests //
+//////////////////////////
+
+
 /**
- * fetch authenticated user settings from DB
+ * fetch user profile from DB
+ * @param {string} user username
  */
-export async function fetchSettings() {
+export async function fetchUser(user: string) {
     let req;
     try {
-        req = await axios.get(`/api/user/settings`);
+        req = await axios.get(`/api/user/getprofile?username=${user}`);
 
-        if (req?.data?.user_id) {
+        if (req?.data?.username) {
             return req.data;
-        }
-
-        throw req;
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    }
-}
-
-
-/**
- * Saves notification settings.
- *
- */
-export async function saveSettings(name, value) {
-    let req;
-    try {
-        req = await axios.post(`/api/user/update`, {
-            [`notify_${name}`]: Number(value)
-        });
-
-        if (req?.data?.message == 'Done') {
-            return {success: true};
         }
 
         throw req;
@@ -324,6 +260,158 @@ export async function unfollowUser(user: string) {
 
 
 /**
+ * update user password
+ *
+ * @param      {string}  old_pass  The old password
+ * @param      {string}  new_pass  The new password
+ */
+export async function updatePassword(old_pass: string, new_pass: string) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post(`/api/user/password/update`, {
+            old_password: old_pass,
+            new_password: new_pass,
+        });
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+
+
+/**
+ * update user profile
+ *
+ * @param      {string}  email
+ * @param      {string}  bio
+ * @param      {string}  full_name
+ * @param      {string}  password
+ */
+export async function updateProfile(fields: {[index:string]: string}) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post(`/api/user/update`, fields);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+
+
+////////////////////
+// Posts Requests //
+///////////////////
+
+
+/**
+ * Saves a post.
+ *
+ * @param      {number}  post_id  The post identifier
+ */
+export async function savePost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/save`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
+ * unsave a post.
+ *
+ * @param      {number}  post_id  The post identifier
+ */
+export async function unsavePost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/unsave`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
+ * likes a post
+ *
+ * @param      {number}  post_id  The post identifier
+ */
+export async function likePost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/like`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
+ * likes a post
+ *
+ * @param      {number}  post_id  The post identifier
+ */
+export async function unlikePost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/dislike`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
  * repost users post
  */
 export async function repostUserPost(post_id: number) {
@@ -341,6 +429,28 @@ export async function repostUserPost(post_id: number) {
         return {errors: handleServerError(err, ()=>void 0)};
     }
 }
+
+
+/**
+ * fetch post from DB
+ * @param {number} post_id post id
+ */
+export async function fetchPost(post_id: number) {
+    let req;
+    try {
+        req = await axios.get(`/api/post/${post_id}`);
+
+        if (req?.data?.post_url) {
+            return req.data;
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
 
 /**
  * delete user post
@@ -462,140 +572,43 @@ export async function updatePostCaption(post_id: number, caption: string) {
     }
 }
 
-/**
- * update user password
- *
- * @param      {string}  old_pass  The old password
- * @param      {string}  new_pass  The new password
- */
-export async function updatePassword(old_pass: string, new_pass: string) {
-    nprogress.start();
 
+
+///////////////////
+// User settings //
+///////////////////
+
+
+/**
+ * fetch authenticated user settings from DB
+ */
+export async function fetchSettings() {
     let req;
     try {
-        req = await axios.post(`/api/user/password/update`, {
-            old_password: old_pass,
-            new_password: new_pass,
+        req = await axios.get(`/api/user/settings`);
+
+        if (req?.data?.user_id) {
+            return req.data;
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
+ * Saves notification settings.
+ *
+ */
+export async function saveSettings(name, value) {
+    let req;
+    try {
+        req = await axios.post(`/api/user/update`, {
+            [`notify_${name}`]: Number(value)
         });
-
-        if (req?.data?.message == 'Done') {
-            return {success: true};
-        }
-
-        throw req;
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    } finally {
-        nprogress.done();
-    }
-}
-
-
-/**
- * update user profile
- *
- * @param      {string}  email
- * @param      {string}  bio
- * @param      {string}  full_name
- * @param      {string}  password
- */
-export async function updateProfile(fields: {[index:string]: string}) {
-    nprogress.start();
-
-    let req;
-    try {
-        req = await axios.post(`/api/user/update`, fields);
-
-        if (req?.data?.message == 'Done') {
-            return {success: true};
-        }
-
-        throw req;
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    } finally {
-        nprogress.done();
-    }
-}
-
-
-/**
- * Saves a post.
- *
- * @param      {number}  post_id  The post identifier
- */
-export async function savePost(post_id: number) {
-    let req;
-    try {
-        req = await axios.post(`/api/post/${post_id}/save`);
-
-        if (req?.data?.message == 'Done') {
-            return {success: true};
-        }
-
-        throw req;
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    }
-}
-
-
-/**
- * unsave a post.
- *
- * @param      {number}  post_id  The post identifier
- */
-export async function unsavePost(post_id: number) {
-    let req;
-    try {
-        req = await axios.post(`/api/post/${post_id}/unsave`);
-
-        if (req?.data?.message == 'Done') {
-            return {success: true};
-        }
-
-        throw req;
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    }
-}
-
-
-/**
- * likes a post
- *
- * @param      {number}  post_id  The post identifier
- */
-export async function likePost(post_id: number) {
-    let req;
-    try {
-        req = await axios.post(`/api/post/${post_id}/like`);
-
-        if (req?.data?.message == 'Done') {
-            return {success: true};
-        }
-
-        throw req;
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    }
-}
-
-
-/**
- * likes a post
- *
- * @param      {number}  post_id  The post identifier
- */
-export async function unlikePost(post_id: number) {
-    let req;
-    try {
-        req = await axios.post(`/api/post/${post_id}/dislike`);
 
         if (req?.data?.message == 'Done') {
             return {success: true};
