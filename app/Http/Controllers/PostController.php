@@ -374,9 +374,9 @@ class PostController extends Controller
     private function getUserFeed($user, $offset=0, $limit=50)
     {
         // if the user isnt authenticated,
-        // we show 'anonymous's feed instead
+        // we show ANON_USER's feed instead
         //
-        $key = ":" . (@$user->username ?: 'anonymous') . "-feed";
+        $key = ":" . (@$user->username ?: env("ANON_USER")) . "-feed";
 
         $last_pid = Post::orderByDesc('post_id')->first()->post_id; // last post id
         // sorts user feed in descending order of follow score and recency
@@ -394,7 +394,7 @@ sql;
             $posts = DB::table('posts')
                         ->join('user_follows', function ($join) use ($user) {
                             $join->on('posts.user_id', '=', 'user_follows.user2_id')
-                                ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', 'anonymous')->id);
+                                ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', env("ANON_USER"))->id);
                         })
                         ->whereRaw($sort_query)
                         ->select('posts.*')
@@ -497,10 +497,10 @@ sql;
 
         // TODO: move this to a serverless function
         // 
-        // downloaded files should never exceed 5MB
+        // downloaded files should never exceed 30MB
         // $head = array_change_key_case(get_headers($url, 1));
         // $bytes = isset($head['content-length']) ? $head['content-length'] : 0;
-        // if ($bytes > 5242880) { // 5MB
+        // if ($bytes > 31457280) { // 30MB
         //     return;
         // }
 

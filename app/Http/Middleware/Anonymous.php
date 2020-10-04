@@ -11,10 +11,10 @@ class Anonymous extends Middleware
 {
     private $token_client = 'authToken';
 
-    // return @anonymous login token
+    // return @ANON_USER's login token
     private function anonLoginToken(): string
     {
-        $user = User::firstWhere('username', "anonymous");
+        $user = User::firstWhere('username', env("ANON_USER"));
         if (!$user) return "";
         $token = $user->createToken($this->token_client)->accessToken;
         return $token;
@@ -29,7 +29,7 @@ class Anonymous extends Middleware
             return $next($request);
         }
 
-        // else, use @anonymous login token
+        // else, use @ANON_USER's login token
         $request->headers->set(
             'Authorization',
             'Bearer ' . $this->anonLoginToken()
