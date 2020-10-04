@@ -15,8 +15,14 @@ export default function PostInfo({post, auth_user}) {
     const {user, logged} = auth_user;
 
     // post info (authenticated user likes/saved)
-    const [postLiked, likesPost] = useState(!!post.auth_user_likes);
-    const [postSaved, savesPost] = useState(!!post.auth_user_saved);
+    const [auth_user_likes, auth_user_saved] = [!!post.auth_user_likes, !!post.auth_user_saved]
+    const [postLiked, likesPost] = useState(auth_user_likes);
+    const [postSaved, savesPost] = useState(auth_user_saved);
+
+    // a SWR re-validation?
+    if (auth_user_likes != postLiked) likesPost(auth_user_likes);
+    if (auth_user_saved != postSaved) savesPost(auth_user_saved);
+
     const post_likes = post.auth_user_likes && !postLiked
         ? post.like_count-1
         : (post.auth_user_likes
@@ -24,6 +30,7 @@ export default function PostInfo({post, auth_user}) {
             : post.like_count + Number(postLiked)
         );
     // ....
+
 
     return (
         <div className="card info" role='post-info-card'>

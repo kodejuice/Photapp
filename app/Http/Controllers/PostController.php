@@ -122,7 +122,7 @@ class PostController extends Controller
         $user = $request->user();
 
         if ($this->userLikesPost($user->id, $post->post_id)) {
-            return response(['message' => "You already liked this"]);
+            return response(['message' => "Already liked"]);
         }
 
         $new_like = new Like();
@@ -140,7 +140,7 @@ class PostController extends Controller
         // trigger event to notify the post author of a new like
         event(new PostAction($user, $post, "like"));
 
-        return response(['message' => "Liked"], 200);
+        return response(['message' => "Done"], 200);
     }
 
 
@@ -176,7 +176,7 @@ class PostController extends Controller
             ->where('associated_user', $user->username)
             ->delete();
 
-        return response(['message' => "Disliked"], 200);
+        return response(['message' => "Done"], 200);
     }
 
 

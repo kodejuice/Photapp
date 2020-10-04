@@ -61,7 +61,7 @@ const PostPage: React.FC<Router.RouteComponentProps> = ({match})=>{
 
 
 function headerTitle(post) {
-    if (!post || !post?.media_type) {
+    if (!post || typeof post?.media_type != 'string') {
         return "Post";
     }
     const media_types = JSON.parse(post.media_type);

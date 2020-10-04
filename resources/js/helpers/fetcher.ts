@@ -471,6 +471,11 @@ export async function updateProfile(fields: {[index:string]: string}) {
 }
 
 
+/**
+ * Saves a post.
+ *
+ * @param      {number}  post_id  The post identifier
+ */
 export async function savePost(post_id: number) {
     let req;
     try {
@@ -488,10 +493,59 @@ export async function savePost(post_id: number) {
 }
 
 
+/**
+ * unsave a post.
+ *
+ * @param      {number}  post_id  The post identifier
+ */
 export async function unsavePost(post_id: number) {
     let req;
     try {
         req = await axios.post(`/api/post/${post_id}/unsave`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
+ * likes a post
+ *
+ * @param      {number}  post_id  The post identifier
+ */
+export async function likePost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/like`);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    }
+}
+
+
+/**
+ * likes a post
+ *
+ * @param      {number}  post_id  The post identifier
+ */
+export async function unlikePost(post_id: number) {
+    let req;
+    try {
+        req = await axios.post(`/api/post/${post_id}/dislike`);
 
         if (req?.data?.message == 'Done') {
             return {success: true};

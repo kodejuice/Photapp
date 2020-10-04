@@ -1,9 +1,16 @@
+import {mutate} from 'swr';
 import showAlert from '../../Alert/showAlert';
 import {copyText} from '../../../helpers/window';
-import {deletePost as deleteUserPost, savePost as saveUserPost, unsavePost} from '../../../helpers/fetcher';
+import {
+    deletePost as deleteUserPost,
+    savePost as saveUserPost,
+    unsavePost,
+    likePost as likeUserPost,
+    unlikePost,
+} from '../../../helpers/fetcher';
 
 /**
- * helper functions for the post HomeView post component
+ * helper functions for the components displaying a list of posts
  */
 
 
@@ -61,7 +68,20 @@ export function deletePost(post_id: number) {
 export function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
     const like = !toggleLike();
 
-    // TODO: perform action
+    const revalidateSWR = ()=>{
+        mutate(`${post_id}`);
+    }
+
+    const promise = like ? likeUserPost(post_id) : unlikePost(post_id);
+    promise
+    .then(res=>{
+        if (res.success) {
+            post.auth_user_likes = like;
+            post.like_count += like ? 1 : -1;
+            revalidateSWR();
+        }
+    })
+    .catch(()=>{});
 }
 
 
@@ -74,19 +94,21 @@ export function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
 export function savePost(post_id: number, toggleSave: ()=>boolean, post: any) {
     const save = !toggleSave();
 
+    const revalidateSWR = ()=>{
+        mutate(`${post_id}`);
+    }
+
     const promise = save ? saveUserPost(post_id) : unsavePost(post_id);
     promise
     .then(res=>{
         if (res.errors) {
-            if (res.errors[0].includes('Already')) {
-                post.auth_user_saved = save;
-                return;
-            }
+            if (res.errors[0].includes('Already')) return;
             toggleSave();
             console.error(res.errors);
             return alert(`Failed to save post\n\n${res.errors[0]}`);
         } else if (res.success) {
             post.auth_user_saved = save;
+            revalidateSWR();
         }
     })
     .catch(()=>{});

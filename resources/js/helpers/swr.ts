@@ -64,7 +64,7 @@ export default function useSWR(arg: string, fetcher) {
     }
 
     return {
-        data,
         ...response,
+        data,
     }
 }
