@@ -76,8 +76,6 @@ export function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
     promise
     .then(res=>{
         if (res.success) {
-            post.auth_user_likes = like;
-            post.like_count += like ? 1 : -1;
             revalidateSWR();
         }
     })

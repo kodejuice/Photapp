@@ -19,10 +19,6 @@ export default function PostInfo({post, auth_user}) {
     const [postLiked, likesPost] = useState(auth_user_likes);
     const [postSaved, savesPost] = useState(auth_user_saved);
 
-    // a SWR re-validation?
-    if (auth_user_likes != postLiked) likesPost(auth_user_likes);
-    if (auth_user_saved != postSaved) savesPost(auth_user_saved);
-
     const post_likes = post.auth_user_likes && !postLiked
         ? post.like_count-1
         : (post.auth_user_likes
@@ -38,7 +34,15 @@ export default function PostInfo({post, auth_user}) {
             <div className="card-header">
                 <div className='row'>
                     <div className='like-btn'>
-                        <button data-testid="like-btn" onClick={()=>likePost(post.post_id, ()=>(likesPost(!postLiked), postLiked), post)}>
+                        <button
+                            data-testid="like-btn"
+                            onClick={()=>{
+                                const callback = ()=>{
+                                    likesPost(!postLiked)
+                                    return postLiked;
+                                }
+                                likePost(post.post_id, callback, post);
+                            }}>
                             <img src={`/icon/heart${postLiked?'.png':'-blank.svg'}`}/>
                         </button>
                     </div>

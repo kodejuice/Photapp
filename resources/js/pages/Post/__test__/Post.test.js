@@ -136,6 +136,28 @@ const server = setupServer(
             ctx.json(johndoeProfile)
         )
     }),
+
+    // like post
+    rest.get('/api/post/1/like', (req, res, ctx) => {
+        samplePosts[0].like_count += 1;
+        return res(ctx.status(200), ctx.json({message: 'Done'}))
+    }),
+
+    // like comment
+    rest.get('/api/comment/1/like', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({message: 'Done'}))
+    }),
+    rest.get('/api/comment/1/like', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({message: 'Done'}))
+    }),
+
+    // dislike comment
+    rest.get('/api/comment/2/dislike', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({message: 'Done'}))
+    }),
+    rest.get('/api/comment/2/dislike', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({message: 'Done'}))
+    }),
 );
 beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())

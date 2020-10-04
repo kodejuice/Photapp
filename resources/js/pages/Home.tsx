@@ -32,7 +32,7 @@ const Home: React.FC<{}> = ()=>{
     const [postToBeShown, setPostToBeShown] = useState(POST_PER_PAGE);
     const [postView, setPostView] = useState<'home'|'full'>(Cookie.get('post_view') || 'home');
 
-    let {data, isLoading, isError} = usePosts(offset);
+    let {data, mutate, isLoading, isError} = usePosts(offset);
 
     if (data?.errors) {
         showAlert(dispatch, data.errors, 'error', 60);
@@ -62,7 +62,10 @@ const Home: React.FC<{}> = ()=>{
                 <div className='post-view-toggle col-12'>
                     {ALL_POST.length>0 && <Toggle
                         current={postView}
-                        setState={setPostView}
+                        setState={v => {
+                            mutate();
+                            setPostView(v);
+                        }}
                     />}
                 </div>
 
@@ -139,9 +142,10 @@ const Home: React.FC<{}> = ()=>{
  */
 function usePosts(offset) {
     const LIMIT = POST_PER_PAGE * 2;
-    const { data, error } = useSWR(`/api/posts?limit=${LIMIT}&offset=${offset}`, fetchListing);
+    const { data, error, mutate } = useSWR(`/api/posts?limit=${LIMIT}&offset=${offset}`, fetchListing);
     return {
-        data: data,
+        data,
+        mutate,
         isLoading: !error && !data,
         isError: error
     }
