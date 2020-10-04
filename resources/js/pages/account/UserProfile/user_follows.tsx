@@ -13,6 +13,8 @@ import Users from '../../../components/Users';
 
 const LIMIT = 100;
 
+// TODO: add "Load More (+)" button
+
 const UserFollow: React.FC<{
     username: string,
     type:'followers'|'following',
@@ -51,27 +53,11 @@ const UserFollow: React.FC<{
     );
 }
 
-// add/remove auth_user to/from UserFollow list
-// this occures when the auth_user followers someone on thier profile
-// function addUser(users, authUser, auth_user_follows) {
-//     if (!authUser) return users;
-//     if (auth_user_follows == null) return users;
-
-//     if (auth_user_follows) {
-//         if (users.some(u => u.username == authUser.username)) return users;
-//         return users.concat(authUser);
-//     }
-//     else {
-//         return users.filter(u => u.username != authUser.username);
-//     }
-// }
-
 
 /**
  * fetches user followers/following from db w/ SWR
  */
 function useFollows(user: string, type: 'following'|'followers') {
-    // const { data, error } = useSWR(`/api/users?limit=${LIMIT+1}`, fetchListing);
     const { data, error } = useSWR(`/api/user/${user}/${type}?limit=${LIMIT+1}`, fetchListing);
     return {
         data,
