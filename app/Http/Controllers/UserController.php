@@ -276,10 +276,10 @@ class UserController extends Controller
     {
         $auth_user = $request->user();
 
+        $users = [];
         $query = $request->input('q');
         $suggest = $request->input('suggest');
         $limit = $request->input('limit', 50);
-        $users = [];
 
         if (isset($query) && strlen($query) > 2) {
             $query = addslashes($query);
@@ -291,9 +291,9 @@ class UserController extends Controller
         }
 
         // if
-        //   1) we need friends of friends and get nothing
+        //   1) we need friends of friends and get less than 100
         //or 2) no queries were passed
-        if (isset($suggest) && count($users)==0 || (!isset($query) && !isset($suggest))) {
+        if (isset($suggest) && count($users)<100 || (!isset($query) && !isset($suggest))) {
             $offset = $request->input('offset', 0);
 
             $auth_user_following = $auth_user ? array_map(
@@ -301,13 +301,16 @@ class UserController extends Controller
                 UserFollow::where('user1_id', $auth_user->id)->get()->toArray()
             ) : [];
 
-            // randomly select between most active/most followed users
-            $users = User::orderByDesc(rand()%2 ? 'posts_count' : 'followers')
-                        ->where('id', '!=', @$auth_user->id ?: '')
-                        ->whereNotIn('id', $auth_user_following) // make sure $auth_user doesnt follow anyone here
-                        ->offset($offset)
-                        ->limit($limit)
-                        ->get();
+            // randomly select between most active/followed users
+            $random_users = User::orderByDesc(rand()%2 ? 'posts_count' : 'followers')
+                ->where('id', '!=', @$auth_user->id ?: '')
+                ->whereNotIn('id', $auth_user_following) // make sure $auth_user doesnt follow anyone here
+                ->offset($offset)
+                ->limit($limit)
+                ->select('users.id', 'users.full_name', 'users.username', 'users.profile_pic')
+                ->get();
+
+            $users = collect($users)->union($random_users);
         }
 
         $this->getFollowInfo($users, @$auth_user->id ?: null);
@@ -563,8 +566,13 @@ class UserController extends Controller
     private function getFollowInfo($users, $auth_user_id) {
         if (!$auth_user_id) return;
         foreach ($users as $u) {
-            $u->auth_user_follows = $this->userFollows($auth_user_id, $u->id);
-            $u->follows_auth_user = $this->userFollows($u->id, $auth_user_id);
+            if (is_array($u)) {
+                $u['auth_user_follows'] = $this->userFollows($auth_user_id, $u['id']);
+                $u['follows_auth_user'] = $this->userFollows($u['id'], $auth_user_id);
+            } else {
+                $u->auth_user_follows = $this->userFollows($auth_user_id, $u->id);
+                $u->follows_auth_user = $this->userFollows($u->id, $auth_user_id);
+            }
         }
     }
 
@@ -577,4 +585,17 @@ class UserController extends Controller
             $p->username = User::firstWhere('id', $p->user_id)->username;   // username of post author
         }
     }
+
+    // private function remove_duplicate_users(array $users) {
+    //     $map = [];
+    //     $clean = [];
+    //     foreach ($users as $u) {
+    //         $key = @$u->id;
+    //         if (isset($map[$key])) {
+    //             $clean[] = $u;
+    //             $map[$key] = 1;
+    //         }
+    //     }
+    //     return $users;
+    // }
 }
