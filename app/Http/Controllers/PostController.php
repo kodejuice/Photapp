@@ -293,9 +293,9 @@ class PostController extends Controller
                 // post search
                 $query = addslashes($query);
                 $posts = Post::whereRaw("MATCH (caption, tags) AGAINST ('$query')")
-                            ->limit($limit)
-                            ->offset($offset)
-                            ->get();
+                    ->limit($limit)
+                    ->offset($offset)
+                    ->get();
             }
         } elseif (isset($auth_feed)) {
             // posts tailored just for the authenticated user
@@ -309,16 +309,16 @@ class PostController extends Controller
                 event(new NewsFeedRequested());
 
                 $posts = NewsFeed::orderBy('id', 'asc')
-                                ->offset($offset)
-                                ->limit($limit)
-                                ->get();
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
             }
 
             if (count($posts) == 0) {
                 $posts = Post::orderByDesc('post_id')
-                            ->offset($offset)
-                            ->limit($limit)
-                            ->get();
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
             }
         }
 
@@ -342,16 +342,16 @@ class PostController extends Controller
         // $offset = $request->input('offset', 0);
 
         $comments = DB::table('users')
-                        ->join('comments', function ($join) use ($post) {
-                            $join->on('users.id', '=', 'comments.user_id')
-                                ->where('comments.post_id', '=', $post->post_id);
-                        })
-                        ->select('users.id', '.username', '.profile_pic', '.post_id', '.message', '.comment_id', '.likes', 'comments.created_at')
-                        ->orderByDesc('comments.created_at')
-                        // ->limit($limit)
-                        // ->offset($offset)
-                        ->where('.comment_id', '<', $limit)
-                        ->get();
+            ->join('comments', function ($join) use ($post) {
+                $join->on('users.id', '=', 'comments.user_id')
+                    ->where('comments.post_id', '=', $post->post_id);
+            })
+            ->select('users.id', '.username', '.profile_pic', '.post_id', '.message', '.comment_id', '.likes', 'comments.created_at')
+            ->orderByDesc('comments.created_at')
+            // ->limit($limit)
+            // ->offset($offset)
+            ->where('.comment_id', '<', $limit)
+            ->get();
 
         $auth_user = $request->user();
         if ($auth_user) {
@@ -392,13 +392,13 @@ sql;
         $posts = Cache::get($key, []);
         if (count($posts) == 0) {
             $posts = DB::table('posts')
-                        ->join('user_follows', function ($join) use ($user) {
-                            $join->on('posts.user_id', '=', 'user_follows.user2_id')
-                                ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', env("ANON_USER"))->id);
-                        })
-                        ->whereRaw($sort_query)
-                        ->select('posts.*')
-                        ->get();
+                ->join('user_follows', function ($join) use ($user) {
+                    $join->on('posts.user_id', '=', 'user_follows.user2_id')
+                        ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', env("ANON_USER"))->id);
+                })
+                ->whereRaw($sort_query)
+                ->select('posts.*')
+                ->get();
 
             Cache::put($key, $posts, now()->addMinutes(90));
         }
@@ -437,8 +437,8 @@ sql;
         }
 
         $follows = UserFollow::where('user1_id', $user1_id)
-                            ->where('user2_id', $user2_id)
-                            ->first();
+                ->where('user2_id', $user2_id)
+                ->first();
 
         return $follows ? 1 : 0;
     }
@@ -449,9 +449,9 @@ sql;
     private function userComment($user_id, $post_id)
     {
         $comment = Comment::where('user_id', $user_id)
-                        ->where('post_id', $post_id)
-                        ->orderByDesc('comment_id')
-                        ->first();
+            ->where('post_id', $post_id)
+            ->orderByDesc('comment_id')
+            ->first();
         return $comment ? $comment->message : "";
     }
 
@@ -472,8 +472,8 @@ sql;
     private function userLikesComment($user_id, $comment_id)
     {
         $L = Like::where('user_id', $user_id)
-                ->where('comment_id', $comment_id)
-                ->first();
+            ->where('comment_id', $comment_id)
+            ->first();
         return $L ? 1 : 0;
     }
 
@@ -483,8 +483,8 @@ sql;
     private function userSavedPost($user_id, $post_id)
     {
         $L = Bookmark::where('user_id', $user_id)
-                ->where('post_id', $post_id)
-                ->first();
+            ->where('post_id', $post_id)
+            ->first();
         return $L ? 1 : 0;
     }
 
