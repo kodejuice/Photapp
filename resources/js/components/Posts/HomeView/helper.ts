@@ -69,6 +69,9 @@ export function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
     .then(res=>{
         if (res.success) {
             revalidateSWR();
+        } else {
+            toggleLike();
+            console.error(res.errors);
         }
     })
     .catch(()=>{});
