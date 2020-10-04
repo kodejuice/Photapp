@@ -15,6 +15,7 @@ const loading = <svg style={{margin: '0 auto', display: 'block', 'shapeRendering
 const RepostButton: React.FC<RepostButtonProps> = ({post_id, username}) => {
     const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
+    const [reposted, setReposted] = useState(false);
 
     const unmounted = useRef<boolean>(false);
     useEffect(()=>{
@@ -25,7 +26,7 @@ const RepostButton: React.FC<RepostButtonProps> = ({post_id, username}) => {
     const isUnmounted = unmounted.current;
 
     const rePost = ()=>{
-        if (!confirm(`Repost @${username}'s post`)) return;
+        if (!confirm(`Repost @${username}'s post?`)) return;
         setLoading(true);
 
         repostUserPost(post_id)
@@ -34,6 +35,7 @@ const RepostButton: React.FC<RepostButtonProps> = ({post_id, username}) => {
             if (res?.errors) return showAlert(dispatch, res?.errors);
             if (!res?.success) return;
             showAlert(dispatch, ['Reposted!'], 'success');
+            setReposted(true);
         })
         .catch(()=>{})
         .finally(()=>{
@@ -43,10 +45,12 @@ const RepostButton: React.FC<RepostButtonProps> = ({post_id, username}) => {
     }
 
     return (
-        <button onClick={rePost}> {isLoading ? loading : "Repost"} </button>
+        <React.Fragment>
+            {reposted && <span className='hidden' role='reposted'></span>}
+            <button data-testid="repost-btn" role="repost-btn" onClick={rePost}> {isLoading ? loading : "Repost"} </button>
+        </React.Fragment>
     );
 }
-
 
 
 export default RepostButton;
