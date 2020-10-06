@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {mutate} from 'swr';
 import {NotificationProp} from './types.d';
 import {limit} from '../../../helpers/util';
 import {howLong} from '../../../helpers/date-time';
@@ -29,7 +30,13 @@ const FollowAlert: React.FC<{data: NotificationProp}> = ({data})=>{
                 </div>
 
                 <div className="col col-3 follow_btn-col">
-                    <FollowButton notification_id={d.notification_id} user={d.associated_user} />
+                    <FollowButton
+                        unfollow={d.auth_user_follows}
+                        notification_id={d.notification_id}
+                        user={d.associated_user}
+                        onFollow={()=>mutate('/api/user/notifications')}
+                        onUnfollow={()=>mutate('/api/user/notifications')}
+                    />
                 </div>
             </div>
 
