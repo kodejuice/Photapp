@@ -318,9 +318,9 @@ export async function updateProfile(fields: {[index:string]: string}) {
 }
 
 
-////////////////////
-// Posts Requests //
 ///////////////////
+// Post Requests //
+//////////////////
 
 
 /**

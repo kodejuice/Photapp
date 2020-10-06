@@ -35,16 +35,17 @@ export function copyToClipboard(text, dispatch) {
  * deletes a post
  * @param  {number} post_id
  */
-export function deletePost(post_id: number) {
+export async function deletePost(post_id: number) {
     if (!confirm("Delete this post?")) return;
 
-    deleteUserPost(post_id)
+    return deleteUserPost(post_id)
     .then(res=>{
         if (res.errors) {
             console.error(res.errors);
             return alert(`An error occured, try again\n\n${res.errors[0]}`);
         } else if (res.success) {
             (window as any).location = "/";
+            return true;
         }
     })
     .catch(()=>{});
@@ -57,7 +58,7 @@ export function deletePost(post_id: number) {
  * @param  {Fn} toggleLike: ()   toggle like state
  * @param  {object} post : post beign liked
  */
-export function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
+export async function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
     const like = !toggleLike();
 
     const revalidateSWR = ()=>{
@@ -65,13 +66,15 @@ export function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
     }
 
     const promise = like ? likeUserPost(post_id) : unlikePost(post_id);
-    promise
+    return promise
     .then(res=>{
         if (res.success) {
             revalidateSWR();
+            return true;
         } else {
             toggleLike();
             console.error(res.errors);
+            return false;
         }
     })
     .catch(()=>{});
@@ -84,7 +87,7 @@ export function likePost(post_id: number, toggleLike: ()=>boolean, post: any) {
  * @param  {Fn} toggleSave: ()   toggle save state and return previous state value
  * @param  {object} post : post beign saved
  */
-export function savePost(post_id: number, toggleSave: ()=>boolean, post: any) {
+export async function savePost(post_id: number, toggleSave: ()=>boolean, post: any) {
     const save = !toggleSave();
 
     const revalidateSWR = ()=>{
@@ -92,7 +95,7 @@ export function savePost(post_id: number, toggleSave: ()=>boolean, post: any) {
     }
 
     const promise = save ? saveUserPost(post_id) : unsavePost(post_id);
-    promise
+    return promise
     .then(res=>{
         if (res.errors) {
             if (res.errors[0].includes('Already')) return;
@@ -102,6 +105,7 @@ export function savePost(post_id: number, toggleSave: ()=>boolean, post: any) {
         } else if (res.success) {
             post.auth_user_saved = save;
             revalidateSWR();
+            return true;
         }
     })
     .catch(()=>{});
