@@ -40,14 +40,23 @@ const EditCaptionButton = ({caption, post, onInputChange})=>{
                 showAlert(dispatch, res.errors);
             }
         })
-        .finally(()=>setLoading(false));
+        .finally(()=>{
+            if (unmounted.current) return;
+            setLoading(false)
+        });
     };
 
     return (
         <React.Fragment>
-            <form onSubmit={e=>{e.preventDefault(); updateCaption();}}>
-                <input value={caption} onChange={onInputChange} />
-                <button onClick={updateCaption} disabled={caption.trim()==post.caption}> Submit </button>
+            <form onSubmit={e=>{e.preventDefault(); updateCaption();}} role='edit-caption-form'>
+                <input value={caption} onChange={onInputChange} data-testid="edit-caption-input" />
+                <button
+                    onClick={updateCaption}
+                    data-testid="edit-caption-btn"
+                    disabled={caption.trim()==post.caption}
+                  >
+                    Submit
+                  </button>
             </form>
         </React.Fragment>
     );

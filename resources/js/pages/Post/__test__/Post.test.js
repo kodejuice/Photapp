@@ -8,6 +8,7 @@ import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
 import Wrapper from '../../../__test__/wrap-component';
+import App from '../../../components/App';
 
 import Post from '../index';
 
@@ -24,6 +25,15 @@ const component = (
         />
     </Wrapper>
 );
+
+// same as first, but this is the whole page
+// not just the Post component
+const fullPage = (
+    <Wrapper>
+        <App path='post' />
+    </Wrapper>
+);
+
 
 const samplePosts = [
     {
@@ -89,11 +99,16 @@ const sampleComments = [
 
 
 const johndoeProfile = {
+    id: 1,
     username: 'jondoe',
+    email: 'sampleEmail',
     profile_pic: 'image.png',
     auth_user_follows: 0,
     follows_auth_user: 0,
-    full_name: "John Doe"
+    posts_count: 0,
+    full_name: "John Doe",
+    followers: Infinity,
+    follows: -Infinity,
 };
 
 
@@ -103,13 +118,34 @@ const johndoeProfile = {
 // Server mockup
 const server = setupServer(
 
-    // GET
+    // johndoe profile
+    rest.get('/api/user/johndoe', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json(johndoeProfile)
+        )
+    }),
+    // authUser
+    rest.get('/api/user/profile', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json(johndoeProfile)
+        )
+    }),
+
 
     // post data
     rest.get('/api/post/1', (req, res, ctx) => {
         return res(
             ctx.status(200),
             ctx.json(samplePosts[0])
+        )
+    }),
+
+    rest.post('/api/post/1/update', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json({message: "Done"})
         )
     }),
 
@@ -126,14 +162,6 @@ const server = setupServer(
         return res(
             ctx.status(200),
             ctx.json(samplePosts)
-        )
-    }),
-
-    // johndoe profile
-    rest.get('/api/user/johndoe', (req, res, ctx) => {
-        return res(
-            ctx.status(200),
-            ctx.json(johndoeProfile)
         )
     }),
 
@@ -186,6 +214,24 @@ test("displays post", async ()=>{
     expect(getByTestId('likes-count')).toHaveTextContent('0 likes');
     fireEvent.click(getByTestId('like-btn'));
     expect(getByTestId('likes-count')).toHaveTextContent('1 likes');
+});
+
+
+test("user can update caption", async ()=>{
+    const {getByTestId} = render(fullPage);
+
+    await screen.findByRole('app-logged');
+    await screen.findByRole('post-page');
+    await screen.findByRole('post-card');
+
+    await screen.findByRole('edit-caption-form');
+
+    fireEvent.change(getByTestId('edit-caption-input'), {
+        target: {value: "New caption"}
+    });
+    fireEvent.click(getByTestId('edit-caption-btn'));
+
+    await screen.findByText('Caption updated');
 });
 
 

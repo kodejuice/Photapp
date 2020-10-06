@@ -19,7 +19,7 @@ import "./style.scss";
 
 const PostPage: React.FC<Router.RouteComponentProps> = ({match})=>{
     const dispatch = useDispatch();
-    const id = ((match.params as any).id);
+    const id = ((match.params as any).id) || `1`;
     let {post, isLoading} = usePost(id);
     const auth_user = authUser();
 
@@ -32,7 +32,7 @@ const PostPage: React.FC<Router.RouteComponentProps> = ({match})=>{
         <React.Fragment>
             <Header page="/" header_title={headerTitle(post)} hide_icon={true} />
             {isLoading && <div style={{marginTop:'40px'}}><Spinner /></div>}
-            <div className='post-page'>
+            <div className='post-page' role='post-page'>
 
                 <div className='row'>
                     <div className='post-media'>
