@@ -202,7 +202,7 @@ class UserController extends Controller
         $user->save();
 
         $follows->delete();
-        
+
         // delete notification
         Notification::where('type', 'follow')
         ->where('user_id', $user->id)
