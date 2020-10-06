@@ -59,8 +59,8 @@ const Users: React.FC<{
     return (
         <React.Fragment>
             <div className='users'>
-                { data.map((user)=> (
-                    <SingleUser key={user.username} rdr={!!rdr} show_name={!!show_full_name} user={user} mutate={mutate} />
+                { data.map((user, i)=> (
+                    <SingleUser key={user.username+i} rdr={!!rdr} show_name={!!show_full_name} user={user} mutate={mutate} />
                 )) }
             </div>
         </React.Fragment>
