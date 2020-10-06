@@ -376,16 +376,15 @@ class PostController extends Controller
         // if the user isnt authenticated,
         // we show ANON_USER's feed instead
         //
-        $key = ":" . (@$user->username ?: env("ANON_USER")) . "-feed";
+        $ANONYMOUS = env("ANON_USER");
+        $key = ":" . (@$user->username ?: $ANONYMOUS) . "-feed";
 
         $last_pid = Post::orderByDesc('post_id')->first()->post_id; // last post id
         // sorts user feed in descending order of follow score and recency
         $sort_query = <<<sql
 1=1
 ORDER BY
-    post_id * follow_score
-    +
-    (follow_score / $last_pid)
+    post_id * SQRT(follow_score)
 DESC
 sql;
 
@@ -394,7 +393,7 @@ sql;
             $posts = DB::table('posts')
                 ->join('user_follows', function ($join) use ($user) {
                     $join->on('posts.user_id', '=', 'user_follows.user2_id')
-                        ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', env("ANON_USER"))->id);
+                        ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', $ANONYMOUS)->id);
                 })
                 ->whereRaw($sort_query)
                 ->select('posts.*')
