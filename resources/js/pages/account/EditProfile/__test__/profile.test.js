@@ -12,7 +12,6 @@ import Wrapper from '../../../../__test__/wrap-component';
 import App from '../../../../components/App';
 
 window.__JEST_TEST_ENV = true;
-window.__page = "profile";
 
 const component = (
     <Wrapper>
