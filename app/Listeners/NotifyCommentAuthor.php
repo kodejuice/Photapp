@@ -59,6 +59,7 @@ class NotifyCommentAuthor
 
         $notif->type = $event->action;
         $notif->user_id = $comment->user_id;
+        $notif->post_id = $comment->post_id;
         $notif->comment_id = $comment->comment_id;
         $notif->associated_user = $user->username;
 
