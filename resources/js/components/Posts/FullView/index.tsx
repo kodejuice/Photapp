@@ -11,6 +11,7 @@ import showAlert from '../../Alert/showAlert';
 import {limit, amount} from '../../../helpers/util';
 import authUser from '../../../state/auth_user';
 
+import {usePost} from '../../../pages/Post';
 import MediaViewer from '../HomeView/MediaViewer';
 import {likePost, savePost} from '../HomeView/helper';
 
@@ -37,6 +38,13 @@ const heartIcon = <img src="/icon/heart.png" />;
 const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     const {logged, user} = authUser();
     const [heartShown, showHeart] = useState(false);
+
+    // fetch this post from server, though we already have it,
+    // we need a mutate function so we can apply individual changes to a single post
+    const {post: data, mutate} = usePost(post.post_id);
+    if (data && data.post_url && data.media_type) {
+        post = data;
+    }
 
     // post info (authenticated user likes/saved/follow)
     const [postLiked, likesPost] = useState(!!post.auth_user_likes);
