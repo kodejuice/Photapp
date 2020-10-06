@@ -76,7 +76,7 @@ function headerTitle(post) {
  * usePost hook
  * @param  {number} post_id  id of post
  */
-function usePost(post_id: number) {
+export function usePost(post_id: number) {
     // store post data in swr map upfront before
     // making request with SWR, thats if we have the post already
     // in the post cache
@@ -85,9 +85,10 @@ function usePost(post_id: number) {
         W.__SWR_MAP__.set(`${post_id}fetchPost`, post_from_cache);
     }
 
-    const {data, error} = useSWR(`${post_id}`, fetchPost);
+    const {data, error, mutate} = useSWR(`${post_id}`, fetchPost);
     return {
         post: data,
+        mutate,
         isLoading: !error && !data,
     };
 }

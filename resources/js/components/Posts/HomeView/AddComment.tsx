@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {mutate as global_mutate} from 'swr';
 import {useDispatch} from 'react-redux';
 import authUser from '../../../state/auth_user';
 import {submitUserComment} from '../../../helpers/fetcher';
@@ -56,10 +57,11 @@ function submitComment({post_id, text, mutate, setText}, user, {setLoading, onEr
     const username = user?.username || 'anonymous';
     const profile_pic = user?.profile_pic || '/icon/avatar.png';
 
-    mutate(async comments => {
-        if (!Array.isArray(comments)) return;
+    mutate(async data => {
+        if (!Array.isArray(data) || !data[0]?.message) // must be an array of comments
+            return data;
         // add comment to top
-        comments.unshift({
+        data.unshift({
             username,
             profile_pic,
             message: text,
@@ -68,7 +70,7 @@ function submitComment({post_id, text, mutate, setText}, user, {setLoading, onEr
             auth_user_likes: false,
             created_at: new Date(),
         });
-        return comments;
+        return data;
     });
 
     submitUserComment(post_id, text)
@@ -76,12 +78,14 @@ function submitComment({post_id, text, mutate, setText}, user, {setLoading, onEr
         if (res.success) {
             setText("");
             mutate();
+            global_mutate(`${post_id}`);
         } else if (res.errors) {
-            mutate(async comments => {
-                if (!Array.isArray(comments)) return;
+            mutate(async data => {
+                if (!Array.isArray(data) || !data[0]?.message)  // must be an array of comments
+                    return data;
                 // remove added comment
-                comments.shift();
-                return comments;
+                data.shift();
+                return data;
             });
             onError(res.errors);
         }

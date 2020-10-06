@@ -11,6 +11,7 @@ import {ProcessUserInput} from '../../../helpers/mini-components';
 import {limit, amount} from '../../../helpers/util';
 import authUser from '../../../state/auth_user';
 
+import {usePost} from '../../../pages/Post';
 import AddComment from './AddComment';
 import MediaViewer from './MediaViewer';
 import {likePost, copyToClipboard, deletePost, savePost} from './helper';
@@ -32,6 +33,15 @@ const heartIcon = <svg viewBox="0 0 50 50"><path fill="#fafafa" stroke="#fafafa"
 const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     const {logged, user} = authUser();
     const dispatch = useDispatch();
+
+    // fetch this post from server, though we already have it,
+    // we need a mutate function so we can apply individual changes to a single post
+    const {post: data, mutate} = usePost(post.post_id);
+    if (data) {
+        post = data;
+    }
+
+
     const [heartShown, showHeart] = useState(false);
     const i = idx, caption_limit = 140;
 
@@ -178,7 +188,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                 </div>
 
                 <div className='add-comment row hide-comment-mobile'>
-                    <AddComment mutate={()=>void 0} post_id={post.post_id} />
+                    <AddComment mutate={()=>mutate()} post_id={post.post_id} />
                 </div>
             </div>
         </div>                
