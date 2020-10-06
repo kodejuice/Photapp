@@ -14,7 +14,7 @@ import PageNotFound from '../../PageNotFound';
 import authUser from '../../../state/auth_user';
 import {fetchListing, markNotification} from '../../../helpers/fetcher';
 
-import {checkForDeletion} from './helper';
+import {checkForDeletion, removeDuplicateFollows} from './helper';
 
 
 import FollowAlert from './FollowAlert';
@@ -46,7 +46,7 @@ const Notifications: React.FC<{}> = (props)=>{
                 { res.isLoading ? <Spinner /> : ""}
 
                 <div className='alerts'>
-                    { res.data ? res.data.map((notif)=> <Notif key={notif.notification_id} data={notif} />) : "" }
+                    { res.data ? removeDuplicateFollows(res.data).map((notif)=> <Notif key={notif.notification_id} data={notif} />) : "" }
                 </div>
 
                 {res.data && (
@@ -124,7 +124,7 @@ function Notif({data}) {
 function useNotification() {
     const { data, error } = useSWR(`/api/user/notifications`, fetchListing);
     return {
-        data: data,
+        data,
         isLoading: !error && !data,
         isError: error
     }

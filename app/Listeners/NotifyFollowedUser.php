@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 use App\UserSetting;
 use App\Notification;
+use App\UserFollow;
 
 class NotifyFollowedUser implements ShouldQueue
 {
@@ -25,6 +26,19 @@ class NotifyFollowedUser implements ShouldQueue
     {
         // chech (if the user wants such notification)
         $user_setting = UserSetting::firstWhere('user_id', $ev->user2->id);
+
+        $notified = Notification::where('type', 'follow')
+            ->where('user_id', $ev->user2->id)
+            ->where('associated_user', $ev->user1->username)
+            ->first();
+
+        $follows = UserFollow::where('user1_id', $ev->user1->id)
+            ->where('user2_id', $ev->user2->id)
+            ->first();
+
+        if ($notified || !$follows)
+            return false;
+
         return $user_setting->notify_follows==1;
     }
 

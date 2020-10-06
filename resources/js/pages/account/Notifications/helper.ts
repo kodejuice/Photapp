@@ -23,3 +23,27 @@ export function checkForDeletion(data: NotificationProp) {
 
 }
 
+
+/**
+ * @debug_mode
+ * this wont happen in the backend
+ */
+export function removeDuplicateFollows(data: NotificationProp[]) {
+    const list = new Set();
+    const clean: NotificationProp[] = [];
+
+    for (let i=0; i<data.length; ++i) {
+        let {type, associated_user} = data[i];
+
+        if (type == 'follow') {
+            if (!list.has(associated_user)) {
+                clean.push(data[i]);
+                list.add(associated_user);
+            }
+        } else {
+            clean.push(data[i])
+        }
+    }
+
+    return clean;
+}
