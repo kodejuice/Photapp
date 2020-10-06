@@ -37,7 +37,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
     // fetch this post from server, though we already have it,
     // we need a mutate function so we can apply individual changes to a single post
     const {post: data, mutate} = usePost(post.post_id);
-    if (data) {
+    if (data && data.post_url && data.media_type) {
         post = data;
     }
 
