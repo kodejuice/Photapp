@@ -481,9 +481,12 @@ class UserController extends Controller
     public function getAuthUserNotifications(Request $request)
     {
         $user = $request->user();
-        $notifs = Notification::where('user_id', $user->id);
+        $notifs = Notification::where('user_id', $user->id)
+            ->get();
 
-        return response($notifs->get());
+        $this->getAlertsFollowInfo($notifs, $user->id);
+
+        return response($notifs);
     }
 
     /**
@@ -513,12 +516,12 @@ class UserController extends Controller
         $user2 = User::where('id', $user2_id)->first();
 
         if (!$user2) {
-            return response(['errors' => ['User not found']], 404);
+            return 0;
         }
 
         $follows = UserFollow::where('user1_id', $user1_id)
-                            ->where('user2_id', $user2_id)
-                            ->first();
+            ->where('user2_id', $user2_id)
+            ->first();
 
         return $follows ? 1 : 0;
     }
@@ -575,6 +578,21 @@ class UserController extends Controller
             } else {
                 $u->auth_user_follows = $this->userFollows($auth_user_id, $u->id);
                 $u->follows_auth_user = $this->userFollows($u->id, $auth_user_id);
+            }
+        }
+    }
+
+    /**
+     * Add follow info to follow type notifications
+     */
+    private function getAlertsFollowInfo($alerts, $auth_user_id) {
+        $users = [];
+        foreach ($alerts as $a) {
+            if ($a->type == 'follow') {
+                $user2 = User::firstWhere('username', $a->associated_user);
+                if ($user2) {
+                    $a->auth_user_follows = $this->userFollows($auth_user_id, $user2->id);
+                }
             }
         }
     }

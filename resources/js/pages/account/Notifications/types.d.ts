@@ -15,4 +15,6 @@ export type NotificationProp = {
 
       post_id: number|null,
       comment_id: number|null,
+
+      auth_user_follows: boolean,
 };
