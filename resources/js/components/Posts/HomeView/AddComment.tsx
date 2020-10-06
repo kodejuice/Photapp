@@ -15,12 +15,15 @@ const AddComment: React.FC<{post_id: number, mutate: Function}> = ({post_id, mut
     const dispatch = useDispatch();
     const [text, setText] = useState("");
     const [isLoading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
 
     const onError = (errs)=>{
         showAlert(dispatch, errs);
+        setError(true);
     }
 
     const onSubmit = ()=>{
+        setError(false);
         setLoading(true);
         submitComment(
             {post_id, text, mutate, setText},
@@ -32,13 +35,25 @@ const AddComment: React.FC<{post_id: number, mutate: Function}> = ({post_id, mut
     return (
         <React.Fragment>
             <div className='col col-fill'>
-                <form onSubmit={ev=>{ev.preventDefault(); onSubmit();}}>
-                    <input type='text' value={text} placeholder='Add a comment...' onChange={_=>setText(_.target.value)}/>
+                {text=="" && <input role='no-text' className='hidden' />}
+                {error && <input role='error' className='hidden' /> }
+                <form
+                    data-testid="add-comment-form"
+                    onSubmit={ev=>{ev.preventDefault(); onSubmit();}}
+                >
+                    <input
+                        type='text'
+                        value={text}
+                        data-testid="add-comment-input"
+                        placeholder='Add a comment...'
+                        onChange={_=>setText(_.target.value)}
+                    />
                 </form>
             </div>
             <div className='col col-1'>
                 <button
                     className='post'
+                    data-testid="add-comment-btn"
                     disabled={text.trim().length<1 || text.trim().length>290 || isLoading}
                     onClick={onSubmit}
                 >
