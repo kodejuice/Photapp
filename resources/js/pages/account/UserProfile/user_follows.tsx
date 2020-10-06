@@ -13,8 +13,6 @@ import Users from '../../../components/Users';
 
 const LIMIT = 100;
 
-// TODO: add "Load More (+)" button
-
 const UserFollow: React.FC<{
     username: string,
     type:'followers'|'following',
