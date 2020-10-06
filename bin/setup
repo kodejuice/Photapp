@@ -4,3 +4,5 @@
 php artisan migrate
 php artisan passport:install --force
 npm run prod
+
+# Create user @{process.env.ANON_USER}
