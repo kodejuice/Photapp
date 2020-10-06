@@ -121,7 +121,13 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
 const HomePosts: React.FC<HomePost> = ({data})=>{
     return (
         <React.Fragment>
-            {data.map((post,i) => <SinglePost key={post.post_url} idx={i} post={post}/>)}
+            {data.map((post,i) => (
+                <SinglePost
+                    idx={i}
+                    post={post}
+                    key={post.username + post.post_url + post.created_at}
+                />
+            ))}
         </React.Fragment>
     );
 }
