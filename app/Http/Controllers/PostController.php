@@ -379,12 +379,11 @@ class PostController extends Controller
         $ANONYMOUS = env("ANON_USER");
         $key = ":" . (@$user->username ?: $ANONYMOUS) . "-feed";
 
-        $last_pid = Post::orderByDesc('post_id')->first()->post_id; // last post id
         // sorts user feed in descending order of follow score and recency
         $sort_query = <<<sql
 1=1
 ORDER BY
-    post_id * SQRT(follow_score)
+    post_id * SQRT(1 + follow_score)
 DESC
 sql;
 
