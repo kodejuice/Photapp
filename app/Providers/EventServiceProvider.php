@@ -43,6 +43,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\NotifyCommentAuthor',
         ],
 
+        'App\Events\UserDPChanged' => [
+            'App\Listeners\MoveUserDPtoCloud',
+        ],
     ];
 
 

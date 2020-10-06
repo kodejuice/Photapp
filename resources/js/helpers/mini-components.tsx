@@ -1,9 +1,12 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {mutate} from 'swr';
+import {useSelector, useDispatch} from 'react-redux';
 import {RootState as Root} from '../state/store';
 import Toggler from 'react-toggle';
 import Cookie from 'js-cookie';
+import {uploadUserDP} from './fetcher';
+import showAlert from '../components/Alert/showAlert';
 
 import * as linkify from 'linkifyjs';
 import Linkify from 'linkifyjs/react';
@@ -113,3 +116,33 @@ export function AlertIndicator() {
     );
 }
 
+
+/**
+ * input component for uploading user DP
+ */
+export const UploadUserDP: React.FC<{
+    inputRef: React.RefObject<HTMLInputElement>,
+    mutate: Function
+}> = ({inputRef, mutate})=>{
+    const dispatch = useDispatch();
+
+    const uploadDP = async (ev)=>{
+        let res = await uploadUserDP(ev);
+
+        if (res?.errors) {
+            showAlert(dispatch, res.errors);
+        } else if (res?.success) {
+            showAlert(dispatch, ['Done! it may take a while for changes to reflect'], 'success');
+
+            setTimeout(()=>{
+                mutate();
+            }, 5e3);
+        }
+    }
+
+    return (
+        <React.Fragment>
+            <input hidden accept='image/*' name="image" type='file' ref={inputRef} onChange={uploadDP} />
+        </React.Fragment>
+    );
+}

@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import Router, {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import useSWR from '../../../helpers/swr';
-import {fetchUser, fetchListing, uploadUserDP} from '../../../helpers/fetcher';
+import {fetchUser, fetchListing} from '../../../helpers/fetcher';
 import {limit, amount} from '../../../helpers/util';
 import showAlert from '../../../components/Alert/showAlert';
 import authUser from '../../../state/auth_user';
@@ -12,7 +12,7 @@ import Posts from '../../../components/Posts';
 import {LazyDPSync} from '../../../components/LazyDP';
 import FollowButton from '../../../components/FollowButton';
 import Spinner from '../../../components/Spinner';
-import {ProcessUserInput} from '../../../helpers/mini-components';
+import {ProcessUserInput, UploadUserDP} from '../../../helpers/mini-components';
 
 import {EditProfileModal, LogoutModal} from './edit_profile_modal';
 import UserFollow from './user_follows';
@@ -244,11 +244,13 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                     </React.Fragment>
                 )}
 
-                <input hidden accept='image/*' name="image" type='file' ref={inputFile} onChange={e=>uploadUserDP(e,null)} />
+                {isSelf && <UploadUserDP mutate={mutate} inputRef={inputFile} />}
             </div>
         </React.Fragment>
     );
 };
+
+
 
 
 /**

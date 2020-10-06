@@ -18,6 +18,7 @@ use App\UserSetting;
 use App\Notification;
 
 use App\Events\UserFollowed;
+use App\Events\UserDPChanged;
 
 class UserController extends Controller
 {
@@ -115,29 +116,24 @@ class UserController extends Controller
      */
     public function updateDP(Request $request)
     {
-        $this->validate($request, [
-          'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ]);
-
-        // TODO: move DP to cloud
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
 
         $user = $request->user();
 
-        $uploaded_image = $request->file('image');
-        $imagename = $user->username . '.' . $uploaded_image->extension();
-        $destinationPath = public_path('/avatar');
+        $uploaded_image = $request->file('file');
 
-        // resize image & store
-        $img = ImageResize::make($uploaded_image->path());
-        $img->resize(60, 60, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save($destinationPath.'/'.$imagename);
+        $img = ImageResize::make($uploaded_image->get());
+        $img->resize(160, 160);
+        $new_dp = base64_encode($img->encode());
 
-        $user->profile_pic = $imagename;
-        $user->save();
+        event(new UserDPChanged($user, $new_dp));
 
-        return back()
-          ->with('message', 'Success');
+        return response(['message' => "Done"]);
     }
 
 

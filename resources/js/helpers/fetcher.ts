@@ -699,31 +699,54 @@ export async function deleteNotifications(ids: string) {
 // User Upload /
 ////////////////
 
+async function uploadForm(url: string, form: FormData) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post(url, form);
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+
+}
+
+
 /**
  * Uploads user DP
  * 
- * @param {React.FormEvent<HTMLInputElement>}                        ev [description]
- * @param {React.Dispatch<React.SetStateAction<boolean>> |  null}    setLoading [description]
+ * @param {React.FormEvent<HTMLInputElement>}    ev
  */
-export async function uploadUserDP(ev: React.FormEvent<HTMLInputElement>, setLoading: React.Dispatch<React.SetStateAction<boolean>> | null) {
+export async function uploadUserDP(ev: React.FormEvent<HTMLInputElement>) {
     ev.stopPropagation();
     ev.preventDefault();
 
     let file = ((ev.target as HTMLInputElement).files as FileList)[0];
-    if (!file.size) return;
-
-    if (file.size > 10 * 1024 * 1024) { // > 10MB
-        return alert("Image too large (max 10MB)");
+    if (!file?.size) {
+        return {errors: ["Invalid file (couldn't read file size)"]};
+    }
+    else if (!file?.type?.includes('image')) {
+        return {errors: ['The file must be an image']};
+    }
+    else if (file.size > 10 * 1024 * 1024) { // > 10MB
+        return {errors: ['Image too large (max 10MB)']};
     }
 
     let form = new FormData();
-    form.append('image', file);
+    form.append('file', file);
 
-    // TODO: axios.post('/user/dp', form);
+    let res = await uploadForm(`/api/user/dp`, form);
 
-    if (setLoading) {
-        setLoading(true);
-    }
+    return res;
 }
 
 
