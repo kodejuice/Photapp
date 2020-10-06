@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import useSWR from '../../helpers/swr';
+import {mutate as global_mutate} from 'swr';
 import {useDispatch} from 'react-redux';
 
 import authUser from '../../state/auth_user';
@@ -207,8 +208,6 @@ const Comments: React.FC<{
     const [limit, setLimit] = useState(10);
     let {data, mutate, isLoading} = useComments(post_id);
 
-    const [commentCount, setCommentCount] = useState(post.comment_count);
-
     if (data?.errors) {
         showAlert(dispatch, data.errors);
         data = null;
@@ -239,7 +238,7 @@ const Comments: React.FC<{
                 {isLoading && <Spinner type='list'/>}
                 {data && data.length>0 && (
                     <div className='scroll-par'>
-                        {data && <p id='comment-count' data-testid='comment-count'> {amount(commentCount)} comments </p>}
+                        {data && <p id='comment-count' data-testid='comment-count'> {post.comment_count} comments </p>}
                         <div className='scrolling-list' ref={scrollRef}>
                             {data && data.slice(0,limit).map(({message, likes, comment_id, username, auth_user_likes, profile_pic, created_at})=>(
                                 !deletedComments.has(comment_id)
@@ -253,10 +252,7 @@ const Comments: React.FC<{
                                     auth_user_likes={auth_user_likes}
                                     profile_pic={profile_pic}
                                     how_long={howLong(created_at)}
-                                    onDelete={()=>{
-                                        setCommentCount(commentCount-1)
-                                        post.comment_count -= 1;
-                                    }}
+                                    onDelete={()=>global_mutate(`${post_id}`)}
                                 />
                             ))}
                         </div>
@@ -267,10 +263,9 @@ const Comments: React.FC<{
                     <div id='load-more'>
                         <button onClick={()=>{
                             const scrollDiv = scrollRef.current as HTMLDivElement;
-                            setLimit(limit+10)
-
-                            // scroll to bottom (smoothly)
+                            setLimit(limit+10);
                             setTimeout(()=>{
+                                // scroll to bottom (smoothly)
                                 scrollDiv.scroll({
                                     behavior: 'smooth',
                                     left: 0,
