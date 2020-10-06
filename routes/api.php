@@ -99,6 +99,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
         Route::post('/user/{username}/unfollow', 'UserController@unfollowUser')->name('user.unfollow');
         Route::post('/user/notification/{id}', 'UserController@markNotification')->name('user.notification.mark');
         Route::delete('/user/notification/{id}', 'UserController@deleteNotification')->name('user.notification.delete');
+        Route::post('/user/notifications/delete', 'UserController@deleteNotifications')->name('user.notifications.delete');
         // :auth_user:
         Route::get('/user/profile', 'UserController@getAuthUserProfile')->name('auth_user.profile');
         Route::get('/user/posts', 'UserController@getAuthUserPosts')->name('auth_user.posts');

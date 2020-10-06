@@ -28,7 +28,7 @@ export function checkForDeletion(data: NotificationProp) {
  * @debug_mode
  * this wont happen in the backend
  */
-export function removeDuplicateFollows(data: NotificationProp[]) {
+function removeDuplicateFollows(data: NotificationProp[]) {
     const list = new Set();
     const clean: NotificationProp[] = [];
 
@@ -47,3 +47,17 @@ export function removeDuplicateFollows(data: NotificationProp[]) {
 
     return clean;
 }
+
+
+export const page_limit = 40;
+export function sortNotifications(data: NotificationProp[]) {
+    data = removeDuplicateFollows(data);
+
+    let _new = data.filter(x => x.new == true);
+    let _old = data.filter(x => x.new == false);
+    _new.push(..._old);
+
+    return _new.slice(0, page_limit);
+}
+
+

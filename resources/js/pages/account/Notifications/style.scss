@@ -25,6 +25,27 @@ div.notifications-body {
     .alerts {
         font-size: 15px;
 
+        .action-btns {
+            border-bottom: 0.5px solid #ccc;
+            margin-bottom: 10px;
+
+            button.action {
+                padding: 4px;
+                margin: 6px 13px;
+                font-size: 1.2em;
+
+                // &.mark-all {
+                //     color: #fff;
+                //     background: #0095F6;
+                // }
+
+                &.delete-all {
+                    color: #fff;
+                    background: #ED4956;
+                }
+            }
+        }
+
         .dp-col {
             max-width: 50px;
             max-height: 50px;

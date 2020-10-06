@@ -247,6 +247,21 @@ class UserController extends Controller
         return response(['message' => "Done"]);
     }
 
+    /**
+     * delete notification[s]
+     */
+    public function deleteNotifications(Request $request)
+    {
+        $user = $request->user();
+        $ids = json_decode($request->ids);
+
+        Notification::whereIn('notification_id', $ids)
+            ->where('user_id', $user->id)
+            ->delete();
+
+        return response(['message' => "Done"]);
+    }
+
 
     //////////
     // GETs //

@@ -666,6 +666,34 @@ export async function deleteNotification(id: number) {
     axios.delete(`/api/user/notification/${id}`);
 }
 
+/**
+ * deletes notification[s] from database
+ * 
+ * @param {string} ids notification ids as json string
+ */
+export async function deleteNotifications(ids: string) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post(`/api/user/notifications/delete`, {
+            ids
+        });
+
+        if (req?.data?.message == 'Done') {
+            return {success: true};
+        }
+
+        throw req;
+
+    } catch (err) {
+        return {errors: handleServerError(err, ()=>void 0)};
+    } finally {
+        nprogress.done();
+    }
+}
+
+
 
 /////////////////
 // User Upload /

@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import useSWR from '../../../helpers/swr';
+import {mutate} from 'swr';
 import minuteDifference from 'date-fns/differenceInMinutes';
 
+import {NotificationProp} from './types.d';
 import Header from '../../../components/Header';
 import Spinner from '../../../components/Spinner';
 import Splash from '../../../components/Splash';
@@ -12,9 +14,9 @@ import Suggestions from '../../../components/Suggestions';
 import PageNotFound from '../../PageNotFound';
 
 import authUser from '../../../state/auth_user';
-import {fetchListing, markNotification} from '../../../helpers/fetcher';
+import {fetchListing, markNotification, deleteNotifications} from '../../../helpers/fetcher';
 
-import {checkForDeletion, removeDuplicateFollows} from './helper';
+import {checkForDeletion, sortNotifications, page_limit} from './helper';
 
 
 import FollowAlert from './FollowAlert';
@@ -25,6 +27,7 @@ import CommentAlert from './CommentAlert';
 import './style.scss';
 
 const W = window as any;
+
 
 const Notifications: React.FC<{}> = (props)=>{
     const {logged} = authUser();
@@ -38,6 +41,11 @@ const Notifications: React.FC<{}> = (props)=>{
         res.data = null;
     }
 
+    let alerts;
+    if (res.data) {
+        alerts = sortNotifications(res.data);
+    }
+
     return (
         <React.Fragment>
             <Header page='activity' hide_icon={true} header_title='Activity' />
@@ -46,7 +54,8 @@ const Notifications: React.FC<{}> = (props)=>{
                 { res.isLoading ? <Spinner /> : ""}
 
                 <div className='alerts'>
-                    { res.data ? removeDuplicateFollows(res.data).map((notif)=> <Notif key={notif.notification_id} data={notif} />) : "" }
+                    { alerts && alerts.length>0 && <ActionButtons data={alerts} _={res.data} /> }
+                    { alerts && alerts.map((notif)=> <Notif key={notif.notification_id} data={notif} />) }
                 </div>
 
                 {res.data && (
@@ -116,6 +125,55 @@ function Notif({data}) {
     return <React.Fragment> </React.Fragment>;
 }
 
+
+/**
+ * mark|delete all
+ */
+const ActionButtons: React.FC<{
+    data: NotificationProp[],
+    _: NotificationProp[], // real alerts, no duplicates removed
+}> = ({data, _})=>{
+    const dispatch = useDispatch();
+    const unmounted = useRef(false);
+
+    const shown = Math.min(page_limit, data.length);
+    const s = `${shown} notification${shown>1?'s':''}`;
+
+    useEffect(()=>{
+        unmounted.current = false;
+        return ()=>{unmounted.current = true;};
+    })
+
+    const deleteAll = ()=>{
+        if (!confirm(`Delete all ${s}`)) return;
+        if (shown < page_limit && _.length) data = data.concat(_);
+
+        let list = JSON.stringify(data.map(d => d.notification_id));
+
+        deleteNotifications(list)
+        .then(res=>{
+            if (unmounted.current) return;
+            if (res.errors) {
+                showAlert(dispatch, res.errors);
+                return;
+            } else if (res.success) {
+                mutate('/api/user/notifications');
+                let more = (shown==page_limit ? ' loading more...' : '');
+                showAlert(dispatch, ['Deleted!' + more], 'success');
+            }
+        })
+    }
+
+    return (
+        <React.Fragment>
+            <div className='action-btns'>
+                <button onClick={deleteAll} className='action delete-all'>
+                    Delete all
+                </button>
+            </div>
+        </React.Fragment>
+    );
+}
 
 
 /**
