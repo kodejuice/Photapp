@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({header_title, hide_icon, current_page})=
                         {
                             user?.id ?
                                 <Link to={`/user/${user.username}`}>
-                                    <img className='avatar' src={user.profile_pic ? `/avatar/${user.profile_pic}` : avatarIcon} />
+                                    <img className='avatar' src={user.profile_pic ? `${user.profile_pic}` : avatarIcon} />
                                 </Link>
                                 :
                                 <Link to="/login"><img src={loginIcon}/> </Link>                                

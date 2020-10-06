@@ -22,7 +22,7 @@ export default function LazyDP({user}) {
 
     const url = (isError || isLoading || (!data?.profile_pic))
         ? default_avatar
-        :`/avatar/${data.profile_pic}`;
+        :`${data.profile_pic}`;
 
     return <img role={data?'dp':''} data-testid="dp" src={isLoading ? waiting : url} onError={onError} />;
 }
@@ -47,7 +47,7 @@ export function LazyDPSync(props) {
 
     const url = (!data?.profile_pic)
         ? default_avatar
-        :`/avatar/${data.profile_pic}`;
+        :`${data.profile_pic}`;
 
     return <img role={data?'dp':''} src={isLoading ? waiting : url} onError={onError} />;
 }

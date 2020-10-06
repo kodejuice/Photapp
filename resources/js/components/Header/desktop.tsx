@@ -62,7 +62,7 @@ const Header: React.FC<{}> = ()=>{
                                             <div className="dropdown">
                                                 <img onClick={_=>toggleDropdown()}
                                                      className='dropbtn avatar'
-                                                     src={user.profile_pic ? `/avatar/${user.profile_pic}` : avatarIcon}
+                                                     src={user.profile_pic ? `${user.profile_pic}` : avatarIcon}
                                                 />
                                                 <div className={`dropdown-content ${dropdown_shown?'show':''}`}>
                                                     <Link to={`/user/${user.username}`}> Profile</Link>
