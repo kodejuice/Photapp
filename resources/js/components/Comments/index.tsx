@@ -93,7 +93,6 @@ const LikeButton: React.FC<LikeButtonProps> = ({comment_id, dislike, setCommentL
  * @param  {number} comment_id
  * @param  {Dispatch<SetStateAction<boolean>>} showComment
  */
-let deletedComments: Set<number>;
 const DeleteButton: React.FC<DeleteButtonProps> = ({comment_id, showComment, onDelete})=>{
     const dispatch = useDispatch();
     const unmounted = useRef(false);
@@ -111,7 +110,6 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({comment_id, showComment, onD
             if (unmounted.current) return;
             if (res?.errors) return showAlert(dispatch, res.errors);
             if (res?.success) {
-                deletedComments.add(comment_id);
                 onDelete();
                 showAlert(dispatch, ['Comment deleted'], 'success');
                 showComment(false);
@@ -203,7 +201,6 @@ const Comments: React.FC<{
     post: any,
 }> = ({post, post_id})=>{
     const scrollRef = useRef<HTMLDivElement>(null);
-    const rendered = useRef(false);
     const dispatch = useDispatch();
     const [limit, setLimit] = useState(10);
     let {data, mutate, isLoading} = useComments(post_id);
@@ -213,11 +210,6 @@ const Comments: React.FC<{
         data = null;
     }
 
-    // initialize deleted comments set
-    if (!rendered.current) {
-        deletedComments = new Set();
-        rendered.current = true;
-    }
 
     return (
         <React.Fragment>
@@ -241,10 +233,8 @@ const Comments: React.FC<{
                         {data && <p id='comment-count' data-testid='comment-count'> {post.comment_count} comments </p>}
                         <div className='scrolling-list' ref={scrollRef}>
                             {data && data.slice(0,limit).map(({message, likes, comment_id, username, auth_user_likes, profile_pic, created_at})=>(
-                                !deletedComments.has(comment_id)
-                                &&
                                 <SingleComment
-                                    key={username+comment_id}
+                                    key={comment_id}
                                     text={message}
                                     likes={likes}
                                     comment_id={comment_id}
