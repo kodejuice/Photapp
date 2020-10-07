@@ -20,7 +20,7 @@ use App\Helper;
 class PostUploadController extends Controller
 {
     private int $upload_limit = 15;
-    private int $max_upload_size = 31457280; // 30MB
+    private int $max_upload_size = 31457280; // 30MB (bytes)
 
     /**
      * Form upload controller
@@ -129,7 +129,7 @@ class PostUploadController extends Controller
             $header = get_headers($url, 1);
 
             $file_size = Helper::getUrlContentLength($header);
-            if ($file_size <= 0 || $file_size > 31457280 /*30MB (bytes)*/) {
+            if ($file_size <= 0 || $file_size > $this->max_upload_size) {
                 continue;
             }
 
