@@ -40,6 +40,6 @@ class CommentAction implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('comment.' . $this->comment->user_id);
+        return new Channel('comment.' . $this->comment->user_id);
     }
 }

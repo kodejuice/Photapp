@@ -38,6 +38,6 @@ class UserFollowed implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('follow.' . $this->user2->id);
+        return new Channel('follow.' . $this->user2->id);
     }
 }

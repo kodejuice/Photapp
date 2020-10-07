@@ -36,12 +36,12 @@ const AppEvents: React.FC<{}> = () => {
 
     useEffect(()=>{
         if (!ref.current) {
-            const channels = ['comment.${id}', 'post.${id}', 'mention.${id}', 'follow.${id}'];
+            const channels = ['comment.{id}', 'post.{id}', 'mention.{id}', 'follow.{id}'];
             const events = ['CommentAction', 'PostAction', 'UserMentioned', 'UserFollowed'];
 
             // listen for Laravel Echo broadcast
             channels.forEach((c, i)=>{
-                Echo?.private(c)
+                Echo?.channel(c)
                     ?.listen(events[i], (e) => {
                         notifyUser(true);
                     });

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Broadcast;
 
+use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -13,18 +15,15 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-// TODO: check if user wants such notifications (in `UserSettings` table)
-
 if (!function_exists('broadcast_auth_logic')) {
-    // i have a feeling this isnt bad code :/
-    function broadcast_auth_logic($user, $id) {
-        return (int) $user->id === (int) $id;
+    function broadcast_auth_logic(User $user, $id) {
+        return $user->id === (int) $id;
     }
 }
 
 $auth_guard = ['guards' => ['api']];
 
-Broadcast::channel('comment.{id}', "broadcast_auth_logic", $auth_guard);
-Broadcast::channel('post.{id}', "broadcast_auth_logic", $auth_guard);
-Broadcast::channel('mention.{id}', "broadcast_auth_logic", $auth_guard);
-Broadcast::channel('follow.{id}', "broadcast_auth_logic", $auth_guard);
+Broadcast::channel('comment.{id}', "broadcast_auth_logic");
+Broadcast::channel('post.{id}', "broadcast_auth_logic");
+Broadcast::channel('mention.{id}', "broadcast_auth_logic");
+Broadcast::channel('follow.{id}', "broadcast_auth_logic");

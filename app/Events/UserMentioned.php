@@ -43,6 +43,6 @@ class UserMentioned implements ShouldBroadcast
     public function broadcastOn()
     {
         $mentioned = User::firstWhere('username', $this->mentioned_user);
-        return new PrivateChannel('mention.' . $mentioned->id);
+        return new Channel('mention.' . $mentioned->id);
     }
 }
