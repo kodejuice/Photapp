@@ -128,7 +128,10 @@ class UserController extends Controller
         $uploaded_image = $request->file('file');
 
         $img = ImageResize::make($uploaded_image->get());
-        $img->resize(160, 160);
+        $img->resize(200, 200, function ($constraint) {
+            // maintain aspect ratio
+            $constraint->aspectRatio();
+        });
         $new_dp = base64_encode($img->encode());
 
         event(new UserDPChanged($user, $new_dp));
