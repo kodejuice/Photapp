@@ -70,19 +70,37 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        // User posts
         'google' => [
             'driver' => 'google',
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
             'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
-            'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'),
-            // 'teamDriveId' => env('GOOGLE_DRIVE_TEAM_DRIVE_ID'),
+            'folderId' => env('GOOGLE_DRIVE_POSTS_FOLDER_ID'),
 
             'cache' => [
                 'store' => 'database',
                 'expire' => 600,
-                'prefix' => 'cache-prefix',
+                'prefix' => 'posts-cache-prefix',
             ],
+        ],
+
+        // Profile photos
+        'user-dp-driver' => [
+            // 'driver' => 'local',
+            // 'root' => public_path('avatar'),
+            'driver' => 'google',
+            'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
+            'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+            'folderId' => env('GOOGLE_DRIVE_PROFILE_PHOTOS_FOLDER_ID'),
+
+            'cache' => [
+                'store' => 'database',
+                'expire' => 600,
+                'prefix' => 'dp-cache-prefix',
+            ],
+
         ],
     ],
 
@@ -98,7 +116,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path('storage') => public_path('avatar'),
     ],
 
 ];

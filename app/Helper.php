@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 use App\User;
 use App\Post;
@@ -178,10 +179,9 @@ class Helper
      */
     public static function storeFile(string $file_name, string $file, string $drive='google'): array
     {
-        // TODO: change this
-        return [$file_name, $file_name];
-        // Storage::disk($drive)->put($file_name, $file);
-        // return [$file_name, Storage::disk($drive)->url($file_name)];
+        // return [$file_name, $file_name];
+        Storage::disk($drive)->put($file_name, $file);
+        return [$file_name, Storage::disk($drive)->url($file_name)];
     }
 
 
@@ -194,8 +194,8 @@ class Helper
     public static function updateFollowScore(User $user1, int $user2_id, string $action): void
     {
         $follow = UserFollow::where('user1_id', $user1->id)
-                            ->where('user2_id', $user2_id)
-                            ->first();
+            ->where('user2_id', $user2_id)
+            ->first();
         if (!$follow) {
             // $user1 doesnt follow $user2
             // nothing to do
