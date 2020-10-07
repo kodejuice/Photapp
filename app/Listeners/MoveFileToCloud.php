@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+use ImageResize;
+
 use App\User;
 use App\Post;
 use App\Helper;
@@ -19,6 +21,9 @@ use App\Events\NewsFeedRequested;
 
 class MoveFileToCloud implements ShouldQueue
 {
+    private string $cloud_drive;
+    private string $public_disk_drive;
+
     /**
      * Create the event listener.
      *
@@ -26,7 +31,42 @@ class MoveFileToCloud implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->cloud_drive = env('FILESYSTEM_DRIVER');
+        $this->public_disk_drive = env('FILESYSTEM_PUBLIC_DISK');
+    }
+
+
+    /**
+     * resize uploaded image
+     * 
+     * if the width/height of image is above $max_size, resize it.
+     *
+     * @param      string  $file_name  The file name
+     */
+    private function processUploadedImage($file_name) {
+        $max_size = 1000;
+        $img = ImageResize::make(
+            Storage::disk($this->public_disk_drive)->get($file_name)
+        );
+
+        $img_width = $img->getWidth();
+        $img_height = $img->getHeight();
+
+        $img->resize(
+            min($img_width, $max_size),
+            min($img_height, $max_size),
+            function ($constraint) {
+                // maintain aspect ratio
+                $constraint->aspectRatio();
+            }
+        );
+
+        // replace file $file_name
+        Storage::disk(env('FILESYSTEM_PUBLIC_DISK'))
+            ->put($file_name, $img->encode());
+    }
+
+
     }
 
     /**
