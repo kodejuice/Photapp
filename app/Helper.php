@@ -177,7 +177,7 @@ class Helper
      *
      * @return string             absolute path to file on disk/cloud
      */
-    public static function storeFile(string $file_name, string $file, string $drive='google'): array
+    public static function storeFile(string $file_name, string $file, string $drive='user-posts-driver'): array
     {
         // return [$file_name, $file_name];
         Storage::disk($drive)->put($file_name, $file);

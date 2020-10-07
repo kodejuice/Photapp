@@ -71,11 +71,12 @@ return [
         ],
 
         // User posts
-        'google' => [
+        'user-posts-driver' => [
             'driver' => 'google',
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
             'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+
             'folderId' => env('GOOGLE_DRIVE_POSTS_FOLDER_ID'),
 
             'cache' => [
@@ -85,7 +86,7 @@ return [
             ],
         ],
 
-        // Profile photos
+        // User profile photos
         'user-dp-driver' => [
             // 'driver' => 'local',
             // 'root' => public_path('avatar'),
@@ -93,6 +94,7 @@ return [
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
             'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+
             'folderId' => env('GOOGLE_DRIVE_PROFILE_PHOTOS_FOLDER_ID'),
 
             'cache' => [
