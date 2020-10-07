@@ -27,7 +27,6 @@ class PostUploadController extends Controller
      */
     public function fileUpload(Request $request)
     {
-        // TODO: resize photo to max width: 614px
         // TODO: clip video to max length: 60seconds
 
         $validator = Validator::make($request->all(), [
