@@ -102,8 +102,14 @@ return [
                 'expire' => 600,
                 'prefix' => 'dp-cache-prefix',
             ],
-
         ],
+
+        // Temporary Disk drive
+        'tmp-disk-driver' => [
+            'driver' => 'local',
+            'root' => storage_path('app/tmp'),
+        ],
+
     ],
 
     /*

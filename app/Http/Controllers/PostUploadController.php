@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,39 +19,55 @@ use App\Helper;
  */
 class PostUploadController extends Controller
 {
+    private int $upload_limit = 15;
+    private int $max_upload_size = 31457280; // 30MB
+
     /**
      * Form upload controller
      */
     public function fileUpload(Request $request)
     {
-        // TODO: max photo size-> 30720 (30MB)
-        // TODO: max video size-> 10240 (10MB)
         // TODO: resize photo to max width: 614px
         // TODO: clip video to max length: 60seconds
 
-        $this->validate($request, [
-          'files' => 'required|max:5120',
-          'files.*' => 'mimes:png,jpeg,jpg,bmp,svg,jfif,pjp,mp4,webm,3gp',
-          'caption' => 'string|max:290',
+        $validator = Validator::make($request->all(), [
+            'files' => 'required',
+            'files.*' => 'mimes:png,jpeg,jpg,bmp,svg,jfif,pjp,mp4,webm,3gp|max:30720',
+            'caption' => 'string|max:290',
         ]);
 
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
         $uploaded_files = $request->file('files');
-        if (count($uploaded_files) > 15) {
-            return back()->with('error', "Upload failed, maximum upload limit exceeded (15)");
+        if (count($uploaded_files) > $this->upload_limit) {
+            return response(['errors' => ["Upload failed, maximum upload limit exceeded ($this->upload_limit)"]]);
         }
 
         $data = [];
         if ($request->hasfile('files')) {
             foreach ($uploaded_files as $file) {
+                $file_type = Helper::mediaType($file->getMimeType());
+                if ($file_type != 'image' && $file_type != 'video')
+                    continue;
+
+                $file_name = time() . Str::random(20);
+                $file_path = $file->path();
+
+                // store file in local disk first
+                $F = Helper::storeFile($file_name, $file_path, env("FILESYSTEM_PUBLIC_DISK")); // [file_name, file_path]
+
                 $data[] = [
-                    'data' => base64_encode($file->get()),
-                    'ext' => $file->extension()
+                    'name' => $F[0],
+                    'type' => $file_type
                 ];
             }
-        } else {
-            return back()->with('error', 'Upload Failed');
         }
 
+        if (empty($data)) {
+            return response(['errors' => ['Upload failed']], 422);
+        }
 
         //////////////////////////////////////////
         // trigger event to move files to cloud //
@@ -61,7 +78,7 @@ class PostUploadController extends Controller
 
         event(new FileUploaded($user, json_encode($data), $caption));
 
-        return back()->with('message', 'Uploading');
+        return response(['message' => 'Uploading']);
     }
 
 
@@ -91,8 +108,8 @@ class PostUploadController extends Controller
             return response(['errors' => ['URL required']], 422);
         }
 
-        if (count($URLS) > 15) {
-            return response(['errors' => ['Maximum upload limit exceeded (15)']], 422);
+        if (count($URLS) > $this->upload_limit) {
+            return response(['errors' => ["Maximum upload limit exceeded ($this->upload_limit)"]], 422);
         }
 
         ///////////////////
@@ -100,6 +117,7 @@ class PostUploadController extends Controller
         ///////////////////
 
         $data = [];
+
         foreach ($URLS as $url) {
             $url = filter_var($url, FILTER_SANITIZE_URL);
 
@@ -110,30 +128,31 @@ class PostUploadController extends Controller
 
             $header = get_headers($url, 1);
 
-            // validate file size
             $file_size = Helper::getUrlContentLength($header);
-            if ($file_size > 5242880 || $file_size <= 0) { // 5MB in bytes
+            if ($file_size <= 0 || $file_size > 31457280 /*30MB (bytes)*/) {
                 continue;
             }
 
-            // ensure audio / video
+            // ensure image / video
             $file_type = Helper::getUrlMediaType($header, $url);
             if ($file_type == 'video' || $file_type == 'image') {
-                // download file
+
+                $file_name = time() . Str::random(20);
+                $file_path = $url;
+
+                // store file in local disk first
+                $F = Helper::storeFile($file_name, $file_path, env("FILESYSTEM_PUBLIC_DISK")); // [file_name, file_path]
+
                 $data[] = [
-                    'data' => base64_encode(file_get_contents($url)),
-                    'ext' => Helper::getFileExtension($file_type)
+                    'name' => $F[0],
+                    'type' => $file_type
                 ];
             }
         }
 
         if (empty($data)) {
-            if (count($URLS) > 1) {
-                return response(['errors' => ['Invalid Files']], 422);
-            }
-            return response(['errors' => ['Invalid File']], 422);
+            return response(['errors' => ['Upload failed']], 422);
         }
-
 
         //////////////////////////////////////////
         // trigger event to move files to cloud //
@@ -144,6 +163,6 @@ class PostUploadController extends Controller
 
         event(new FileUploaded($user, json_encode($data), $caption));
 
-        return response(['message' => 'Uploading'], 200);
+        return response(['message' => 'Uploading']);
     }
 }

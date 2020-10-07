@@ -48,6 +48,7 @@ class Helper
      */
     public static function getUrlContentLength($headers): int
     {
+        // TODO: research this!
         $size = -1;
 
         if (!array_key_exists('Content-Length', $headers)) {
@@ -69,6 +70,7 @@ class Helper
      */
     private static function isType(array $header, $t): bool
     {
+        // TODO: research this!
         if (!array_key_exists("Content-Type", $header)) {
             return false;
         }
@@ -115,31 +117,49 @@ class Helper
      */
     public static function getUrlMediaType($headers, $url='')
     {
-        $default = 'image';
+        $image = 'image';
 
         if (self::validImage($url)) {
-            return $default;
+            return $image;
         } else {
             if (empty($headers)) {
                 $headers = @get_headers($url, 1);
-                if (!$headers) return $default;
+                if (!$headers) return null;
             }
 
-            return self::validVideo($headers) ? 'video' : $default;
+            return self::validVideo($headers) ? 'video' : null;
         }
     }
 
     /**
-     * get file extension based on media type
-     * @param  media-type $type  'video' | 'image'
-     * @return [type]            [description]
+     * Return media type from mime type
+     * @param  string $mimeType
      */
-    public static function getFileExtension($type): string
+    public static function mediaType(string $mimeType)
     {
-        // TODO: make this better ?
-        //  maybe get the files original extension :/
-        return $type == 'image' ? 'png' : 'mp4';
+        if (strstr($mimeType, 'video')) {
+            return 'video';
+        }
+        else if (strstr($mimeType, 'image')) {
+            return 'image';
+        }
+        else {
+            return null;
+        }
     }
+
+
+    ///**
+    // * get file extension based on media type
+    // * @param  media-type $type  'video' | 'image'
+    // * @return [type]            [description]
+    // */
+    // public static function getFileExtension($type): string
+    // {
+    //     // TODO: make this better ?
+    //     //  maybe get the files original extension :/
+    //     return $type == 'image' ? 'png' : 'mp4';
+    // }
 
 
     /**
@@ -169,18 +189,17 @@ class Helper
 
     /**
      * store file to disk/cloud
-     * @param  string $file_name  name of file to save as
-     * @param  string $file       content of file
+     * @param  string $file_name    name of file to save as
+     * @param  string $file_path    file path | file url
      *
-     * @param  string $drive      storage drive to save to
-     * @see                       config/filesystems.php
+     * @param  string $drive        storage drive to save to
+     * @see                         config/filesystems.php
      *
-     * @return string             absolute path to file on disk/cloud
+     * @return array                [file_name, absolute-path to file on disk/cloud]
      */
-    public static function storeFile(string $file_name, string $file, string $drive='user-posts-driver'): array
+    public static function storeFile(string $file_name, string $file_path, string $drive): array
     {
-        // return [$file_name, $file_name];
-        Storage::disk($drive)->put($file_name, $file);
+        Storage::disk($drive)->put($file_name, fopen($file_path, 'r'));
         return [$file_name, Storage::disk($drive)->url($file_name)];
     }
 
