@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\UserDPChanged;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Storage;
 
 use App\User;
 use App\Helper;
@@ -32,16 +33,15 @@ class MoveUserDPtoCloud implements ShouldQueue
         $user = $event->user;               // (User)
         $image = $event->image;             // (string)
 
-        // user dp filesystem driver
+        $file_name = $user->username;
+
+        // user display-picture filesystem driver
         $disk = env('USER_DP_FS_DRIVER');
 
-        $file = Helper::storeFile(
-            $user->username,
-            base64_decode($image),
-            $disk
-        ); // => [file_name, file_path]
+        $drive = Storage::disk($disk);
+        $drive->put($file_name, base64_decode($image));
 
-        $user->profile_pic = $file[1];
+        $user->profile_pic = $drive->url($file_name);
         $user->save();
     }
 }
