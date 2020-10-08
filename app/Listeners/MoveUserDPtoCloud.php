@@ -39,6 +39,11 @@ class MoveUserDPtoCloud implements ShouldQueue
         $disk = env('USER_DP_FS_DRIVER');
 
         $drive = Storage::disk($disk);
+
+        if ($drive->has($file_name)) {
+            $drive->delete($file_name);
+        }
+
         $drive->put($file_name, base64_decode($image));
 
         $user->profile_pic = $drive->url($file_name);
