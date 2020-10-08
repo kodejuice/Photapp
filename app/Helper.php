@@ -68,9 +68,8 @@ class Helper
      * @param  string $t       needle to look for
      * @return bool
      */
-    private static function isType(array $header, $t): bool
+    private static function isType(array $header, string $t): bool
     {
-        // TODO: research this!
         if (!array_key_exists("Content-Type", $header)) {
             return false;
         }
@@ -87,16 +86,12 @@ class Helper
 
     /**
      * Does the url point to a valid image
-     * @param  string  $url
+     * @param  array  $headers
      * @return bool
      */
-    public static function validImage($url): bool
+    public static function validImage($headers): bool
     {
-        $data = @getimagesize($url);
-        if (empty($data)) {
-            return false;
-        }
-        return (strtolower(substr($data['mime'], 0, 5)) == 'image' ? true : false);
+        return self::isType($headers, 'image');
     }
 
     /**
@@ -110,57 +105,36 @@ class Helper
     }
 
     /**
-     * return media type
+     * return media type from (url | response headers)
      * @param  array $headers  headers of a url
      * @param  string $url
      * @return string          'video' | 'image'
      */
-    public static function getUrlMediaType($headers, $url='')
+    public static function getUrlMediaType($headers)
     {
-        $image = 'image';
-
-        if (self::validImage($url)) {
-            return $image;
-        } else {
-            if (empty($headers)) {
-                $headers = @get_headers($url, 1);
-                if (!$headers) return null;
-            }
-
-            return self::validVideo($headers) ? 'video' : null;
+        if (self::validImage($headers)) {
+            return 'image';
         }
+        else if (self::validVideo($headers)) {
+            return 'video';
+        }
+        return null;
     }
 
     /**
      * Return media type from mime type
      * @param  string $mimeType
      */
-    public static function mediaType(string $mimeType)
+    public static function getMediaType(string $mimeType)
     {
-        if (strstr($mimeType, 'video')) {
+        if (strstr($mimeType, 'video/')) {
             return 'video';
         }
-        else if (strstr($mimeType, 'image')) {
+        else if (strstr($mimeType, 'image/')) {
             return 'image';
         }
-        else {
-            return null;
-        }
+        return null;
     }
-
-
-    ///**
-    // * get file extension based on media type
-    // * @param  media-type $type  'video' | 'image'
-    // * @return [type]            [description]
-    // */
-    // public static function getFileExtension($type): string
-    // {
-    //     // TODO: make this better ?
-    //     //  maybe get the files original extension :/
-    //     return $type == 'image' ? 'png' : 'mp4';
-    // }
-
 
     /**
      * Store a newly uploaded file to the DB

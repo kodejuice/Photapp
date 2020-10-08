@@ -47,7 +47,7 @@ class PostUploadController extends Controller
         $data = [];
         if ($request->hasfile('files')) {
             foreach ($uploaded_files as $file) {
-                $file_type = Helper::mediaType($file->getMimeType());
+                $file_type = Helper::getMediaType($file->getMimeType());
                 if ($file_type != 'image' && $file_type != 'video')
                     continue;
 
