@@ -33,8 +33,9 @@ class FileUploadTest extends TestCase
         parent::setUp();
 
         // delete everythin in disk drive first
-        foreach (Storage::files('.') as $file)
+        foreach (Storage::files('.') as $file) {
             Storage::delete($file);
+        }
 
         $this->artisan('migrate:fresh');
         $this->artisan('passport:install');

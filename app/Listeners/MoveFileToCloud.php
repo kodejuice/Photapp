@@ -153,7 +153,7 @@ class MoveFileToCloud implements ShouldQueue
             // file from the local disk
             $this->deleteFileFromDisk($file_name);
 
-            $paths[] = $L[1];
+            $paths[] = $L;
             $media_types[] = $file_type;
         }
 
