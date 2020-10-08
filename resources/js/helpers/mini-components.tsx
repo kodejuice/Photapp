@@ -133,10 +133,6 @@ export const UploadUserDP: React.FC<{
             showAlert(dispatch, res.errors);
         } else if (res?.success) {
             showAlert(dispatch, ['Done! it may take a while for changes to reflect'], 'success');
-
-            setTimeout(()=>{
-                mutate();
-            }, 5e3);
         }
     }
 
