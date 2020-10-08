@@ -13,6 +13,7 @@ import {fetchListing} from '../helpers/fetcher';
 import showAlert from '../components/Alert/showAlert';
 
 import Posts from '../components/Posts';
+import {Post} from '../components/Posts/props.d' 
 import Suggestions from '../components/Suggestions';
 
 import Header from '../components/Header';
@@ -20,7 +21,8 @@ import Spinner from '../components/Spinner';
 
 import {merge_objects} from '../helpers/util';
 
-let ALL_POST: any[] = [];
+
+let ALL_POST: Post[] = [];
 const POST_PER_PAGE = 50;
 
 
@@ -53,6 +55,8 @@ const Home: React.FC<{}> = ()=>{
     }
 
     merge_objects('post_id', ALL_POST, data);
+
+    ALL_POST = remove_empty_posts(ALL_POST);
 
     return (
         <React.Fragment>
@@ -133,6 +137,25 @@ const Home: React.FC<{}> = ()=>{
             </div>
         </React.Fragment>
     );
+}
+
+
+/**
+ * Removes empty posts (posts without urls).
+ *
+ * @param      {Post[]}  data    posts
+ */
+function remove_empty_posts(data: Post[]) {
+    let valids: Post[] = [];
+
+    for (let i=0; i<data.length; ++i) {
+        var urls = JSON.parse(data[i].post_url);
+        if (urls.length) {
+            valids.push(data[i]);
+        }
+    }
+
+    return valids;
 }
 
 
