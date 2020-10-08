@@ -87,7 +87,9 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
 
                 <div className='post-info'>
                     <div className='author-dp'>
-                        <LazyDP user={post.username} />
+                        <Link to={`/user/${post.username}`}>
+                            <LazyDP user={post.username} />
+                        </Link>
                         <div className='follow-user' title={`Follow @${post.username}`}>
                             { shouldFollow && <FollowButton child={<div>+</div>} user={post.username} />}
                         </div>
