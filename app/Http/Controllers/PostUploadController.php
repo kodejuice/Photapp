@@ -27,8 +27,6 @@ class PostUploadController extends Controller
      */
     public function fileUpload(Request $request)
     {
-        // TODO: clip video to max length: 60seconds
-
         $validator = Validator::make($request->all(), [
             'files' => 'required',
             'files.*' => 'mimes:png,jpeg,jpg,bmp,svg,jfif,pjp,mp4,gif,webm,3gp|max:30720',

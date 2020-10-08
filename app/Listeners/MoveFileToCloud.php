@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+use FFMpeg;
 use ImageResize;
 
 use App\User;
@@ -43,7 +44,8 @@ class MoveFileToCloud implements ShouldQueue
      *
      * @param      string  $file_name  The file name
      */
-    private function processUploadedImage($file_name) {
+    private function processUploadedImage($file_name)
+    {
         $max_size = 1000;
         $img = ImageResize::make(
             Storage::disk($this->public_disk_drive)->get($file_name)
@@ -67,7 +69,47 @@ class MoveFileToCloud implements ShouldQueue
     }
 
 
+    /**
+     * reduce video length to 45seconds
+     *
+     * @param      string  $file_name  The file name
+     */
+    private function processUploadedVideo($file_name)
+    {
+        $ffmpeg = FFMpeg\FFMpeg::create();
+
+        $disk = Storage::disk(env("FILESYSTEM_PUBLIC_DISK"));
+        $file_path = $disk->path($file_name);
+
+        $video = $ffmpeg->open($file_path);
+
+        // create a new file to store changes
+        $new_file_name = time() . Str::random(20);
+        $disk->put($new_file_name, "");
+        $new_file_path = $disk->path($new_file_name);
+
+        // extract first 45 seconds
+        $clip = $video->clip(FFMpeg\Coordinate\TimeCode::fromSeconds(0), FFMpeg\Coordinate\TimeCode::fromSeconds(45));
+        $clip->save(new FFMpeg\Format\Video\WebM(), $new_file_path);
+
+        // delete original video
+        Storage::disk($this->public_disk_drive)
+            ->delete($file_name);
+
+        // rename clipped video to $file_name
+        Storage::disk($this->public_disk_drive)
+            ->move($new_file_name, $file_name);
     }
+
+
+    /**
+     * deletes the file from the public disk drive
+     * @param  string $file_name [description]
+     */
+    private function deleteFileFromDisk($file_name) {
+        Storage::disk($this->public_disk_drive)->delete($file_name);
+    }
+
 
     /**
      * Handle the event.
@@ -79,27 +121,40 @@ class MoveFileToCloud implements ShouldQueue
     {
         $user = $event->user;               // (User)
         $caption = $event->caption;         // (string)
-        $data = json_decode($event->data);  // (string)
+        $data = json_decode($event->data);
 
         ///////////////////////////
         // upload files to cloud //
         ///////////////////////////
         $paths = [];
         $media_types = [];
-        foreach ($data as $F) {
-            $file = $F->data;
-            $extension = $F->ext;
-            $file_name = time() . Str::random(20) . "." . $extension;
-            $R[] = $file_name;
 
-            $L = Helper::storeFile(
+        foreach ($data as $F) {
+            $file_name = $F->name;
+            $file_type = $F->type;
+
+            if ($file_type == 'image') {
+                $this->processUploadedImage($file_name);
+            }
+            else { // video
+                $this->processUploadedVideo($file_name);
+            }
+
+            $file_stream = Storage::disk($this->public_disk_drive)
+                ->readStream($file_name);
+
+            $L = Helper::storeFileInCloud(
                 $file_name,
-                base64_decode($file),
-                env('FILESYSTEM_DRIVER')
+                $file_stream,
+                $this->cloud_drive
             ); // => [file_name, file_path]
 
-            $paths[] = $L;
-            $media_types[] = Helper::getUrlMediaType([], $L[1]); // 'image'|'video'
+            // we've uploaded to the cloud, so we can delete this
+            // file from the local disk
+            $this->deleteFileFromDisk($file_name);
+
+            $paths[] = $L[1];
+            $media_types[] = $file_type;
         }
 
         //////////////////////////

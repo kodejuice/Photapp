@@ -47,7 +47,7 @@ const AddPost: React.FC<{}> = ()=>{
 
                             {posts.some(file=>is('video',file.type)) && (
                                 <div className='note'>
-                                    <p> Uploaded videos will be trimmed to the first 60seconds </p>
+                                    <p> Uploaded videos will be clipped to the first 45seconds </p>
                                 </div>
                             )}
 

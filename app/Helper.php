@@ -162,7 +162,8 @@ class Helper
 
 
     /**
-     * store file to disk/cloud
+     * Store file to disk/cloud
+     *
      * @param  string $file_name    name of file to save as
      * @param  string $file_path    file path | file url
      *
@@ -174,6 +175,21 @@ class Helper
     public static function storeFile(string $file_name, string $file_path, string $drive): array
     {
         Storage::disk($drive)->put($file_name, fopen($file_path, 'r'));
+        return [$file_name, Storage::disk($drive)->url($file_name)];
+    }
+
+
+    /**
+     * Stores a file in cloud (via stream).
+     *
+     * @param      string  $file_name    The file name
+     * @param      string  $file_stream  The file stream
+     *
+     * @return     array   [file_name, absolute-path to file on disk/cloud]
+     */
+    public static function storeFileInCloud($file_name, $file_stream, string $drive): array
+    {
+        Storage::disk($drive)->put($file_name, $file_stream);
         return [$file_name, Storage::disk($drive)->url($file_name)];
     }
 
