@@ -16,7 +16,7 @@ import './style.scss';
 type HeaderProps = {
     header_title?: string,
     hide_icon?: boolean,
-    page: string
+    page: string | null
 };
 
 type AlertProps = {

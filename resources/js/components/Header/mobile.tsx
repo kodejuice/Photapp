@@ -9,7 +9,7 @@ import {limit} from '../../helpers/util';
 type HeaderProps = {
     header_title?: string,
     hide_icon?: boolean,
-    current_page: string
+    current_page: string | null
 };
 
 
