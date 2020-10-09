@@ -46,6 +46,19 @@ const SingleUser: React.FC<{user: any, rdr: boolean, show_name: boolean, mutate:
 }
 
 
+function removeDuplicate(users) {
+    if (!Array.isArray(users)) return users;
+    let seen = new Set();
+    let clean: typeof users = [];
+    for (let i=0; i<users.length; ++i) {
+        let {username} = users[i];
+        if (seen.has(username)) continue;
+        clean.push(users[i]);
+        seen.add(username);
+    }
+    return clean;
+}
+
 /**
  * Users component
  * @type {React.FC<...>}
@@ -59,8 +72,8 @@ const Users: React.FC<{
     return (
         <React.Fragment>
             <div className='users'>
-                { data.map((user, i)=> (
-                    <SingleUser key={user.username+i} rdr={!!rdr} show_name={!!show_full_name} user={user} mutate={mutate} />
+                { removeDuplicate(data).map((user, i)=> (
+                    <SingleUser key={user.username} rdr={!!rdr} show_name={!!show_full_name} user={user} mutate={mutate} />
                 )) }
             </div>
         </React.Fragment>

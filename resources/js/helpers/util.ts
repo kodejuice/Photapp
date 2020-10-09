@@ -9,6 +9,7 @@ let W = window as any;
  * @return {string}
  */
 export function limit(str: string, lim: number): string {
+    if (!str) return "";
     return str.length > lim ? `${str.substr(0, lim)}...` : str;
 }
 
