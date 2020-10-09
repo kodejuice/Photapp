@@ -46,24 +46,11 @@ class MoveFileToCloud implements ShouldQueue
      */
     private function processUploadedImage($file_name)
     {
-        $max_size = 1000;
         $img = ImageResize::make(
             Storage::disk($this->public_disk_drive)->get($file_name)
         );
 
-        $img_width = $img->getWidth();
-        $img_height = $img->getHeight();
-
-        $img->crop(750, 750);
-
-        // $img->resize(
-        //     min($img_width, $max_size),
-        //     min($img_height, $max_size),
-        //     function ($constraint) {
-        //         // maintain aspect ratio
-        //         $constraint->aspectRatio();
-        //     }
-        // );
+        $img->fit(800);
 
         // replace file $file_name
         Storage::disk(env('FILESYSTEM_PUBLIC_DISK'))
