@@ -54,14 +54,16 @@ class MoveFileToCloud implements ShouldQueue
         $img_width = $img->getWidth();
         $img_height = $img->getHeight();
 
-        $img->resize(
-            min($img_width, $max_size),
-            min($img_height, $max_size),
-            function ($constraint) {
-                // maintain aspect ratio
-                $constraint->aspectRatio();
-            }
-        );
+        $img->crop(750, 750);
+
+        // $img->resize(
+        //     min($img_width, $max_size),
+        //     min($img_height, $max_size),
+        //     function ($constraint) {
+        //         // maintain aspect ratio
+        //         $constraint->aspectRatio();
+        //     }
+        // );
 
         // replace file $file_name
         Storage::disk(env('FILESYSTEM_PUBLIC_DISK'))
@@ -166,9 +168,7 @@ class MoveFileToCloud implements ShouldQueue
         //////////////////////
         // update news feed //
         //////////////////////
-        if (rand()%5 == 0) { // 1/5th of the time
-            event(new NewsFeedRequested());
-        }
+        event(new NewsFeedRequested());
 
         ////////////////////////////
         // notify mentioned users //
