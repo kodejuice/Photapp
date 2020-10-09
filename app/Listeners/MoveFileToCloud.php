@@ -169,8 +169,22 @@ class MoveFileToCloud implements ShouldQueue
             }
         }
 
-        // Log::info("{$user->username} uploaded -> ".json_encode($paths));
+        Log::info("{$user->username} uploaded -> ".json_encode($paths));
 
         return true;
     }
+
+    public function failed(UserMentioned $event, $exception)
+    {
+        $data = json_decode($event->data);
+
+        // delete all /tmp files
+        foreach ($data as $F) {
+            $file_name = $F->name;
+            $this->deleteFileFromDisk($file_name);
+        }
+
+        Log::error($exception, ['file upload (move file to cloud)']);
+    }
+
 }
