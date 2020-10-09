@@ -69,7 +69,6 @@ $font-size: 0.8em;
                 position: absolute;
                 top: 20px;
                 right: 14px;
-                z-index: 2;
                 height: calc(100% - 30px);
 
                 img, svg:not(.load) {
@@ -89,6 +88,10 @@ $font-size: 0.8em;
                 ._row {
                     cursor: pointer;
                     margin: 14px auto;
+
+                    &.comment-count {
+                        z-index: 3;
+                    }
 
                     &.save-post {
                         position: absolute;
