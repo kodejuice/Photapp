@@ -211,6 +211,8 @@ class PostController extends Controller
             Storage::delete($P[0]);
         }
 
+        event(new NewsFeedRequested());
+
         // then delete post
         $post->delete();
 
