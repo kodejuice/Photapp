@@ -204,6 +204,7 @@ class PostController extends Controller
         // delete media in the cloud
         $paths = json_decode($post->post_url);
 
+        // TODO: test this!
         foreach ($paths as $P) {
             // $P[0] -> file name
             // $P[1] -> full path (url)
