@@ -273,7 +273,6 @@ const Comments: React.FC<{
  * 
  * @param  {number} post_id
  */
-W.__posts_cache__ = {};
 function useComments(post_id): {data:any, isLoading:boolean, mutate: Function} {
     const limit = 900;
     const url = `/api/post/${post_id}/comments?limit=${limit}`;
