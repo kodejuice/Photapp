@@ -75,7 +75,7 @@ class PostUploadController extends Controller
 
         event(new FileUploaded($user, json_encode($data), $caption));
 
-        return response(['message' => 'Uploading']);
+        return response(['message' => 'Done']);
     }
 
 
@@ -160,6 +160,6 @@ class PostUploadController extends Controller
 
         event(new FileUploaded($user, json_encode($data), $caption));
 
-        return response(['message' => 'Uploading']);
+        return response(['message' => 'Done']);
     }
 }

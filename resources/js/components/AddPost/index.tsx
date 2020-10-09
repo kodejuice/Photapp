@@ -19,11 +19,11 @@ const AddPost: React.FC<{}> = ()=>{
     const [isLoading, setLoading] = useState(false);
 
     const removeFile = (file: Post)=>{
-        let key = file.name + file.size;
+        let key = `${file.name}:${file.type}:${file.size}`;
         let new_posts: Post[] = [];
         for (let i=0, k; i < posts.length; ++i) {
-            let {name, size} = posts[i];
-            k = name + size;
+            let {name, type, size} = posts[i];
+            k = `${name}:${type}:${size}`;
             if (k != key) {
                 new_posts.push(posts[i]);
             }
@@ -106,6 +106,10 @@ export const VideoFile: React.FC<{file:Post, large?:boolean}> = ({file, large})=
         .then(url=>setVideoURL(url))
         .catch(()=>{});
 
+    if (videoURL == "") {
+        return <img id='photo' src={waiting} alt="Video" />;
+    }
+
     return (
         large
         ? <VideoViewer url={videoURL} />
@@ -140,11 +144,10 @@ export const ImageFile: React.FC<{file:Post}> = ({file})=>{
  */
 function addPost(event: React.FormEvent<HTMLInputElement>, posts: Post[], setPosts: React.Dispatch<React.SetStateAction<Post[]>>) {
     const file: File = ((event.target as HTMLInputElement).files as FileList)[0];
-    if (!file?.type) return;
     if (posts.length == 15) {
         return alert("Maximum posts limit reached: 15");
     }
-    if (!file?.size || !file?.name) {
+    if (!file?.size || !file?.name || !file?.type) {
         return alert(`Invalid file, Please select another file.\n\nIf this keeps happening then it means you're using an old version of your browser which isnt supported (it doesnt have the balls)`);
     }
 

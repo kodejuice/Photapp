@@ -764,15 +764,8 @@ export async function uploadUserPost(posts: File[], caption: string) {
         form.append('files[]', file);
     });
 
-    let req;
-    try {
+    let res = await uploadForm(`/api/post/upload`, form);
 
-        return {message: ""};
-
-    } catch (err) {
-        return {errors: handleServerError(err, ()=>void 0)};
-    } finally {
-        nprogress.done();
-    }
+    return res;
 }
 

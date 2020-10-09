@@ -37,8 +37,8 @@ export function beginUpload(
             if (res?.errors instanceof Array) {
                 showAlert(dispatch, res.errors);
             }
-            else if (res?.message == 'Uploading') {
-                showAlert(dispatch, ["Uploading..."], 'success');
+            else if (res?.success) {
+                showAlert(dispatch, ["Files uploaded, processing..."], 'success');
                 setPosts([]);
             }
         })
