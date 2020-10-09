@@ -32,6 +32,7 @@ $font-size: 0.8em;
             img[role=post-image] {min-height: 320px;}
 
             img {
+                max-height: 598px;
                 border-radius: unset;
                 min-width: 100%;
             }
