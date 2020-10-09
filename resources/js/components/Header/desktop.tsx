@@ -44,7 +44,7 @@ const Header: React.FC<{}> = ()=>{
                             {
                                 !logged ?
                                     <React.Fragment>
-                                        <li> <Link to="/login"><img src={loginIcon}/></Link> </li>
+                                        <li title="Login"> <Link to="/login"><img src={loginIcon}/></Link> </li>
                                     </React.Fragment>
                                     :
                                     <React.Fragment>
