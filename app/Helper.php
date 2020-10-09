@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
+use Spatie\Url\Url;
+
 use App\User;
 use App\Post;
 use App\UserFollow;
@@ -174,8 +176,9 @@ class Helper
      */
     public static function storeFile(string $file_name, string $file_path, string $drive): array
     {
-        Storage::disk($drive)->put($file_name, fopen($file_path, 'r'));
-        return [$file_name, Storage::disk($drive)->url($file_name)];
+        $disk = Storage::disk($drive);
+        $disk->put($file_name, fopen($file_path, 'r'));
+        return [$file_name, $disk->url($file_name)];
     }
 
 
@@ -189,8 +192,21 @@ class Helper
      */
     public static function storeFileInCloud($file_name, $file_stream, string $drive): array
     {
-        Storage::disk($drive)->put($file_name, $file_stream);
-        return [$file_name, Storage::disk($drive)->url($file_name)];
+        $disk = Storage::disk($drive);
+        $disk->put($file_name, $file_stream);
+
+        $url = $disk->url($file_name);
+
+        if (strstr($url, 'drive.google.com')) {
+            // for some reason, gdrive doesnt respect the $filename,
+            // it uses its own id, luckily that id is in the gdrive file url
+            //  https://drive.google.com/uc?id=XXX
+            //
+            $id = Url::fromString($url)->getQueryParameter('id');
+            return [$id, $url];
+        } else {
+            return [$file_name, $url];
+        }
     }
 
 

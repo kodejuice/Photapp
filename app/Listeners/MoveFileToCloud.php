@@ -169,7 +169,7 @@ class MoveFileToCloud implements ShouldQueue
             }
         }
 
-        Log::info("{$user->username} uploaded -> ".json_encode($paths));
+        // Log::info("{$user->username} uploaded -> ".json_encode($paths));
 
         return true;
     }
