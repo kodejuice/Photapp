@@ -46,10 +46,35 @@
 
             .file-box {
                 margin: 5px;
+                min-height: 83px;
+                max-height: 83px;
+                max-width: 82.3px;
                 border: 1px solid #ccc;
                 width: calc(25% - 10px);
-                max-width: 82.3px;
-                min-height: 83px;
+                position: relative;
+
+                .action {
+                    width: 20px;
+                    height: 20px;
+                    position: absolute;
+                    top: 0;
+                    right: 5px;
+                    z-index: 1000;
+
+                    button {
+                        padding: 0;
+                        margin: 4px;
+                        border: none;
+                        width: 100%;
+                        height: 100%;
+                        box-shadow: none;
+
+                        svg {
+                            width: 19px;
+                            height: 19px;
+                        }
+                    }
+                }
 
                 img#photo, video#video {
                     width: 100%;
