@@ -104,8 +104,7 @@ function Notif({data}) {
         // mark notification if notification is altleast
         // 10minutes old
         if (mins >= 10) {
-            // TODO: uncomment this
-            // markNotification(data.notification_id);
+            markNotification(data.notification_id);
         }
     }
 

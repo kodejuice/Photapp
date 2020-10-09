@@ -50,7 +50,6 @@ class Helper
      */
     public static function getUrlContentLength($headers): int
     {
-        // TODO: research this!
         $size = -1;
 
         if (!array_key_exists('Content-Length', $headers)) {
