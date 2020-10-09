@@ -102,7 +102,7 @@ class ApiAuthController extends Controller
         $user1 = User::firstWhere('username', $user1_name);
         $user2 = User::firstWhere('username', $user2_name);
 
-        if (!$user1->first() || !$user2->first()) {
+        if (!$user1 || !$user2) {
             return;
         }
 
