@@ -82,7 +82,8 @@ export function usePost(post_id: number) {
     // in the post cache
     const post_from_cache = post_get(post_id);
     if (post_from_cache) {
-        W.__SWR_MAP__.set(`${post_id}fetchPost`, post_from_cache);
+        const SWR_MAP = W.Store['swr_map'];
+        SWR_MAP.set(`${post_id}fetchPost`, post_from_cache);
     }
 
     const {data, error, mutate} = useSWR(`${post_id}`, fetchPost);

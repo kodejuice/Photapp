@@ -5,7 +5,7 @@ let W = window as any;
  *  as a base64 image
  * @param {HTMLVideoElement} video
  */
-W.__photo_grid_thumbnails__ = new Map();
+const grid_thumbnails = W.Store['grid_thumnails'];
 export function getVideoThumnail(video: HTMLVideoElement): string {
     let w = video.videoWidth,
         h = video.videoHeight,
@@ -14,8 +14,8 @@ export function getVideoThumnail(video: HTMLVideoElement): string {
 
     // save it, so we dont have to do this as long as
     // the user doesnt close the window
-    if (W.__photo_grid_thumbnails__.has(key)) {
-        return W.__photo_grid_thumbnails__.get(key);
+    if (grid_thumbnails.has(key)) {
+        return grid_thumbnails.get(key);
     }
 
     let canvas = document.createElement('canvas');
@@ -27,7 +27,7 @@ export function getVideoThumnail(video: HTMLVideoElement): string {
 
     img = canvas.toDataURL("image/jpg");
 
-    W.__photo_grid_thumbnails__.set(key, img);
+    grid_thumbnails.set(key, img);
 
     return img;
 }
@@ -39,8 +39,8 @@ export function getVideoThumnail(video: HTMLVideoElement): string {
  * @param {string} key
  */
 export function thumbnailFromCache(key: string): string|null {
-    return W.__photo_grid_thumbnails__.has(key)
-        ? W.__photo_grid_thumbnails__.get(key)
+    return grid_thumbnails.has(key)
+        ? grid_thumbnails.get(key)
         : null;
 }
 

@@ -16,8 +16,7 @@ import SWR from 'swr';
 
 export const W = window as any;
 
-W.__SWR_MAP__ = new Map<string, object>();
-
+const SWR_MAP = W.Store['swr_map'];
 
 export default function useSWR(arg: string, fetcher) {
     let response = SWR(arg, fetcher);
@@ -33,17 +32,17 @@ export default function useSWR(arg: string, fetcher) {
     if (data) {
         if (data instanceof Array) {
             if (data.length) {
-                W.__SWR_MAP__.set(key, data);
+                SWR_MAP.set(key, data);
             }
         } else if (!data.errors) {
-            W.__SWR_MAP__.set(key, data);
+            SWR_MAP.set(key, data);
         }
     }
 
 
     if (error) {
         // return stale data if any
-        data = W.__SWR_MAP__.get(key);
+        data = SWR_MAP.get(key);
     }
     else if (data) {
         // if data.errors[] isnt undefined
@@ -52,14 +51,14 @@ export default function useSWR(arg: string, fetcher) {
         // @see `helpers/fetcher.ts` -> section /_User Accout Requests_/
         // 
         if (data.errors instanceof Array) {
-            if (W.__SWR_MAP__.has(key)) {
-                data = W.__SWR_MAP__.get(key);
+            if (SWR_MAP.has(key)) {
+                data = SWR_MAP.get(key);
             }
         }
     } else {
         //  no data available, return __SWR_MAP__ data if available
-        if (W.__SWR_MAP__.has(key)) {
-            data = W.__SWR_MAP__.get(key);
+        if (SWR_MAP.has(key)) {
+            data = SWR_MAP.get(key);
         }
     }
 

@@ -75,15 +75,16 @@ export const random = (Arr: any[]): any => Arr[rand_int(0, Arr.length-1)];
  *  so it doesnt get cleared when react router navigates
  *  to a different page/component, otherwise we could have used useMemo
  */
-W.__memoize_cache__ = new Map();
 export function memoize<T>(fn: ()=>T, ...deps: any[]) {
+    const memoize_cache = W.Store['memoizer'];
+    
     let val, key = JSON.stringify(deps);
 
-    if (W.__memoize_cache__.has(key)) {
-        return W.__memoize_cache__.get(key);
+    if (memoize_cache.has(key)) {
+        return memoize_cache.get(key);
     }
 
-    W.__memoize_cache__.set(key, val = fn());
+    memoize_cache.set(key, val = fn());
 
     return val;
 }
@@ -96,10 +97,12 @@ export function memoize<T>(fn: ()=>T, ...deps: any[]) {
  *
  * @param {Post[]} posts array of posts to store
  */
-W.__memoize_post__ = new Map<number, Post>();
 export function posts_store(posts: Post[]) {
+    const posts_map = W.Store['posts'];
+
     posts.forEach(p => {
-        W.__memoize_post__.set(Number(p.post_id), p);
+        if (!p.post_id) return;
+        posts_map.set(Number(p.post_id), p);
     });
 }
 
@@ -108,7 +111,9 @@ export function posts_store(posts: Post[]) {
  * @param {Post} post
  */
 export function post_store(post: Post) {
-    W.__memoize_post__.set(post.post_id, post);
+    const posts_map = W.Store['posts'];
+
+    posts_map.set(post.post_id, post);
 }
 
 /**
@@ -116,10 +121,12 @@ export function post_store(post: Post) {
  * @param {number} post_id  id of post, a key in the map
  */
 export function post_get(post_id: number): Post|null {
+    const posts_map = W.Store['posts'];
     post_id = Number(post_id);
-    return W.__memoize_post__.has(post_id)
-            ? W.__memoize_post__.get(post_id)
-            : null;
+
+    return posts_map.has(post_id)
+        ? posts_map.get(post_id)
+        : null;
 }
 
 

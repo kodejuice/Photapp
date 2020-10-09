@@ -35,4 +35,13 @@ console.error = (...args) => {
 /////////////////////
 
 
+(window as any).Store = {
+    'uploaded_file_url': new Map(),
+    'swr_map': new Map(),
+    'memoizer': new Map(),
+    'posts': new Map(),
+    'grid_thumnails': new Map(),
+};
+
+
 export default Wrap;

@@ -49,3 +49,65 @@ console.error = (...args) => {
     if (/Warning.*Cannot update a component/.test(args[0])) return
     originalError.call(console, ...args)
 }
+
+
+//////////////////////
+// Global App store //
+//////////////////////
+
+const LRU = require('lru-cache');
+
+/**
+ * convert minutes to milliseconds
+ */
+const minutes_to_ms = (minute) => minute * 60 * 1000;
+
+/**
+ * get length of object
+ */
+const object_len = (obj) => JSON.stringify(obj).length;
+
+
+window.Store = {
+
+    // will store base64 string of uploaded files
+    'uploaded_file_url': new LRU({
+        max: 10485760, // 10MB (bytes)
+        length: (item, k) => item.length,
+        maxAge: minutes_to_ms(10),
+    }),
+
+    // wiil be used to store fetched data in SWR
+    // @see ./helpers/swr.ts
+    'swr_map': new LRU({
+        max: 5242880, // 5MB (bytes)
+        length: (item, k) => object_len(item),
+        maxAge: minutes_to_ms(60),
+        updateAgeOnGet: true,
+    }),
+
+    // will store memoized values
+    'memoizer': new LRU({
+        max: 2097152, // 2MB
+        length: (item, k) => item.length + k.length,
+        maxAge: minutes_to_ms(30),
+    }),
+
+    // will store fetched posts
+    'posts': new LRU({
+        max: 5242880, // 5MB
+        length: (item, k) => object_len(item),
+        maxAge: minutes_to_ms(60),
+        updateAgeOnGet: true,
+    }),
+
+    // will store base64 string of video thumbnail images
+    'grid_thumnails': new LRU({
+        max: 20971520, // 20MB
+        length: (item, k) => item.length,
+        maxAge: minutes_to_ms(20),
+        updateAgeOnGet: true,
+    }),
+
+};
+
