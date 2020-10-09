@@ -40,6 +40,7 @@ export function beginUpload(
             else if (res?.success) {
                 showAlert(dispatch, ["Files uploaded, processing..."], 'success');
                 setPosts([]);
+                location.reload();
             }
         })
         .catch(e=>{})
