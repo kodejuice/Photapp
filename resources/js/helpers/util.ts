@@ -69,6 +69,23 @@ export const random = (Arr: any[]): any => Arr[rand_int(0, Arr.length-1)];
 
 
 /**
+ * shuffle an array of items (in-place)
+ *
+ * @param      {array>}  items   The items to shuffle
+ */
+export function shuffle(items) {
+    let j, x, i;
+    for (i = items.length; i; i -= 1) {
+        j = Math.floor(Math.random() * i);
+        x = items[i - 1];
+        items[i - 1] = items[j];
+        items[j] = x;
+    }
+    return items;
+};
+
+
+/**
  * memoizer
  *
  * we store the memoized values in a global map

@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import "./styles.scss";
-import {rand_int, random, memoize, amount} from '../../../../helpers/util';
+import {rand_int, random, memoize, amount, shuffle} from '../../../../helpers/util';
 import {multiplePhotoIcon, VideoIcon, heartIcon_blank_svg as heartIcon, commentIcon} from '../../../../helpers/mini-components';
 import {getVideoThumnail, thumbnailFromCache} from '../../../../helpers/window';
 
@@ -18,16 +18,19 @@ type Props = {
     data: Media[],
 };
 
-
 // grid configurations
-const grid_config = {
-    // number_of_photos: grid config that needs that number of photos
+const grid_configs = () => ({
+    // {number_of_photos}: grid config that needs that number of photos
     1: ['config9'],
     2: ['config8'],
-    3: ['config1', 'config2'],
+    3: shuffle(['config1', 'config2']),
     4: ['config7'],
-    5: ['config3', 'config4', 'config5'],
+    5: shuffle(['config3', 'config4', 'config5']),
     6: ['config6'],
+});
+
+let G = {
+    config: grid_configs()
 };
 
 
@@ -117,11 +120,16 @@ const Grid: React.FC<{config:string, photos:Media[]}> = ({config, photos})=>{
 //  pick a random grid config
 //  and display the grid component
 const Photos: React.FC<Props> = ({data})=>{
-    let partitions = memoize(()=>partitionPosts(data), JSON.stringify(data));
+
+    let partitions = memoize(()=> {
+        // this will be called if data changes
+        G.config = grid_configs();
+        return partitionPosts(data);
+    }, data);
 
     return (
         <React.Fragment>
-            {partitions.map((v,i) => <Grid key={v[0].post_id} config={random(grid_config[v.length])} photos={v} />)}
+            {partitions.map((v,i) => <Grid key={v[0].post_id} config={G.config[v.length][0]} photos={v} />)}
         </React.Fragment>
     );
 };
