@@ -1,0 +1,36 @@
+{
+    "name": "PhotApp",
+    "short_name": "PhotApp",
+    "description": "PhotApp is a simple photo and video sharing social network (low-budget IG).",
+    "start_url": "/",
+    "orientation": "portrait",
+    "display": "standalone",
+
+    "background_color": "#fafafa",
+    "theme_color": "#ffffff",
+
+    "prompt_message": "Add a Home screen icon for easy access to PhotApp",
+
+    "icons": [{
+        "src": "/favicon/android-chrome-192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+    },
+    {
+        "src": "/favicon/android-chrome-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+    },
+    {
+        "src": "/favicon/favicon-32x32.png",
+        "type": "image/png",
+        "sizes": "32x32"
+    },
+    {
+        "src": "/favicon/favicon-16x16.png",
+        "type": "image/png",
+        "sizes": "16x16"
+    }],
+
+    "status": "ok"
+}
