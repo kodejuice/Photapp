@@ -120,6 +120,7 @@ div.card.login-card, div.card.register-card {
             height: 38px;
             margin: 0 40px 6px;
             font-size: 12px;
+            background: #fafafa;
         }
 
         button[type=submit] {
@@ -188,5 +189,20 @@ div#show-pass {
     cursor: pointer;
     display: inline-block;
     outline: none;
+}
+
+
+////////////////////////
+// background overlay //
+////////////////////////
+
+.bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    background: url('/background/particle.png');
 }
 

@@ -57,6 +57,7 @@ const Register: React.FC<{}> = () => {
 
     return (
         <React.Fragment>
+            <div className='bg'></div>
             <div className='card register-card auth-pg'>
                 <div className="card-body">
                     <div className="brand-title">
