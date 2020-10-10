@@ -18,6 +18,42 @@ html {
     background: #FAFAFA
 }
 
+main {
+    min-height: calc(100vh - 80px);
+}
+
+footer {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    background: inherit;
+    font-size: 0.8em;
+
+    .links {
+        margin: 2px;
+
+        a {
+            color: #262626;
+            font-weight: 600;
+            margin: 0 5px;
+            display: inline-block;
+
+            &#fork {
+                margin-right: 6px;
+                margin-bottom: 2px;
+            }
+
+            img {
+                width: 20px;
+                height: 20px;
+                vertical-align: middle;
+                display: inline-block;
+                @include border-radius(100%);
+            }
+        }
+    }
+}
+
 a {
     &.link, &:visited {
       color: #0000EE;

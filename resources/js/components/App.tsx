@@ -42,16 +42,25 @@ const App: React.FC<{path?:string}> = ({path})=>{
         )
         :
         (
-            <main role={logged_in ? "app-logged" : "app-guest"}>
-                <AddPostModal />
-                <AppEvents />
+            <React.Fragment>
+                <main role={logged_in ? "app-logged" : "app-guest"}>
+                    <AddPostModal />
+                    <AppEvents />
 
-                <Switch>
-                    {routes(path || '/').map((prop, i)=>
-                        <ProgressRoute key={i} {...prop} />
-                    )}
-                </Switch>
-            </main>
+                    <Switch>
+                        {routes(path || '/').map((prop, i)=>
+                            <ProgressRoute key={i} {...prop} />
+                        )}
+                    </Switch>
+                </main>
+
+                <footer className='foot'>
+                    <div className='links'>
+                        <a id='fork' href="https://github.com/kodejuice/photapp"> <img src='/icon/github.png'/> Fork on Github </a>
+                        <a id='profile' href='http://kodejuice.ml'> <img src='/icon/sb.png'/> Sochima Biereagu </a>
+                    </div>
+                </footer>
+            </React.Fragment>
         )
 }
 
