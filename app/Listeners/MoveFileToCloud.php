@@ -174,7 +174,7 @@ class MoveFileToCloud implements ShouldQueue
         return true;
     }
 
-    public function failed(UserMentioned $event, $exception)
+    public function failed(FileUploaded $event, $exception)
     {
         $data = json_decode($event->data);
 
