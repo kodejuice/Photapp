@@ -8,8 +8,6 @@ import authUser from '../../state/auth_user';
 import Splash from '../../components/Splash';
 import './styles/auth-page.scss';
 
-let PASSWORD_INPUT: HTMLElement|null = null;
-
 type Inputs = {
     username: string,
     password: string,
@@ -48,13 +46,9 @@ const Login: React.FC<{}> = () => {
     }
 
 
-    useEffect(() => {
-        PASSWORD_INPUT = document.getElementById('pass');
-    });
-
-
     return (
         <React.Fragment>
+            <div className='bg'></div>
             <div className='card login-card auth-pg'>
                 <div className="card-body">
                     <div className="brand-title">
