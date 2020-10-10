@@ -144,7 +144,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                     </div>
                     <div className='col col-fill'></div>
                     <div className='col col-1'>
-                       <button
+                       {logged && <button
                             onClick={()=>{
                                 const callback = ()=>{
                                     savesPost(!postSaved)
@@ -153,7 +153,7 @@ const SinglePost: React.FC<{post: Post, idx: number}> = ({post, idx}) => {
                                 savePost(post.post_id, callback, post);
                             }}>
                             <img src={`/icon/bookmark${postSaved?'.png':'-blank.svg'}`} />
-                        </button>
+                        </button>}
                     </div>
                 </div>
                 {post_likes>0 && <div className='likes' role='post-likes-H'>{amount(post_likes)} likes</div>}
