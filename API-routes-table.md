@@ -1,6 +1,5 @@
-+---------------+-----------------------------------------+---------------------------------------------------------------------------+
 | Method        | URI                                     | Action                                                                    |
-+---------------+-----------------------------------------+---------------------------------------------------------------------------+
+--------------- | --------------------------------------- | ---------------------------------------------------------------------------
 | DELETE        | api/comment/{id}                        | App\Http\Controllers\CommentController@deleteComment                      |
 | DELETE        | api/post/{id}                           | App\Http\Controllers\PostController@deletePost                            |
 | DELETE        | api/user/notification/{id}              | App\Http\Controllers\UserController@deleteNotification                    |
@@ -46,4 +45,3 @@
 | POST          | api/post/upload                         | App\Http\Controllers\PostUploadController@fileUpload                      |
 | POST          | api/post/{id}/unsave                    | App\Http\Controllers\PostController@unsavePost                            |
 | PUT           | api/post/upload                         | App\Http\Controllers\PostUploadController@UrlUpload                       |
-+---------------+-----------------------------------------+---------------------------------------------------------------------------+
