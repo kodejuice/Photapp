@@ -113,7 +113,7 @@ const Login: React.FC<{}> = () => {
 /**
  * handle login submission
  */
-async function UserSignin({username, password}: Inputs, setErrs) {
+export async function UserSignin({username, password}, setErrs) {
     setErrs([]);
 
     let res = await auth_fetch('/api/login', {

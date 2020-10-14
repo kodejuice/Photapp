@@ -1,6 +1,8 @@
 import Home from '../pages/Home';
 import Post from '../pages/Post/index';
 import Login from '../pages/auth/Login';
+import PasswordReset from '../pages/auth/PasswordReset';
+import ChangePassword from '../pages/auth/ChangePassword';
 import People from '../pages/People';
 import Search from '../pages/Search';
 import Explore from '../pages/Explore';
@@ -47,6 +49,14 @@ const route_map = {
         path: '/accounts/edit/:page',
         component: EditProfile,
     },
+    'password-reset': {
+        path: '/password-reset',
+        component: PasswordReset,
+    },
+    'change-password': {
+        path: '/password/reset/:token',
+        component: ChangePassword,
+    }
 }
 
 

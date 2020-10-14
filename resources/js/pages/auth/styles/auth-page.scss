@@ -65,6 +65,10 @@ div.card.auth-pg {
     box-shadow: none;
     border: 1px solid rgba(var(--b6a,219,219,219),1);
 
+    a {
+        color: #07439D;
+    }
+
     h1.card-title {
         background: url("/photapp.png");
         background-size: 175px;
@@ -86,6 +90,10 @@ div.card.auth-pg {
     &:not(#reg) {
         position: relative;
         top: 7px;
+    }
+
+    &.err {
+        width: 98%;
     }
 
     &#reg {
@@ -112,6 +120,22 @@ div.card.login-card, div.card.register-card {
         padding: 0;
     }
 
+    div.reset-pass-head {
+        p#cpwd-title {
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 4px;
+        }
+        p#italic {
+            margin: 0;
+            text-align: center;
+            font-size: 12px;
+            font-style: italic;
+            font-weight: 600;
+        }
+    }
+
+
     .login-box {
         margin-top: 24px;
 
@@ -135,12 +159,27 @@ div.card.login-card, div.card.register-card {
             text-transform: uppercase;
             font-size: 16px;
             font-weight: bold;
+
+            &.note {
+                height: 90px;
+                vertical-align: middle;
+                padding-top: 30px;
+
+                p {
+                    vertical-align: middle;
+                    font-size: 14px;
+                    font-style: italic;
+                    text-transform: none;
+                }
+            }
+
         }
 
         .alt-btns {
             text-align: center;
 
             a {
+                color: #07439D;
                 display: block;
             }
 

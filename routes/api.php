@@ -33,7 +33,10 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
     ///////////////////
     Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
     Route::post('/register', 'Auth\ApiAuthController@register')->name('register.api');
-    Route::get('/dl', 'PostController@download'); // TODO: move this
+    Route::post('/password_reset_link', 'Auth\ApiAuthController@validatePasswordRequest');
+    Route::post('/reset_password', 'Auth\ApiAuthController@resetPassword');
+
+    Route::get('/dl', 'PostController@download');
 
     // Post [READ]
     Route::get('/posts', 'PostController@getPosts')->name('post.all_posts');
@@ -61,11 +64,6 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
         Route::post('/post/{id}/comment', 'CommentController@comment')->name('post.post_comment');
         Route::post('/comment/{id}/like', 'CommentController@likeComment')->name('post.like_comment');
         Route::post('/comment/{id}/dislike', 'CommentController@dislikeComment')->name('post.dislike_comment');
-
-        Route::get('/test', function (Request $req) {
-            return response($req->user());
-        });
-
     });
 
     //////////////////////

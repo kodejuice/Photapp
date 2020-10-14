@@ -157,6 +157,76 @@ export async function logUserOut(onLogOut, onErr): Promise<boolean> {
 
 
 /**
+ * Sends a password reset link.
+ *
+ * @param      {string}                  email    Users email
+ * @param      {Array<string>) => void}  setErrs  callback invoked onError
+ * @return     {Promise<{success: boolean}>}
+ */
+export async function send_password_reset_link(email: string, setErrs: (d: Array<string>) => void) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post('/api/password_reset_link', {
+            email,
+        });
+
+        if (req?.data?.message != 'Success') {
+            throw req;
+        }
+
+        return {success: true};
+
+    } catch (err) {
+        handleServerError(err, setErrs);
+
+        return {success: false};
+    } finally {
+        nprogress.done();
+    }
+}
+
+
+/**
+ * change user password via token
+ *
+ * @param      {string}                    token      The token
+ * @param      {[string, string]}          passwords  The password (+confirmation)
+ * @param      {Array<string>) => void}    setErrs  callback invoked onError
+ */
+export async function change_password(token: string, passwords: [string, string], setErrs) {
+    nprogress.start();
+
+    let req;
+    try {
+        req = await axios.post('/api/reset_password', {
+            token,
+            password: passwords[0],
+            password_confirmation: passwords[1]
+        });
+
+        if (req?.data?.message != 'Success') {
+            throw req;
+        }
+
+        return {success: true, username: req.data.username};
+
+    } catch (err) {
+        handleServerError(err, setErrs);
+
+        return {success: false};
+    } finally {
+        nprogress.done();
+    }
+
+}
+
+//////////////////////
+// Requests helpers //
+//////////////////////
+
+/**
  * fetch list of {X} from DB, e.g notifications, followers, e.t.c...
  * @param {string} url     API url
  */
