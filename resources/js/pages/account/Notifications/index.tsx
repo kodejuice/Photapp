@@ -54,7 +54,7 @@ const Notifications: React.FC<{}> = (props)=>{
                 { res.isLoading ? <Spinner /> : ""}
 
                 <div className='alerts'>
-                    { alerts && alerts.length>0 && <ActionButtons data={alerts} _={res.data} /> }
+                    { alerts && alerts.length>10 && <DeleteButton data={alerts} _={res.data} /> }
                     { alerts && alerts.map((notif)=> <Notif key={notif.notification_id} data={notif} />) }
                 </div>
 
@@ -101,7 +101,7 @@ function Notif({data}) {
             new Date(data.created_at)
         );
 
-        // mark notification if notification is altleast
+        // mark notification if notification is at least
         // 10minutes old
         if (mins >= 10) {
             markNotification(data.notification_id);
@@ -128,7 +128,7 @@ function Notif({data}) {
 /**
  * mark|delete all
  */
-const ActionButtons: React.FC<{
+const DeleteButton: React.FC<{
     data: NotificationProp[],
     _: NotificationProp[], // real alerts, no duplicates removed
 }> = ({data, _})=>{
