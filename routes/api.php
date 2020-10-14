@@ -106,23 +106,5 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
         Route::get('/user/bookmarks', 'UserController@getAuthUserBookmarks')->name('auth_user.bookmarks');
         Route::get('/user/mentions', 'UserController@getAuthUserMentions')->name('auth_user.mentions');
         //
-
-
-        //////////
-        // test //
-        //////////
-
-        // XXXX::all
-        Route::get('/saved', function (Request $req) {return Bookmark::all();});
-        Route::get('/notifs', function (Request $req) {return Notification::all();});
-        Route::get('/comments', function (Request $req) {return Comment::all();});
-        Route::get('/clr', function (Request $req) {
-            // delete posts & notifs
-            Like::where('user_id', '>', -1)->delete();
-            Notification::where('notification_id', '>', -1)->delete();
-            Comment::where('comment_id', '>', -1)->delete();
-            // Post::where('post_id', '>', -1)->delete();
-            return 'yapp';
-        });
     });
 });
