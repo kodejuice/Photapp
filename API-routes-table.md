@@ -1,0 +1,49 @@
++---------------+-----------------------------------------+---------------------------------------------------------------------------+
+| Method        | URI                                     | Action                                                                    |
++---------------+-----------------------------------------+---------------------------------------------------------------------------+
+| DELETE        | api/comment/{id}                        | App\Http\Controllers\CommentController@deleteComment                      |
+| DELETE        | api/post/{id}                           | App\Http\Controllers\PostController@deletePost                            |
+| DELETE        | api/user/notification/{id}              | App\Http\Controllers\UserController@deleteNotification                    |
+|               |                                         |                                                                           |
+| GET|HEAD      | api/users                               | App\Http\Controllers\UserController@getUsers                              |
+| GET|HEAD      | api/user/{username}/posts               | App\Http\Controllers\UserController@getUserPosts                          |
+| GET|HEAD      | api/user/{username}/mentions            | App\Http\Controllers\UserController@getUserMentions                       |
+| GET|HEAD      | api/user/{username}/bookmarks           | App\Http\Controllers\UserController@getUserBookmarks                      |
+| GET|HEAD      | api/user/{username}/followers           | App\Http\Controllers\UserController@getUserFollowers                      |
+| GET|HEAD      | api/post/{id}                           | App\Http\Controllers\PostController@getPost                               |
+| GET|HEAD      | api/user/profile                        | App\Http\Controllers\UserController@getAuthUserProfile                    |
+| GET|HEAD      | api/user/posts                          | App\Http\Controllers\UserController@getAuthUserPosts                      |
+| GET|HEAD      | api/user/settings                       | App\Http\Controllers\UserController@getAuthUserSettings                   |
+| GET|HEAD      | api/user/notifications                  | App\Http\Controllers\UserController@getAuthUserNotifications              |
+| GET|HEAD      | api/user/bookmarks                      | App\Http\Controllers\UserController@getAuthUserBookmarks                  |
+| GET|HEAD      | api/user/mentions                       | App\Http\Controllers\UserController@getAuthUserMentions                   |
+| GET|HEAD      | api/user/getprofile                     | App\Http\Controllers\UserController@getUser                               |
+| GET|HEAD      | api/user/{username}/following           | App\Http\Controllers\UserController@getUserFollowing                      |
+| GET|HEAD      | api/post/{id}/comments                  | App\Http\Controllers\PostController@getPostComments                       |
+| GET|HEAD      | api/posts                               | App\Http\Controllers\PostController@getPosts                              |
+| GET|HEAD      | api/dl                                  | App\Http\Controllers\PostController@download                              |
+|               |                                         |                                                                           |
+| POST          | api/user/dp                             | App\Http\Controllers\UserController@updateDP                              |
+| POST          | api/reset_password                      | App\Http\Controllers\Auth\ApiAuthController@resetPassword                 |
+| POST          | api/user/notifications/delete           | App\Http\Controllers\UserController@deleteNotifications                   |
+| POST          | api/password_reset_link                 | App\Http\Controllers\Auth\ApiAuthController@validatePasswordRequest       |
+| POST          | api/user/notification/{id}              | App\Http\Controllers\UserController@markNotification                      |
+| POST          | api/user/{username}/unfollow            | App\Http\Controllers\UserController@unfollowUser                          |
+| POST          | api/user/{username}/follow              | App\Http\Controllers\UserController@followUser                            |
+| POST          | api/user/password/update                | App\Http\Controllers\UserController@updatePassword                        |
+| POST          | api/user/update                         | App\Http\Controllers\UserController@updateInfo                            |
+| POST          | api/register                            | App\Http\Controllers\Auth\ApiAuthController@register                      |
+| POST          | api/post/{id}/update                    | App\Http\Controllers\PostController@updatePost                            |
+| POST          | api/login                               | App\Http\Controllers\Auth\ApiAuthController@login                         |
+| POST          | api/post/{id}/save                      | App\Http\Controllers\PostController@savePost                              |
+| POST          | api/post/{id}/repost                    | App\Http\Controllers\PostController@rePost                                |
+| POST          | api/logout                              | App\Http\Controllers\Auth\ApiAuthController@logout                        |
+| POST          | api/comment/{id}/dislike                | App\Http\Controllers\CommentController@dislikeComment                     |
+| POST          | api/comment/{id}/like                   | App\Http\Controllers\CommentController@likeComment                        |
+| POST          | api/post/{id}/comment                   | App\Http\Controllers\CommentController@comment                            |
+| POST          | api/post/{id}/dislike                   | App\Http\Controllers\PostController@dislikePost                           |
+| POST          | api/post/{id}/like                      | App\Http\Controllers\PostController@likePost                              |
+| POST          | api/post/upload                         | App\Http\Controllers\PostUploadController@fileUpload                      |
+| POST          | api/post/{id}/unsave                    | App\Http\Controllers\PostController@unsavePost                            |
+| PUT           | api/post/upload                         | App\Http\Controllers\PostUploadController@UrlUpload                       |
++---------------+-----------------------------------------+---------------------------------------------------------------------------+
