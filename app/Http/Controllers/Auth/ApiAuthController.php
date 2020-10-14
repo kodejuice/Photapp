@@ -201,6 +201,15 @@ class ApiAuthController extends Controller
         if (!$user) {
             return response(['errors'=>['User with that email not found']], 422);
         }
+
+        // check if token is expired
+        $d = Carbon::parse($tokenData->created_at);
+        if ($d->diffInMinutes() > 30) { // expired
+            DB::table('password_resets')->where('email', $user->email)->delete();
+
+            return response(['errors'=>['Invalid token (token expired)']], 422);
+        }
+
         //Hash and update the new password
         $user->password = \Hash::make($password);
         $user->save();
