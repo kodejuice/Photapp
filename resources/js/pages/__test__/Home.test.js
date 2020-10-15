@@ -80,6 +80,7 @@ beforeAll(() => {
   console.error = (...args) => {
     if (/Warning.*not wrapped in act/.test(args[0])) return
     if (/Warning.*Cannot update a component/.test(args[0])) return
+    if (Array.isArray(args[0]) && args[0][0]=='Network Error') return
     originalError.call(console, ...args)
   }
 })

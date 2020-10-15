@@ -23,5 +23,6 @@ before_script:
   - npm install
 
 script:
-  - php artisan test
+  # - php artisan test
+  - vendor/bin/phpunit
   - npm run test
