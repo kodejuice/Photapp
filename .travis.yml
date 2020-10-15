@@ -5,6 +5,9 @@ language: php
 php:
   - 7.4
 
+node:
+  - 13.3.0
+
 addons:
   mariadb: 10.4
 
