@@ -69,10 +69,10 @@ afterAll(() => {
 /////////////////////
 
 
-test('renders without crashing', ()=>{
-    const div = document.createElement('div');
-    ReactDOM.render(component, div);
-});
+// test('renders without crashing', ()=>{
+//     const div = document.createElement('div');
+//     ReactDOM.render(component, div);
+// });
 
 
 test("gets user info onAppLoaded", async ()=>{
