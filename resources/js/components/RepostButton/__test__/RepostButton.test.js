@@ -55,12 +55,12 @@ afterAll(() => server.close())
 
 
 
-test('renders without crashing', ()=>{
-    render(component);
+// test('renders without crashing', ()=>{
+//     render(component);
 
-    // const div = document.createElement('div');
-    // ReactDOM.render(component, div);
-});
+//     // const div = document.createElement('div');
+//     // ReactDOM.render(component, div);
+// });
 
 
 test("can repost", async ()=>{
