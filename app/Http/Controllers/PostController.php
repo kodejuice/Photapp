@@ -493,16 +493,15 @@ sql;
      * download a file via url
      */
     public function download(Request $request) {
-        $url = $request->input("url");
+        $url = $request->url;
+        if (!isset($url)) return "";
 
-        // TODO: move this to a serverless function
-        // 
         // downloaded files should never exceed 30MB
-        // $head = array_change_key_case(get_headers($url, 1));
-        // $bytes = isset($head['content-length']) ? $head['content-length'] : 0;
-        // if ($bytes > 31457280) { // 30MB
-        //     return;
-        // }
+        $head = array_change_key_case(get_headers($url, 1));
+        $bytes = isset($head['content-length']) ? $head['content-length'] : 0;
+        if ($bytes > 31457280) { // 30MB
+            return;
+        }
 
         return $this->curl_get_contents($url);
     }

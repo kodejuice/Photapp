@@ -8,7 +8,7 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="theme-color" content="#ffffff">
         <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
-        <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
@@ -30,10 +30,6 @@
     <body>
         <div id="root"> </div>
 
-        <!-- <script src="{{ asset('js/app.js') }}"></script> -->
-
-        <!-- HOT RELOAD BUNDLE -->
-        <script src="{{ mix('js/app.js') }}"></script>
-        <!-- <script src="{{ mix('css/app.css') }}"></script> -->
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
