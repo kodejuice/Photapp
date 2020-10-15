@@ -56,8 +56,10 @@ afterAll(() => server.close())
 
 
 test('renders without crashing', ()=>{
-    const div = document.createElement('div');
-    ReactDOM.render(component, div);
+    render(component);
+
+    // const div = document.createElement('div');
+    // ReactDOM.render(component, div);
 });
 
 
