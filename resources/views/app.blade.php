@@ -15,15 +15,15 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
         <link rel="manifest" href="{{ asset('manifest/manifest.json') }}">
 
-		<meta property="og:site_name" content="PhotApp">
-		<meta property="og:title" content="PhotApp">
-		<meta property="og:image" content="{{ asset('favicon/android-chrome-192x192.png') }}">
+        <meta property="og:site_name" content="PhotApp">
+        <meta property="og:title" content="PhotApp">
+        <meta property="og:image" content="{{ asset('favicon/android-chrome-192x192.png') }}">
 
-		<meta property="og:url" content="{{ asset('') }}">
-		<link rel="canonical" href="{{ asset('') }}">
+        <meta property="og:url" content="{{ asset('') }}">
+        <link rel="canonical" href="{{ asset('') }}">
 
-		<meta content="A simple, fun photo and video sharing social network." name="description">
-		<meta content="Biereagu Sochima" name="author">
+        <meta content="A simple, fun photo and video sharing social network." name="description">
+        <meta content="Biereagu Sochima" name="author">
 
         <title>PhotApp</title>
     </head>
