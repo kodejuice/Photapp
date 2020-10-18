@@ -29,7 +29,7 @@ mix
         new SWPrecacheWebpackPlugin({
             cacheId: 'pwa',
             filename: 'service-worker.js',
-            staticFileGlobs: ['public/**/*.{css,eot,svg,ttf,woff,woff2,js,html}'],
+            staticFileGlobs: ['public/**/*.{css,eot,svg,png,ttf,woff,woff2,js,html}'],
             minify: true,
             stripPrefix: 'public/',
             handleFetch: true,
@@ -46,7 +46,35 @@ mix
               {
                 urlPattern: /^https:\/\/drive\.google\.com\/uc\?id\=/,
                 handler: 'cacheFirst'
-              }
+              },
+
+              ////////////////
+              // API routes //
+              ////////////////
+              {
+                urlPattern: /\/api\/user\/(\w+)\/(posts|followers|following|bookmarks|mentions)/,
+                handler: 'cacheFirst'
+              },
+              {
+                urlPattern: /\/api\/user\/(getprofile|bookmarks|notifications|settings|posts|profile)/,
+                handler: 'cacheFirst'
+              },
+              {
+                urlPattern: /\/api\/post\/([0-9]+)/,
+                handler: 'cacheFirst'
+              },
+              {
+                urlPattern: /\/api\/post\/([0-9]+)\/comments/,
+                handler: 'cacheFirst'
+              },
+              {
+                urlPattern: /\/api\/posts/,
+                handler: 'cacheFirst'
+              },
+              {
+                urlPattern: /\/api\/users/,
+                handler: 'cacheFirst'
+              },
             ],
         })
       ],
