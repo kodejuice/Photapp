@@ -70,8 +70,8 @@
         "post-install-cmd": [
             "php artisan migrate",
             "php artisan passport:install",
-            "chmod -R 777 storage",
-            "php artisan passport:keys"
+            "php artisan optimize",
+            "php artisan clear-compiled"
         ]
     }
 }
