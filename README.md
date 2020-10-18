@@ -15,27 +15,27 @@ PhotApp is a simple photo/video sharing social network created as a learning exp
 - Sass
 - PaperCSS
 
-<a href="http://photapp.herokuapp.com"> See live demo </a>
+<a href="http://photapp-web.herokuapp.com"> See live demo </a>
 
 ### Local setup
 
 #### Requirements
   * PHP
-  * NodeJS
-  * Database: MySQL / PQSQL / SQLite / SQLServer (any)
+  * NodeJS (_dev requirement_)
+  * Database: MySQL
 
 #### Install Dependencies
-- `$ npm install`
 - `$ composer install`
 
 #### Setup steps
 1. create a `.env` file in root folder
 2. copy contents of `.env.example` to the newly created `.env` file
 4. make sure to set the following in the `.env`:
-    - create a database by the name `${DB_DATABASE}`, set all `DB_...` parameters
+    - set all `DB_XXX` parameters
     - set the GOOGLE drive paramaters if you want uploads to work
-5. run `$ ./bin/setup`
-6. then use `$ php artisan serve` to start the server
+5. make sure you create a mysql database by the name you've set in the `.env`
+6. run `$ ./bin/setup`
+7. then use `$ php artisan serve` to start the server
 
 #### Running tests
 
