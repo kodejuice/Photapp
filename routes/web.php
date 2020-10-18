@@ -13,9 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-// Route::get('/{path?}', function () {return view('app');});
-
-Route::fallback(function () {
-    return view('app');
-});
+Route::fallback('App@index');
