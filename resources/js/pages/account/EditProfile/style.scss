@@ -36,9 +36,11 @@
                 max-width: 181.203px !important;
             }
         }
-        .change-pass input[type=text], input[type=email], input[type=password] {
-            width: 88% !important;
-            max-width: 88% !important;
+        .change-pass {
+            input[type=password] {
+                width: 88% !important;
+                max-width: 88% !important;
+            }
         }
     }
 }
@@ -160,7 +162,7 @@
 
 .fields {
     width: 86.8%;
-    margin: 0 auto;
+    margin: 20px auto;
     max-width: 539.91px;
 
     .field-name {
