@@ -44,6 +44,8 @@ PhotApp is a simple photo/video sharing social network created as a learning exp
 
 **Frontend tests:**
 - `$ npm run test`
+_Note: Make sure you've installed all node dependencies first: `$ npm install`_
+
 
 
 ## License
