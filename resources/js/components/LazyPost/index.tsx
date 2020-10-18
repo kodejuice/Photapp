@@ -15,8 +15,9 @@ export default function LazyPost({post_id}) {
     // load default_image if post image url is invalid
     const onError = (ev: React.SyntheticEvent<HTMLImageElement>)=>{
         const img = (ev.target as HTMLImageElement);
-        if (img.src != default_image) {
+        if (img.alt != 'post image') {
             img.src = default_image;
+            img.alt = 'post image';
         }
     };
 
