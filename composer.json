@@ -70,7 +70,6 @@
         "post-install-cmd": [
             "php artisan migrate",
             "php artisan passport:install",
-            "php artisan optimize",
             "php artisan clear-compiled"
         ]
     }
