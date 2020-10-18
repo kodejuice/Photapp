@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-php artisan migrate
-php artisan passport:install --force
-
-# Create user @{process.env.ANON_USER}
