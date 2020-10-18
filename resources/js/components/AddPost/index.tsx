@@ -128,7 +128,9 @@ export const ImageFile: React.FC<{file:Post}> = ({file})=>{
 
     getUploadedFileURL(file)
         .then(url=>setImgURL(url))
-        .catch(()=>{});
+        .catch((e)=>{
+            console.error('Failed to load uploaded file URL: ', e);
+        });
 
     return (
         <img id='photo' src={imgURL} alt="Photo" />
@@ -144,6 +146,7 @@ export const ImageFile: React.FC<{file:Post}> = ({file})=>{
  */
 function addPost(event: React.FormEvent<HTMLInputElement>, posts: Post[], setPosts: React.Dispatch<React.SetStateAction<Post[]>>) {
     const file: File = ((event.target as HTMLInputElement).files as FileList)[0];
+    if (!file?.size && !file?.name && !file?.type) return;
     if (posts.length == 15) {
         return alert("Maximum posts limit reached: 15");
     }

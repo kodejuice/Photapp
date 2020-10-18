@@ -57,7 +57,7 @@ export function beginUpload(
  */
 export async function getUploadedFileURL(file: Post): Promise<string> {
     const reader = new FileReader();
-    const map = W.STORE['uploaded_file_url'];
+    const map = W.Store['uploaded_file_url'];
     const key = `${file.name}:${file.type}:${file.size}`;
 
     return new Promise((resolve)=>{
