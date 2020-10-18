@@ -26,6 +26,9 @@ mix
         ]
       },
       plugins: [
+        ////////////////////
+        // service worker //
+        ////////////////////
         new SWPrecacheWebpackPlugin({
             cacheId: 'pwa',
             filename: 'service-worker.js',
@@ -56,7 +59,7 @@ mix
                 handler: 'cacheFirst'
               },
               {
-                urlPattern: /\/api\/user\/(getprofile|bookmarks|notifications|settings|posts|profile)/,
+                urlPattern: /\/api\/user\/getprofile/,
                 handler: 'cacheFirst'
               },
               {
