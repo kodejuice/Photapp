@@ -29,8 +29,24 @@
     </head>
     <body>
         <div id="root"> </div>
-        <noscript>JavaScript is disabled in your browser, enable it or PhotApp won't be rendered. !</noscript>
+        <noscript>
+            <p> JavaScript is disabled in your browser, enable it or PhotApp won't be rendered! </p>
+        </noscript>
 
         <script src="{{ asset('/js/app.js') }}"></script>
+
+        <script>
+            if ('serviceWorker' in navigator ) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    },
+                    function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
+        </script>
+
     </body>
 </html>
