@@ -17,9 +17,8 @@ export function checkForDeletion(data: NotificationProp) {
     );
 
     if (daysSinceRead >= 7) {
-				deleteNotification(data.notification_id);
+		deleteNotification(data.notification_id);
     }
-
 }
 
 
