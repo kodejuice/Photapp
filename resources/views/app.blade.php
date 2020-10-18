@@ -29,6 +29,7 @@
     </head>
     <body>
         <div id="root"> </div>
+        <noscript>JavaScript is disabled in your browser, enable it or PhotApp won't be rendered. !</noscript>
 
         <script src="{{ asset('/js/app.js') }}"></script>
     </body>
