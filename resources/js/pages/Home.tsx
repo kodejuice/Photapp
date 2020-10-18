@@ -76,6 +76,10 @@ const Home: React.FC<{}> = ()=>{
                 <div className='home-posts col col-9'>
                     { isLoading && offset==0 && <Spinner /> }
 
+                    {ALL_POST.length == 0 && !isLoading && (
+                        <p style={{textAlign: 'center'}}> Nothing here </p>
+                    )}
+
                     {ALL_POST.length > 0 && (
                         <InfiniteScroll
                             dataLength={postToBeShown}
