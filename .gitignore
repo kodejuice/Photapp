@@ -14,3 +14,4 @@ npm-debug.log
 yarn-error.log
 /storage/app/test-files/
 /storage/app/tmp/
+/storage/app/local-tmp/

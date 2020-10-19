@@ -53,6 +53,11 @@ return [
             'root' => storage_path('app/test-files'),
         ],
 
+        'testing-tmp-disk' => [
+            'driver' => 'local',
+            'root' => storage_path('app/local-tmp'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
@@ -88,8 +93,6 @@ return [
 
         // User profile photos
         'user-dp-driver' => [
-            // 'driver' => 'local',
-            // 'root' => public_path('avatar'),
             'driver' => 'google',
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
@@ -104,8 +107,24 @@ return [
             ],
         ],
 
-        // Temporary Disk drive
+        // Temporary Disk drive (tmp cloud)
         'tmp-disk-driver' => [
+            'driver' => 'google',
+            'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
+            'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+
+            'folderId' => env('GOOGLE_DRIVE_TMP_FOLDER_ID'),
+
+            'cache' => [
+                'store' => 'database',
+                'expire' => 600,
+                'prefix' => 'tmp-cache-prefix',
+            ],
+        ],        
+
+        // Local Disk drive (tmp local)
+        'local-disk-driver' => [
             'driver' => 'local',
             'root' => storage_path('app/tmp'),
         ],
