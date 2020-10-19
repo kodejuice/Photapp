@@ -165,21 +165,24 @@ class Helper
     /**
      * Store file to disk/cloud
      *
-     * @param  string $file_name    name of file to save as
-     * @param  string $file_path    file path | file url
+     * @param  string           $file_name  name of file to save as
+     * @param  string|resource  $file       file path | file url | file stream
      *
      * @param  string $drive        storage drive to save to
      * @see                         config/filesystems.php
      *
      * @return array                [file_name, absolute-path to file on disk/cloud]
      */
-    public static function storeFile(string $file_name, string $file_path, string $drive): array
+    public static function storeFile(string $file_name, $file, string $drive): array
     {
         $disk = Storage::disk($drive);
-        $disk->put($file_name, fopen($file_path, 'r'));
+        if (is_resource($file)) {
+            $disk->put($file_name, $file);
+        } else {
+            $disk->put($file_name, fopen($file, 'r'));            
+        }
         return [$file_name, $disk->url($file_name)];
     }
-
 
     /**
      * Stores a file in cloud (via stream).
@@ -197,15 +200,20 @@ class Helper
         $url = $disk->url($file_name);
 
         if (strstr($url, 'drive.google.com')) {
-            // for some reason, gdrive doesnt respect the $filename,
-            // it uses its own id, luckily that id is in the gdrive file url
-            //  https://drive.google.com/uc?id=XXX
-            //
-            $id = Url::fromString($url)->getQueryParameter('id');
-            return [$id, $url];
-        } else {
-            return [$file_name, $url];
+            $file_name = self::getGDriveFileName($url);
         }
+
+        return [$file_name, $url];
+    }
+
+
+    public static function getGDriveFileName(string $url)
+    {
+        // for some reason, gdrive doesnt respect the $filename we give,
+        // it uses its own id, luckily that id is in the gdrive file url
+        //  https://drive.google.com/uc?id=XXX
+        //
+        return Url::fromString($url)->getQueryParameter('id');
     }
 
 

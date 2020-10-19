@@ -23,7 +23,8 @@ use App\Events\NewsFeedRequested;
 class MoveFileToCloud implements ShouldQueue
 {
     private string $cloud_drive;
-    private string $public_disk_drive;
+    private string $local_disk_drive;
+    private string $tmp_disk_drive; // where our uploaded files are stored temporarily
 
     /**
      * Create the event listener.
@@ -33,7 +34,8 @@ class MoveFileToCloud implements ShouldQueue
     public function __construct()
     {
         $this->cloud_drive = env('FILESYSTEM_DRIVER');
-        $this->public_disk_drive = env('FILESYSTEM_PUBLIC_DISK');
+        $this->tmp_disk_drive = env('FILESYSTEM_TMP_DISK');
+        $this->local_disk_drive = env('FILESYSTEM_LOCAL_DISK');
     }
 
 
@@ -43,18 +45,27 @@ class MoveFileToCloud implements ShouldQueue
      * if the width/height of image is above $max_size, resize it.
      *
      * @param      string  $file_name  The file name
+     * @return     string  ( new file name )
      */
     private function processUploadedImage($file_name)
     {
-        $img = ImageResize::make(
-            Storage::disk($this->public_disk_drive)->get($file_name)
-        );
+        $tmp_disk = Storage::disk($this->tmp_disk_drive);
 
+        $img = ImageResize::make(
+            $tmp_disk->get($file_name)
+        );
         $img->fit(800);
 
         // replace file $file_name
-        Storage::disk(env('FILESYSTEM_PUBLIC_DISK'))
-            ->put($file_name, $img->encode());
+        $tmp_disk->delete($file_name);
+        $tmp_disk->put($file_name, $img->encode());
+
+        $url = $tmp_disk->url($file_name);
+        if (strstr($url, 'drive.google.com')) {
+            $file_name = Helper::getGDriveFileName($url);
+        }
+
+        return $file_name;
     }
 
 
@@ -62,41 +73,56 @@ class MoveFileToCloud implements ShouldQueue
      * reduce video length to 45seconds
      *
      * @param      string  $file_name  The file name
+     * @return     string  new file name
      */
     private function processUploadedVideo($file_name)
     {
         $ffmpeg = FFMpeg\FFMpeg::create();
 
-        $disk = Storage::disk(env("FILESYSTEM_PUBLIC_DISK"));
-        $file_path = $disk->path($file_name);
+        // our video is here currently
+        $tmp_disk = Storage::disk($this->tmp_disk_drive);
+
+        // copy video from tmp_disk to local disk
+        // so we can manipulate it
+        Helper::storeFile($file_name, $tmp_disk->readStream($file_name), $this->local_disk_drive);
+        $local_disk = Storage::disk($this->local_disk_drive);
+        $file_path = $local_disk->path($file_name);
 
         $video = $ffmpeg->open($file_path);
 
         // create a new file to store changes
         $new_file_name = time() . Str::random(20);
-        $disk->put($new_file_name, "");
-        $new_file_path = $disk->path($new_file_name);
+        $local_disk->put($new_file_name, "");
+        $new_file_path = $local_disk->path($new_file_name);
 
         // extract first 45 seconds
         $clip = $video->clip(FFMpeg\Coordinate\TimeCode::fromSeconds(0), FFMpeg\Coordinate\TimeCode::fromSeconds(45));
         $clip->save(new FFMpeg\Format\Video\WebM(), $new_file_path);
 
-        // delete original video
-        Storage::disk($this->public_disk_drive)
-            ->delete($file_name);
+        // delete original video from tmp_disk
+        $tmp_disk->delete($file_name);
+        // and move modified video to tmp_disk
+        Helper::storeFileInCloud($file_name, $local_disk->readStream($new_file_name), $this->tmp_disk_drive);
 
-        // rename clipped video to $file_name
-        Storage::disk($this->public_disk_drive)
-            ->move($new_file_name, $file_name);
+        // delete copied video + modified video from local disk
+        $local_disk->delete($new_file_name);
+        $local_disk->delete($file_name);
+
+        $url = $tmp_disk->url($file_name);
+        if (strstr($url, 'drive.google.com')) {
+            $file_name = Helper::getGDriveFileName($url);
+        }
+
+        return $file_name;
     }
 
 
     /**
-     * deletes the file from the public disk drive
-     * @param  string $file_name [description]
+     * deletes the file from the tmp disk drive
+     * @param  string $file_name
      */
-    private function deleteFileFromDisk($file_name) {
-        Storage::disk($this->public_disk_drive)->delete($file_name);
+    private function deleteFileFromTMPDisk($file_name) {
+        Storage::disk($this->tmp_disk_drive)->delete($file_name);
     }
 
 
@@ -123,13 +149,13 @@ class MoveFileToCloud implements ShouldQueue
             $file_type = $F->type;
 
             if ($file_type == 'image') {
-                $this->processUploadedImage($file_name);
+                $file_name = $this->processUploadedImage($file_name);
             }
             else { // video
-                $this->processUploadedVideo($file_name);
+                $file_name = $this->processUploadedVideo($file_name);
             }
 
-            $file_stream = Storage::disk($this->public_disk_drive)
+            $file_stream = Storage::disk($this->tmp_disk_drive)
                 ->readStream($file_name);
 
             $L = Helper::storeFileInCloud(
@@ -139,8 +165,8 @@ class MoveFileToCloud implements ShouldQueue
             ); // => [file_name, file_path]
 
             // we've uploaded to the cloud, so we can delete this
-            // file from the local disk
-            $this->deleteFileFromDisk($file_name);
+            // file from the tmp disk
+            $this->deleteFileFromTMPDisk($file_name);
 
             $paths[] = $L;
             $media_types[] = $file_type;
@@ -181,10 +207,10 @@ class MoveFileToCloud implements ShouldQueue
         // delete all /tmp files
         foreach ($data as $F) {
             $file_name = $F->name;
-            $this->deleteFileFromDisk($file_name);
+            $this->deleteFileFromTMPDisk($file_name);
         }
 
-        Log::error($exception, ['file upload (move file to cloud)']);
+        Log::error($exception, ['file upload (moving file to cloud failed)']);
     }
 
 }

@@ -14,6 +14,7 @@ use App\Post;
 
 use App\Helper;
 
+
 /**
  * Post upload controller
  */
@@ -46,14 +47,19 @@ class PostUploadController extends Controller
         if ($request->hasfile('files')) {
             foreach ($uploaded_files as $file) {
                 $file_type = Helper::getMediaType($file->getMimeType());
-                if ($file_type != 'image' && $file_type != 'video')
+                if ($file_type != 'image' && $file_type != 'video') {
                     continue;
+                }
 
                 $file_name = time() . Str::random(20);
                 $file_path = $file->path();
 
-                // store file in local disk first
-                $F = Helper::storeFile($file_name, $file_path, env("FILESYSTEM_PUBLIC_DISK")); // [file_name, file_path]
+                // store files in tmp disk first
+                $F = Helper::storeFileInCloud(
+                    $file_name,
+                    fopen($file_path, 'r'),
+                    env("FILESYSTEM_TMP_DISK")
+                ); // [file_name, file_path]
 
                 $data[] = [
                     'name' => $F[0],
@@ -137,8 +143,12 @@ class PostUploadController extends Controller
                 $file_name = time() . Str::random(20);
                 $file_path = $url;
 
-                // store file in local disk first
-                $F = Helper::storeFile($file_name, $file_path, env("FILESYSTEM_PUBLIC_DISK")); // [file_name, file_path]
+                // store file in tmp disk first
+                $F = Helper::storeFileInCloud(
+                    $file_name,
+                    fopen($file_path, 'r'),
+                    env("FILESYSTEM_TMP_DISK")
+                ); // [file_name, file_path]
 
                 $data[] = [
                     'name' => $F[0],
