@@ -769,8 +769,8 @@ export async function deleteNotifications(ids: string) {
 // User Upload /
 ////////////////
 
-async function uploadForm(url: string, form: FormData) {
-    nprogress.start();
+async function uploadForm(url: string, form: FormData, show_loader: boolean = true) {
+    show_loader && nprogress.start();
 
     let req;
     try {
@@ -785,7 +785,7 @@ async function uploadForm(url: string, form: FormData) {
     } catch (err) {
         return {errors: handleServerError(err, ()=>void 0)};
     } finally {
-        nprogress.done();
+       show_loader && nprogress.done();
     }
 
 }
@@ -834,7 +834,7 @@ export async function uploadUserPost(posts: File[], caption: string) {
         form.append('files[]', file);
     });
 
-    let res = await uploadForm(`/api/post/upload`, form);
+    let res = await uploadForm(`/api/post/upload`, form, false);
 
     return res;
 }

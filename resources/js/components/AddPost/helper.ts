@@ -31,6 +31,7 @@ export function beginUpload(
     dispatch
 ) {
     setLoading(true);
+    showAlert(dispatch, ['Uploading...'], 'success');
 
     uploadUserPost(posts, caption)
         .then(res => {
@@ -38,9 +39,8 @@ export function beginUpload(
                 showAlert(dispatch, res.errors);
             }
             else if (res?.success) {
-                showAlert(dispatch, ["Files uploaded, processing..."], 'success');
+                showAlert(dispatch, ["Upload complete, processing..."], 'success');
                 setPosts([]);
-                location.reload();
             }
         })
         .catch(e=>{})
