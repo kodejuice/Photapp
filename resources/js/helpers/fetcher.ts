@@ -827,8 +827,6 @@ export async function uploadUserDP(ev: React.FormEvent<HTMLInputElement>) {
  * @param      {string}  caption  The caption
  */
 export async function uploadUserPost(posts: File[], caption: string) {
-    nprogress.start();
-
     let form = new FormData();
     posts.forEach(file => {
         form.append('files[]', file);
