@@ -71,7 +71,7 @@ mix
                 handler: 'cacheFirst'
               },
               {
-                urlPattern: /\/api\/posts/,
+                urlPattern: /\/api\/(posts|users|dl)/,
                 handler: 'cacheFirst'
               },
               {
