@@ -1,4 +1,8 @@
-// window._ = require('lodash');
+/**
+ * convert minutes to milliseconds
+ */
+const minutes_to_ms = (minute) => minute * 60 * 1000;
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -32,7 +36,8 @@ window.Echo = new Echo({
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-// window.axios.defaults.headers.common['X-Socket-ID'] = Echo.socketId();
+
+window.axios.defaults.timeout = minutes_to_ms(45) /*45 minutes*/;
 
 
 
@@ -57,10 +62,6 @@ console.error = (...args) => {
 
 const LRU = require('lru-cache');
 
-/**
- * convert minutes to milliseconds
- */
-const minutes_to_ms = (minute) => minute * 60 * 1000;
 
 /**
  * get length of object
