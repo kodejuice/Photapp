@@ -18,15 +18,19 @@
         </whitelist>
     </filter>
     <php>
-        <!-- <server name="TEST_IMAGE" value="http://localhost/localgoogoo/assets/images/favicon.ico"/> -->
         <server name="TEST_IMAGE" value="http://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"/>
+        <!-- <server name="TEST_IMAGE" value="http://localhost/public/test/1.mp4"/>  -->
+        <!-- <server name="TEST_IMAGE" value="http://localhost/localgoogoo/assets/images/favicon.ico"/> -->
 
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
         <server name="BROADCAST_DRIVER" value="null"/>
         <server name="DB_CONNECTION" value="mysql"/>
+
         <server name="FILESYSTEM_DRIVER" value="testing"/>
+        <server name="FILESYSTEM_TMP_DISK" value="testing-tmp-disk"/>
+
         <server name="DB_DATABASE" value="testing"/>
         <server name="MAIL_MAILER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
