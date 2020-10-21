@@ -494,7 +494,9 @@ sql;
      */
     public function download(Request $request) {
         $url = $request->url;
-        if (!isset($url)) return "";
+        if (!isset($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
+            return "";
+        }
 
         // downloaded files should never exceed 30MB
         $head = array_change_key_case(get_headers($url, 1));
