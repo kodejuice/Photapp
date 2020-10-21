@@ -14,6 +14,15 @@ export function openFileDialog() {
     inputElement?.click();
 }
 
+/**
+ * Hides the file dialog.
+ */
+function hideFileDialog() {
+    const dialog = (document.querySelector('#addpost-modal label[for=modal-addpost]') as HTMLLabelElement);
+
+    dialog?.click();
+}
+
 
 /**
  * Begins an upload.
@@ -39,8 +48,9 @@ export function beginUpload(
                 showAlert(dispatch, res.errors);
             }
             else if (res?.success) {
-                showAlert(dispatch, ["Upload complete, processing..."], 'success');
+                showAlert(dispatch, ["Upload complete, processing..."], 'success', 20);
                 setPosts([]);
+                hideFileDialog();
             }
         })
         .catch(e=>{})
