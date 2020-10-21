@@ -12,8 +12,8 @@ PhotApp is a simple photo/video sharing social network created as a learning exp
 - Laravel
 - Typescript
 - Redux
+- Service Workers
 - Sass
-- PaperCSS
 
 <a href="http://photapp-web.herokuapp.com"> See live demo </a>
 
@@ -34,7 +34,7 @@ PhotApp is a simple photo/video sharing social network created as a learning exp
     - set all `DB_XXX` parameters
     - set the GOOGLE drive paramaters if you want uploads to work
 5. make sure you create a mysql database by the name you've set in the `.env`
-6. run `$ ./bin/setup`
+6. run `$ ./bin/setup` to setup the database tables
 7. then use `$ php artisan serve` to start the server
 
 #### Running tests
