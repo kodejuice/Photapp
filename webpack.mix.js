@@ -43,40 +43,100 @@ mix
             navigateFallback: '/',
             runtimeCaching: [
               {
-                urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
-                handler: 'cacheFirst'
+                  urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
+                  handler: 'cacheFirst',
               },
               {
-                urlPattern: /^https:\/\/drive\.google\.com\/uc\?id\=/,
-                handler: 'cacheFirst'
+                  urlPattern: /^https:\/\/drive\.google\.com\/uc\?id\=/,
+                  handler: 'cacheFirst',
+                  options: {
+                      cache: {
+                          name: 'media_files',
+                          maxEntries: 200,
+                          maxAgeSeconds: weeks_to_seconds(1),
+                      },
+                  }
+              },
+              {
+                urlPattern: /\/api\/dl/,
+                handler: 'cacheFirst',
+                options: {
+                    cache: {
+                        name: 'videos_files',
+                        maxEntries: 200,
+                        maxAgeSeconds: weeks_to_seconds(1),
+                    },
+                }
+              },
+              {
+                urlPattern: /\/api\/user\/profile/,
+                handler: 'networkFirst',
+                options: {
+                    cache: {
+                        name: 'auth_user',
+                        maxEntries: 1,
+                        maxAgeSeconds: weeks_to_seconds(4),
+                    },
+                }
               },
 
               ////////////////
               // API routes //
               ////////////////
               {
-                urlPattern: /\/api\/user\/(\w+)\/(posts|followers|following|bookmarks|mentions)/,
-                handler: 'cacheFirst'
-              },
-              {
-                urlPattern: /\/api\/user\/getprofile/,
-                handler: 'cacheFirst'
+                urlPattern: /\/api\/(posts|users)/,
+                handler: 'fastest',
+                options: {
+                    cache: {
+                        name: 'user_data_list',
+                        maxEntries: 100,
+                        maxAgeSeconds: weeks_to_seconds(2),
+                    },
+                }
               },
               {
                 urlPattern: /\/api\/post\/([0-9]+)/,
-                handler: 'cacheFirst'
+                handler: 'fastest',
+                options: {
+                    cache: {
+                        name: 'user_post',
+                        maxEntries: 200,
+                        maxAgeSeconds: weeks_to_seconds(1),
+                    },
+                }
+              },
+              {
+                urlPattern: /\/api\/user\/getprofile/,
+                handler: 'fastest',
+                options: {
+                    cache: {
+                        name: 'user_profiles',
+                        maxEntries: 100,
+                        maxAgeSeconds: weeks_to_seconds(1),
+                    },
+                }
+              },
+              {
+                urlPattern: /\/api\/user\/(\w+)\/(posts|followers|following|bookmarks|mentions)/,
+                handler: 'fastest',
+                options: {
+                    cache: {
+                        name: 'user_data',
+                        maxEntries: 100,
+                        maxAgeSeconds: weeks_to_seconds(1),
+                    },
+                }
               },
               {
                 urlPattern: /\/api\/post\/([0-9]+)\/comments/,
-                handler: 'cacheFirst'
-              },
-              {
-                urlPattern: /\/api\/(posts|users|dl)/,
-                handler: 'cacheFirst'
-              },
-              {
-                urlPattern: /\/api\/users/,
-                handler: 'cacheFirst'
+                handler: 'fastest',
+                options: {
+                    cache: {
+                        name: 'post_comments',
+                        maxEntries: 30,
+                        maxAgeSeconds: days_to_seconds(3),
+                    },
+                }
               },
             ],
         })
@@ -85,3 +145,18 @@ mix
         extensions: ["*", ".js", ".jsx", ".vue", ".ts", ".tsx"]
       },
   });
+
+
+
+
+////////////
+// Helper //
+////////////
+
+function days_to_seconds(days) {
+    return days * 24 * 60 * 60;
+}
+
+function weeks_to_seconds(weeks) {
+    return days_to_seconds(weeks * 7);
+}
