@@ -94,9 +94,15 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                             <div className='profile-info'>
                                 <div className='row info'>
                                     <div className='col-2 dp-col'>
-                                        <div  title="Edit profile picture" id='dp-change' onClick={()=>(inputFile.current as HTMLInputElement).click()}>
-                                            <LazyDPSync data={data} />
-                                        </div>
+                                        {isSelf ? (
+                                            <div  title="Edit profile picture" id='dp-change' onClick={()=>(inputFile.current as HTMLInputElement).click()}>
+                                                <LazyDPSync data={data} />
+                                            </div>
+                                        ) : (
+                                            <div  id='dp-change'>
+                                                <LazyDPSync data={data} />
+                                            </div>
+                                        )}
                                     </div>
                                     <div className='col-1 hidden-col-dp'></div>
                                     <div className='col-9 username-col'>
@@ -131,9 +137,15 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                             <div className='profile-info'>
                                 <div className='row info'>
                                     <div className='col col-3 dp-col'>
-                                        <div title="Edit profile picture" id='dp-change' onClick={()=>(inputFile.current as HTMLInputElement).click()}>
-                                            <LazyDPSync data={data} />
-                                        </div>
+                                        {isSelf ? (
+                                            <div  title="Edit profile picture" id='dp-change' onClick={()=>(inputFile.current as HTMLInputElement).click()}>
+                                                <LazyDPSync data={data} />
+                                            </div>
+                                        ) : (
+                                            <div  id='dp-change'>
+                                                <LazyDPSync data={data} />
+                                            </div>
+                                        )}
                                     </div>
                                     <div className='col col-1 hidden-col-big'></div>
 
