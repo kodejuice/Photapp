@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Log;
 |
 */
 
-Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1', 'forceSSL']], function () {
+Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], function () {
     ///////////////////
     // public routes //
     ///////////////////
