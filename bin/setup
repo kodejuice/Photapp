@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [ $TRAVIS == "1" ]; then
+    exit 0
+fi
+
 php artisan key:generate
 php artisan migrate
 php artisan passport:install
