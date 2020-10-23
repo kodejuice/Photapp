@@ -23,7 +23,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 
         \App\Http\Middleware\CookieAuth::class,
-        \App\Http\Middleware\Https::class,
     ];
 
     /**
@@ -71,5 +70,6 @@ class Kernel extends HttpKernel
 
         'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
         'cors' => \App\Http\Middleware\Cors::class,
+        'forceSSL' => \App\Http\Middleware\Https::class,
     ];
 }
