@@ -8,7 +8,7 @@ class App extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('forceSSL');
+        $this->middleware('forceSSL');
     }
 
     public function index(Request $request)
