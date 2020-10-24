@@ -61,10 +61,10 @@ export const ProcessUserInput: React.FC<{text: string}> = ({text})=>{
     const options = {
         formatHref: {
             hashtag(href) {
-                return `${location.host}/explore/search/${href.slice(1)}`;
+                return `${location.protocol}//${location.host}/explore/search/${href.slice(1)}`;
             },
             mention(href) {
-                return `${location.host}/user/${href.slice(1)}`;
+                return `${location.protocol}//${location.host}/user/${href.slice(1)}`;
             },
         },
 
