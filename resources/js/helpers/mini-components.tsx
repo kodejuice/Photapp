@@ -131,7 +131,7 @@ export function Toggle({setState, current}) {
 
 
 /**
- * small red dot, displayed beneath nofication icon
+ * small red dot, displayed beneath notification icon
  * whenever thers a new notification
  *
  */
