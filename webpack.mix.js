@@ -68,6 +68,9 @@ mix
                     },
                 }
               },
+              ////////////////
+              // API routes //
+              ////////////////
               {
                 urlPattern: /\/api\/user\/profile/,
                 handler: 'networkFirst',
@@ -79,10 +82,6 @@ mix
                     },
                 }
               },
-
-              ////////////////
-              // API routes //
-              ////////////////
               {
                 urlPattern: /\/api\/(posts|users)/,
                 handler: 'fastest',
@@ -107,7 +106,7 @@ mix
               },
               {
                 urlPattern: /\/api\/user\/getprofile/,
-                handler: 'fastest',
+                handler: 'networkFirst',
                 options: {
                     cache: {
                         name: 'user_profiles',
@@ -118,7 +117,7 @@ mix
               },
               {
                 urlPattern: /\/api\/user\/(\w+)\/(posts|followers|following|bookmarks|mentions)/,
-                handler: 'fastest',
+                handler: 'networkFirst',
                 options: {
                     cache: {
                         name: 'user_data',
