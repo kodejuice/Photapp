@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# dont mind these, just a shortcut to push my changes to heroku
+
+heroku config:set APP_ENV=local
+git push heroku master
+heroku config:set APP_ENV=production
