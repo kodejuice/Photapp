@@ -832,6 +832,10 @@ export async function uploadUserPost(posts: File[], caption: string) {
         form.append('files[]', file);
     });
 
+    if (caption.length) {
+        form.append('caption', caption);
+    }
+
     let res = await uploadForm(`/api/post/upload`, form, false);
 
     return res;
