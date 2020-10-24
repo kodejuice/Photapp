@@ -195,8 +195,21 @@ class PostController extends Controller
             return response(['errors' => ['Invalid action']], 422);
         }
 
-        // delete all associated rows
+        ////////////////////////////////
+        // delete all associated rows //
+        ////////////////////////////////
+
+        // likes
         Like::where('post_id', $id)->delete();
+
+        // comment likes
+        $comment_ids = array_map(
+            function ($v) { return $v['comment_id']; },
+            Comment::where('post_id', $id)->get()->toArray()
+        ); // user_id of users $user follows
+        Like::whereIn('comment_id', $comment_ids)->delete();
+        Notification::whereIn('comment_id', $comment_ids)->delete();
+
         Comment::where('post_id', $id)->delete();
         Bookmark::where('post_id', $id)->delete();
         Notification::where('post_id', $id)->delete();
