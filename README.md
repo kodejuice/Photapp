@@ -15,7 +15,7 @@ PhotApp is a simple photo/video sharing social network created as a learning exp
 - Sass
 - Service Workers
 
-<a href="http://photapp-web.herokuapp.com"> See live demo </a>
+<a href="https://photapp-web.herokuapp.com"> See live demo </a>
 
 ### Local setup
 
