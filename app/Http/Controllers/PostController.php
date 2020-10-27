@@ -210,17 +210,20 @@ class PostController extends Controller
         Like::whereIn('comment_id', $comment_ids)->delete();
         Notification::whereIn('comment_id', $comment_ids)->delete();
 
-        Comment::where('post_id', $id)->delete();
-        Bookmark::where('post_id', $id)->delete();
-        Notification::where('post_id', $id)->delete();
+        Comment::where('post_id', $id)->delete(); // comments
+        Bookmark::where('post_id', $id)->delete(); // bookmarks
+        Notification::where('post_id', $id)->delete(); // notifications
 
         // delete media in the cloud
         $paths = json_decode($post->post_url);
 
-        foreach ($paths as $P) {
-            // $P[0] -> file name
-            // $P[1] -> full path (url)
-            Storage::delete($P[0]);
+        if (!$post->reposted) {
+            // delete file from cloud (if this wasnt reposted)
+            foreach ($paths as $P) {
+                // $P[0] -> file name
+                // $P[1] -> full path (url)
+                Storage::delete($P[0]);
+            }
         }
 
         event(new NewsFeedRequested());
@@ -254,6 +257,7 @@ class PostController extends Controller
         }
 
         $new_post = new Post();
+        $new_post->reposted = true;
         Helper::dbSave(
             $user,
             $new_post,
