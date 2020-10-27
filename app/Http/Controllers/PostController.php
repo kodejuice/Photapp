@@ -392,11 +392,16 @@ class PostController extends Controller
      */
     private function getUserFeed($user, $offset=0, $limit=50)
     {
-        // if the user isnt authenticated,
-        // we show ANON_USER's feed instead
-        //
-        $ANONYMOUS = env("ANON_USER");
-        $key = ":" . (@$user->username ?: $ANONYMOUS) . "-feed";
+        if (!$user) {
+            // if the user isnt authenticated,
+            // we show ANON_USER's feed instead
+            //
+            $ANONYMOUS = env("ANON_USER");
+            $user = User::firstWhere('username', $ANONYMOUS);
+        }
+
+        $user_id = $user->id;
+        $key = ":" . $user->username . "-feed"; // cache key
 
         // sorts user feed in descending order of follow score and recency
         $sort_query = <<<sql
@@ -407,16 +412,17 @@ DESC
 sql;
 
         $posts = Cache::get($key, []);
-        if (count($posts) == 0) {
+        if (count($posts) == 0 || @$posts->count() == 0) {
+            // DB::enableQueryLog();
             $posts = DB::table('posts')
-                ->join('user_follows', function ($join) use ($user) {
+                ->join('user_follows', function ($join) use ($user_id) {
                     $join->on('posts.user_id', '=', 'user_follows.user2_id')
-                        ->where('user_follows.user1_id', @$user->id ?: @User::firstWhere('username', $ANONYMOUS)->id);
+                        ->where('user_follows.user1_id', $user_id);
                 })
                 ->whereRaw($sort_query)
                 ->select('posts.*')
                 ->get();
-
+            // Log::debug(DB::getQueryLog());
             Cache::put($key, $posts, now()->addMinutes(10));
         }
 
