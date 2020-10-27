@@ -53,7 +53,7 @@ mix
                       cache: {
                           name: 'media_files',
                           maxEntries: 200,
-                          maxAgeSeconds: weeks_to_seconds(1),
+                          maxAgeSeconds: weeks_to_seconds(2),
                       },
                   }
               },
@@ -64,7 +64,7 @@ mix
                     cache: {
                         name: 'videos_files',
                         maxEntries: 200,
-                        maxAgeSeconds: weeks_to_seconds(1),
+                        maxAgeSeconds: weeks_to_seconds(2),
                     },
                 }
               },
@@ -111,7 +111,7 @@ mix
                     cache: {
                         name: 'user_post',
                         maxEntries: 200,
-                        maxAgeSeconds: weeks_to_seconds(1),
+                        maxAgeSeconds: weeks_to_seconds(2),
                     },
                 }
               },
