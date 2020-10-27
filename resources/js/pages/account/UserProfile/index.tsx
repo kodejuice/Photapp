@@ -169,7 +169,7 @@ const UserProfile: React.FC<Router.RouteComponentProps> = ({match, location})=>{
                                         </div>
     
                                         <div className='bio'>
-                                            <p id='full_name'> {data.full_name} </p>
+                                            <p id='full_name' style={{marginBottom: '8px'}}> {data.full_name} </p>
                                             <div className='profile-bio'>
                                                 <p id='bio'> <ProcessUserInput text={limit(data.bio||"", 250)} /> </p>
                                             </div>
