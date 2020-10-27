@@ -94,6 +94,17 @@ mix
                 }
               },
               {
+                urlPattern: /\/api\/posts\?limit=(\d+)&offset=(\d+)&my_feed=1/,
+                handler: 'networkFirst',
+                options: {
+                    cache: {
+                        name: 'user_feed',
+                        maxEntries: 100,
+                        maxAgeSeconds: weeks_to_seconds(2),
+                    },
+                }
+              },
+              {
                 urlPattern: /\/api\/post\/([0-9]+)/,
                 handler: 'fastest',
                 options: {
