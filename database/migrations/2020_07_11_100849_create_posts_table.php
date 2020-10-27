@@ -24,6 +24,7 @@ class CreatePostsTable extends Migration
             $table->text("caption") -> nullable();
             $table->text("tags") -> nullable();     // json string -> "['tag1', 'tag2', ...]"
             $table->text("mentions") -> nullable(); // json string -> "['user1', 'user2', ...]"
+            $table->boolean('reposted')->default(0);
 
             $table->bigInteger("like_count")->default(0);
             $table->bigInteger("comment_count")->default(0);
