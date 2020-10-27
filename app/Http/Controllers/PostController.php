@@ -417,7 +417,7 @@ sql;
                 ->select('posts.*')
                 ->get();
 
-            Cache::put($key, $posts, now()->addMinutes(90));
+            Cache::put($key, $posts, now()->addMinutes(10));
         }
 
         $posts = array_slice($posts->toArray(), $offset, $limit);
