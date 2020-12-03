@@ -6,7 +6,7 @@
 
 ## PhotApp
 
-PhotApp is a simple photo/video sharing social network created as a learning experience, it utilizes the following technologies:
+PhotApp is a simple photo and video sharing social network (low budget Instagram), it utilizes the following technologies:
 
 - React
 - Laravel

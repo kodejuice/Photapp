@@ -1,4 +1,4 @@
-    PhotApp, A simple photo/video sharing social network. 
+    PhotApp, A simple photo and video sharing social network. 
     Copyright (C) 2020  Biereagu Sochima Everton
 
     This program is free software: you can redistribute it and/or modify
